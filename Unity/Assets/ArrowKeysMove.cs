@@ -16,7 +16,7 @@ public class ArrowKeysMove : MonoBehaviour {
 		
 		// Time.deltaTime corrects for errors with the framerate, otherwise it's a pain.
 		newPosition.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-		newPosition.y += Input.GetAxis("Vertical") * speed * Time.deltaTime;
+		newPosition.z += Input.GetAxis("Vertical") * speed * Time.deltaTime;
 		transform.position = newPosition;
 	}
 }
