@@ -28,9 +28,12 @@ public class TileSelection : MonoBehaviour {
 			// select the object
 			if (!aObjectIsSelected)
 			{
-        		renderer.material.color = Color.red;
-				aObjectIsSelected = true;
-				//Debug.Log("Object selected.");
+				if (aCharacterObjectSelection.isObjectSelected())
+				{
+        			renderer.material.color = Color.red;
+					aObjectIsSelected = true;
+					//Debug.Log("Object selected.");
+				}
 			}
 			
 			// de-select the object
