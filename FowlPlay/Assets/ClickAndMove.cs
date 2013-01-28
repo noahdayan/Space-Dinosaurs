@@ -16,6 +16,9 @@ public class ClickAndMove : MonoBehaviour
     	// Print out the starting position of the object to the console (at instantiation)
     	Debug.Log ("Starting position: ");
     	Debug.Log (transform.position);
+		
+		// Apply script to tiles
+		
 	}
 
 
