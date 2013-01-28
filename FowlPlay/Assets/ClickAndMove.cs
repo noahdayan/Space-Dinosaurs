@@ -4,6 +4,13 @@ using System.Collections;
 public class ClickAndMove : MonoBehaviour
 {
 	
+	// This will eventually be an array that stores all tiles.
+	// For demo purposes, it is just one.
+	public GameObject destinationTile;
+	
+	public ObjectSelection aSelfObjectSelection;
+	public ObjectSelection aTargetObjectSelection;
+	
 	void Start () 
 	{
     	// Print out the starting position of the object to the console (at instantiation)
@@ -15,7 +22,26 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
-    	// True when the player clicks the left mouse button.
+	
+		if (aSelfObjectSelection.isObjectSelected())
+		{
+			if (aTargetObjectSelection.isObjectSelected())
+			{
+				Vector3 destination = destinationTile.transform.position;
+				destination.y = transform.position.y;
+				transform.position = destination;
+			}
+			//Debug.Log ("It works!");
+		}
+		
+    	/*
+    	 * if(destinationTile.isObjectSelected())
+			{
+				
+			}
+    	 * 
+    	 * 
+		// True when the player clicks the left mouse button.
     	if (Input.GetMouseButtonDown(0))
    		{
       		Debug.Log("Left mouse button pressed.");
@@ -32,7 +58,7 @@ public class ClickAndMove : MonoBehaviour
       		Debug.Log (transform.position);
 
     	}
-
+		*/
 	}
 	
 }
