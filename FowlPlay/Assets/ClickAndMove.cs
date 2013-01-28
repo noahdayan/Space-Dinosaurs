@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ClickAndMove : MonoBehaviour
 {
+	public bool mouseOn = false;
+	public bool selected = false;
 	
 	void Start () 
 	{
@@ -15,7 +17,24 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
-    	// True when the player clicks the left mouse button.
+		if (Input.GetMouseButtonDown(0) && mouseOn)
+   		{
+			if (!selected)
+			{
+        		renderer.material.color = Color.red;
+				selected = true;
+				Debug.Log("Object selected");
+			}
+			
+			else if (selected)
+			{
+				renderer.material.color = Color.blue;
+				selected = false;
+				Debug.Log("Object de-selected.");
+			}
+		}	
+    	/*
+		// True when the player clicks the left mouse button.
     	if (Input.GetMouseButtonDown(0))
    		{
       		Debug.Log("Left mouse button pressed.");
@@ -32,7 +51,20 @@ public class ClickAndMove : MonoBehaviour
       		Debug.Log (transform.position);
 
     	}
-
+		*/
+	}
+	
+	void OnMouseEnter() 
+	{
+		Debug.Log("Object entered.");
+		mouseOn = true;
+		
+    }
+	
+	void OnMouseExit()
+	{
+		Debug.Log("Object exited.");
+		mouseOn = false;
 	}
 	
 }
