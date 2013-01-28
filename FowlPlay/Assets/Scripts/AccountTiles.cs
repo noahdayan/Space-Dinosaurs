@@ -1,11 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class AccountTiles : MonoBehaviour {
+/**
+ * Script attached to the character. It will run at the start and
+ * will make the character aware of all of the tiles in the map.
+ * */
 
+public class AccountTiles : MonoBehaviour {
+	
+	Transform[] allChildren = GetComponentsInChildren<Map>();
+	
 	// Use this for initialization
 	void Start () {
-	
+	 
+		foreach (Transform child in allChildren) 
+		{
+            Debug.Log("Currently at: " + child.name);
+        }
 	}
 	
 	// Update is called once per frame
