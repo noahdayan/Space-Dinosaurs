@@ -3,12 +3,13 @@ using System.Collections;
 
 public class ClickAndMove : MonoBehaviour
 {
-	public bool mouseOn = false;
-	public bool selected = false;
 	
 	// This will eventually be an array that stores all tiles.
 	// For demo purposes, it is just one.
 	public GameObject destinationTile;
+	
+	public ObjectSelection aSelfObjectSelection;
+	public ObjectSelection aTargetObjectSelection;
 	
 	void Start () 
 	{
@@ -21,31 +22,25 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
-		if (Input.GetMouseButtonDown(0) && mouseOn)
-   		{
-			if (!selected)
-			{
-        		renderer.material.color = Color.red;
-				selected = true;
-				Debug.Log("Object selected");
-			}
-			
-			else if (selected)
-			{
-				renderer.material.color = Color.blue;
-				selected = false;
-				Debug.Log("Object de-selected.");
-			}
-		}
-		
-		else if (Input.GetMouseButtonDown(0) && !mouseOn)
+	
+		if (aSelfObjectSelection.isObjectSelected())
 		{
-			Vector3 destination = destinationTile.transform.position;
-			destination.y = transform.position.y;
-			transform.position = destination;
+			if (aTargetObjectSelection.isObjectSelected())
+			{
+				Vector3 destination = destinationTile.transform.position;
+				destination.y = transform.position.y;
+				transform.position = destination;
+			}
+			//Debug.Log ("It works!");
 		}
 		
     	/*
+    	 * if(destinationTile.isObjectSelected())
+			{
+				
+			}
+    	 * 
+    	 * 
 		// True when the player clicks the left mouse button.
     	if (Input.GetMouseButtonDown(0))
    		{
@@ -64,19 +59,6 @@ public class ClickAndMove : MonoBehaviour
 
     	}
 		*/
-	}
-	
-	void OnMouseEnter() 
-	{
-		Debug.Log("Object entered.");
-		mouseOn = true;
-		
-    }
-	
-	void OnMouseExit()
-	{
-		Debug.Log("Object exited.");
-		mouseOn = false;
 	}
 	
 }
