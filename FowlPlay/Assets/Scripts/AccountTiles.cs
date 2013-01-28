@@ -8,12 +8,12 @@ using System.Collections;
 
 public class AccountTiles : MonoBehaviour {
 	
-	Transform[] allChildren = GetComponentsInChildren<Map>();
+	//Transform[] allChildren = GetComponentsInChildren<map>();
 	
 	// Use this for initialization
 	void Start () {
 	 
-		foreach (Transform child in allChildren) 
+		foreach (Transform child in transform) 
 		{
             Debug.Log("Currently at: " + child.name);
         }
