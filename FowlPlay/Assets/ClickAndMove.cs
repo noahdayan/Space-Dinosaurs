@@ -9,7 +9,7 @@ public class ClickAndMove : MonoBehaviour
 	public GameObject destinationTile;
 	
 	public ObjectSelection aSelfObjectSelection;
-	public ObjectSelection aTargetObjectSelection;
+	public TileSelection aTargetObjectSelection;
 	
 	void Start () 
 	{
