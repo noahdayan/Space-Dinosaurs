@@ -6,6 +6,10 @@ public class ClickAndMove : MonoBehaviour
 	public bool mouseOn = false;
 	public bool selected = false;
 	
+	// This will eventually be an array that stores all tiles.
+	// For demo purposes, it is just one.
+	public GameObject destinationTile;
+	
 	void Start () 
 	{
     	// Print out the starting position of the object to the console (at instantiation)
@@ -32,7 +36,15 @@ public class ClickAndMove : MonoBehaviour
 				selected = false;
 				Debug.Log("Object de-selected.");
 			}
-		}	
+		}
+		
+		else if (Input.GetMouseButtonDown(0) && !mouseOn)
+		{
+			Vector3 destination = destinationTile.transform.position;
+			destination.y = transform.position.y;
+			transform.position = destination;
+		}
+		
     	/*
 		// True when the player clicks the left mouse button.
     	if (Input.GetMouseButtonDown(0))
