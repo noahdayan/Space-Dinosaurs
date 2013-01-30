@@ -11,6 +11,8 @@ public class ClickAndMove : MonoBehaviour
 	public ObjectSelection aSelfObjectSelection;
 	public TileSelection aTargetObjectSelection;
 	
+	public float aSpeedOfMovement = 4.0f;
+	
 	void Start () 
 	{
     	// Print out the starting position of the object to the console (at instantiation)
@@ -32,36 +34,20 @@ public class ClickAndMove : MonoBehaviour
 			{
 				Vector3 destination = destinationTile.transform.position;
 				destination.y = transform.position.y;
-				transform.position = destination;
+				
+				// teleport
+				//transform.position = destination;
+				
+				// move to location
+				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
+				
+				if ( (Mathf.Abs(transform.position.x - destination.x) < 1) && (Mathf.Abs(transform.position.z - destination.z) < 1))
+				{
+					aSelfObjectSelection.deselectObject();
+				}
 			}
 			//Debug.Log ("It works!");
 		}
-		
-    	/*
-    	 * if(destinationTile.isObjectSelected())
-			{
-				
-			}
-    	 * 
-    	 * 
-		// True when the player clicks the left mouse button.
-    	if (Input.GetMouseButtonDown(0))
-   		{
-      		Debug.Log("Left mouse button pressed.");
-      		Vector3 newPosition = transform.position;
-      
-			// Get mouse x and y values
-			newPosition.x = Input.mousePosition.x;
-      		newPosition.y = Input.mousePosition.y;
-
-      		// Update location of object with the coordinates from above.
-      		transform.position = newPosition;
-			
-			// Print new location
-      		Debug.Log (transform.position);
-
-    	}
-		*/
 	}
 	
 }

@@ -25,16 +25,14 @@ public class ObjectSelection : MonoBehaviour {
 				// select the object
 				if (!aObjectIsSelected)
 				{
-	        		renderer.material.color = Color.red;
-					aObjectIsSelected = true;
+	        		selectObject();
 					//Debug.Log("Object selected.");
 				}
 				
 				// de-select the object
 				else if (aObjectIsSelected)
 				{
-					renderer.material.color = Color.blue;
-					aObjectIsSelected = false;
+					deselectObject();
 					//Debug.Log("Object de-selected.");
 				}
 			}
@@ -60,5 +58,17 @@ public class ObjectSelection : MonoBehaviour {
 	public bool isObjectSelected()
 	{
 		return aObjectIsSelected;	
+	}
+	
+	public void deselectObject()
+	{
+		renderer.material.color = Color.blue;
+		aObjectIsSelected = false;	
+	}
+	
+	public void selectObject()
+	{
+		renderer.material.color = Color.red;
+		aObjectIsSelected = true;	
 	}
 }
