@@ -5,12 +5,6 @@ public class TileSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
 	private bool aObjectIsSelected = false;
-
-	// This will eventually be an array that stores all units/characters.
-	// For demo purposes, it is just one (the blue pill).
-	public GameObject aCharacter;
-	
-	public ObjectSelection aSelfObjectSelection;
 	
 	// This one will also be an array that compiles all units/characters.
 	public ObjectSelection aCharacterObjectSelection;
@@ -78,14 +72,14 @@ public class TileSelection : MonoBehaviour {
 	
 	public void deselectObject()
 	{
-		renderer.material.color = Color.blue;
+		renderer.material.color = Color.gray;
 		aObjectIsSelected = false;
 		aTileManager.deselect();
 	}
 	
 	public void selectObject()
 	{
-		renderer.material.color = Color.red;
+		renderer.material.color = Color.yellow;
 		aObjectIsSelected = true;
 		aTileManager.selectTile(gameObject);
 	}

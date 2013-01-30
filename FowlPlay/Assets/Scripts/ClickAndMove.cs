@@ -47,7 +47,7 @@ public class ClickAndMove : MonoBehaviour
 				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 				
 				// check to see if object has reached destination tile. if so, stop movement.
-				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.023) && (Mathf.Abs(transform.position.z - destination.z) < 0.023))
+				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.1) && (Mathf.Abs(transform.position.z - destination.z) < 0.1))
 				{
 					aSelfObjectSelection.deselectObject();
 					aIsObjectMoving = false;
