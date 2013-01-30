@@ -11,6 +11,8 @@ public class ObjectSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
 	private bool aObjectIsSelected = false;
+	
+	public ClickAndMove aObjectMovement;
 
 	// Use this for initialization
 	void Start () {
@@ -29,11 +31,13 @@ public class ObjectSelection : MonoBehaviour {
 					//Debug.Log("Object selected.");
 				}
 				
-				// de-select the object
+				// de-select the object, but only if it's not moving.
 				else if (aObjectIsSelected)
 				{
-					deselectObject();
-					//Debug.Log("Object de-selected.");
+					if (!aObjectMovement.isObjectMoving())
+					{
+						deselectObject();
+					}
 				}
 			}
 	}

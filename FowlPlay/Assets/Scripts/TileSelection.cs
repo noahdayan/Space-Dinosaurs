@@ -15,6 +15,8 @@ public class TileSelection : MonoBehaviour {
 	// This one will also be an array that compiles all units/characters.
 	public ObjectSelection aCharacterObjectSelection;
 	
+	public ClickAndMove aObjectMovement;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -25,21 +27,22 @@ public class TileSelection : MonoBehaviour {
 	
 		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
 		{
-			// select the object
+			// select the tile
 			if (!aObjectIsSelected)
 			{
 				if (aCharacterObjectSelection.isObjectSelected())
 				{
         			selectObject();
-					//Debug.Log("Object selected.");
 				}
 			}
 			
-			// de-select the object
+			// de-select the tile, but only if the unit is not moving towards it
 			else if (aObjectIsSelected)
 			{
-				deselectObject();
-				//Debug.Log("Object de-selected.");
+				if (!aObjectMovement.isObjectMoving())
+				{
+					deselectObject();
+				}
 			}
 		}
 		

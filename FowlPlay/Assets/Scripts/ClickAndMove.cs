@@ -12,6 +12,7 @@ public class ClickAndMove : MonoBehaviour
 	public TileSelection aTargetObjectSelection;
 	
 	public float aSpeedOfMovement = 4.0f;
+	private bool aIsObjectMoving = false;
 	
 	void Start () 
 	{
@@ -32,22 +33,30 @@ public class ClickAndMove : MonoBehaviour
 		{
 			if (aTargetObjectSelection.isObjectSelected())
 			{
+				aIsObjectMoving = true;
+				
 				Vector3 destination = destinationTile.transform.position;
 				destination.y = transform.position.y;
 				
 				// teleport
 				//transform.position = destination;
 				
-				// move to location
+				// slide to location
 				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 				
+				// check to see if object has reached destination tile. if so, stop movement.
 				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.023) && (Mathf.Abs(transform.position.z - destination.z) < 0.023))
 				{
 					aSelfObjectSelection.deselectObject();
+					aIsObjectMoving = false;
 				}
 			}
-			//Debug.Log ("It works!");
 		}
+	}
+	
+	public bool isObjectMoving()
+	{
+		return aIsObjectMoving;
 	}
 	
 }
