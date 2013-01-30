@@ -11,6 +11,8 @@ public class ClickAndMove : MonoBehaviour
 	public ObjectSelection aSelfObjectSelection;
 	public TileSelection aTargetObjectSelection;
 	
+	public TileManager aTileManager;
+	
 	public float aSpeedOfMovement = 4.0f;
 	private bool aIsObjectMoving = false;
 	
@@ -31,11 +33,11 @@ public class ClickAndMove : MonoBehaviour
 	
 		if (aSelfObjectSelection.isObjectSelected())
 		{
-			if (aTargetObjectSelection.isObjectSelected())
+			if (aTileManager.tileIsSelected())
 			{
 				aIsObjectMoving = true;
 				
-				Vector3 destination = destinationTile.transform.position;
+				Vector3 destination = aTileManager.aCurrentlySelectedTile.transform.position;
 				destination.y = transform.position.y;
 				
 				// teleport

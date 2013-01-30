@@ -17,6 +17,8 @@ public class TileSelection : MonoBehaviour {
 	
 	public ClickAndMove aObjectMovement;
 	
+	public TileManager aTileManager;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -77,12 +79,14 @@ public class TileSelection : MonoBehaviour {
 	public void deselectObject()
 	{
 		renderer.material.color = Color.blue;
-		aObjectIsSelected = false;	
+		aObjectIsSelected = false;
+		aTileManager.deselect();
 	}
 	
 	public void selectObject()
 	{
 		renderer.material.color = Color.red;
-		aObjectIsSelected = true;	
+		aObjectIsSelected = true;
+		aTileManager.selectTile(gameObject);
 	}
 }

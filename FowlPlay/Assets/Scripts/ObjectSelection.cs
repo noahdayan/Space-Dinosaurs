@@ -13,6 +13,8 @@ public class ObjectSelection : MonoBehaviour {
 	private bool aObjectIsSelected = false;
 	
 	public ClickAndMove aObjectMovement;
+	
+	public TileManager aTileManager;
 
 	// Use this for initialization
 	void Start () {
