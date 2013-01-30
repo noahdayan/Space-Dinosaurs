@@ -41,7 +41,7 @@ public class ClickAndMove : MonoBehaviour
 				// move to location
 				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 				
-				if ( (Mathf.Abs(transform.position.x - destination.x) < 1) && (Mathf.Abs(transform.position.z - destination.z) < 1))
+				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.023) && (Mathf.Abs(transform.position.z - destination.z) < 0.023))
 				{
 					aSelfObjectSelection.deselectObject();
 				}

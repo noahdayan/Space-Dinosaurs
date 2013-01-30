@@ -30,8 +30,7 @@ public class TileSelection : MonoBehaviour {
 			{
 				if (aCharacterObjectSelection.isObjectSelected())
 				{
-        			renderer.material.color = Color.red;
-					aObjectIsSelected = true;
+        			selectObject();
 					//Debug.Log("Object selected.");
 				}
 			}
@@ -39,10 +38,14 @@ public class TileSelection : MonoBehaviour {
 			// de-select the object
 			else if (aObjectIsSelected)
 			{
-				renderer.material.color = Color.gray;
-				aObjectIsSelected = false;
+				deselectObject();
 				//Debug.Log("Object de-selected.");
 			}
+		}
+		
+		if (!aCharacterObjectSelection.isObjectSelected())
+		{
+			deselectObject();	
 		}
 	}
 	
@@ -66,5 +69,17 @@ public class TileSelection : MonoBehaviour {
 	public bool isObjectSelected()
 	{
 		return aObjectIsSelected;	
+	}
+	
+	public void deselectObject()
+	{
+		renderer.material.color = Color.blue;
+		aObjectIsSelected = false;	
+	}
+	
+	public void selectObject()
+	{
+		renderer.material.color = Color.red;
+		aObjectIsSelected = true;	
 	}
 }
