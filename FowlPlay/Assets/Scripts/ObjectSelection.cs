@@ -10,9 +10,7 @@ using System.Collections;
 public class ObjectSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
-	private bool aObjectIsSelected = false;
-	
-	public ClickAndMove aObjectMovement;
+	public static bool aObjectIsSelected = false;
 	
 	public TileManager aTileManager;
 
@@ -36,7 +34,7 @@ public class ObjectSelection : MonoBehaviour {
 				// de-select the object, but only if it's not moving.
 				else if (aObjectIsSelected)
 				{
-					if (!aObjectMovement.isObjectMoving())
+					if (!ClickAndMove.aIsObjectMoving)
 					{
 						deselectObject();
 					}
@@ -54,16 +52,6 @@ public class ObjectSelection : MonoBehaviour {
 	{
 		aMouseHoveringOnObject = false;
 		//Debug.Log("Object exited.");
-	}
-	
-	public bool isMouseHoveringObject()
-	{
-		return aMouseHoveringOnObject;
-	}
-	
-	public bool isObjectSelected()
-	{
-		return aObjectIsSelected;	
 	}
 	
 	public void deselectObject()

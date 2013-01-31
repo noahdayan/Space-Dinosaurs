@@ -33,11 +33,6 @@ public class CharacterManager : MonoBehaviour {
 		aSingleUnitIsSelected = false;
 	}
 	
-	public bool UnitIsSelected()
-	{
-		return aSingleUnitIsSelected;
-	}
-	
 	public Vector3 unitPosition(int pPlayer)
 	{
 		if (pPlayer == 0)

@@ -8,7 +8,7 @@ public class ClickAndMove : MonoBehaviour
 	public TileManager aTileManager;
 	
 	public float aSpeedOfMovement = 4.0f;
-	private bool aIsObjectMoving = false;
+	public static bool aIsObjectMoving = false;
 	
 	void Start () 
 	{
@@ -26,9 +26,9 @@ public class ClickAndMove : MonoBehaviour
 	{
 		if(!AutoMove.aRobotsTurn)
 		{
-			if (aSelfObjectSelection.isObjectSelected())
+			if (ObjectSelection.aObjectIsSelected)
 			{
-				if (aTileManager.tileIsSelected())
+				if (TileManager.aSingleTileIsSelected)
 				{
 					aIsObjectMoving = true;
 					
@@ -56,10 +56,4 @@ public class ClickAndMove : MonoBehaviour
 			}
 		}
 	}
-	
-	public bool isObjectMoving()
-	{
-		return aIsObjectMoving;
-	}
-	
 }

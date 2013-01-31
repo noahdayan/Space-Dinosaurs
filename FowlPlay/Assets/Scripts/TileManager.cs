@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour {
 	
 	private GameObject[] allTiles;
 	
-	private bool aSingleTileIsSelected = false;
+	public static bool aSingleTileIsSelected = false;
 	
 	// Use this for initialization
 	void Start () {		
@@ -32,11 +32,6 @@ public class TileManager : MonoBehaviour {
 	{
 		aCurrentlySelectedTile = null;
 		aSingleTileIsSelected = false;
-	}
-	
-	public bool tileIsSelected()
-	{
-		return aSingleTileIsSelected;
 	}
 	
 	private bool isTileOccupied(GameObject pTile)

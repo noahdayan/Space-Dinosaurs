@@ -7,9 +7,6 @@ public class TileSelection : MonoBehaviour {
 	private bool aObjectIsSelected = false;
 	
 	// This one will also be an array that compiles all units/characters.
-	public ObjectSelection aCharacterObjectSelection;
-	
-	public ClickAndMove aObjectMovement;
 	
 	public TileManager aTileManager;
 	
@@ -26,7 +23,7 @@ public class TileSelection : MonoBehaviour {
 			// select the tile
 			if (!aObjectIsSelected)
 			{
-				if (aCharacterObjectSelection.isObjectSelected())
+				if (ObjectSelection.aObjectIsSelected)
 				{
         			selectObject();
 				}
@@ -35,14 +32,14 @@ public class TileSelection : MonoBehaviour {
 			// de-select the tile, but only if the unit is not moving towards it
 			else if (aObjectIsSelected)
 			{
-				if (!aObjectMovement.isObjectMoving())
+				if (!ClickAndMove.aIsObjectMoving)
 				{
 					deselectObject();
 				}
 			}
 		}
 		
-		if (!aCharacterObjectSelection.isObjectSelected())
+		if (!ObjectSelection.aObjectIsSelected)
 		{
 			deselectObject();	
 		}
@@ -58,16 +55,6 @@ public class TileSelection : MonoBehaviour {
 	{
 		aMouseHoveringOnObject = false;
 		//Debug.Log("Object exited.");
-	}
-	
-	public bool isMouseHoveringObject()
-	{
-		return aMouseHoveringOnObject;
-	}
-	
-	public bool isObjectSelected()
-	{
-		return aObjectIsSelected;	
 	}
 	
 	public void deselectObject()

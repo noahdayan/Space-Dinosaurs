@@ -11,8 +11,6 @@ public class RoboSelection : MonoBehaviour {
 	
 	private bool aObjectIsSelected = false;
 	
-	public AutoMove aObjectMovement;
-	
 	public TileManager aTileManager;
 
 	// Use this for initialization
@@ -34,7 +32,7 @@ public class RoboSelection : MonoBehaviour {
 				// de-select the object, but only if it's not moving.
 				else if (aObjectIsSelected && !AutoMove.aRobotsTurn)
 				{
-					if (!aObjectMovement.isObjectMoving())
+					if (!AutoMove.aIsObjectMoving)
 					{
 						deselectObject();
 					}

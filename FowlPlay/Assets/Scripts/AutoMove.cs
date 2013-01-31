@@ -8,7 +8,7 @@ public class AutoMove : MonoBehaviour {
 	public TileManager aTileManager;
 	
 	public float aSpeedOfMovement = 4.0f;
-	private bool aIsObjectMoving = false;
+	public static bool aIsObjectMoving = false;
 	public static bool aRobotsTurn = false;
 	public static GameObject destTile;
 	
@@ -42,10 +42,5 @@ public class AutoMove : MonoBehaviour {
 				}
 			
 		}
-	}
-	
-	public bool isObjectMoving()
-	{
-		return aIsObjectMoving;
 	}
 }
