@@ -3,13 +3,14 @@ using System.Collections;
 
 public class AutoMove : MonoBehaviour {
 	
-	public ObjectSelection aSelfObjectSelection;
+	public RoboSelection aSelfObjectSelection;
 	
 	public TileManager aTileManager;
 	
 	public float aSpeedOfMovement = 4.0f;
 	private bool aIsObjectMoving = false;
 	public static bool aRobotsTurn = false;
+	public static GameObject destTile;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,12 +21,12 @@ public class AutoMove : MonoBehaviour {
 	void Update () {
 	
 		if (aRobotsTurn)
-		{
-			if (aTileManager.tileIsSelected())
-			{
+		{	
+			
+				Debug.Log("Moving to: " + destTile.transform.position);
 				aIsObjectMoving = true;
 				
-				Vector3 destination = aTileManager.pickRandomTile().transform.position;
+				Vector3 destination = destTile.transform.position;
 				destination.y = transform.position.y;
 				
 				// slide to location
@@ -39,7 +40,7 @@ public class AutoMove : MonoBehaviour {
 					aIsObjectMoving = false;
 					aRobotsTurn = false;
 				}
-			}
+			
 		}
 	}
 	

@@ -44,7 +44,13 @@ public class ClickAndMove : MonoBehaviour
 						transform.position = destination;
 						aSelfObjectSelection.deselectObject();
 						aIsObjectMoving = false;
+						
+						GameObject destTile = aTileManager.pickRandomTile();
+						Debug.Log("Destination Tile set at: " + destTile.transform.position);
+						aTileManager.selectTile(destTile);
+						AutoMove.destTile = destTile;
 						AutoMove.aRobotsTurn = true;
+						Debug.Log("Can robot move?" + AutoMove.aRobotsTurn);
 					}
 				}
 			}

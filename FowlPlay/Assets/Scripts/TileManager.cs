@@ -25,6 +25,7 @@ public class TileManager : MonoBehaviour {
 	{
 		aCurrentlySelectedTile = pTile;
 		aSingleTileIsSelected = true;
+		Debug.Log("CurrentlySelTile set at: " + aCurrentlySelectedTile.transform.position);
 	}
 	
 	public void deselect()

@@ -9,8 +9,6 @@ public class CharacterManager : MonoBehaviour {
 	
 	public GameObject aEnemy;
 	
-	public ClickAndMove aObjectMovement;
-	
 	private bool aSingleUnitIsSelected = false;
 	
 	// Use this for initialization
