@@ -24,25 +24,28 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
-	
-		if (aSelfObjectSelection.isObjectSelected())
+		if(!AutoMove.aRobotsTurn)
 		{
-			if (aTileManager.tileIsSelected())
+			if (aSelfObjectSelection.isObjectSelected())
 			{
-				aIsObjectMoving = true;
-				
-				Vector3 destination = aTileManager.aCurrentlySelectedTile.transform.position;
-				destination.y = transform.position.y;
-				
-				// slide to location
-				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
-				
-				// check to see if object has reached destination tile. if so, stop movement.
-				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
+				if (aTileManager.tileIsSelected())
 				{
-					transform.position = destination;
-					aSelfObjectSelection.deselectObject();
-					aIsObjectMoving = false;
+					aIsObjectMoving = true;
+					
+					Vector3 destination = aTileManager.aCurrentlySelectedTile.transform.position;
+					destination.y = transform.position.y;
+					
+					// slide to location
+					transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
+					
+					// check to see if object has reached destination tile. if so, stop movement.
+					if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
+					{
+						transform.position = destination;
+						aSelfObjectSelection.deselectObject();
+						aIsObjectMoving = false;
+						AutoMove.aRobotsTurn = true;
+					}
 				}
 			}
 		}
