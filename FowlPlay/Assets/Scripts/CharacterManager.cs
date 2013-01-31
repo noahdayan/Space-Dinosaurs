@@ -5,6 +5,10 @@ public class CharacterManager : MonoBehaviour {
 
 	public GameObject aCurrentlySelectedUnit;
 	
+	public GameObject aPlayer;
+	
+	public GameObject aEnemy;
+	
 	public ClickAndMove aObjectMovement;
 	
 	private bool aSingleUnitIsSelected = false;
@@ -34,5 +38,18 @@ public class CharacterManager : MonoBehaviour {
 	public bool UnitIsSelected()
 	{
 		return aSingleUnitIsSelected;
+	}
+	
+	public Vector3 unitPosition(int pPlayer)
+	{
+		if (pPlayer == 0)
+		{
+			return aPlayer.transform.position;
+		}
+		
+		else
+		{
+			return aEnemy.transform.position;
+		}
 	}
 }
