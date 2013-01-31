@@ -5,6 +5,8 @@ public class TileManager : MonoBehaviour {
 	
 	public GameObject aCurrentlySelectedTile;
 	
+	public CharacterManager aCharacterManager;
+	
 	private GameObject[] allTiles;
 	
 	private bool aSingleTileIsSelected = false;
@@ -34,5 +36,26 @@ public class TileManager : MonoBehaviour {
 	public bool tileIsSelected()
 	{
 		return aSingleTileIsSelected;
+	}
+	
+	private bool isTileOccupied(GameObject pTile)
+	{
+		if ((pTile.transform.position.x == aCharacterManager.unitPosition(0).x && pTile.transform.position.z == aCharacterManager.unitPosition(0).z) || (pTile.transform.position.x == aCharacterManager.unitPosition(1).x && pTile.transform.position.z == aCharacterManager.unitPosition(1).z))
+			return true;
+		else
+			return false;
+	}
+	
+	public GameObject pickRandomTile()
+	{
+		GameObject randomTile;
+		
+		do
+		{
+			randomTile = allTiles[Random.Range(0, allTiles.Length - 1)];
+		}
+		while (isTileOccupied(randomTile));
+		
+		return randomTile;
 	}
 }
