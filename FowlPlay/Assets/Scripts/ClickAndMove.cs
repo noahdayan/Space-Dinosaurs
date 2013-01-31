@@ -40,15 +40,13 @@ public class ClickAndMove : MonoBehaviour
 				Vector3 destination = aTileManager.aCurrentlySelectedTile.transform.position;
 				destination.y = transform.position.y;
 				
-				// teleport
-				//transform.position = destination;
-				
 				// slide to location
 				transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 				
 				// check to see if object has reached destination tile. if so, stop movement.
-				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.1) && (Mathf.Abs(transform.position.z - destination.z) < 0.1))
+				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
 				{
+					transform.position = destination;
 					aSelfObjectSelection.deselectObject();
 					aIsObjectMoving = false;
 				}
