@@ -1,15 +1,17 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class TileManager : MonoBehaviour {
 	
 	public GameObject aCurrentlySelectedTile;
 	
+	private GameObject[] allTiles;
+	
 	private bool aSingleTileIsSelected = false;
 	
 	// Use this for initialization
-	void Start () {
-	
+	void Start () {		
+		allTiles = GameObject.FindGameObjectsWithTag("Tile");
 	}
 	
 	// Update is called once per frame

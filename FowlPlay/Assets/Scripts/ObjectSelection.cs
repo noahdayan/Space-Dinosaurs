@@ -74,7 +74,7 @@ public class ObjectSelection : MonoBehaviour {
 	
 	public void selectObject()
 	{
-		renderer.material.color = Color.red;
+		renderer.material.color = Color.yellow;
 		aObjectIsSelected = true;	
 	}
 }

@@ -2,14 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class ClickAndMove : MonoBehaviour
-{
-	
-	// This will eventually be an array that stores all tiles.
-	// For demo purposes, it is just one.
-	public GameObject destinationTile;
-	
+{	
 	public ObjectSelection aSelfObjectSelection;
-	public TileSelection aTargetObjectSelection;
 	
 	public TileManager aTileManager;
 	

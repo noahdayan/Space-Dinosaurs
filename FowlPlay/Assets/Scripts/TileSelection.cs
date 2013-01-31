@@ -15,7 +15,7 @@ public class TileSelection : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-	
+		//aTileManager.addTile(gameObject);
 	}
 	
 	// Update is called once per frame
