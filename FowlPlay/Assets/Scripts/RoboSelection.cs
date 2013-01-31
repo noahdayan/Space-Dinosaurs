@@ -10,8 +10,6 @@ using System.Collections;
 public class RoboSelection : MonoBehaviour {
 	
 	private bool aObjectIsSelected = false;
-	
-	public TileManager aTileManager;
 
 	// Use this for initialization
 	void Start () {
@@ -38,11 +36,6 @@ public class RoboSelection : MonoBehaviour {
 					}
 				}
 			
-	}
-	
-	public bool isObjectSelected()
-	{
-		return aObjectIsSelected;	
 	}
 	
 	public void deselectObject()

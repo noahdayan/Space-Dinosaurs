@@ -3,10 +3,6 @@ using System.Collections;
 
 public class AutoMove : MonoBehaviour {
 	
-	public RoboSelection aSelfObjectSelection;
-	
-	public TileManager aTileManager;
-	
 	public float aSpeedOfMovement = 4.0f;
 	public static bool aIsObjectMoving = false;
 	public static bool aRobotsTurn = false;
@@ -22,8 +18,6 @@ public class AutoMove : MonoBehaviour {
 	
 		if (aRobotsTurn)
 		{	
-			
-				Debug.Log("Moving to: " + destTile.transform.position);
 				aIsObjectMoving = true;
 				
 				Vector3 destination = destTile.transform.position;
@@ -36,7 +30,7 @@ public class AutoMove : MonoBehaviour {
 				if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
 				{
 					transform.position = destination;
-					aSelfObjectSelection.deselectObject();
+					SendMessage("deselectObject");
 					aIsObjectMoving = false;
 					aRobotsTurn = false;
 				}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TileManager : MonoBehaviour {
 	
-	public GameObject aCurrentlySelectedTile;
+	public static GameObject aCurrentlySelectedTile;
 	
 	public CharacterManager aCharacterManager;
 	
@@ -42,7 +42,7 @@ public class TileManager : MonoBehaviour {
 			return false;
 	}
 	
-	public GameObject pickRandomTile()
+	public void pickRandomTile()
 	{
 		GameObject randomTile;
 		
@@ -52,6 +52,10 @@ public class TileManager : MonoBehaviour {
 		}
 		while (isTileOccupied(randomTile));
 		
-		return randomTile;
+		Debug.Log("Random tile picked: " + randomTile.transform.position);
+		
+		AutoMove.destTile = randomTile;
+		
+		Debug.Log("destTile is " + AutoMove.destTile);
 	}
 }

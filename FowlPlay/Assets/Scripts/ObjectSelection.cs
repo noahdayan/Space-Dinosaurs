@@ -12,7 +12,6 @@ public class ObjectSelection : MonoBehaviour {
 	private bool aMouseHoveringOnObject = false;
 	public static bool aObjectIsSelected = false;
 	
-	public TileManager aTileManager;
 
 	// Use this for initialization
 	void Start () {

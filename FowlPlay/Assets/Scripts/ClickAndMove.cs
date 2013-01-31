@@ -3,10 +3,6 @@ using System.Collections;
 
 public class ClickAndMove : MonoBehaviour
 {	
-	public ObjectSelection aSelfObjectSelection;
-	
-	public TileManager aTileManager;
-	
 	public float aSpeedOfMovement = 4.0f;
 	public static bool aIsObjectMoving = false;
 	
@@ -32,7 +28,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					aIsObjectMoving = true;
 					
-					Vector3 destination = aTileManager.aCurrentlySelectedTile.transform.position;
+					Vector3 destination = TileManager.aCurrentlySelectedTile.transform.position;
 					destination.y = transform.position.y;
 					
 					// slide to location
@@ -42,15 +38,13 @@ public class ClickAndMove : MonoBehaviour
 					if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
 					{
 						transform.position = destination;
-						aSelfObjectSelection.deselectObject();
+						SendMessage("deselectObject");
 						aIsObjectMoving = false;
 						
-						GameObject destTile = aTileManager.pickRandomTile();
-						Debug.Log("Destination Tile set at: " + destTile.transform.position);
-						aTileManager.selectTile(destTile);
-						AutoMove.destTile = destTile;
+						
+						SendMessage("pickRandomTile");
+						SendMessage("selectTile", AutoMove.destTile);
 						AutoMove.aRobotsTurn = true;
-						Debug.Log("Can robot move?" + AutoMove.aRobotsTurn);
 					}
 				}
 			}

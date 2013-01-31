@@ -6,13 +6,8 @@ public class TileSelection : MonoBehaviour {
 	private bool aMouseHoveringOnObject = false;
 	private bool aObjectIsSelected = false;
 	
-	// This one will also be an array that compiles all units/characters.
-	
-	public TileManager aTileManager;
-	
 	// Use this for initialization
 	void Start () {
-		//aTileManager.addTile(gameObject);
 	}
 	
 	// Update is called once per frame
@@ -61,13 +56,14 @@ public class TileSelection : MonoBehaviour {
 	{
 		renderer.material.color = Color.gray;
 		aObjectIsSelected = false;
-		aTileManager.deselect();
+		GameObject.Find("Character").SendMessage("deselect");
+
 	}
 	
 	public void selectObject()
 	{
 		renderer.material.color = Color.yellow;
 		aObjectIsSelected = true;
-		aTileManager.selectTile(gameObject);
+		GameObject.Find("Character").SendMessage("selectTile", gameObject);
 	}
 }
