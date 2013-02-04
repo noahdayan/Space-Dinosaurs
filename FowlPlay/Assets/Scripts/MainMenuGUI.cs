@@ -15,7 +15,6 @@ public class MainMenuGUI : MonoBehaviour {
 	string menuPage = "main";
 	public Rect credits;
 	public string levelName;
-	public string teamCredits;
 	
 	// Use this for initialization
 	void Start () {
@@ -59,7 +58,7 @@ public class MainMenuGUI : MonoBehaviour {
 		}
 		else if(menuPage == "credits")
 		{
-			GUI.Label(new Rect(credits), teamCredits);
+			GUI.Label(new Rect(credits), "Matt Adler\nNoah Dayan\nJavier Perez\nOmar Gonzalez Delgado\nSimon Cruz Riendeau\nJean-Felix Vallee\nNicolas Chalifoux\nRichard Atlas");
 			if(GUI.Button(new Rect(quitButton), "Back"))
 			{
 				audio.PlayOneShot(click);
