@@ -14,13 +14,15 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
-		foreach (GameObject unit in temp1)
-			player1Units.Add(unit);
+		//GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
+		//foreach (GameObject unit in temp1)
+			//player1Units.Add(unit);
 		
-		GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
-		foreach (GameObject unit in temp2)
-			player2Units.Add(unit);
+		//GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
+		//foreach (GameObject unit in temp2)
+			//player2Units.Add(unit);
+		
+		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 	}
 	
 	// Update is called once per frame
@@ -47,10 +49,12 @@ public class CharacterManager : MonoBehaviour {
 		if (aTurn == 1)
 		{
 			aTurn = 2;
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
 		}
 		else if (aTurn == 2)
 		{
 			aTurn = 1;
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 		}
 	}
 	
