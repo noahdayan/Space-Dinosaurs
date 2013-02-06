@@ -1,17 +1,26 @@
 using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class CharacterManager : MonoBehaviour {
 
 	public static GameObject aCurrentlySelectedUnit;
-
 	public static bool aSingleUnitIsSelected = false;
+	private List<GameObject> player1Units;
+	private List<GameObject> player2Units;
 	
-	private GameObject[] allUnits;
+	// Can be either 1 or 2
+	public static int aTurn = 1;
 	
 	// Use this for initialization
 	void Start () {
-		allUnits = GameObject.FindGameObjectsWithTag("GameUnit");
+		GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
+		foreach (GameObject unit in temp1)
+			player1Units.Add(unit);
+		
+		GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
+		foreach (GameObject unit in temp2)
+			player2Units.Add(unit);
 	}
 	
 	// Update is called once per frame
@@ -31,6 +40,18 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
+	}
+	
+	public static void switchTurn()
+	{
+		if (aTurn == 1)
+		{
+			aTurn = 2;
+		}
+		else if (aTurn == 2)
+		{
+			aTurn = 1;
+		}
 	}
 	
 	/**public Vector3 unitPosition(int pPlayer)

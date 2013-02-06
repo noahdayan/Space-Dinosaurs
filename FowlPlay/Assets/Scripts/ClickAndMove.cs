@@ -45,6 +45,7 @@ public class ClickAndMove : MonoBehaviour
 						aIsObjectMoving = false;
 					
 						TileManager.deselect();
+						CharacterManager.switchTurn();
 						
 						// Uncomment if using a robot
 						/**

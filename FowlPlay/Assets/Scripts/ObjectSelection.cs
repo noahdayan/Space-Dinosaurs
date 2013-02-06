@@ -20,7 +20,9 @@ public class ObjectSelection : MonoBehaviour {
 	void Update ()
 	{
 		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
-	   		{
+	   	{
+			if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 2))
+			{
 				// select the object
 				if (CharacterManager.aCurrentlySelectedUnit != gameObject)
 				{
@@ -36,6 +38,7 @@ public class ObjectSelection : MonoBehaviour {
 					}
 				}
 			}
+		}
 	}
 	
 	void OnMouseEnter() 
