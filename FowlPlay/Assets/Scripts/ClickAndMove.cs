@@ -21,10 +21,8 @@ public class ClickAndMove : MonoBehaviour
   	void Update ()
 	{
 		// Uncomment if using a robot
-		/**
 		if(!AutoMove.aRobotsTurn)
 		{
-		*/
 			if (CharacterManager.aSingleUnitIsSelected)
 			{
 				if (TileManager.aSingleTileIsSelected)
@@ -48,17 +46,13 @@ public class ClickAndMove : MonoBehaviour
 						CharacterManager.switchTurn();
 						
 						// Uncomment if using a robot
-						/**
 						SendMessage("pickRandomTile");
-						SendMessage("selectTile", AutoMove.destTile);
+						//SendMessage("selectTile", AutoMove.destTile);
 						AutoMove.aRobotsTurn = true;
-						*/
 					}
 				}
 			}
 		// Uncomment if using a robot
-		/**
 		}
-		*/
 	}
 }

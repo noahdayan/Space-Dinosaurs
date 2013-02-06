@@ -48,13 +48,13 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aTurn == 1)
 		{
-			aTurn = 2;
 			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+			aTurn = 2;
 		}
 		else if (aTurn == 2)
 		{
-			aTurn = 1;
 			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+			aTurn = 1;
 		}
 	}
 	
