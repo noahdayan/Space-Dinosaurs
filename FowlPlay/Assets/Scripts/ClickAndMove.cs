@@ -20,8 +20,11 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
+		// Uncomment if using a robot
+		/**
 		if(!AutoMove.aRobotsTurn)
 		{
+		*/
 			if (ObjectSelection.aObjectIsSelected)
 			{
 				if (TileManager.aSingleTileIsSelected)
@@ -48,6 +51,9 @@ public class ClickAndMove : MonoBehaviour
 					}
 				}
 			}
+		// Uncomment if using a robot
+		/**
 		}
+		*/
 	}
 }
