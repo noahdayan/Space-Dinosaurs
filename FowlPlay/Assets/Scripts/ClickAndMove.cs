@@ -25,29 +25,33 @@ public class ClickAndMove : MonoBehaviour
 		if(!AutoMove.aRobotsTurn)
 		{
 		*/
-			if (ObjectSelection.aObjectIsSelected)
+			if (CharacterManager.aSingleUnitIsSelected)
 			{
 				if (TileManager.aSingleTileIsSelected)
 				{
 					aIsObjectMoving = true;
 					
 					Vector3 destination = TileManager.aCurrentlySelectedTile.transform.position;
-					destination.y = transform.position.y;
+					destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
 					
 					// slide to location
-					transform.position += (destination - transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
+					CharacterManager.aCurrentlySelectedUnit.transform.position += (destination - CharacterManager.aCurrentlySelectedUnit.transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 					
 					// check to see if object has reached destination tile. if so, stop movement.
-					if ( (Mathf.Abs(transform.position.x - destination.x) < 0.5) && (Mathf.Abs(transform.position.z - destination.z) < 0.5))
+					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
 					{
-						transform.position = destination;
-						SendMessage("deselectObject");
+						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
+						CharacterManager.deselect();
 						aIsObjectMoving = false;
+					
+						TileManager.deselect();
 						
-						
+						// Uncomment if using a robot
+						/**
 						SendMessage("pickRandomTile");
 						SendMessage("selectTile", AutoMove.destTile);
 						AutoMove.aRobotsTurn = true;
+						*/
 					}
 				}
 			}

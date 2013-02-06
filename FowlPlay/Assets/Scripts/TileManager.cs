@@ -21,25 +21,30 @@ public class TileManager : MonoBehaviour {
 	
 	}
 	
-	public void selectTile(GameObject pTile)
+	public static void selectTile(GameObject pTile)
 	{
 		aCurrentlySelectedTile = pTile;
 		aSingleTileIsSelected = true;
-		Debug.Log("CurrentlySelTile set at: " + aCurrentlySelectedTile.transform.position);
+		pTile.renderer.material.color = Color.yellow;
+		//Debug.Log("CurrentlySelTile set at: " + aCurrentlySelectedTile.transform.position);
 	}
 	
-	public void deselect()
+	public static void deselect()
 	{
+		aCurrentlySelectedTile.renderer.material.color = Color.gray;
 		aCurrentlySelectedTile = null;
 		aSingleTileIsSelected = false;
 	}
 	
 	private bool isTileOccupied(GameObject pTile)
 	{
+		/**
 		if ((pTile.transform.position.x == aCharacterManager.unitPosition(0).x && pTile.transform.position.z == aCharacterManager.unitPosition(0).z) || (pTile.transform.position.x == aCharacterManager.unitPosition(1).x && pTile.transform.position.z == aCharacterManager.unitPosition(1).z))
 			return true;
 		else
 			return false;
+		*/
+		return false;
 	}
 	
 	public void pickRandomTile()

@@ -24,18 +24,19 @@ public class ObjectSelection : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
 	   		{
 				// select the object
-				if (!aObjectIsSelected)
+				if (CharacterManager.aCurrentlySelectedUnit != gameObject)
 				{
-	        		selectObject();
-					//Debug.Log("Object selected.");
+					CharacterManager.selectUnit(gameObject);
+					aObjectIsSelected = true;
 				}
 				
 				// de-select the object, but only if it's not moving.
-				else if (aObjectIsSelected)
+				else if (CharacterManager.aCurrentlySelectedUnit == gameObject)
 				{
 					if (!ClickAndMove.aIsObjectMoving)
 					{
-						deselectObject();
+						CharacterManager.deselect();
+						aObjectIsSelected = false;	
 					}
 				}
 			}
@@ -51,17 +52,5 @@ public class ObjectSelection : MonoBehaviour {
 	{
 		aMouseHoveringOnObject = false;
 		//Debug.Log("Object exited.");
-	}
-	
-	public void deselectObject()
-	{
-		renderer.material.color = Color.blue;
-		aObjectIsSelected = false;	
-	}
-	
-	public void selectObject()
-	{
-		renderer.material.color = Color.yellow;
-		aObjectIsSelected = true;	
 	}
 }

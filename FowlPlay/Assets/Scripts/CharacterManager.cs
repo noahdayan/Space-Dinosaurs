@@ -3,17 +3,15 @@ using System.Collections;
 
 public class CharacterManager : MonoBehaviour {
 
-	public GameObject aCurrentlySelectedUnit;
+	public static GameObject aCurrentlySelectedUnit;
+
+	public static bool aSingleUnitIsSelected = false;
 	
-	public GameObject aPlayer;
-	
-	public GameObject aEnemy;
-	
-	private bool aSingleUnitIsSelected = false;
+	private GameObject[] allUnits;
 	
 	// Use this for initialization
 	void Start () {
-	
+		allUnits = GameObject.FindGameObjectsWithTag("GameUnit");
 	}
 	
 	// Update is called once per frame
@@ -21,19 +19,21 @@ public class CharacterManager : MonoBehaviour {
 	
 	}
 	
-	public void selectUnit(GameObject pUnit)
+	public static void selectUnit(GameObject pUnit)
 	{
 		aCurrentlySelectedUnit = pUnit;
+		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
 	}
 	
-	public void deselect()
+	public static void deselect()
 	{
+		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
 	}
 	
-	public Vector3 unitPosition(int pPlayer)
+	/**public Vector3 unitPosition(int pPlayer)
 	{
 		if (pPlayer == 0)
 		{
@@ -44,5 +44,5 @@ public class CharacterManager : MonoBehaviour {
 		{
 			return aEnemy.transform.position;
 		}
-	}
+	} */
 }

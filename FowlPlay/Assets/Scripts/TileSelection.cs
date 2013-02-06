@@ -20,7 +20,8 @@ public class TileSelection : MonoBehaviour {
 			{
 				if (ObjectSelection.aObjectIsSelected)
 				{
-        			selectObject();
+        			TileManager.selectTile(gameObject);
+					aObjectIsSelected = true;
 				}
 			}
 			
@@ -29,7 +30,8 @@ public class TileSelection : MonoBehaviour {
 			{
 				if (!ClickAndMove.aIsObjectMoving)
 				{
-					deselectObject();
+					TileManager.deselect();
+					aObjectIsSelected = false;
 				}
 			}
 		}
