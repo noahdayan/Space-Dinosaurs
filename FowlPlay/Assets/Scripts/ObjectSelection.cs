@@ -10,9 +10,7 @@ using System.Collections;
 public class ObjectSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
-	public static bool aObjectIsSelected = false;
 	
-
 	// Use this for initialization
 	void Start () {
 	
@@ -27,7 +25,6 @@ public class ObjectSelection : MonoBehaviour {
 				if (CharacterManager.aCurrentlySelectedUnit != gameObject)
 				{
 					CharacterManager.selectUnit(gameObject);
-					aObjectIsSelected = true;
 				}
 				
 				// de-select the object, but only if it's not moving.
@@ -36,7 +33,6 @@ public class ObjectSelection : MonoBehaviour {
 					if (!ClickAndMove.aIsObjectMoving)
 					{
 						CharacterManager.deselect();
-						aObjectIsSelected = false;	
 					}
 				}
 			}
