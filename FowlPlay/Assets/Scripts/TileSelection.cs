@@ -18,7 +18,7 @@ public class TileSelection : MonoBehaviour {
 			// select the tile
 			if (!aObjectIsSelected)
 			{
-				if (ObjectSelection.aObjectIsSelected)
+				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 				{
         			TileManager.selectTile(gameObject);
 					aObjectIsSelected = true;
@@ -28,7 +28,7 @@ public class TileSelection : MonoBehaviour {
 			// de-select the tile, but only if the unit is not moving towards it
 			else if (aObjectIsSelected)
 			{
-				if (!ClickAndMove.aIsObjectMoving)
+				if (!CharacterManager.aSingleUnitIsSelected)
 				{
 					TileManager.deselect();
 					aObjectIsSelected = false;
