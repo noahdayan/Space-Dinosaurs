@@ -16,13 +16,16 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
-		//foreach (GameObject unit in temp1)
-			//player1Units.Add(unit);
 		
-		//GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
-		//foreach (GameObject unit in temp2)
-			//player2Units.Add(unit);
+		player1Units = new List<GameObject>();
+		player2Units = new List<GameObject>();
+		GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
+		foreach (GameObject unit in temp1)
+			player1Units.Add(unit);
+		
+		GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
+		foreach (GameObject unit in temp2)
+			player2Units.Add(unit);
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 	}
@@ -32,13 +35,17 @@ public class CharacterManager : MonoBehaviour {
 	
 	}
 	
-	public static void selectUnit(GameObject pUnit)
+	public void selectUnit(GameObject pUnit)
 	{
 		startPos = pUnit.transform.position;
 		startRot = pUnit.transform.rotation.eulerAngles;
 		aCurrentlySelectedUnit = pUnit;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
+		
+		// highlight tiles in range
+		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
+			GameObject.Find("Character").SendMessage("highlightRange", pUnit);
 	}
 	
 	public static void deselect()

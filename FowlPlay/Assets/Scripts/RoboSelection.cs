@@ -8,8 +8,6 @@ using System.Collections;
  **/
 
 public class RoboSelection : MonoBehaviour {
-	
-	private bool aObjectIsSelected = false;
 
 	// Use this for initialization
 	void Start () {
