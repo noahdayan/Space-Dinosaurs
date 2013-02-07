@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class TileManager : MonoBehaviour {
 	
@@ -7,13 +8,21 @@ public class TileManager : MonoBehaviour {
 	
 	public CharacterManager aCharacterManager;
 	
-	private GameObject[] allTiles;
+	private static GameObject[] allTiles;
+	private static Hashtable allTilesHT;
 	
 	public static bool aSingleTileIsSelected = false;
 	
 	// Use this for initialization
 	void Start () {		
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
+		
+		allTilesHT = new Hashtable();
+		
+		foreach (GameObject tile in allTiles)
+		{
+			allTilesHT.Add(tile.transform.position, tile);
+		}
 	}
 	
 	// Update is called once per frame
@@ -21,12 +30,30 @@ public class TileManager : MonoBehaviour {
 	
 	}
 	
+	public void highlightRange(GameObject pUnit)
+	{	
+		Vector3 unitsTile = pUnit.transform.position;
+		unitsTile.y = 2;
+		GameObject currentTile = getTileAt(unitsTile);
+	 	highlightTile(currentTile);
+	}
+	
+	public void highlightTile(GameObject pTile)
+	{
+		pTile.renderer.material.color = Color.cyan;
+	}
+	
+	public GameObject getTileAt(Vector3 pPosition)
+	{
+		GameObject ltile = (GameObject)allTilesHT[pPosition];
+		return ltile;
+	}
+	
 	public static void selectTile(GameObject pTile)
 	{
 		aCurrentlySelectedTile = pTile;
 		aSingleTileIsSelected = true;
 		pTile.renderer.material.color = Color.yellow;
-		//Debug.Log("CurrentlySelTile set at: " + aCurrentlySelectedTile.transform.position);
 	}
 	
 	public static void deselect()

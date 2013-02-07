@@ -5,10 +5,11 @@ public class AutoMove : MonoBehaviour {
 	
 	public float aSpeedOfMovement = 20.0f;
 	public static GameObject destTile;
+	private GameObject charManager;
 	
 	// Use this for initialization
 	void Start () {
-	
+		charManager = GameObject.Find("Character");
 	}
 	
 	// Update is called once per frame
@@ -16,7 +17,7 @@ public class AutoMove : MonoBehaviour {
 	
 		if (CharacterManager.aTurn == 2 || CharacterManager.aTurn == 4)
 		{
-				CharacterManager.selectUnit(gameObject);
+				charManager.SendMessage("selectUnit", gameObject);
 				ClickAndMove.aIsObjectMoving = true;
 				
 				Vector3 destination = destTile.transform.position;

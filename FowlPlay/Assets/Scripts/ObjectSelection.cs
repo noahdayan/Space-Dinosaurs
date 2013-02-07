@@ -10,10 +10,11 @@ using System.Collections;
 public class ObjectSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
+	private GameObject charManager;
 	
 	// Use this for initialization
 	void Start () {
-	
+		charManager = GameObject.Find("Character");
 	}
 	
 	// Update is called once per frame
@@ -31,7 +32,7 @@ public class ObjectSelection : MonoBehaviour {
 					if (CharacterManager.aSingleUnitIsSelected)
 						CharacterManager.deselect();
 					
-					CharacterManager.selectUnit(gameObject);
+					charManager.SendMessage("selectUnit", gameObject);
 				}
 				
 				// de-select the object, but only if it's not moving.
