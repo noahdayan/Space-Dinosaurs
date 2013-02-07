@@ -32,6 +32,13 @@ public class ClickAndMove : MonoBehaviour
 					Vector3 destination = TileManager.aCurrentlySelectedTile.transform.position;
 					destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
 					
+					// rotate character
+					float angle = Mathf.Atan2(destination.z, destination.x) * Mathf.Rad2Deg + 90;
+					if(angle != CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y)
+					{
+						//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, angle, 0, Space.World);
+					}
+					
 					// slide to location
 					CharacterManager.aCurrentlySelectedUnit.transform.position += (destination - CharacterManager.aCurrentlySelectedUnit.transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 					
