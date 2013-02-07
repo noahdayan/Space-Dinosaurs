@@ -39,12 +39,12 @@ public class ClickAndMove : MonoBehaviour
 					float angle = -Mathf.Atan2(destination.z - CharacterManager.startPos.z, destination.x - CharacterManager.startPos.x) * Mathf.Rad2Deg;
 					Debug.Log(angle);
 					//Vector3 startRot = CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles;
-					if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle)-2)
-					{
+					//if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle)-2)
+					//{
 						Vector3 newRotation = Quaternion.LookRotation(TileManager.aCurrentlySelectedTile.transform.position - CharacterManager.aCurrentlySelectedUnit.transform.position).eulerAngles;
         				newRotation.x = 270;
         				//newRotation.z = 0;
-        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime);
+        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), 20.0f);
 						
 						Debug.Log("Left side: " + Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y));
 						Debug.Log("Right side: " + Mathf.Abs(angle));
@@ -52,11 +52,11 @@ public class ClickAndMove : MonoBehaviour
 						aIsObjectRotating = true;
 						//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
 						//CharacterManager.aCurrentlySelectedUnit.transform.Rotation(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
-					}
-					else
-					{
+					//}
+					//else
+					//{
 						aIsObjectRotating = false;
-					}
+					//}
 					
 					if(!aIsObjectRotating)
 					{
