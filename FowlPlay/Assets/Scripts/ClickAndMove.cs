@@ -6,6 +6,7 @@ public class ClickAndMove : MonoBehaviour
 	public float aSpeedOfMovement = 4.0f;
 	public float aSpeedOfRotation = 180f;
 	public static bool aIsObjectMoving = false;
+	public static bool aIsObjectRotating = false;
 	
 	void Start () 
 	{
@@ -40,26 +41,34 @@ public class ClickAndMove : MonoBehaviour
 					//Vector3 startRot = CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles;
 					if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle))
 					{
+						aIsObjectRotating = true;
 						CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
 					}
-					
-					// slide to location
-					CharacterManager.aCurrentlySelectedUnit.transform.position += (destination - CharacterManager.aCurrentlySelectedUnit.transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
-					
-					// check to see if object has reached destination tile. if so, stop movement.
-					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
+					else
 					{
-						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-						CharacterManager.deselect();
-						aIsObjectMoving = false;
+						aIsObjectRotating = false;
+					}
 					
-						TileManager.deselect();
-						CharacterManager.switchTurn();
+					if(!aIsObjectRotating)
+					{
+						// slide to location
+						CharacterManager.aCurrentlySelectedUnit.transform.position += (destination - CharacterManager.aCurrentlySelectedUnit.transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
 						
-						// Uncomment if using a robot
+						// check to see if object has reached destination tile. if so, stop movement.
+						if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
+						{
+							CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
+							CharacterManager.deselect();
+							aIsObjectMoving = false;
 						
-						//SendMessage("selectTile", AutoMove.destTile);
-						//AutoMove.aRobotsTurn = true;
+							TileManager.deselect();
+							CharacterManager.switchTurn();
+							
+							// Uncomment if using a robot
+							
+							//SendMessage("selectTile", AutoMove.destTile);
+							//AutoMove.aRobotsTurn = true;
+						}
 					}
 				}
 			}

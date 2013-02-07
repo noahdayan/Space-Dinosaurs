@@ -20,7 +20,7 @@ public class TileSelection : MonoBehaviour {
 				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 				{
         			TileManager.selectTile(gameObject);
-					ActionMenuGUI.activateMvmtMenu = true;
+					//ActionMenuGUI.activateMvmtMenu = true;
 				}
 			}
 			
