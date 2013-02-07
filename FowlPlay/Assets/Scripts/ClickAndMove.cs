@@ -44,7 +44,7 @@ public class ClickAndMove : MonoBehaviour
 						Vector3 newRotation = Quaternion.LookRotation(TileManager.aCurrentlySelectedTile.transform.position - CharacterManager.aCurrentlySelectedUnit.transform.position).eulerAngles;
         				newRotation.x = 270;
         				//newRotation.z = 0;
-        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), 20.0f);
+        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * 10.0f);
 						
 						Debug.Log("Left side: " + Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y));
 						Debug.Log("Right side: " + Mathf.Abs(angle));

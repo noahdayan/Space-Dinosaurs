@@ -1,16 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ClickAndMove.cs">
-    <Files>
-      <File FileName="Assets/Scripts/GUIScripts/MainMenuGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GUIScripts/PauseMenuGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GUIScripts/ProgressBarGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ArrowKeysMove.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GUIScripts/HotSeatGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/CharacterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ClickAndMove.cs" Line="50" Column="9" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
