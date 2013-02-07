@@ -37,26 +37,20 @@ public class ClickAndMove : MonoBehaviour
 					// rotate character
 					//Vector3 startPos = CharacterManager.aCurrentlySelectedUnit.transform.position;
 					//float angle = -Mathf.Atan2(destination.z - CharacterManager.startPos.z, destination.x - CharacterManager.startPos.x) * Mathf.Rad2Deg;
-					//Debug.Log(angle);
 					//Vector3 startRot = CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles;
 					//if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle)-2)
-					//{
-						Vector3 newRotation = Quaternion.LookRotation(TileManager.aCurrentlySelectedTile.transform.position - CharacterManager.aCurrentlySelectedUnit.transform.position).eulerAngles;
-        				newRotation.x = CharacterManager.startRot.x;
-        				newRotation.z = CharacterManager.startRot.z;
-        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
-						
-						//Debug.Log("Left side: " + Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y));
-						//Debug.Log("Right side: " + Mathf.Abs(angle));
-						
-						aIsObjectRotating = true;
-						//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
-						//CharacterManager.aCurrentlySelectedUnit.transform.Rotation(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
-					//}
-					//else
-					//{
+
+					aIsObjectRotating = true;
+					Vector3 newRotation = Quaternion.LookRotation(TileManager.aCurrentlySelectedTile.transform.position - CharacterManager.aCurrentlySelectedUnit.transform.position).eulerAngles;
+    				newRotation.x = CharacterManager.startRot.x;
+    				newRotation.z = CharacterManager.startRot.z;
+    				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
+					
+					//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
+					if(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y >= newRotation.y - 2)
+					{
 						aIsObjectRotating = false;
-					//}
+					}
 					
 					if(!aIsObjectRotating)
 					{
