@@ -11,7 +11,7 @@ public class CharacterManager : MonoBehaviour {
 	public static Vector3 startPos;
 	public static Vector3 startRot;
 	
-	// Can be either 1 or 2
+	// Can be either 1 or 2 or 3 or 4
 	public static int aTurn = 1;
 	
 	// Use this for initialization
@@ -52,10 +52,22 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aTurn == 1)
 		{
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
+			GameObject.Find("Character").SendMessage("pickRandomTile");
 			aTurn = 2;
 		}
 		else if (aTurn == 2)
+		{
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+			aTurn = 3;
+		}
+		else if (aTurn == 3)
+		{
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
+			GameObject.Find("Character").SendMessage("pickRandomTile");
+			aTurn = 4;
+		}
+		else if (aTurn == 4)
 		{
 			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 			aTurn = 1;

@@ -23,7 +23,7 @@ public class ObjectSelection : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
 	   	{
 			// check that it is the object's turn to move
-			if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 2))
+			if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3))
 			{
 				// select the object only if it is not selected and no objects are in movement
 				if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)

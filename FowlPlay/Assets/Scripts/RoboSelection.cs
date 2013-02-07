@@ -19,34 +19,21 @@ public class RoboSelection : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		
-				// select the object
-				if (!aObjectIsSelected && AutoMove.aRobotsTurn)
-				{
-	        		selectObject();
-					//Debug.Log("Object selected.");
-				}
+			// check that it is the object's turn to move
+			if (CharacterManager.aTurn == 3)
+			{		
+				//CharacterManager.selectUnit(gameObject);
+			}
 				
 				// de-select the object, but only if it's not moving.
-				else if (aObjectIsSelected && !AutoMove.aRobotsTurn)
+				else if (CharacterManager.aCurrentlySelectedUnit == gameObject)
 				{
-					if (!AutoMove.aIsObjectMoving)
+					if (!ClickAndMove.aIsObjectMoving)
 					{
-						deselectObject();
+						//CharacterManager.deselect();
 					}
 				}
+		}
 			
 	}
-	
-	public void deselectObject()
-	{
-		renderer.material.color = Color.red;
-		aObjectIsSelected = false;	
-	}
-	
-	public void selectObject()
-	{
-		renderer.material.color = Color.yellow;
-		aObjectIsSelected = true;	
-	}
-}
+

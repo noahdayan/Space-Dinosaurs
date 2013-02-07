@@ -60,6 +60,7 @@ public class TileManager : MonoBehaviour {
 		Debug.Log("Random tile picked: " + randomTile.transform.position);
 		
 		AutoMove.destTile = randomTile;
+		selectTile(randomTile);
 		
 		Debug.Log("destTile is " + AutoMove.destTile);
 	}
