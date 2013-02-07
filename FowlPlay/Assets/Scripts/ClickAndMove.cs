@@ -4,6 +4,7 @@ using System.Collections;
 public class ClickAndMove : MonoBehaviour
 {	
 	public float aSpeedOfMovement = 4.0f;
+	public float aSpeedOfRotation = 180f;
 	public static bool aIsObjectMoving = false;
 	
 	void Start () 
@@ -33,10 +34,13 @@ public class ClickAndMove : MonoBehaviour
 					destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
 					
 					// rotate character
-					float angle = Mathf.Atan2(destination.z, destination.x) * Mathf.Rad2Deg + 90;
-					if(angle != CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y)
+					//Vector3 startPos = CharacterManager.aCurrentlySelectedUnit.transform.position;
+					float angle = -Mathf.Atan2(destination.z - CharacterManager.startPos.z, destination.x - CharacterManager.startPos.x) * Mathf.Rad2Deg;
+					Debug.Log(angle);
+					//Vector3 startRot = CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles;
+					if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle))
 					{
-						//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, angle, 0, Space.World);
+						CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
 					}
 					
 					// slide to location

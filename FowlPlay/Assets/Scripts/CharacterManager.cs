@@ -8,6 +8,8 @@ public class CharacterManager : MonoBehaviour {
 	public static bool aSingleUnitIsSelected = false;
 	private List<GameObject> player1Units;
 	private List<GameObject> player2Units;
+	public static Vector3 startPos;
+	public static Vector3 startRot;
 	
 	// Can be either 1 or 2
 	public static int aTurn = 1;
@@ -32,6 +34,8 @@ public class CharacterManager : MonoBehaviour {
 	
 	public static void selectUnit(GameObject pUnit)
 	{
+		startPos = pUnit.transform.position;
+		startRot = pUnit.transform.rotation.eulerAngles;
 		aCurrentlySelectedUnit = pUnit;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
