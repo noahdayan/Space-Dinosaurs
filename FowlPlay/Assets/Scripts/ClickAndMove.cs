@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ClickAndMove : MonoBehaviour
 {	
-	public float aSpeedOfMovement = 4.0f;
-	public float aSpeedOfRotation = 180f;
+	public float aSpeedOfMovement = 20.0f;
+	public float aSpeedOfRotation = 10.0f;
 	public static bool aIsObjectMoving = false;
 	public static bool aIsObjectRotating = false;
 	
@@ -36,18 +36,18 @@ public class ClickAndMove : MonoBehaviour
 					
 					// rotate character
 					//Vector3 startPos = CharacterManager.aCurrentlySelectedUnit.transform.position;
-					float angle = -Mathf.Atan2(destination.z - CharacterManager.startPos.z, destination.x - CharacterManager.startPos.x) * Mathf.Rad2Deg;
-					Debug.Log(angle);
+					//float angle = -Mathf.Atan2(destination.z - CharacterManager.startPos.z, destination.x - CharacterManager.startPos.x) * Mathf.Rad2Deg;
+					//Debug.Log(angle);
 					//Vector3 startRot = CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles;
 					//if(Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y) <= Mathf.Abs(angle)-2)
 					//{
 						Vector3 newRotation = Quaternion.LookRotation(TileManager.aCurrentlySelectedTile.transform.position - CharacterManager.aCurrentlySelectedUnit.transform.position).eulerAngles;
-        				newRotation.x = 270;
-        				//newRotation.z = 0;
-        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * 10.0f);
+        				newRotation.x = CharacterManager.startRot.x;
+        				newRotation.z = CharacterManager.startRot.z;
+        				CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
 						
-						Debug.Log("Left side: " + Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y));
-						Debug.Log("Right side: " + Mathf.Abs(angle));
+						//Debug.Log("Left side: " + Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.rotation.eulerAngles.y - CharacterManager.startRot.y));
+						//Debug.Log("Right side: " + Mathf.Abs(angle));
 						
 						aIsObjectRotating = true;
 						//CharacterManager.aCurrentlySelectedUnit.transform.Rotate(0, Mathf.Sign(angle) * aSpeedOfRotation * Time.deltaTime, 0, Space.World);
