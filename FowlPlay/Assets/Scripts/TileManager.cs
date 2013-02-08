@@ -46,7 +46,8 @@ public class TileManager : MonoBehaviour {
 		GameObject[] surr = getSurroundingTiles(currentTile, 3);
 		
 		foreach (GameObject tile in surr)
-			tile.renderer.material.color = Color.green;
+			if (tile != null)
+				tile.renderer.material.color = Color.green;
 	}
 	
 	public void unhighlightRange()
@@ -65,17 +66,22 @@ public class TileManager : MonoBehaviour {
 	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
 	{
 		rangeHT.Clear();
-		
+
+		// We collect them clockwise
 		GameObject[] lTiles = new GameObject[totalNumberOfSurroundingTiles(pRange)];
 		GameObject[] firstLayer = getSurroundingSix(pCenterTile);
 		
 		int layersToGo = pRange - 1;
 		int counter = 0;
 		
-		for (int i = 0; i < firstLayer.Length; i++, counter++)
+		for (int i = 0; i < firstLayer.Length; i++)
 		{
 			lTiles[counter] = firstLayer[i];
-			rangeHT.Add(firstLayer[i].transform.position, firstLayer[i]);
+			if(firstLayer[i] != null)
+			{
+				rangeHT.Add(firstLayer[i].transform.position, firstLayer[i]);
+				counter++;
+			}
 		}
 			
 		if (pRange >= 2) 
@@ -83,13 +89,48 @@ public class TileManager : MonoBehaviour {
 			GameObject[] nextLayer = getNextLayer(firstLayer);
 			while (layersToGo > 0)
 			{
-				for (int i = 0; i < nextLayer.Length; i++, counter++)
+				for (int i = 0; i < nextLayer.Length; i++)
 				{
-					lTiles[counter] = nextLayer[i];
-					rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
+					if (nextLayer[i] != null)
+					{
+						lTiles[counter] = nextLayer[i];
+						rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
+						counter++;
+					}
 				}
 				layersToGo -= 1;
 				nextLayer = getNextLayer(nextLayer);
+			}
+		}
+		
+		Debug.Log("Counter size = " + counter);
+		Debug.Log("Complete array size = " + lTiles.Length);
+		
+		// We collect them counter-clockwise, to catch any that we may have missed when we
+		// went clockwise (for example at a map edge).
+
+		if (counter < lTiles.Length)
+		{			
+			int layersToGocc = pRange - 1;
+				
+			if (pRange >= 2) 
+			{
+				GameObject[] nextLayer = getNextLayerCC(firstLayer);
+				while (layersToGocc > 0)
+				{
+					for (int i = 0; i < nextLayer.Length; i++)
+					{
+						if (nextLayer[i] != null)
+							if(!rangeHT.ContainsKey(nextLayer[i].transform.position))
+							{
+								lTiles[counter] = nextLayer[i];
+								rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
+								counter++;
+							}
+					}
+					layersToGocc -= 1;
+					nextLayer = getNextLayerCC(nextLayer);
+				}
 			}
 		}
 		
@@ -199,10 +240,100 @@ public class TileManager : MonoBehaviour {
 	}
 	
 	/**
+	 * Does the exact same thing as the one above, but counter-clockwise.
+	 * */
+	public GameObject[] getNextLayerCC (GameObject[] currentLayer)
+	{
+		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
+		int nextLayerLevel = (currentLayer.Length / 6) + 1;
+		
+		int counter = 0;
+		int innerCounter = 0;
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+		counter++;
+		innerCounter++;
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+		counter++;
+		innerCounter++;
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);				
+		}
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);				
+		}
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);				
+		}
+		
+		return nextLayer;
+		
+	}
+	
+	/**
 	 * Returns the neighbor of a tile at a specified direction
 	 * */
 	public GameObject getSingleNeighbor (GameObject pTile, int pDirection)
 	{
+		if (pTile == null)
+			return null;
+		
 		Vector3 position = pTile.transform.position;
 		
 		switch (pDirection)
@@ -316,7 +447,8 @@ public class TileManager : MonoBehaviour {
 			aSingleTileIsSelected = true;
 			
 			foreach (GameObject tile in range)
-				tile.renderer.material.color = Color.gray;
+				if (tile != null)
+					tile.renderer.material.color = Color.gray;
 			
 			pTile.renderer.material.color = Color.yellow;
 			
