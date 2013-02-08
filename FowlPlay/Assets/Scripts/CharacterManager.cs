@@ -5,6 +5,7 @@ using System.Collections;
 public class CharacterManager : MonoBehaviour {
 
 	public static GameObject aCurrentlySelectedUnit;
+	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
 	public static bool aSingleUnitIsSelected = false;
 	private List<GameObject> player1Units;
 	private List<GameObject> player2Units;
@@ -21,7 +22,13 @@ public class CharacterManager : MonoBehaviour {
 		
 		player1Units = new List<GameObject>();
 		player2Units = new List<GameObject>();
+		unitsHT = new Hashtable();
+		
 		GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
+		
+		Debug.Log("Position of first object: " + temp1[0].transform.position);
+		Debug.Log("Position of second object: " + temp1[1].transform.position);
+		
 		foreach (GameObject unit in temp1)
 		{
 			player1Units.Add(unit);
@@ -33,6 +40,7 @@ public class CharacterManager : MonoBehaviour {
 			player2Units.Add(unit);
 			unitsHT.Add(unit.transform.position, unit);
 		}
+		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 	}
 	
@@ -46,8 +54,11 @@ public class CharacterManager : MonoBehaviour {
 		startPos = pUnit.transform.position;
 		startRot = pUnit.transform.rotation.eulerAngles;
 		aCurrentlySelectedUnit = pUnit;
+		aCurrentlySelectedUnitOriginalPosition = pUnit.transform.position;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
+		
+		Debug.Log("Selected unit's vector3: " + pUnit.transform.position);
 		
 		// highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
@@ -57,6 +68,13 @@ public class CharacterManager : MonoBehaviour {
 	public static void deselect()
 	{
 		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
+		
+		// if the unit has moved
+		if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
+		{
+				unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
+		}
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
 		
@@ -90,17 +108,4 @@ public class CharacterManager : MonoBehaviour {
 			aTurn = 1;
 		}
 	}
-	
-	/**public Vector3 unitPosition(int pPlayer)
-	{
-		if (pPlayer == 0)
-		{
-			return aPlayer.transform.position;
-		}
-		
-		else
-		{
-			return aEnemy.transform.position;
-		}
-	} */
 }
