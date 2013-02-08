@@ -37,21 +37,207 @@ public class TileManager : MonoBehaviour {
 		GameObject currentTile = getTileAt(unitsTile);
 	 	highlightTile(currentTile);
 		
-		foreach (GameObject tile in getSurroundingTiles(currentTile, 1))
-			tile.renderer.material.color = Color.red;
+		GameObject[] surr = getSurroundingTiles(currentTile, 3);
+		
+		Debug.Log("surr = " + surr.Length);
+		
+		foreach (GameObject tile in surr)
+			tile.renderer.material.color = Color.green;
 	}
 	
+	/**
+	 * Returns an array of tiles that contain all of the tiles that surround the
+	 * chosen tile, excluding the chosen tile.
+	 * 
+	 * NOTE: It still does not account for the case when it should select tile that
+	 * doesn't exist because, for example, it goes beyond the map.
+	 * */
 	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
 	{
-		// Number of tiles within range is up to pRange * 6.
-		GameObject[] lTiles = new GameObject[pRange * 6];
+		GameObject[] lTiles = new GameObject[totalNumberOfSurroundingTiles(pRange)];
+		GameObject[] firstLayer = getSurroundingSix(pCenterTile);
 		
-		Vector3 position = pCenterTile.transform.position;
+		int layersToGo = pRange - 1;
+		int counter = 0;
 		
-		// There are up to 6 tiles surrounding any tile.
+		for (int i = 0; i < firstLayer.Length; i++, counter++)
+			lTiles[counter] = firstLayer[i];	
+		
+			
+		if (pRange >= 2) 
+		{
+			GameObject[] nextLayer = getNextLayer(firstLayer);
+			while (layersToGo > 0)
+			{
+				for (int i = 0; i < nextLayer.Length; i++, counter++)
+				{
+					lTiles[counter] = nextLayer[i];
+				}
+				layersToGo -= 1;
+				nextLayer = getNextLayer(nextLayer);
+			}
+		}
+		
+		return lTiles;
+	}
+	
+	/**
+	 * Calculates the total number of tiles surrounding the current tile
+	 * for the given range. Does not count the current tile.
+	 * */
+	public int totalNumberOfSurroundingTiles(int pRange)
+	{
+		int total = 0;
+		
+		for (int i = 1; i <= pRange; i++)
+			total += (6*i);
+		
+		return total;
+	}
+	
+	/**
+	 * Given a layer of hexagon tiles, it will return the next layer.
+	 * */
+	public GameObject[] getNextLayer (GameObject[] currentLayer)
+	{
+		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
+		int nextLayerLevel = (currentLayer.Length / 6) + 1;
+		
+		int counter = 0;
+		int innerCounter = 0;
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+		counter++;
+		innerCounter++;
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+		counter++;
+		innerCounter++;
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);				
+		}
+
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);				
+		}
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);				
+		}
+		
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+		counter++;
+		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+		counter++;
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
+				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);				
+		}
+		
+		return nextLayer;
+		
+	}
+	
+	/**
+	 * Returns the neighbor of a tile at a specified direction
+	 * */
+	public GameObject getSingleNeighbor (GameObject pTile, int pDirection)
+	{
+		Vector3 position = pTile.transform.position;
+		
+		switch (pDirection)
+		{
+			// north - 1
+			case 1:
+				position.z += 8;
+				break;
+			
+			// north-east - 2
+			case 2:
+				position.x += 7;
+				position.z += 4;
+				break;
+			
+			// south-east - 3
+			case 3:
+				position.x += 7;
+				position.z -= 4;
+				break;
+			
+			// south - 4
+			case 4:
+				position.z -= 8;
+				break;
+			
+			// south-west - 5
+			case 5:
+				position.x -= 7;
+				position.z -= 4;
+				break;
+			
+			// north-west - 6
+			case 6:
+				position.x -= 7;
+				position.z += 4;
+				break;
+			
+		}
+		
+		return getTileAt(position);
+	}
+	
+	/**
+	 * Returns the six tiles that surround the chosen tile.
+	 * */
+	public GameObject[] getSurroundingSix (GameObject pTile)
+	{
+		GameObject[] lTiles = new GameObject[6];
+		Vector3 position = pTile.transform.position;
 		Vector3[] surroundingLayer = new Vector3[6];
-		
-		// Going clockwise, starting from tile at due north of current tile.
 		
 		// north
 		surroundingLayer[0].x = position.x;
@@ -83,9 +269,9 @@ public class TileManager : MonoBehaviour {
 		surroundingLayer[5].y = position.y;
 		surroundingLayer[5].z = position.z + 4;
 		
-		for (int i = 0, multiplier = 1; i < lTiles.Length; i++, multiplier++)
+		for (int i = 0; i < lTiles.Length; i++)
 			lTiles[i] = getTileAt(surroundingLayer[i]);
-
+		
 		return lTiles;
 	}
 	
@@ -94,9 +280,15 @@ public class TileManager : MonoBehaviour {
 		pTile.renderer.material.color = Color.cyan;
 	}
 	
+	/**
+	 * Returns the tile at the given position.
+	 * */
 	public GameObject getTileAt(Vector3 pPosition)
 	{
-		GameObject ltile = (GameObject)allTilesHT[pPosition];
+		GameObject ltile = null;
+		
+		if(allTilesHT.Contains(pPosition))
+			ltile = (GameObject)allTilesHT[pPosition];
 		return ltile;
 	}
 	
