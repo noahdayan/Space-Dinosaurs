@@ -10,6 +10,8 @@ public class TileManager : MonoBehaviour {
 	
 	private static GameObject[] allTiles;
 	private static Hashtable allTilesHT;
+	private Hashtable rangeHT;
+	private GameObject[] range;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -20,9 +22,9 @@ public class TileManager : MonoBehaviour {
 		allTilesHT = new Hashtable();
 		
 		foreach (GameObject tile in allTiles)
-		{
 			allTilesHT.Add(tile.transform.position, tile);
-		}
+		
+		rangeHT = new Hashtable();
 	}
 	
 	// Update is called once per frame
@@ -35,14 +37,17 @@ public class TileManager : MonoBehaviour {
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2;
 		GameObject currentTile = getTileAt(unitsTile);
-	 	highlightTile(currentTile);
 		
 		GameObject[] surr = getSurroundingTiles(currentTile, 3);
 		
-		Debug.Log("surr = " + surr.Length);
-		
 		foreach (GameObject tile in surr)
 			tile.renderer.material.color = Color.green;
+	}
+	
+	public void unhighlightRange()
+	{		
+		foreach (GameObject tile in range)
+			tile.renderer.material.color = Color.gray;
 	}
 	
 	/**
@@ -54,6 +59,8 @@ public class TileManager : MonoBehaviour {
 	 * */
 	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
 	{
+		rangeHT.Clear();
+		
 		GameObject[] lTiles = new GameObject[totalNumberOfSurroundingTiles(pRange)];
 		GameObject[] firstLayer = getSurroundingSix(pCenterTile);
 		
@@ -61,8 +68,10 @@ public class TileManager : MonoBehaviour {
 		int counter = 0;
 		
 		for (int i = 0; i < firstLayer.Length; i++, counter++)
-			lTiles[counter] = firstLayer[i];	
-		
+		{
+			lTiles[counter] = firstLayer[i];
+			rangeHT.Add(firstLayer[i].transform.position, firstLayer[i]);
+		}
 			
 		if (pRange >= 2) 
 		{
@@ -72,12 +81,14 @@ public class TileManager : MonoBehaviour {
 				for (int i = 0; i < nextLayer.Length; i++, counter++)
 				{
 					lTiles[counter] = nextLayer[i];
+					rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
 				}
 				layersToGo -= 1;
 				nextLayer = getNextLayer(nextLayer);
 			}
 		}
 		
+		range = lTiles;
 		return lTiles;
 	}
 	
@@ -292,19 +303,28 @@ public class TileManager : MonoBehaviour {
 		return ltile;
 	}
 	
-	public static void selectTile(GameObject pTile)
+	public void selectTile(GameObject pTile)
 	{
-		aCurrentlySelectedTile = pTile;
-		aSingleTileIsSelected = true;
-		pTile.renderer.material.color = Color.yellow;
-		Debug.Log("Position Selected: " + pTile.transform.position);
+		if (rangeHT.ContainsKey(pTile.transform.position))
+		{
+			aCurrentlySelectedTile = pTile;
+			aSingleTileIsSelected = true;
+			
+			foreach (GameObject tile in range)
+				tile.renderer.material.color = Color.gray;
+			
+			pTile.renderer.material.color = Color.yellow;
+		}		
 	}
 	
 	public static void deselect()
 	{
-		aCurrentlySelectedTile.renderer.material.color = Color.gray;
-		aCurrentlySelectedTile = null;
-		aSingleTileIsSelected = false;
+		if (aSingleTileIsSelected) 
+		{
+			aCurrentlySelectedTile.renderer.material.color = Color.gray;
+			aCurrentlySelectedTile = null;
+			aSingleTileIsSelected = false;
+		}
 	}
 	
 	private bool isTileOccupied(GameObject pTile)

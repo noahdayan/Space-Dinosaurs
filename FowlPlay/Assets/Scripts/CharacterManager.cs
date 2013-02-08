@@ -53,6 +53,10 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
+		
+		// un-highlight tiles in range
+		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
+			GameObject.Find("Character").SendMessage("unhighlightRange");
 	}
 	
 	public static void switchTurn()

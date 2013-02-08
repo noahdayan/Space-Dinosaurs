@@ -4,9 +4,11 @@ using System.Collections;
 public class TileSelection : MonoBehaviour {
 	
 	private bool aMouseHoveringOnObject = false;
+	private GameObject tileManager;
 	
 	// Use this for initialization
 	void Start () {
+		tileManager = GameObject.Find("Character");
 	}
 	
 	// Update is called once per frame
@@ -19,7 +21,7 @@ public class TileSelection : MonoBehaviour {
 			{
 				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 				{
-        			TileManager.selectTile(gameObject);
+					tileManager.SendMessage("selectTile", gameObject);
 					//ActionMenuGUI.activateMvmtMenu = true;
 				}
 			}
