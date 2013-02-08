@@ -340,11 +340,13 @@ public class TileManager : MonoBehaviour {
 	{
 		Debug.Log("Checking whether a tile is occupied.");
 		Vector3 correctedPosition = pTile.transform.position;
+		Vector3 correctedPosition1 = pTile.transform.position;
 		Debug.Log("Tile position = " + correctedPosition);
-		correctedPosition.y += 5;
+		correctedPosition.y = 7;
+		correctedPosition1.y = 2.5f;
 		Debug.Log("Corrected position = " + correctedPosition);
 		
-		if (CharacterManager.unitsHT.ContainsKey(correctedPosition))
+		if (CharacterManager.unitsHT.ContainsKey(correctedPosition) || CharacterManager.unitsHT.ContainsKey(correctedPosition1))
 		{
 			Debug.Log("Yep, occupied");
 			return true;
