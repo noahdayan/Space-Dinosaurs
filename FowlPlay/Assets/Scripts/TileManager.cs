@@ -36,6 +36,57 @@ public class TileManager : MonoBehaviour {
 		unitsTile.y = 2;
 		GameObject currentTile = getTileAt(unitsTile);
 	 	highlightTile(currentTile);
+		
+		foreach (GameObject tile in getSurroundingTiles(currentTile, 1))
+			tile.renderer.material.color = Color.red;
+	}
+	
+	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
+	{
+		// Number of tiles within range is up to pRange * 6.
+		GameObject[] lTiles = new GameObject[pRange * 6];
+		
+		Vector3 position = pCenterTile.transform.position;
+		
+		// There are up to 6 tiles surrounding any tile.
+		Vector3[] surroundingLayer = new Vector3[6];
+		
+		// Going clockwise, starting from tile at due north of current tile.
+		
+		// north
+		surroundingLayer[0].x = position.x;
+		surroundingLayer[0].y = position.y;
+		surroundingLayer[0].z = position.z + 8;
+		
+		// north-east
+		surroundingLayer[1].x = position.x + 7;
+		surroundingLayer[1].y = position.y;
+		surroundingLayer[1].z = position.z + 4;
+
+		// south-east
+		surroundingLayer[2].x = position.x + 7;
+		surroundingLayer[2].y = position.y;
+		surroundingLayer[2].z = position.z - 4;
+
+		// south
+		surroundingLayer[3].x = position.x;
+		surroundingLayer[3].y = position.y;
+		surroundingLayer[3].z = position.z - 8;
+
+		// south-west
+		surroundingLayer[4].x = position.x - 7;
+		surroundingLayer[4].y = position.y;
+		surroundingLayer[4].z = position.z - 4;
+
+		// north-west
+		surroundingLayer[5].x = position.x - 7;
+		surroundingLayer[5].y = position.y;
+		surroundingLayer[5].z = position.z + 4;
+		
+		for (int i = 0, multiplier = 1; i < lTiles.Length; i++, multiplier++)
+			lTiles[i] = getTileAt(surroundingLayer[i]);
+
+		return lTiles;
 	}
 	
 	public void highlightTile(GameObject pTile)
@@ -54,6 +105,7 @@ public class TileManager : MonoBehaviour {
 		aCurrentlySelectedTile = pTile;
 		aSingleTileIsSelected = true;
 		pTile.renderer.material.color = Color.yellow;
+		Debug.Log("Position Selected: " + pTile.transform.position);
 	}
 	
 	public static void deselect()
