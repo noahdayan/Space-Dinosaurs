@@ -305,7 +305,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		if (rangeHT.ContainsKey(pTile.transform.position))
+		if (rangeHT.ContainsKey(pTile.transform.position) && isTileOccupied(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
@@ -329,13 +329,14 @@ public class TileManager : MonoBehaviour {
 	
 	private bool isTileOccupied(GameObject pTile)
 	{
-		/**
-		if ((pTile.transform.position.x == aCharacterManager.unitPosition(0).x && pTile.transform.position.z == aCharacterManager.unitPosition(0).z) || (pTile.transform.position.x == aCharacterManager.unitPosition(1).x && pTile.transform.position.z == aCharacterManager.unitPosition(1).z))
+		Vector3 correctedPosition = pTile.transform.position;
+		correctedPosition.y = 7;
+		
+		if (CharacterManager.unitsHT.ContainsKey(correctedPosition))
 			return true;
+		
 		else
 			return false;
-		*/
-		return false;
 	}
 	
 	public void pickRandomTile()

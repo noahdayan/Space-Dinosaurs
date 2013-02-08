@@ -11,6 +11,8 @@ public class CharacterManager : MonoBehaviour {
 	public static Vector3 startPos;
 	public static Vector3 startRot;
 	
+	public static Hashtable unitsHT;
+	
 	// Can be either 1 or 2 or 3 or 4
 	public static int aTurn = 1;
 	
@@ -21,12 +23,16 @@ public class CharacterManager : MonoBehaviour {
 		player2Units = new List<GameObject>();
 		GameObject[] temp1 = GameObject.FindGameObjectsWithTag("Player1");
 		foreach (GameObject unit in temp1)
+		{
 			player1Units.Add(unit);
-		
+			unitsHT.Add(unit.transform.position, unit);
+		}
 		GameObject[] temp2 = GameObject.FindGameObjectsWithTag("Player2");
 		foreach (GameObject unit in temp2)
+		{
 			player2Units.Add(unit);
-		
+			unitsHT.Add(unit.transform.position, unit);
+		}
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 	}
 	
