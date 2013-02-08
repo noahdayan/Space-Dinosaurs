@@ -15,9 +15,14 @@ public class TileManager : MonoBehaviour {
 	
 	public static bool aSingleTileIsSelected = false;
 	
+	public static bool tileOccupied;
+	
 	// Use this for initialization
 	void Start () {		
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
+		
+		Debug.Log("Position of first tile: " + allTiles[0].transform.position);
+		Debug.Log("Position of second tile: " + allTiles[1].transform.position);
 		
 		allTilesHT = new Hashtable();
 		
@@ -305,7 +310,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		if (rangeHT.ContainsKey(pTile.transform.position))
+		if (rangeHT.ContainsKey(pTile.transform.position) && !isTileOccupied(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
@@ -314,6 +319,10 @@ public class TileManager : MonoBehaviour {
 				tile.renderer.material.color = Color.gray;
 			
 			pTile.renderer.material.color = Color.yellow;
+			
+			//Vector3 newPosition = 
+			//Vector3 oldPosition = pTile.transform.position;
+			//CharacterManager.unitsHT.Remove(
 		}		
 	}
 	
@@ -329,13 +338,25 @@ public class TileManager : MonoBehaviour {
 	
 	private bool isTileOccupied(GameObject pTile)
 	{
-		/**
-		if ((pTile.transform.position.x == aCharacterManager.unitPosition(0).x && pTile.transform.position.z == aCharacterManager.unitPosition(0).z) || (pTile.transform.position.x == aCharacterManager.unitPosition(1).x && pTile.transform.position.z == aCharacterManager.unitPosition(1).z))
+		Debug.Log("Checking whether a tile is occupied.");
+		Vector3 correctedPosition = pTile.transform.position;
+		Vector3 correctedPosition1 = pTile.transform.position;
+		Debug.Log("Tile position = " + correctedPosition);
+		correctedPosition.y = 7;
+		correctedPosition1.y = 2.5f;
+		Debug.Log("Corrected position = " + correctedPosition);
+		
+		if (CharacterManager.unitsHT.ContainsKey(correctedPosition) || CharacterManager.unitsHT.ContainsKey(correctedPosition1))
+		{
+			Debug.Log("Yep, occupied");
 			return true;
+		}
+		
 		else
+		{
+			Debug.Log("No, free.");
 			return false;
-		*/
-		return false;
+		}
 	}
 	
 	public void pickRandomTile()
