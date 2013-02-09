@@ -7,8 +7,8 @@ public class CharacterManager : MonoBehaviour {
 	public static GameObject aCurrentlySelectedUnit;
 	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
 	public static bool aSingleUnitIsSelected = false;
-	private List<GameObject> player1Units;
-	private List<GameObject> player2Units;
+	private static List<GameObject> player1Units;
+	private static List<GameObject> player2Units;
 	public static Vector3 startPos;
 	public static Vector3 startRot;
 	
@@ -89,6 +89,10 @@ public class CharacterManager : MonoBehaviour {
 		{
 			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 			GameObject.Find("Character").SendMessage("pickRandomTile");
+			/*foreach (GameObject unit in player1Units)
+			{
+				unit.SendMessage("EndTurnTickUntame", 1);
+			}*/
 			aTurn = 2;
 		}
 		else if (aTurn == 2)

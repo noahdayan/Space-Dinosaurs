@@ -25,7 +25,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		return healthPoints;
 	}
 	
-	public float EndTurnTickUntame (int tameRate, int commanderDistance)
+	public float EndTurnTickUntame (int commanderDistance)
 	{
 		tamePoints -= (tameTickAmount * commanderDistance);
 		return tamePoints;
@@ -40,6 +40,26 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		tamePoints += tameAmount * tameRate;
 		return tamePoints;
+	}
+	
+	public void SwitchTeams(string team)
+	{
+		gameObject.tag = team;
+		//animation
+		gameObject.renderer.material.color = Color.red;
+	}
+	
+	public void CheckTamePoints()
+	{
+		if (tamePoints <= 0)
+		{
+			SwitchTeams("Enemy");
+		}
+	}
+	
+	void Update()
+	{
+		CheckTamePoints();
 	}
 	
 }
