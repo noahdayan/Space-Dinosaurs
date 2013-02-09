@@ -58,8 +58,6 @@ public class CharacterManager : MonoBehaviour {
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
 		
-		Debug.Log("Selected unit's vector3: " + pUnit.transform.position);
-		
 		// highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			GameObject.Find("Character").SendMessage("highlightRange", pUnit);

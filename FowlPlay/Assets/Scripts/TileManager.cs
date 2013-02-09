@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class TileManager : MonoBehaviour {
 	
@@ -9,9 +10,11 @@ public class TileManager : MonoBehaviour {
 	public CharacterManager aCharacterManager;
 	
 	private static GameObject[] allTiles;
-	private static Hashtable allTilesHT;
+	public static Hashtable allTilesHT;
 	private Hashtable rangeHT;
-	private GameObject[] range;
+	private List<GameObject> tilesInRange;
+	
+	private Hashtable costs;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -25,11 +28,17 @@ public class TileManager : MonoBehaviour {
 		Debug.Log("Position of second tile: " + allTiles[1].transform.position);
 		
 		allTilesHT = new Hashtable();
+		costs = new Hashtable();
 		
 		foreach (GameObject tile in allTiles)
+		{
 			allTilesHT.Add(tile.transform.position, tile);
+			costs.Add (tile.transform.position, -1);
+		}
 		
 		rangeHT = new Hashtable();
+		
+		tilesInRange = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -43,105 +52,113 @@ public class TileManager : MonoBehaviour {
 		unitsTile.y = 2;
 		GameObject currentTile = getTileAt(unitsTile);
 		
-		GameObject[] surr = getSurroundingTiles(currentTile, 4);
+		surround(currentTile);
+		
+		foreach (GameObject x in tilesInRange)
+			x.renderer.material.color = Color.red;
+		
+		//GameObject[] surr = getSurroundingTiles(currentTile, 4);
 
-		foreach (GameObject tile in surr)
-			if (tile != null)
-				tile.renderer.material.color = Color.green;
+		//foreach (GameObject tile in surr)
+		//	if (tile != null)
+		//		tile.renderer.material.color = Color.green;
 
 	}
 	
 	public void unhighlightRange()
 	{		
-		foreach (GameObject tile in range)
+		foreach (GameObject tile in tilesInRange)
 			tile.renderer.material.color = Color.gray;
 	}
 	
-	/**
-	 * Returns an array of tiles that contain all of the tiles that surround the
-	 * chosen tile, excluding the chosen tile.
-	 * 
-	 * NOTE: It still does not account for the case when it should select tile that
-	 * doesn't exist because, for example, it goes beyond the map.
-	 * */
-	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
+	public static int movementCost(GameObject pFrom, GameObject pTo)
 	{
-		rangeHT.Clear();
+		if (pFrom == null || pTo == null)
+			return 0;
+		
+		Vector3 lFrom = pFrom.transform.position;
+		Vector3 lTo = pTo.transform.position;
 
-		// We collect them clockwise
-		GameObject[] lTiles = new GameObject[totalNumberOfSurroundingTiles(pRange)];
-		GameObject[] firstLayer = getSurroundingSix(pCenterTile);
+		int distance = (int)(Math.Abs((lTo.x - lFrom.x)) + Math.Abs((lTo.z - lFrom.z)));
 		
-		int layersToGo = pRange - 1;
-		int counter = 0;
+		if (distance == 0)
+			return 0;
 		
-		for (int i = 0; i < firstLayer.Length; i++)
+		int cost = 1;
+		
+		while (distance > 11)
 		{
-			lTiles[counter] = firstLayer[i];
-			if(firstLayer[i] != null)
-			{
-				rangeHT.Add(firstLayer[i].transform.position, firstLayer[i]);
-				counter++;
-			}
-		}
-			
-		if (pRange >= 2) 
-		{
-			GameObject[] nextLayer = getNextLayerCC(firstLayer);
-			while (layersToGo > 0)
-			{
-				for (int i = 0; i < nextLayer.Length; i++)
-				{
-					if (nextLayer[i] != null)
-					{
-						lTiles[counter] = nextLayer[i];
-						lTiles[counter].renderer.material.color = Color.red;
-						Debug.Log("counter = " + counter);
-						if (!rangeHT.ContainsKey(nextLayer[i].transform.position))
-							rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
-						counter++;
-					}
-				}
-				layersToGo -= 1;
-				nextLayer = getNextLayerCC(nextLayer);
-			}
+			distance -= 11;
+			cost++;
 		}
 		
-		Debug.Log("Counter size = " + counter);
-		Debug.Log("Complete array size = " + lTiles.Length);
-		
-		// We collect them counter-clockwise, to catch any that we may have missed when we
-		// went clockwise (for example at a map edge).
-		/*
-		if (counter < lTiles.Length)
-		{			
-			int layersToGocc = pRange - 1;
-				
-			if (pRange >= 2) 
-			{
-				Debug.Log("In here");
-				GameObject[] nextLayer = getNextLayerCC(firstLayer);
-				while (layersToGocc > 0)
-				{
-					for (int i = 0; i < nextLayer.Length; i++)
-					{
-						if (nextLayer[i] != null)
-							if(!rangeHT.ContainsKey(nextLayer[i].transform.position))
-							{
-								lTiles[counter] = nextLayer[i];
-								rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
-								counter++;
-							}
-					}
-					layersToGocc -= 1;
-					nextLayer = getNextLayerCC(nextLayer);
-				}
-			}
-		}
-		*/
-		range = lTiles;
-		return lTiles;
+		return cost;
 	}
+	
+	public void surround(GameObject pUnit)
+	{		
+		int range = 1;
+		tilesInRange.Clear();
+		
+		Vector3 position = pUnit.transform.position;
+		position.y = 2.0f;
+		Queue<Vector3> open = new Queue<Vector3>();
+		
+		List<Vector3> closed = new List<Vector3>();
+		
+		open.Enqueue(position);
+		bool empty = false;
+		
+		do
+		{
+			Vector3 x = open.Dequeue();
+			closed.Add(x);
+			
+			if ((int)costs[x] < range)
+			{
+				GameObject[] neighborsOfX = getSurroundingSix(getTileAt(x));
+				
+				foreach (GameObject neighbor in neighborsOfX)
+				{
+					int newCost = (int)costs[x] + movementCost((GameObject)allTilesHT[x],neighbor);
+					
+					//Debug.Log("LHS = " + costs[neighbor.transform.position]);
+					//Debug.Log("RHS = " + costs[neighbor.transform.position]);
+					try {
+						int costOfNeighbor = (int)costs[neighbor.transform.position];
+						if ( costOfNeighbor == -1 || newCost < costOfNeighbor )
+						{
+							costs.Remove(neighbor.transform.position);
+							costs.Add(neighbor.transform.position, newCost);
+							
+							if (!open.Contains(neighbor.transform.position))
+								open.Enqueue(neighbor.transform.position);
+						}
+					} catch (NullReferenceException e) {
+						Debug.Log("Caught exception");
+					}
+				}
+			}
+			
+			try { open.Peek(); }
+			catch (InvalidOperationException e)
+				{ empty = true; }
+		
+		} while (!empty);
+		
+		foreach (Vector3 x in closed)
+		{
+			if ((int)costs[x] < range && getTileAt(x).tag.Equals("Tile"))
+			{
+				tilesInRange.Add(getTileAt(x));
+			}
+			
+			costs.Remove(x);
+			costs.Add(x, -1);
+		}
+	}
+	
+	
 	
 	/**
 	 * Calculates the total number of tiles surrounding the current tile
@@ -157,379 +174,7 @@ public class TileManager : MonoBehaviour {
 		return total;
 	}
 	
-	/**
-	 * Given a layer of hexagon tiles, it will return the next layer.
-	 * */
-	public GameObject[] getNextLayer (GameObject[] currentLayer)
-	{
-		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
-		int nextLayerLevel = (currentLayer.Length / 6) + 1;
-		
-		int counter = 0;
-		int innerCounter = 0;
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-			counter++;
-		}
-		
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-					counter++;
-				}
-				
-				innerCounter++;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-			counter++;
-		}
-		
-		innerCounter++;
-		
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-					counter++;
-				}
-				
-				innerCounter++;
-			}
-		}
-
-				
-		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-			counter++;
-		}
-		
-		innerCounter++;
-		
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-					counter++;
-
-				}
-				
-				innerCounter++;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-			counter++;
-		}
-		
-		innerCounter++;
-
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-					counter++;
-				}
-				
-				innerCounter++;
-			}
-		}
-
-		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-			counter++;
-		}
-		
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-					counter++;
-				}
-				
-				innerCounter++;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-			counter++;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-			counter++;
-		}
-		
-		innerCounter++;
-		
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-					counter++;
-				}
-				innerCounter++;
-			}
-		}	
-		
-		return nextLayer;
-	}
 	
-	/**
-	 * Does the exact same thing as the one above, but counter-clockwise.
-	 * */
-	public GameObject[] getNextLayerCC (GameObject[] currentLayer)
-	{
-		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
-		int nextLayerLevel = (currentLayer.Length / 6) + 1;
-		
-		int counter = nextLayer.Length - 1;
-		int innerCounter = currentLayer.Length - 1;
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-			counter--;
-		}
-		
-		innerCounter--;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-					counter--;
-				}
-				
-				innerCounter--;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-			counter--;
-		}
-		
-		innerCounter--;
-		
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-					counter--;
-				}
-				
-				innerCounter--;
-			}
-		}
-
-				
-		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-			counter--;
-		}
-		
-		innerCounter--;
-		
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-					counter--;
-				}
-
-				innerCounter--;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-			counter--;
-		}
-		
-		innerCounter--;
-
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-					counter--;
-				}
-				
-				innerCounter--;
-			}
-		}
-
-		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-			counter--;
-		}
-		
-		innerCounter--;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-					counter--;
-				}
-				
-				innerCounter--;
-			}
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-			counter--;
-		}
-		
-		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-		{
-			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-			counter--;
-		}
-		
-		innerCounter--;
-		
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++)
-			{
-				if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
-				{
-					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-					counter--;
-				}
-				innerCounter--;
-			}
-		}	
-		
-		return nextLayer;
-		
-	}
 	
 	/**
 	 * Returns the neighbor of a tile at a specified direction
@@ -587,9 +232,11 @@ public class TileManager : MonoBehaviour {
 	 * */
 	public GameObject[] getSurroundingSix (GameObject pTile)
 	{
-		GameObject[] lTiles = new GameObject[6];
+		GameObject[] lTiles;
 		Vector3 position = pTile.transform.position;
 		Vector3[] surroundingLayer = new Vector3[6];
+		
+		int size = 0;
 		
 		// north
 		surroundingLayer[0].x = position.x;
@@ -621,9 +268,21 @@ public class TileManager : MonoBehaviour {
 		surroundingLayer[5].y = position.y;
 		surroundingLayer[5].z = position.z + 4;
 		
-		for (int i = 0; i < lTiles.Length; i++)
-			lTiles[i] = getTileAt(surroundingLayer[i]);
+		for (int i = 0; i < 6; i++)
+		{
+			if (getTileAt(surroundingLayer[i]) != null)
+				size++;
+		}
 		
+		lTiles  = new GameObject[size];
+		
+		for (int i = 0; i < size; i++)
+		{	
+			if (getTileAt(surroundingLayer[i]) != null)
+				lTiles[i] = getTileAt(surroundingLayer[i]);
+		}
+		
+		Debug.Log("Size of first six: " + size);
 		return lTiles;
 	}
 	
@@ -646,20 +305,17 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		if (rangeHT.ContainsKey(pTile.transform.position) && !isTileOccupied(pTile))
+		//if (rangeHT.ContainsKey(pTile.transform.position) && !isTileOccupied(pTile))
+		if (tilesInRange.Contains(pTile) && !isTileOccupied(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
 			
-			foreach (GameObject tile in range)
+			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
 					tile.renderer.material.color = Color.gray;
 			
 			pTile.renderer.material.color = Color.yellow;
-			
-			//Vector3 newPosition = 
-			//Vector3 oldPosition = pTile.transform.position;
-			//CharacterManager.unitsHT.Remove(
 		}		
 	}
 	
@@ -702,7 +358,7 @@ public class TileManager : MonoBehaviour {
 		
 		do
 		{
-			randomTile = allTiles[Random.Range(0, allTiles.Length - 1)];
+			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length - 1)];
 		}
 		while (isTileOccupied(randomTile));
 		
