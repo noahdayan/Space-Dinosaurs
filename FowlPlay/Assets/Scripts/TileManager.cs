@@ -22,15 +22,17 @@ public class TileManager : MonoBehaviour {
 	public static bool tileOccupied;
 	
 	// Use this for initialization
-	void Start () {		
+	void Start () {
+		
+		// Aggregate tiles
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
 		allNonTiles = GameObject.FindGameObjectsWithTag("NonTile");
-		
-		Debug.Log("Position of first tile: " + allTiles[0].transform.position);
-		Debug.Log("Position of second tile: " + allTiles[1].transform.position);
-		
 		allTilesHT = new Hashtable();
+		
+		// Used for calculating ranges.
 		costs = new Hashtable();
+		rangeHT = new Hashtable();
+		tilesInRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
 		{
@@ -44,9 +46,6 @@ public class TileManager : MonoBehaviour {
 			costs.Add (tile.transform.position, -1);
 		}
 		
-		rangeHT = new Hashtable();
-		
-		tilesInRange = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -54,23 +53,13 @@ public class TileManager : MonoBehaviour {
 	
 	}
 	
-	public void highlightRange(GameObject pUnit)
+	public void getRange(GameObject pUnit)
 	{	
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2;
-		GameObject currentTile = getTileAt(unitsTile);
 		
-		surround(currentTile);
-		
-		foreach (GameObject x in tilesInRange)
-			x.renderer.material.color = Color.red;
-		
-		//GameObject[] surr = getSurroundingTiles(currentTile, 4);
-
-		//foreach (GameObject tile in surr)
-		//	if (tile != null)
-		//		tile.renderer.material.color = Color.green;
-
+		// The function runs and updates the attribute tilesInRange
+		getTilesInRange(getTileAt(unitsTile));
 	}
 	
 	public void unhighlightRange()
@@ -103,7 +92,7 @@ public class TileManager : MonoBehaviour {
 		return cost;
 	}
 	
-	public void surround(GameObject pUnit)
+	public void getTilesInRange(GameObject pUnit)
 	{		
 		int range = 4;
 		tilesInRange.Clear();
@@ -124,14 +113,10 @@ public class TileManager : MonoBehaviour {
 			
 			if ((int)costs[x] < range)
 			{
-				GameObject[] neighborsOfX = getSurroundingSix(getTileAt(x));
-				
-				foreach (GameObject neighbor in neighborsOfX)
+				foreach (GameObject neighbor in getSurroundingSix(getTileAt(x)))
 				{
 					int newCost = (int)costs[x] + movementCost((GameObject)allTilesHT[x],neighbor);
 					
-					//Debug.Log("LHS = " + costs[neighbor.transform.position]);
-					//Debug.Log("RHS = " + costs[neighbor.transform.position]);
 					try {
 						int costOfNeighbor = (int)costs[neighbor.transform.position];
 						if ( costOfNeighbor == -1 || newCost < costOfNeighbor )
@@ -143,7 +128,7 @@ public class TileManager : MonoBehaviour {
 								open.Enqueue(neighbor.transform.position);
 						}
 					} catch (NullReferenceException e) {
-						Debug.Log("Caught exception");
+						Debug.Log("Caught exception - Null tile");
 					}
 				}
 			}
@@ -159,6 +144,9 @@ public class TileManager : MonoBehaviour {
 			if ((int)costs[x] < range && getTileAt(x).tag.Equals("Tile"))
 			{
 				tilesInRange.Add(getTileAt(x));
+				
+				// Hilight the tile
+				getTileAt(x).renderer.material.color = Color.red;
 			}
 			
 			costs.Remove(x);
@@ -169,10 +157,10 @@ public class TileManager : MonoBehaviour {
 	
 	
 	/**
-	 * Calculates the total number of tiles surrounding the current tile
+	 * Calculates the total number of tiles reachable from the current tile
 	 * for the given range. Does not count the current tile.
 	 * */
-	public int totalNumberOfSurroundingTiles(int pRange)
+	public int totalNumberOfReachableTiles(int pRange)
 	{
 		int total = 0;
 		
@@ -236,61 +224,21 @@ public class TileManager : MonoBehaviour {
 	}
 	
 	/**
-	 * Returns the six tiles that surround the chosen tile.
+	 * Returns the six tiles that getTilesInRange the chosen tile.
 	 * */
-	public GameObject[] getSurroundingSix (GameObject pTile)
+	public List<GameObject> getSurroundingSix (GameObject pTile)
 	{
-		GameObject[] lTiles;
+		List<GameObject> lTiles = new List<GameObject>();
+		
 		Vector3 position = pTile.transform.position;
-		Vector3[] surroundingLayer = new Vector3[6];
 		
-		int size = 0;
-		
-		// north
-		surroundingLayer[0].x = position.x;
-		surroundingLayer[0].y = position.y;
-		surroundingLayer[0].z = position.z + 8;
-		
-		// north-east
-		surroundingLayer[1].x = position.x + 7;
-		surroundingLayer[1].y = position.y;
-		surroundingLayer[1].z = position.z + 4;
-
-		// south-east
-		surroundingLayer[2].x = position.x + 7;
-		surroundingLayer[2].y = position.y;
-		surroundingLayer[2].z = position.z - 4;
-
-		// south
-		surroundingLayer[3].x = position.x;
-		surroundingLayer[3].y = position.y;
-		surroundingLayer[3].z = position.z - 8;
-
-		// south-west
-		surroundingLayer[4].x = position.x - 7;
-		surroundingLayer[4].y = position.y;
-		surroundingLayer[4].z = position.z - 4;
-
-		// north-west
-		surroundingLayer[5].x = position.x - 7;
-		surroundingLayer[5].y = position.y;
-		surroundingLayer[5].z = position.z + 4;
-		
-		for (int i = 0; i < 6; i++)
+		for (int i = 1; i < 7; i++)
 		{
-			if (getTileAt(surroundingLayer[i]) != null)
-				size++;
+			GameObject x = getSingleNeighbor(pTile, i);
+			if (x != null)
+				lTiles.Add(x);
 		}
 		
-		lTiles  = new GameObject[size];
-		
-		for (int i = 0; i < size; i++)
-		{	
-			if (getTileAt(surroundingLayer[i]) != null)
-				lTiles[i] = getTileAt(surroundingLayer[i]);
-		}
-		
-		Debug.Log("Size of first six: " + size);
 		return lTiles;
 	}
 	
@@ -313,8 +261,8 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		//if (rangeHT.ContainsKey(pTile.transform.position) && !isTileOccupied(pTile))
-		if (tilesInRange.Contains(pTile) && !isTileOccupied(pTile))
+		//if (tilesInRange.Contains(pTile) && !isTileOccupied(pTile))
+		if (pTile.renderer.material.color == Color.red && !isTileOccupied(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
@@ -339,25 +287,17 @@ public class TileManager : MonoBehaviour {
 	
 	private bool isTileOccupied(GameObject pTile)
 	{
-		Debug.Log("Checking whether a tile is occupied.");
+		// Note, there are 2 corrected positions, one for dinos and one for shapes.
 		Vector3 correctedPosition = pTile.transform.position;
 		Vector3 correctedPosition1 = pTile.transform.position;
-		Debug.Log("Tile position = " + correctedPosition);
 		correctedPosition.y = 7;
 		correctedPosition1.y = 2.5f;
-		Debug.Log("Corrected position = " + correctedPosition);
 		
 		if (CharacterManager.unitsHT.ContainsKey(correctedPosition) || CharacterManager.unitsHT.ContainsKey(correctedPosition1))
-		{
-			Debug.Log("Yep, occupied");
 			return true;
-		}
 		
 		else
-		{
-			Debug.Log("No, free.");
 			return false;
-		}
 	}
 	
 	public void pickRandomTile()
@@ -370,11 +310,7 @@ public class TileManager : MonoBehaviour {
 		}
 		while (isTileOccupied(randomTile));
 		
-		Debug.Log("Random tile picked: " + randomTile.transform.position);
-		
 		AutoMove.destTile = randomTile;
 		selectTile(randomTile);
-		
-		Debug.Log("destTile is " + AutoMove.destTile);
 	}
 }

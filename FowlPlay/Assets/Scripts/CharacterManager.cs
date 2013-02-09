@@ -60,7 +60,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		// highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
-			GameObject.Find("Character").SendMessage("highlightRange", pUnit);
+			GameObject.Find("Character").SendMessage("getRange", pUnit);
 	}
 	
 	public static void deselect()
