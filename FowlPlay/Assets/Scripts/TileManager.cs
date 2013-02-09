@@ -10,6 +10,7 @@ public class TileManager : MonoBehaviour {
 	public CharacterManager aCharacterManager;
 	
 	private static GameObject[] allTiles;
+	private static GameObject[] allNonTiles;
 	public static Hashtable allTilesHT;
 	private Hashtable rangeHT;
 	private List<GameObject> tilesInRange;
@@ -23,6 +24,7 @@ public class TileManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {		
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
+		allNonTiles = GameObject.FindGameObjectsWithTag("NonTile");
 		
 		Debug.Log("Position of first tile: " + allTiles[0].transform.position);
 		Debug.Log("Position of second tile: " + allTiles[1].transform.position);
@@ -31,6 +33,12 @@ public class TileManager : MonoBehaviour {
 		costs = new Hashtable();
 		
 		foreach (GameObject tile in allTiles)
+		{
+			allTilesHT.Add(tile.transform.position, tile);
+			costs.Add (tile.transform.position, -1);
+		}
+		
+		foreach (GameObject tile in allNonTiles)
 		{
 			allTilesHT.Add(tile.transform.position, tile);
 			costs.Add (tile.transform.position, -1);
