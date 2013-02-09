@@ -43,11 +43,12 @@ public class TileManager : MonoBehaviour {
 		unitsTile.y = 2;
 		GameObject currentTile = getTileAt(unitsTile);
 		
-		GameObject[] surr = getSurroundingTiles(currentTile, 3);
-		
+		GameObject[] surr = getSurroundingTiles(currentTile, 4);
+
 		foreach (GameObject tile in surr)
 			if (tile != null)
 				tile.renderer.material.color = Color.green;
+
 	}
 	
 	public void unhighlightRange()
@@ -86,7 +87,7 @@ public class TileManager : MonoBehaviour {
 			
 		if (pRange >= 2) 
 		{
-			GameObject[] nextLayer = getNextLayer(firstLayer);
+			GameObject[] nextLayer = getNextLayerCC(firstLayer);
 			while (layersToGo > 0)
 			{
 				for (int i = 0; i < nextLayer.Length; i++)
@@ -94,12 +95,15 @@ public class TileManager : MonoBehaviour {
 					if (nextLayer[i] != null)
 					{
 						lTiles[counter] = nextLayer[i];
-						rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
+						lTiles[counter].renderer.material.color = Color.red;
+						Debug.Log("counter = " + counter);
+						if (!rangeHT.ContainsKey(nextLayer[i].transform.position))
+							rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
 						counter++;
 					}
 				}
 				layersToGo -= 1;
-				nextLayer = getNextLayer(nextLayer);
+				nextLayer = getNextLayerCC(nextLayer);
 			}
 		}
 		
@@ -108,13 +112,14 @@ public class TileManager : MonoBehaviour {
 		
 		// We collect them counter-clockwise, to catch any that we may have missed when we
 		// went clockwise (for example at a map edge).
-
+		/*
 		if (counter < lTiles.Length)
 		{			
 			int layersToGocc = pRange - 1;
 				
 			if (pRange >= 2) 
 			{
+				Debug.Log("In here");
 				GameObject[] nextLayer = getNextLayerCC(firstLayer);
 				while (layersToGocc > 0)
 				{
@@ -133,7 +138,7 @@ public class TileManager : MonoBehaviour {
 				}
 			}
 		}
-		
+		*/
 		range = lTiles;
 		return lTiles;
 	}
@@ -163,80 +168,180 @@ public class TileManager : MonoBehaviour {
 		int counter = 0;
 		int innerCounter = 0;
 		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter++;
+		}
+		
 		innerCounter++;
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
 		}
 
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
+				
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter++;
+		}
+		
 		innerCounter++;
+		
 
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+					counter++;
+
+				}
+				
+				innerCounter++;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter++;
+		}
+		
+		innerCounter++;
+
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
 		}
 
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		innerCounter++;
-
-		if (nextLayerLevel >= 3)
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);				
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter++;
 		}
-
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter++;
+		}
+		
 		innerCounter++;
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
 		}
 		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter++;
+		}
+		
 		innerCounter++;
+		
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);				
-		}
-		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);				
-		}
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+					counter++;
+				}
+				innerCounter++;
+			}
+		}	
 		
 		return nextLayer;
-		
 	}
 	
 	/**
@@ -247,80 +352,180 @@ public class TileManager : MonoBehaviour {
 		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
 		int nextLayerLevel = (currentLayer.Length / 6) + 1;
 		
-		int counter = 0;
-		int innerCounter = 0;
+		int counter = nextLayer.Length - 1;
+		int innerCounter = currentLayer.Length - 1;
 		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
-		innerCounter++;
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter--;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter--;
+		}
+		
+		innerCounter--;
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+					counter--;
+				}
+				
+				innerCounter--;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter--;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter--;
+		}
+		
+		innerCounter--;
+		
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+					counter--;
+				}
+				
+				innerCounter--;
+			}
 		}
 
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		innerCounter++;
+				
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter--;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter--;
+		}
+		
+		innerCounter--;
+		
 
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+					counter--;
+				}
+
+				innerCounter--;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter--;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter--;
+		}
+		
+		innerCounter--;
+
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+					counter--;
+				}
+				
+				innerCounter--;
+			}
 		}
 
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
-		innerCounter++;
-
-		if (nextLayerLevel >= 3)
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);				
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter--;
 		}
-
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
-		innerCounter++;
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter--;
+		}
+		
+		innerCounter--;
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);				
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+					counter--;
+				}
+				
+				innerCounter--;
+			}
 		}
 		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		innerCounter++;
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter--;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter--;
+		}
+		
+		innerCounter--;
+		
 		
 		if (nextLayerLevel >= 3)
 		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);				
-		}
-		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);				
-		}
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+					counter--;
+				}
+				innerCounter--;
+			}
+		}	
 		
 		return nextLayer;
 		
@@ -373,7 +578,7 @@ public class TileManager : MonoBehaviour {
 				break;
 			
 		}
-		
+	
 		return getTileAt(position);
 	}
 	
