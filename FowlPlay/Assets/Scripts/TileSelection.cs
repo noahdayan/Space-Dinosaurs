@@ -3,7 +3,6 @@ using System.Collections;
 
 public class TileSelection : MonoBehaviour {
 	
-	private bool aMouseHoveringOnObject = false;
 	private GameObject tileManager;
 	
 	// Use this for initialization
@@ -13,44 +12,28 @@ public class TileSelection : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	}
 	
-		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
+	void OnMouseDown()
+	{
+		// select the tile
+		if (TileManager.aCurrentlySelectedTile != gameObject)
 		{
-			// select the tile
-			if (TileManager.aCurrentlySelectedTile != gameObject)
+			if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 			{
-				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
-				{
-					tileManager.SendMessage("selectTile", gameObject);
-					//ActionMenuGUI.activateMvmtMenu = true;
-				}
-			}
-			
-			// de-select the tile, but only if the unit is not moving towards it
-			else if (TileManager.aCurrentlySelectedTile == gameObject)
-			{
-				if (!CharacterManager.aSingleUnitIsSelected)
-				{
-					TileManager.deselect();
-				}
+				tileManager.SendMessage("selectTile", gameObject);
+				//ActionMenuGUI.activateMvmtMenu = true;
 			}
 		}
 		
-		/*if (!CharacterManager.aSingleUnitIsSelected)
+		// de-select the tile, but only if the unit is not moving towards it
+		else if (TileManager.aCurrentlySelectedTile == gameObject)
 		{
-			TileManager.deselect();	
-		}*/
+			if (!CharacterManager.aSingleUnitIsSelected)
+			{
+				TileManager.deselect();
+			}
+		}	
 	}
-	
-	void OnMouseEnter() 
-	{
-		aMouseHoveringOnObject = true;
-		//Debug.Log("Object entered.");	
-    }
-	
-	void OnMouseExit()
-	{
-		aMouseHoveringOnObject = false;
-		//Debug.Log("Object exited.");
-	}
+
 }

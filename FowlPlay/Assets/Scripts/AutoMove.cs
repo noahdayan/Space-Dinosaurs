@@ -30,10 +30,9 @@ public class AutoMove : MonoBehaviour {
 					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
 					{
 						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
+						TileManager.deselect();
 						CharacterManager.deselect();
 						ClickAndMove.aIsObjectMoving = false;
-						
-						TileManager.deselect();
 						CharacterManager.switchTurn();
 					}
 			

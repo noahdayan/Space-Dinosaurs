@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 /**
- * This script handles the selection behavior of objects (incl. characters and
- * tiles). When the user clicks on an object, it becomes selected. When he clicks
- * it again, it becomes de-selected.
+ * This script handles the selection behavior of units
+ * When the user clicks on an object, it becomes selected. 
+ * When he clicks it again, it becomes de-selected.
+ * 
+ * It uses OnMouseEnter instead of OnMouseDown because the game makes use of two cameras.
  **/
 
 public class ObjectSelection : MonoBehaviour {
@@ -49,13 +51,11 @@ public class ObjectSelection : MonoBehaviour {
 	
 	void OnMouseEnter() 
 	{
-		aMouseHoveringOnObject = true;
-		//Debug.Log("Object entered.");	
+		aMouseHoveringOnObject = true;	
     }
 	
 	void OnMouseExit()
 	{
 		aMouseHoveringOnObject = false;
-		//Debug.Log("Object exited.");
 	}
 }

@@ -7,19 +7,24 @@ public class TileManager : MonoBehaviour {
 	
 	public static GameObject aCurrentlySelectedTile;
 	
+	// Used to access methods on CharacterManager
 	public CharacterManager aCharacterManager;
 	
+	// Lists to aggregate tiles
 	private static GameObject[] allTiles;
-	private static GameObject[] allNonTiles;
+	private static GameObject[] allNonTiles; // NonTiles are the border tiles
+	
+	// Tracks all tiles (Vector3 : tile position, tile)
 	public static Hashtable allTilesHT;
-	private Hashtable rangeHT;
+	
+	// Tracks all occupied tiles (Vector3 : tile position, unit on tile)
+	public static Hashtable occupiedTilesHT;
+	
+	// Used for finding the range of movement
+	private Hashtable costs;
 	private List<GameObject> tilesInRange;
 	
-	private Hashtable costs;
-	
 	public static bool aSingleTileIsSelected = false;
-	
-	public static bool tileOccupied;
 	
 	// Use this for initialization
 	void Start () {
@@ -28,10 +33,10 @@ public class TileManager : MonoBehaviour {
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
 		allNonTiles = GameObject.FindGameObjectsWithTag("NonTile");
 		allTilesHT = new Hashtable();
+		occupiedTilesHT = new Hashtable();
 		
 		// Used for calculating ranges.
 		costs = new Hashtable();
-		rangeHT = new Hashtable();
 		tilesInRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
@@ -68,6 +73,9 @@ public class TileManager : MonoBehaviour {
 			tile.renderer.material.color = Color.gray;
 	}
 	
+	/**
+	 * Returns how many tiles you have to cross to reach the destination tile, including the destination tile.
+	 * */
 	public static int movementCost(GameObject pFrom, GameObject pTo)
 	{
 		if (pFrom == null || pTo == null)
@@ -83,6 +91,7 @@ public class TileManager : MonoBehaviour {
 		
 		int cost = 1;
 		
+		// 11 because that's the max distance within one layer of hexagons.
 		while (distance > 11)
 		{
 			distance -= 11;
@@ -92,6 +101,11 @@ public class TileManager : MonoBehaviour {
 		return cost;
 	}
 	
+	/**
+	 * Returns all tiles that are within a specified range of the selected unit.
+	 * It does not return anything. Instead, it updates the tilesInRange list.
+	 * Pretty much Dijkstra's.
+	 * */
 	public void getTilesInRange(GameObject pUnit)
 	{		
 		int range = 4;
@@ -133,6 +147,7 @@ public class TileManager : MonoBehaviour {
 				}
 			}
 			
+			// Try-catch to safely detect whether the queue is empty.
 			try { open.Peek(); }
 			catch (InvalidOperationException e)
 				{ empty = true; }
@@ -230,8 +245,6 @@ public class TileManager : MonoBehaviour {
 	{
 		List<GameObject> lTiles = new List<GameObject>();
 		
-		Vector3 position = pTile.transform.position;
-		
 		for (int i = 1; i < 7; i++)
 		{
 			GameObject x = getSingleNeighbor(pTile, i);
@@ -250,7 +263,7 @@ public class TileManager : MonoBehaviour {
 	/**
 	 * Returns the tile at the given position.
 	 * */
-	public GameObject getTileAt(Vector3 pPosition)
+	public static GameObject getTileAt(Vector3 pPosition)
 	{
 		GameObject ltile = null;
 		
@@ -261,12 +274,13 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		//if (tilesInRange.Contains(pTile) && !isTileOccupied(pTile))
-		if (pTile.renderer.material.color == Color.red && !isTileOccupied(pTile))
+		// If the tile is not occupied and is within range
+		if (pTile.tag.Equals("Tile") && tilesInRange.Contains(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
 			
+			// un-paint the range
 			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
 					tile.renderer.material.color = Color.gray;
@@ -277,30 +291,40 @@ public class TileManager : MonoBehaviour {
 	
 	public static void deselect()
 	{
+		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
 		{
+			// mark the old tile as unoccupied
+			Vector3 tile = CharacterManager.aCurrentlySelectedUnitOriginalPosition;
+			tile.y = 2.0f;
+			getTileAt(tile).tag = "Tile";
+			occupiedTilesHT.Remove(getTileAt(tile));
+			
+			// and mark the new tile as occupied
+			aCurrentlySelectedTile.tag = "OccupiedTile";
+			Vector3 tilen = CharacterManager.aCurrentlySelectedUnit.transform.position;
+			tilen = CharacterManager.aCurrentlySelectedUnit.transform.position;
+			tilen.y = 2.0f;
+			occupiedTilesHT.Add(tilen, CharacterManager.aCurrentlySelectedUnit);
+			
 			aCurrentlySelectedTile.renderer.material.color = Color.gray;
 			aCurrentlySelectedTile = null;
 			aSingleTileIsSelected = false;
 		}
 	}
 	
-	private bool isTileOccupied(GameObject pTile)
+	private static bool isTileOccupied(GameObject pTile)
 	{
-		// Note, there are 2 corrected positions, one for dinos and one for shapes.
-		Vector3 correctedPosition = pTile.transform.position;
-		Vector3 correctedPosition1 = pTile.transform.position;
-		correctedPosition.y = 7;
-		correctedPosition1.y = 2.5f;
-		
-		if (CharacterManager.unitsHT.ContainsKey(correctedPosition) || CharacterManager.unitsHT.ContainsKey(correctedPosition1))
+		if (pTile.tag.Equals("OccupiedTile"))
+		{
+			Debug.Log("Occupied");
 			return true;
-		
+		}
 		else
 			return false;
 	}
 	
-	public void pickRandomTile()
+	public static GameObject pickRandomTile()
 	{
 		GameObject randomTile;
 		
@@ -310,7 +334,9 @@ public class TileManager : MonoBehaviour {
 		}
 		while (isTileOccupied(randomTile));
 		
-		AutoMove.destTile = randomTile;
-		selectTile(randomTile);
+		//AutoMove.destTile = randomTile;
+		
+		
+		return randomTile;
 	}
 }
