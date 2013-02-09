@@ -97,7 +97,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void surround(GameObject pUnit)
 	{		
-		int range = 1;
+		int range = 4;
 		tilesInRange.Clear();
 		
 		Vector3 position = pUnit.transform.position;
