@@ -1,6 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ClickAndMove.cs">
+    <Files>
+      <File FileName="Assets\Scripts\CharacterManager.cs" Line="94" Column="13" />
+      <File FileName="Assets\Scripts\TileManager.cs" Line="353" Column="1" />
+      <File FileName="Assets\Scripts\ObjectSelection.cs" Line="13" Column="33" />
+      <File FileName="Assets\Scripts\ClickAndMove.cs" Line="67" Column="31" />
+      <File FileName="Assets\Scripts\DinosaurUnitFunctionalityAndStats.cs" Line="65" Column="3" />
+      <File FileName="Assets\Scripts\BirdUnitFunctionalityAndStats.cs" Line="39" Column="70" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
