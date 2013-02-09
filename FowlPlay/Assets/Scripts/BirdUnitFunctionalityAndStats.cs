@@ -36,7 +36,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void TameUnit (GameObject unit)
 	{
-		unit.SendMessage("AddTamePointsByRate", tamePower);
+		unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
 		//Maybe remove AP from the player here as well based on the tame cost?
 	}
 	

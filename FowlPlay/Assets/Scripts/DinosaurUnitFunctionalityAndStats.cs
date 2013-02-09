@@ -8,6 +8,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public int moveCost;
 	public float tameRate;
 	public int tameTickAmount;
+	public bool tamed = false;
 	
 	
 	/**
@@ -28,6 +29,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public float EndTurnTickUntame (int commanderDistance)
 	{
 		tamePoints -= (tameTickAmount * commanderDistance);
+		CheckTamePoints();
 		return tamePoints;
 	}
 	
@@ -36,17 +38,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		unit.SendMessage("TakeDamage", attackPoints);		
 	}
 	
-	public float AddTamePointsByRate (int tameAmount)
+	public float AddTamePointsByRate (int tameAmount, string teamToSwitchTo)
 	{
 		tamePoints += tameAmount * tameRate;
+		if (tamePoints > 50 && tamed == false)
+		{
+			SwitchTeams (teamToSwitchTo);
+		}
 		return tamePoints;
 	}
 	
 	public void SwitchTeams(string team)
 	{
 		gameObject.tag = team;
-		//animation
-		gameObject.renderer.material.color = Color.red;
 	}
 	
 	public void CheckTamePoints()
@@ -54,12 +58,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (tamePoints <= 0)
 		{
 			SwitchTeams("Enemy");
+			//animation
+			gameObject.renderer.material.color = Color.red;
+			tamed = false;
 		}
-	}
-	
-	void Update()
-	{
-		CheckTamePoints();
 	}
 	
 }
