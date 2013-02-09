@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class TileManager : MonoBehaviour {
 	
@@ -9,27 +10,42 @@ public class TileManager : MonoBehaviour {
 	public CharacterManager aCharacterManager;
 	
 	private static GameObject[] allTiles;
-	private static Hashtable allTilesHT;
+	private static GameObject[] allNonTiles;
+	public static Hashtable allTilesHT;
 	private Hashtable rangeHT;
-	private GameObject[] range;
+	private List<GameObject> tilesInRange;
+	
+	private Hashtable costs;
 	
 	public static bool aSingleTileIsSelected = false;
 	
 	public static bool tileOccupied;
 	
 	// Use this for initialization
-	void Start () {		
+	void Start () {
+		
+		// Aggregate tiles
 		allTiles = GameObject.FindGameObjectsWithTag("Tile");
-		
-		Debug.Log("Position of first tile: " + allTiles[0].transform.position);
-		Debug.Log("Position of second tile: " + allTiles[1].transform.position);
-		
+		allNonTiles = GameObject.FindGameObjectsWithTag("NonTile");
 		allTilesHT = new Hashtable();
 		
-		foreach (GameObject tile in allTiles)
-			allTilesHT.Add(tile.transform.position, tile);
-		
+		// Used for calculating ranges.
+		costs = new Hashtable();
 		rangeHT = new Hashtable();
+		tilesInRange = new List<GameObject>();
+		
+		foreach (GameObject tile in allTiles)
+		{
+			allTilesHT.Add(tile.transform.position, tile);
+			costs.Add (tile.transform.position, -1);
+		}
+		
+		foreach (GameObject tile in allNonTiles)
+		{
+			allTilesHT.Add(tile.transform.position, tile);
+			costs.Add (tile.transform.position, -1);
+		}
+		
 	}
 	
 	// Update is called once per frame
@@ -37,71 +53,114 @@ public class TileManager : MonoBehaviour {
 	
 	}
 	
-	public void highlightRange(GameObject pUnit)
+	public void getRange(GameObject pUnit)
 	{	
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2;
-		GameObject currentTile = getTileAt(unitsTile);
 		
-		GameObject[] surr = getSurroundingTiles(currentTile, 3);
-		
-		foreach (GameObject tile in surr)
-			tile.renderer.material.color = Color.green;
+		// The function runs and updates the attribute tilesInRange
+		getTilesInRange(getTileAt(unitsTile));
 	}
 	
 	public void unhighlightRange()
 	{		
-		foreach (GameObject tile in range)
+		foreach (GameObject tile in tilesInRange)
 			tile.renderer.material.color = Color.gray;
 	}
 	
-	/**
-	 * Returns an array of tiles that contain all of the tiles that surround the
-	 * chosen tile, excluding the chosen tile.
-	 * 
-	 * NOTE: It still does not account for the case when it should select tile that
-	 * doesn't exist because, for example, it goes beyond the map.
-	 * */
-	public GameObject[] getSurroundingTiles(GameObject pCenterTile, int pRange)
+	public static int movementCost(GameObject pFrom, GameObject pTo)
 	{
-		rangeHT.Clear();
+		if (pFrom == null || pTo == null)
+			return 0;
 		
-		GameObject[] lTiles = new GameObject[totalNumberOfSurroundingTiles(pRange)];
-		GameObject[] firstLayer = getSurroundingSix(pCenterTile);
+		Vector3 lFrom = pFrom.transform.position;
+		Vector3 lTo = pTo.transform.position;
+
+		int distance = (int)(Math.Abs((lTo.x - lFrom.x)) + Math.Abs((lTo.z - lFrom.z)));
 		
-		int layersToGo = pRange - 1;
-		int counter = 0;
+		if (distance == 0)
+			return 0;
 		
-		for (int i = 0; i < firstLayer.Length; i++, counter++)
+		int cost = 1;
+		
+		while (distance > 11)
 		{
-			lTiles[counter] = firstLayer[i];
-			rangeHT.Add(firstLayer[i].transform.position, firstLayer[i]);
-		}
-			
-		if (pRange >= 2) 
-		{
-			GameObject[] nextLayer = getNextLayer(firstLayer);
-			while (layersToGo > 0)
-			{
-				for (int i = 0; i < nextLayer.Length; i++, counter++)
-				{
-					lTiles[counter] = nextLayer[i];
-					rangeHT.Add(nextLayer[i].transform.position, nextLayer[i]);
-				}
-				layersToGo -= 1;
-				nextLayer = getNextLayer(nextLayer);
-			}
+			distance -= 11;
+			cost++;
 		}
 		
-		range = lTiles;
-		return lTiles;
+		return cost;
 	}
 	
+	public void getTilesInRange(GameObject pUnit)
+	{		
+		int range = 4;
+		tilesInRange.Clear();
+		
+		Vector3 position = pUnit.transform.position;
+		position.y = 2.0f;
+		Queue<Vector3> open = new Queue<Vector3>();
+		
+		List<Vector3> closed = new List<Vector3>();
+		
+		open.Enqueue(position);
+		bool empty = false;
+		
+		do
+		{
+			Vector3 x = open.Dequeue();
+			closed.Add(x);
+			
+			if ((int)costs[x] < range)
+			{
+				foreach (GameObject neighbor in getSurroundingSix(getTileAt(x)))
+				{
+					int newCost = (int)costs[x] + movementCost((GameObject)allTilesHT[x],neighbor);
+					
+					try {
+						int costOfNeighbor = (int)costs[neighbor.transform.position];
+						if ( costOfNeighbor == -1 || newCost < costOfNeighbor )
+						{
+							costs.Remove(neighbor.transform.position);
+							costs.Add(neighbor.transform.position, newCost);
+							
+							if (!open.Contains(neighbor.transform.position))
+								open.Enqueue(neighbor.transform.position);
+						}
+					} catch (NullReferenceException e) {
+						Debug.Log("Caught exception - Null tile");
+					}
+				}
+			}
+			
+			try { open.Peek(); }
+			catch (InvalidOperationException e)
+				{ empty = true; }
+		
+		} while (!empty);
+		
+		foreach (Vector3 x in closed)
+		{
+			if ((int)costs[x] < range && getTileAt(x).tag.Equals("Tile"))
+			{
+				tilesInRange.Add(getTileAt(x));
+				
+				// Hilight the tile
+				getTileAt(x).renderer.material.color = Color.red;
+			}
+			
+			costs.Remove(x);
+			costs.Add(x, -1);
+		}
+	}
+	
+	
+	
 	/**
-	 * Calculates the total number of tiles surrounding the current tile
+	 * Calculates the total number of tiles reachable from the current tile
 	 * for the given range. Does not count the current tile.
 	 * */
-	public int totalNumberOfSurroundingTiles(int pRange)
+	public int totalNumberOfReachableTiles(int pRange)
 	{
 		int total = 0;
 		
@@ -111,98 +170,16 @@ public class TileManager : MonoBehaviour {
 		return total;
 	}
 	
-	/**
-	 * Given a layer of hexagon tiles, it will return the next layer.
-	 * */
-	public GameObject[] getNextLayer (GameObject[] currentLayer)
-	{
-		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
-		int nextLayerLevel = (currentLayer.Length / 6) + 1;
-		
-		int counter = 0;
-		int innerCounter = 0;
-		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);				
-		}
-
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
-		innerCounter++;
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);				
-		}
-
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		innerCounter++;
-
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);				
-		}
-
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);				
-		}
-		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);				
-		}
-		
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
-		counter++;
-		nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
-		counter++;
-		innerCounter++;
-		
-		if (nextLayerLevel >= 3)
-		{
-			for (int i = 0; i < nextLayerLevel - 2; i++, counter++, innerCounter++)
-				nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);				
-		}
-		
-		return nextLayer;
-		
-	}
+	
 	
 	/**
 	 * Returns the neighbor of a tile at a specified direction
 	 * */
 	public GameObject getSingleNeighbor (GameObject pTile, int pDirection)
 	{
+		if (pTile == null)
+			return null;
+		
 		Vector3 position = pTile.transform.position;
 		
 		switch (pDirection)
@@ -242,51 +219,25 @@ public class TileManager : MonoBehaviour {
 				break;
 			
 		}
-		
+	
 		return getTileAt(position);
 	}
 	
 	/**
-	 * Returns the six tiles that surround the chosen tile.
+	 * Returns the six tiles that getTilesInRange the chosen tile.
 	 * */
-	public GameObject[] getSurroundingSix (GameObject pTile)
+	public List<GameObject> getSurroundingSix (GameObject pTile)
 	{
-		GameObject[] lTiles = new GameObject[6];
+		List<GameObject> lTiles = new List<GameObject>();
+		
 		Vector3 position = pTile.transform.position;
-		Vector3[] surroundingLayer = new Vector3[6];
 		
-		// north
-		surroundingLayer[0].x = position.x;
-		surroundingLayer[0].y = position.y;
-		surroundingLayer[0].z = position.z + 8;
-		
-		// north-east
-		surroundingLayer[1].x = position.x + 7;
-		surroundingLayer[1].y = position.y;
-		surroundingLayer[1].z = position.z + 4;
-
-		// south-east
-		surroundingLayer[2].x = position.x + 7;
-		surroundingLayer[2].y = position.y;
-		surroundingLayer[2].z = position.z - 4;
-
-		// south
-		surroundingLayer[3].x = position.x;
-		surroundingLayer[3].y = position.y;
-		surroundingLayer[3].z = position.z - 8;
-
-		// south-west
-		surroundingLayer[4].x = position.x - 7;
-		surroundingLayer[4].y = position.y;
-		surroundingLayer[4].z = position.z - 4;
-
-		// north-west
-		surroundingLayer[5].x = position.x - 7;
-		surroundingLayer[5].y = position.y;
-		surroundingLayer[5].z = position.z + 4;
-		
-		for (int i = 0; i < lTiles.Length; i++)
-			lTiles[i] = getTileAt(surroundingLayer[i]);
+		for (int i = 1; i < 7; i++)
+		{
+			GameObject x = getSingleNeighbor(pTile, i);
+			if (x != null)
+				lTiles.Add(x);
+		}
 		
 		return lTiles;
 	}
@@ -310,19 +261,17 @@ public class TileManager : MonoBehaviour {
 	
 	public void selectTile(GameObject pTile)
 	{
-		if (rangeHT.ContainsKey(pTile.transform.position) && !isTileOccupied(pTile))
+		//if (tilesInRange.Contains(pTile) && !isTileOccupied(pTile))
+		if (pTile.renderer.material.color == Color.red && !isTileOccupied(pTile))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
 			
-			foreach (GameObject tile in range)
-				tile.renderer.material.color = Color.gray;
+			foreach (GameObject tile in tilesInRange)
+				if (tile != null)
+					tile.renderer.material.color = Color.gray;
 			
 			pTile.renderer.material.color = Color.yellow;
-			
-			//Vector3 newPosition = 
-			//Vector3 oldPosition = pTile.transform.position;
-			//CharacterManager.unitsHT.Remove(
 		}		
 	}
 	
@@ -338,25 +287,17 @@ public class TileManager : MonoBehaviour {
 	
 	private bool isTileOccupied(GameObject pTile)
 	{
-		Debug.Log("Checking whether a tile is occupied.");
+		// Note, there are 2 corrected positions, one for dinos and one for shapes.
 		Vector3 correctedPosition = pTile.transform.position;
 		Vector3 correctedPosition1 = pTile.transform.position;
-		Debug.Log("Tile position = " + correctedPosition);
 		correctedPosition.y = 7;
 		correctedPosition1.y = 2.5f;
-		Debug.Log("Corrected position = " + correctedPosition);
 		
 		if (CharacterManager.unitsHT.ContainsKey(correctedPosition) || CharacterManager.unitsHT.ContainsKey(correctedPosition1))
-		{
-			Debug.Log("Yep, occupied");
 			return true;
-		}
 		
 		else
-		{
-			Debug.Log("No, free.");
 			return false;
-		}
 	}
 	
 	public void pickRandomTile()
@@ -365,15 +306,11 @@ public class TileManager : MonoBehaviour {
 		
 		do
 		{
-			randomTile = allTiles[Random.Range(0, allTiles.Length - 1)];
+			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length - 1)];
 		}
 		while (isTileOccupied(randomTile));
 		
-		Debug.Log("Random tile picked: " + randomTile.transform.position);
-		
 		AutoMove.destTile = randomTile;
 		selectTile(randomTile);
-		
-		Debug.Log("destTile is " + AutoMove.destTile);
 	}
 }
