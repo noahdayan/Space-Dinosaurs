@@ -8,8 +8,11 @@ public class ClickAndMove : MonoBehaviour
 	public static bool aIsObjectMoving = false;
 	public static bool aIsObjectRotating = false;
 	
+	private GameObject manager;
+	
 	void Start () 
 	{
+		manager = GameObject.Find("Character");
 	}
 
 	// Update is called once per frame
@@ -51,7 +54,7 @@ public class ClickAndMove : MonoBehaviour
 					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
 					{
 						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-						TileManager.deselect();
+						manager.SendMessage("deselct");
 						CharacterManager.deselect();
 						aIsObjectMoving = false;
 						CharacterManager.switchTurn();

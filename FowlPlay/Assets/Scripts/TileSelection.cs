@@ -31,7 +31,7 @@ public class TileSelection : MonoBehaviour {
 		{
 			if (!CharacterManager.aSingleUnitIsSelected)
 			{
-				TileManager.deselect();
+				tileManager.SendMessage("deselct");
 			}
 		}	
 	}
