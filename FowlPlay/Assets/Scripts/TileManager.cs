@@ -26,6 +26,9 @@ public class TileManager : MonoBehaviour {
 	
 	public static bool aSingleTileIsSelected = false;
 	
+	// For testing purposes of old function. Could still be used.
+	//public Hashtable rangeHT;
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -51,6 +54,9 @@ public class TileManager : MonoBehaviour {
 			costs.Add (tile.transform.position, -1);
 		}
 		
+		// For testing purposes of old function
+		//rangeHT = new Hashtable();
+		
 	}
 	
 	// Update is called once per frame
@@ -63,8 +69,13 @@ public class TileManager : MonoBehaviour {
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2;
 		
+		int range = 3;
+		
 		// The function runs and updates the attribute tilesInRange
-		getTilesInRange(getTileAt(unitsTile));
+		getTilesInRange(getTileAt(unitsTile), range);
+		
+		// Same thing, but using the old algorithm.
+		//getSurroundingTiles(getTileAt(unitsTile), range);
 	}
 	
 	public void unhighlightRange()
@@ -104,11 +115,11 @@ public class TileManager : MonoBehaviour {
 	/**
 	 * Returns all tiles that are within a specified range of the selected unit.
 	 * It does not return anything. Instead, it updates the tilesInRange list.
-	 * Pretty much Dijkstra's.
+	 * Similar to Dijkstra's.
 	 * */
-	public void getTilesInRange(GameObject pUnit)
-	{		
-		int range = 4;
+	public void getTilesInRange(GameObject pUnit, int pRange)
+	{	
+		int range = pRange;
 		tilesInRange.Clear();
 		
 		Vector3 position = pUnit.transform.position;
@@ -160,6 +171,11 @@ public class TileManager : MonoBehaviour {
 			{
 				tilesInRange.Add(getTileAt(x));
 				
+				/**
+				 * TODO - still unsure of whether to do the highlighting here or in its own function.
+				 * Doing it here is more efficient--you color as you find, rather than going through the
+				 * entire list all over again.
+				 * */
 				// Hilight the tile
 				getTileAt(x).renderer.material.color = Color.red;
 			}
@@ -334,9 +350,257 @@ public class TileManager : MonoBehaviour {
 		}
 		while (isTileOccupied(randomTile));
 		
-		//AutoMove.destTile = randomTile;
-		
-		
 		return randomTile;
 	}
+	
+
+	/**
+	 * The old algorithm for finding the tiles in range.
+	 * Still unsure of which one is more efficient, I'll leave this one here
+	 * just in case.
+	 * */
+	public void getSurroundingTiles(GameObject pCenterTile, int pRange)
+	{
+		tilesInRange.Clear();
+		// rangeHT.Clear();
+		
+		// Keeps track of the layers we still have to account for.
+		int layersToGo = pRange - 1;
+		
+		// Get the first layer (the surrounding six of the center tile).
+		foreach (GameObject tile in getSurroundingSix(pCenterTile))
+		{
+			if(tile != null)
+			{
+				tilesInRange.Add(tile);
+				//rangeHT.Add(tile.transform.position, tile);
+			}
+		}
+			
+		if (pRange >= 2) 
+		{
+			GameObject[] nextLayer = getNextLayer(getSurroundingSixA(pCenterTile));
+			while (layersToGo > 0)
+			{
+				foreach (GameObject tile in nextLayer)
+				{
+					if (tile != null)
+					{
+						tilesInRange.Add(tile);
+						tile.renderer.material.color = Color.red;
+						//if (!rangeHT.ContainsKey(tile.transform.position))
+						//	rangeHT.Add(tile.transform.position, tile);
+					}
+				}
+				
+				layersToGo -= 1;
+				nextLayer = getNextLayer(nextLayer);
+			}
+		}
+	}
+	
+	/**
+	 * Given a layer of hexagon tiles, it will return the next layer.
+	 * For use with the old range finding algorithm.
+	 * */
+	public GameObject[] getNextLayer (GameObject[] currentLayer)
+	{
+		GameObject[] nextLayer = new GameObject[currentLayer.Length + 6];
+		int nextLayerLevel = (currentLayer.Length / 6) + 1;
+		
+		int counter = 0;
+		int innerCounter = 0;
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 2) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 2);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
+		}
+
+				
+		if (getSingleNeighbor(currentLayer[innerCounter], 3) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 3);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+					counter++;
+
+				}
+				
+				innerCounter++;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 4) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 4);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter++;
+		}
+		
+		innerCounter++;
+
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
+		}
+
+		if (getSingleNeighbor(currentLayer[innerCounter], 5) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 5);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+					counter++;
+				}
+				
+				innerCounter++;
+			}
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 6) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 6);
+			counter++;
+		}
+		
+		if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+		{
+			nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+			counter++;
+		}
+		
+		innerCounter++;
+		
+		
+		if (nextLayerLevel >= 3)
+		{
+			for (int i = 0; i < nextLayerLevel - 2; i++)
+			{
+				if (getSingleNeighbor(currentLayer[innerCounter], 1) != null)
+				{
+					nextLayer[counter] = getSingleNeighbor(currentLayer[innerCounter], 1);
+					counter++;
+				}
+				innerCounter++;
+			}
+		}	
+		
+		return nextLayer;
+	}
+	
+	// Same as other getSurroundingSix, but this one returns an array instead.
+	// For use with the old range-finding algorithm.
+	public GameObject[] getSurroundingSixA (GameObject pTile)
+	{
+		GameObject[] lTiles = new GameObject[6];
+		
+		for (int i = 1; i < 7; i++)
+		{
+			GameObject x = getSingleNeighbor(pTile, i);
+			if (x != null)
+				lTiles[i - 1] = x;
+		}
+		
+		return lTiles;
+	}
+	
 }
