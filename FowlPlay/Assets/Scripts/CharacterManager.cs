@@ -51,27 +51,35 @@ public class CharacterManager : MonoBehaviour {
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
-			TileManager.occupiedTilesHT.Add(TileManager.getTileAt(tile), unit);
+			TileManager.occupiedTilesHT.Add(tile, unit);
 		}
 
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player2"))
 		{
 			player2Units.Add(unit);
 			unitsHT.Add(unit.transform.position, unit);
+			
+			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = unit.transform.position;
 			tile.y = 2.0f;
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
-			TileManager.occupiedTilesHT.Add(TileManager.getTileAt(tile), unit);
+			
+			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
+			TileManager.occupiedTilesHT.Add(tile, unit);
 		}
 		
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
 			untamedUnits.Add(unit);
 			unitsHT.Add(unit.transform.position, unit);
+			
+			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = unit.transform.position;
 			tile.y = 2.0f;
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
-			TileManager.occupiedTilesHT.Add(TileManager.getTileAt(tile), unit);
+			
+			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
+			TileManager.occupiedTilesHT.Add(tile, unit);
 		}
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
@@ -100,12 +108,19 @@ public class CharacterManager : MonoBehaviour {
 	{
 		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 		
-		// if the unit has moved, update the hashtable
+		// if the unit has moved, update the hashtables
 		if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
 		{
-				unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
-				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
+			unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+			aCurrentlySelectedUnitOriginalPosition.y = 2.0f;
+			TileManager.occupiedTilesHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+
+			unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
+			Vector3 correctedPosition = aCurrentlySelectedUnit.transform.position;
+			correctedPosition.y = 2.0f;
+			TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
 		}
+		
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
 		

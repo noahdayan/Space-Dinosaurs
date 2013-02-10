@@ -23,6 +23,7 @@ public class TileManager : MonoBehaviour {
 	// Used for finding the range of movement
 	private Hashtable costs;
 	private List<GameObject> tilesInRange;
+	private List<GameObject> tilesInAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
 	public Material aTileDefault, aTileBlue, aTileRed;
@@ -41,6 +42,7 @@ public class TileManager : MonoBehaviour {
 		// Used for calculating ranges.
 		costs = new Hashtable();
 		tilesInRange = new List<GameObject>();
+		tilesInAttackRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
 		{
@@ -76,7 +78,12 @@ public class TileManager : MonoBehaviour {
 	public void unhighlightRange()
 	{		
 		foreach (GameObject tile in tilesInRange)
-			tile.renderer.material = aTileDefault;
+			if (tile != null)
+				tile.renderer.material = aTileDefault;
+			
+		foreach (GameObject tile in tilesInAttackRange)
+			if (tile != null)
+				tile.renderer.material = aTileDefault;
 	}
 	
 	/**
@@ -116,6 +123,7 @@ public class TileManager : MonoBehaviour {
 	{	
 		int range = pRange + pAttackRange;
 		tilesInRange.Clear();
+		tilesInAttackRange.Clear();
 		
 		Vector3 position = pUnit.transform.position;
 		position.y = 2.0f;
@@ -172,10 +180,23 @@ public class TileManager : MonoBehaviour {
 			
 			else if((int)costs[x] == (range-1) && getTileAt(x).tag.Equals("Tile"))
 			{
-				tilesInRange.Add(getTileAt(x));
+				tilesInAttackRange.Add(getTileAt(x));
 				
 				// Hilight the tile
 				getTileAt(x).renderer.material = aTileRed;
+			}
+			
+			else if((int)costs[x] < range && getTileAt(x).tag.Equals("OccupiedTile"))
+			{
+				GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
+				
+				if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+				{
+					tilesInAttackRange.Add(getTileAt(x));
+				
+					// Hilight the tile
+					getTileAt(x).renderer.material = aTileRed;
+				}	
 			}
 			
 			costs.Remove(x);
@@ -295,9 +316,7 @@ public class TileManager : MonoBehaviour {
 			aSingleTileIsSelected = true;
 			
 			// un-paint the range
-			foreach (GameObject tile in tilesInRange)
-				if (tile != null)
-					tile.renderer.material = aTileDefault;
+			unhighlightRange();
 			
 			pTile.renderer.material.color = Color.yellow;
 		}		
@@ -312,14 +331,9 @@ public class TileManager : MonoBehaviour {
 			Vector3 tile = CharacterManager.aCurrentlySelectedUnitOriginalPosition;
 			tile.y = 2.0f;
 			getTileAt(tile).tag = "Tile";
-			occupiedTilesHT.Remove(getTileAt(tile));
 			
 			// and mark the new tile as occupied
 			aCurrentlySelectedTile.tag = "OccupiedTile";
-			Vector3 tilen = CharacterManager.aCurrentlySelectedUnit.transform.position;
-			tilen = CharacterManager.aCurrentlySelectedUnit.transform.position;
-			tilen.y = 2.0f;
-			occupiedTilesHT.Add(tilen, CharacterManager.aCurrentlySelectedUnit);
 			
 			aCurrentlySelectedTile.renderer.material = aTileDefault;
 			aCurrentlySelectedTile = null;
