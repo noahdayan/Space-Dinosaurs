@@ -199,20 +199,18 @@ public class TileManager : MonoBehaviour {
 					}
 				}
 				
-				// Get the tiles at the edge of the walking range that are occupied by enemies. These are special cases and must be handled separately.
+				// Get the tiles at the edge of the walking range that are occupied. These are special cases and must be handled separately.
 				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] == (pRange-1))
 				{
 					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
 					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 					{
 						tilesInAttackRange.Add(getTileAt(x));
-						
-						// Hilight the tile
 						getTileAt(x).renderer.material = aTileRed;
-						
-						// Toggle edgecase, we are NOT yet done with this tile.
-						edgecase = true;
 					}
+							
+					// Toggle edgecase, we are NOT yet done with this tile.
+					edgecase = true;
 				}
 				
 				// Get the tiles beyond the walking range that can be attacked.
@@ -252,9 +250,9 @@ public class TileManager : MonoBehaviour {
 				
 		}
 		
-		// Deal with the special cases (ie., enemy unit on the edge of the walkable/blue range)
+		// Deal with the special cases (ie., a unit on the edge of the walkable/blue range)
 		// The problem here is that some tiles, despite being in attacking range, become un-reachable because of
-		// enemy units blocking the way. The algorithm above does not consider that.
+		// units blocking the way. The algorithm above does not consider that.
 		// The closedSpecial list contains all of these special tiles.
 		foreach (Vector3 x in closedSpecial)
 		{		
@@ -282,6 +280,26 @@ public class TileManager : MonoBehaviour {
 					{
 						t.renderer.material = aTileDefault;
 						tilesInAttackRange.Remove(t);	
+					}
+				}
+				
+				else if (t.renderer.sharedMaterial == aTileBlue)
+				{
+					foreach (GameObject tt in getSurroundingSix(t))
+					{
+						// If a blue tile is adjacent, then we know we can access it, so disregard it and keep searching.
+						if (tt.renderer.sharedMaterial == aTileBlue)
+						{
+							valid = true;
+							break;
+						}
+					}						
+					
+					// If we didn't find any other path into the tile, then we must makr it unaccessible.
+					if (!valid)
+					{
+						t.renderer.material = aTileDefault;
+						tilesInRange.Remove(t);	
 					}
 				}
 			}
