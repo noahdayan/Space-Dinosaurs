@@ -22,7 +22,9 @@ public class TileManager : MonoBehaviour {
 	
 	// Used for finding the range of movement
 	private Hashtable costs;
+	private Hashtable costsW;
 	private List<GameObject> tilesInRange;
+	private List<GameObject> tilesInRangeW;
 	private List<GameObject> tilesInAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
@@ -41,7 +43,9 @@ public class TileManager : MonoBehaviour {
 		
 		// Used for calculating ranges.
 		costs = new Hashtable();
+		costsW = new Hashtable();
 		tilesInRange = new List<GameObject>();
+		tilesInRangeW = new List<GameObject>();
 		tilesInAttackRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
@@ -114,23 +118,20 @@ public class TileManager : MonoBehaviour {
 		return cost;
 	}
 	
-	/**
-	 * Returns all tiles that are within a specified range of the selected unit.
-	 * It does not return anything. Instead, it updates the tilesInRange list.
-	 * Similar to Dijkstra's.
-	 * */
-	public void getTilesInRange(GameObject pUnit, int pRange, int pAttackRange)
-	{	
+	// My implementation of Dijkstra's for finding the range of movement.
+	// The only thing to be aware of is the pRunNumber parameter. For most cases you want to use 1, if you'll only be running it once.
+	// If you'll be running it a second time to get rid of problematic tiles, then use 2 (after you used 1).
+	// NB, it does NOT reset the costs hashtable after a pass. That is for the function that called it to do.
+	// Returns all the tiles within range.
+	private List<Vector3> dijkstra(GameObject pUnit, int pRange, int pAttackRange, int pRunNumber)
+	{
 		int range = pRange + pAttackRange;
-		tilesInRange.Clear();
-		tilesInAttackRange.Clear();
 		
 		Vector3 position = pUnit.transform.position;
 		position.y = 2.0f;
 		Queue<Vector3> open = new Queue<Vector3>();
 		
 		List<Vector3> closed = new List<Vector3>();
-		List<Vector3> closedSpecial = new List<Vector3>();
 		
 		open.Enqueue(position);
 		bool empty = false;
@@ -142,7 +143,13 @@ public class TileManager : MonoBehaviour {
 			
 			if ((int)costs[x] < range)
 			{
-				foreach (GameObject neighbor in getSurroundingSix(getTileAt(x)))
+				List<GameObject> surrounding = new List<GameObject>();
+				if (pRunNumber == 1)
+					surrounding = getSurroundingSix(getTileAt(x));
+				else
+					surrounding = getSurroundingSixX(getTileAt(x));
+				
+				foreach (GameObject neighbor in surrounding)
 				{
 					int newCost = (int)costs[x] + movementCost((GameObject)allTilesHT[x],neighbor);
 					
@@ -169,20 +176,60 @@ public class TileManager : MonoBehaviour {
 		
 		} while (!empty);
 		
-		// Now we check whether the tiles are within range and determine whether they are blue (walkable) or red (only attackable).
+		List<Vector3> results = new List<Vector3>();
+		
 		foreach (Vector3 x in closed)
+			if ((int)costs[x] < range)
+				results.Add(x);
+		
+		return results;
+	}
+	
+	/**
+	 * Returns all tiles that are within a specified range of the selected unit.
+	 * It does not return anything. Instead, it updates the tilesInRange list.
+	 * Similar to Dijkstra's.
+	 * */
+	public void getTilesInRange(GameObject pUnit, int pRange, int pAttackRange)
+	{	
+		int range = pRange + pAttackRange;
+		tilesInRange.Clear();
+		tilesInAttackRange.Clear();
+		
+		List<Vector3> closedSpecial = new List<Vector3>();
+		List<Vector3> firstPass = new List<Vector3>();
+		List<Vector3> firstPassOccupiedTiles = new List<Vector3>();
+		
+		// The first pass. We check to see what tiles are within range, without considering obstacles that would reduce range.
+		List<Vector3> closed = dijkstra(pUnit,pRange,pAttackRange,1);
+		foreach (Vector3 x in closed)
+		{
+			if ((int)costs[x] < range )
+			{
+				if (getTileAt(x).tag.Equals("Tile"))
+					getTileAt(x).renderer.material.color = Color.green;
+				
+				firstPass.Add(x);
+			}
+			
+			costs.Remove(x);
+			costs.Add(x, -1);
+		}
+		
+		// Second pass--repeat to remove the tiles that the algorithm detected the first time, but that are not actually reachable.
+		List<Vector3> closedBis = dijkstra(pUnit,pRange,pAttackRange,2);
+		
+		foreach (Vector3 x in closedBis)
 		{
 			bool edgecase = false;
 			
-			if ((int)costs[x] < range )
+			if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
 			{
 				// If the cost of reaching the tile is less than the walking range, and the tile
 				// is unoccupied, then mark it blue.
 				if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
 				{
 					tilesInRange.Add(getTileAt(x));
-				
-					// Hilight the tile
 					getTileAt(x).renderer.material = aTileBlue;
 				}
 				
@@ -193,9 +240,7 @@ public class TileManager : MonoBehaviour {
 					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 					{
 						tilesInAttackRange.Add(getTileAt(x));
-					
-						// Hilight the tile
-						getTileAt(x).renderer.material = aTileRed;						
+						getTileAt(x).renderer.material = aTileRed;
 					}
 				}
 				
@@ -208,9 +253,6 @@ public class TileManager : MonoBehaviour {
 						tilesInAttackRange.Add(getTileAt(x));
 						getTileAt(x).renderer.material = aTileRed;
 					}
-							
-					// Toggle edgecase, we are NOT yet done with this tile.
-					edgecase = true;
 				}
 				
 				// Get the tiles beyond the walking range that can be attacked.
@@ -223,8 +265,6 @@ public class TileManager : MonoBehaviour {
 						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 						{
 							tilesInAttackRange.Add(getTileAt(x));
-							
-							// Hilight the tile
 							getTileAt(x).renderer.material = aTileRed;
 						}
 					}
@@ -233,16 +273,27 @@ public class TileManager : MonoBehaviour {
 					else if(getTileAt(x).tag.Equals("Tile"))
 					{
 						tilesInAttackRange.Add(getTileAt(x));
-						
-						// Hilight the tile
-						getTileAt(x).renderer.material = aTileRed;	
+						getTileAt(x).renderer.material = aTileRed;
 					}
 				}
 			}
 			
-			// If it's a special case, add it to the special list. We'll handle it in the next for-loop.
-			if (edgecase)
-				closedSpecial.Add(x);
+			// Now we need to find the tiles occupied by enemies not at the fringe that are actually reachable.
+			if ((int)costs[x] < (range-1) )
+			{
+				foreach(GameObject xx in getSurroundingSix(getTileAt(x)))
+				{
+					if (xx.tag.Equals("OccupiedTile"))
+					{
+						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
+						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+						{
+							xx.renderer.material = aTileRed;
+							tilesInAttackRange.Add(xx);
+						}
+					}
+				}
+			}
 			
 			// Reset the hashtable.
 			costs.Remove(x);
@@ -250,60 +301,10 @@ public class TileManager : MonoBehaviour {
 				
 		}
 		
-		// Deal with the special cases (ie., a unit on the edge of the walkable/blue range)
-		// The problem here is that some tiles, despite being in attacking range, become un-reachable because of
-		// units blocking the way. The algorithm above does not consider that.
-		// The closedSpecial list contains all of these special tiles.
-		foreach (Vector3 x in closedSpecial)
-		{		
-			// We must consider all of the surrounding tiles (and the tiles surrounding those!) of the problematic tiles to be able to determine whether they
-			// are reachable or they have been blocked by the enemy unit.
-			foreach (GameObject t in getSurroundingSix(getTileAt(x)))
-			{
-				bool valid = false;
-				
-				// The problematic tiles are only red tiles. So disregard all the blue and gray ones because those are fine.
-				if (t.renderer.sharedMaterial == aTileRed)
-				{
-					foreach (GameObject tt in getSurroundingSix(t))
-					{
-						// If a blue tile is adjacent, then we know we can access it, so disregard it and keep searching.
-						if (tt.renderer.sharedMaterial == aTileBlue)
-						{
-							valid = true;
-							break;
-						}
-					}						
-					
-					// If we didn't find any other path into the tile, then we must makr it unaccessible.
-					if (!valid)
-					{
-						t.renderer.material = aTileDefault;
-						tilesInAttackRange.Remove(t);	
-					}
-				}
-				
-				else if (t.renderer.sharedMaterial == aTileBlue)
-				{
-					foreach (GameObject tt in getSurroundingSix(t))
-					{
-						// If a blue tile is adjacent, then we know we can access it, so disregard it and keep searching.
-						if (tt.renderer.sharedMaterial == aTileBlue)
-						{
-							valid = true;
-							break;
-						}
-					}						
-					
-					// If we didn't find any other path into the tile, then we must makr it unaccessible.
-					if (!valid)
-					{
-						t.renderer.material = aTileDefault;
-						tilesInRange.Remove(t);	
-					}
-				}
-			}
-		}
+		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
+		foreach (Vector3 y in firstPass)
+			if (!closedBis.Contains(y) && getTileAt(y).renderer.sharedMaterial != aTileRed)
+				getTileAt(y).renderer.material = aTileDefault;
 	}
 	
 	
@@ -385,7 +386,22 @@ public class TileManager : MonoBehaviour {
 		for (int i = 1; i < 7; i++)
 		{
 			GameObject x = getSingleNeighbor(pTile, i);
-			if (x != null)
+			if (x != null && !x.tag.Equals("NonTile"))
+				lTiles.Add(x);
+		}
+		
+		return lTiles;
+	}
+	
+	// This version is for range-finding purposes.
+	public List<GameObject> getSurroundingSixX (GameObject pTile)
+	{
+		List<GameObject> lTiles = new List<GameObject>();
+		
+		for (int i = 1; i < 7; i++)
+		{
+			GameObject x = getSingleNeighbor(pTile, i);
+			if (x != null && x.renderer.material.color == Color.green && !x.tag.Equals("NonTile"))
 				lTiles.Add(x);
 		}
 		
