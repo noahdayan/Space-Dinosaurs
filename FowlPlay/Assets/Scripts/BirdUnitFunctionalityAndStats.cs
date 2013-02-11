@@ -4,7 +4,7 @@ using System.Collections;
 public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 
 	public int healthPoints, defensePoints, attackPoints;
-	public int moveCost;
+	public int moveCost, moveRange;
 	public int tamePower;
 	
 	
@@ -14,7 +14,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	 * @param dmg the ammount of damage to be dealt
 	 * @return returns the remaining health of this unit after the attack.
 	 */
-	public int TakeDamage(int dmg)
+	public int TakeAttackDamage(int dmg)
 	{
 		if (dmg - defensePoints > 0)
 		{
@@ -30,7 +30,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		unit.SendMessage("TakeDamage", attackPoints);
+		unit.SendMessage("TakeAttackDamage", attackPoints);
 		//maybe remove AP here as well based on an attack cost?
 	}
 	
