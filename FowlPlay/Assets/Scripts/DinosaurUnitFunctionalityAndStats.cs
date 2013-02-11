@@ -64,4 +64,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 	}
 	
+	public void onSelectSetHud()
+	{
+		//Set the attributes of the GUI via send message and sending this units current stats and max stats.
+	}
+	
 }

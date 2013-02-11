@@ -40,6 +40,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		//Maybe remove AP from the player here as well based on the tame cost?
 	}
 	
-	
+	public void onSelectSetHud()
+	{
+		//Set the attributes of the GUI via send message and sending this units current stats and max stats.
+	}
 	
 }
