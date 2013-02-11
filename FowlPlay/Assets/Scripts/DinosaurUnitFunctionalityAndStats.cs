@@ -3,11 +3,14 @@ using System.Collections;
 
 public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
-	public int healthPoints, defensePoints, attackPoints;
-	public float tamePoints;
-	public int moveCost, moveRange;
-	public float tameRate;
-	public int tameTickAmount;
+	public int healthPoints = 100;
+	public int defensePoints = 10;
+	public int attackPoints = 15;
+	public float tamePoints  = 100.0f;
+	public int moveCost = 1;
+	public int moveRange = 3;
+	public float tameRate = 1.0f;
+	public int tameTickAmount = 10;
 	public bool tamed = false;
 	public string species;
 	public GameObject deathParticle;

@@ -3,10 +3,13 @@ using System.Collections;
 
 public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 
-	public int healthPoints, defensePoints, attackPoints;
-	public int moveCost, moveRange;
-	public int tamePower;
-	
+	public int tamePower = 50;
+	public int healthPoints = 100;
+	public int defensePoints = 10;
+	public int attackPoints = 15;
+	public int moveCost = 1;
+	public int moveRange = 3;
+	public GameObject deathParticle;
 	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function
@@ -47,7 +50,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void Die()
 	{
-		
+		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
+		Destroy(gameObject);
 	}
 	
 }
