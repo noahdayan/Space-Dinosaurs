@@ -1,11 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DinosaurUnitFunctionalityAndStats.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ArrowKeysMove.cs">
     <Files>
-      <File FileName="Assets\Scripts\DinosaurUnitFunctionalityAndStats.cs" Line="83" Column="2" />
-      <File FileName="Assets\Scripts\BirdUnitFunctionalityAndStats.cs" Line="18" Column="3" />
-      <File FileName="Assets\Scripts\CharacterManager.cs" Line="119" Column="63" />
-      <File FileName="..\..\..\..\Games\RTSDemo\Assets\ShootAtUnitsInRange.cs" Line="35" Column="107" />
+      <File FileName="Assets/Scripts/ArrowKeysMove.cs" Line="46" Column="25" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,7 +10,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="DinosaurUnitFunctionalityAndStats.cs" selected="True" />
+                <Node name="ArrowKeysMove.cs" selected="True" />
               </Node>
             </Node>
           </Node>
