@@ -1,18 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GUIScripts/PlayMenuGUI.cs">
-    <Files>
-      <File FileName="Assets/Scripts/ArrowKeysMove.cs" Line="46" Column="25" />
-      <File FileName="Assets/Scripts/GUIScripts/PlayMenuGUI.cs" Line="1" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="GUIScripts" expanded="True">
-                  <Node name="PlayMenuGUI.cs" selected="True" />
+                <Node name="GUIScripts" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+          <Node name="Assembly-UnityScript" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Custom Assets" expanded="True">
+                <Node name="Necromancer GUI" expanded="True">
+                  <Node name="GUITestScript.js" selected="True" />
                 </Node>
               </Node>
             </Node>
