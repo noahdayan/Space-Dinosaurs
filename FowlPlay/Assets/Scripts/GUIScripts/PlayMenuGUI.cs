@@ -29,21 +29,24 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.skin = menuSkin;
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
-		if(GUI.Button(new Rect(attackButton), "Attack"))
+		if(!PauseMenuGUI.isPaused)
 		{
-			audio.PlayOneShot(click);
-		}
-		if(GUI.Button(new Rect(abilityButton), "Ability"))
-		{
-			audio.PlayOneShot(click);
-		}
-		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
-		{
-			audio.PlayOneShot(click);
-		}
-		if(GUI.Button(new Rect(cancelButton), "Cancel"))
-		{
-			audio.PlayOneShot(click);
+			if(GUI.Button(new Rect(attackButton), "Attack"))
+			{
+				audio.PlayOneShot(click);
+			}
+			if(GUI.Button(new Rect(abilityButton), "Ability"))
+			{
+				audio.PlayOneShot(click);
+			}
+			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
+			{
+				audio.PlayOneShot(click);
+			}
+			if(GUI.Button(new Rect(cancelButton), "Cancel"))
+			{
+				audio.PlayOneShot(click);
+			}
 		}
 		GUI.EndGroup();
 	}

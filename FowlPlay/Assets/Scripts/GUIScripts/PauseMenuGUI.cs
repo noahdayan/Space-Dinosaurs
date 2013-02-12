@@ -16,7 +16,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	Rect menuAreaNormalized;
 	string menuPage = "main";
 	public Rect options;
-	bool isPaused = false;
+	public static bool isPaused = false;
 	
 	// Use this for initialization
 	void Start () {

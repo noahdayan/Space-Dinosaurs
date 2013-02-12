@@ -7,16 +7,16 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="GUIScripts" expanded="True" />
+                <Node name="GUIScripts" expanded="True">
+                  <Node name="PlayMenuGUI.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
           <Node name="Assembly-UnityScript" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Custom Assets" expanded="True">
-                <Node name="Necromancer GUI" expanded="True">
-                  <Node name="GUITestScript.js" selected="True" />
-                </Node>
+                <Node name="Necromancer GUI" expanded="True" />
               </Node>
             </Node>
           </Node>

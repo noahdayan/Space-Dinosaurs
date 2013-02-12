@@ -5,8 +5,8 @@ public class ProgressBarGUI : MonoBehaviour {
 	
 	public GUISkin hudSkin;
 	public int guiDepth = 0;
-	float healthBar;
-	float tamenessBar;
+	public static float healthBar = 0.5f;
+	public static float tamenessBar = 0.5f;
 	Rect barAreaNormalized;
 	public Rect barArea;
 	public Vector2 healthPos;
@@ -23,8 +23,7 @@ public class ProgressBarGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		healthBar = Time.time * 0.05f;
-		tamenessBar = Time.time * 0.05f;
+
 	}
 	
 	void OnGUI() {
