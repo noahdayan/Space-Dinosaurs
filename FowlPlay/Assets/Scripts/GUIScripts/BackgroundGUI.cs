@@ -4,6 +4,8 @@ using System.Collections;
 public class BackgroundGUI : MonoBehaviour {
 	
 	public GUISkin backgroundSkin;
+	public int guiDepth = 0;
+	
 	private int leafOffset;
 	private int frameOffset;
 	private int skullOffset;
@@ -37,6 +39,7 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	void OnGUI() {
 		GUI.skin = backgroundSkin;
+		GUI.depth = guiDepth;
 		
 		GUI.Window(0, windowAreaNormalized, MapWindow, "");
 	}

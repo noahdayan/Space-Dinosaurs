@@ -4,8 +4,9 @@ using System.Collections;
 public class ProgressBarGUI : MonoBehaviour {
 	
 	public GUISkin hudSkin;
-	public float healthBar;
-	public float tamenessBar;
+	public int guiDepth = 0;
+	float healthBar;
+	float tamenessBar;
 	Rect barAreaNormalized;
 	public Rect barArea;
 	public Vector2 healthPos;
@@ -28,6 +29,7 @@ public class ProgressBarGUI : MonoBehaviour {
 	
 	void OnGUI() {
 		GUI.skin = hudSkin;
+		GUI.depth = guiDepth;
 		GUI.BeginGroup(barAreaNormalized);
 		
 			GUI.BeginGroup(new Rect(healthPos.x, healthPos.y, healthSize.x, healthSize.y));

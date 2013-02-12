@@ -7,6 +7,7 @@ public class PlayMenuGUI : MonoBehaviour {
 	
 	public AudioClip click;
 	public GUISkin menuSkin;
+	public int guiDepth = 0;
 	public Rect menuArea;
 	public Rect attackButton;
 	public Rect abilityButton;
@@ -26,6 +27,7 @@ public class PlayMenuGUI : MonoBehaviour {
 	
 	void OnGUI() {
 		GUI.skin = menuSkin;
+		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
 		if(GUI.Button(new Rect(attackButton), "Attack"))
 		{
