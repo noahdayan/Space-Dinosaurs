@@ -3,12 +3,17 @@ using System.Collections;
 
 public class ProgressBarGUI : MonoBehaviour {
 	
+	public GUISkin hudSkin;
 	public float healthBar;
+	public float tamenessBar;
 	Rect barAreaNormalized;
 	public Rect barArea;
-	public Vector2 pos;
-	public Vector2 size;
-	public GUISkin hudSkin;
+	public Vector2 healthPos;
+	public Vector2 healthSize;
+	public Vector2 tamenessPos;
+	public Vector2 tamenessSize;
+	public Texture2D barEmpty;
+	public Texture2D barFull;
 	
 	// Use this for initialization
 	void Start () {
@@ -18,17 +23,27 @@ public class ProgressBarGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		healthBar = Time.time * 0.05f;
+		tamenessBar = Time.time * 0.05f;
 	}
 	
 	void OnGUI() {
 		GUI.skin = hudSkin;
 		GUI.BeginGroup(barAreaNormalized);
-			GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-			GUI.Box(new Rect(0,0, size.x, size.y), "");
-				GUI.BeginGroup(new Rect(0,0, size.x * healthBar, size.y));
-				GUI.Box(new Rect(0,0, size.x, size.y), "");
+		
+			GUI.BeginGroup(new Rect(healthPos.x, healthPos.y, healthSize.x, healthSize.y));
+			GUI.Box(new Rect(0,0, healthSize.x, healthSize.y), barEmpty);
+				GUI.BeginGroup(new Rect(0,0, healthSize.x * healthBar, healthSize.y));
+				GUI.Box(new Rect(0,0, healthSize.x, healthSize.y), barFull);
 				GUI.EndGroup();
 			GUI.EndGroup();
+		
+			GUI.BeginGroup(new Rect(tamenessPos.x, tamenessPos.y, tamenessSize.x, tamenessSize.y));
+			GUI.Box(new Rect(0,0, tamenessSize.x, tamenessSize.y), barEmpty);
+				GUI.BeginGroup(new Rect(0,0, tamenessSize.x * tamenessBar, tamenessSize.y));
+				GUI.Box(new Rect(0,0, tamenessSize.x, tamenessSize.y), barFull);
+				GUI.EndGroup();
+			GUI.EndGroup();
+		
 		GUI.EndGroup();
     }
 }
