@@ -11,8 +11,8 @@ public class PlayMenuGUI : MonoBehaviour {
 	public Rect menuArea;
 	public Rect attackButton;
 	public Rect abilityButton;
-	public Rect endTurnButton;
 	public Rect cancelButton;
+	public Rect endTurnButton;
 	Rect menuAreaNormalized;
 	
 	GameObject manager;
@@ -34,26 +34,29 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		if(!PauseMenuGUI.isPaused)
 		{
-			if(GUI.Button(new Rect(attackButton), "Attack"))
+			if(CharacterManager.aCurrentlySelectedUnit)
 			{
-				audio.PlayOneShot(click);
-				if (CharacterManager.aInteractiveUnitIsSelected)
+				if(GUI.Button(new Rect(attackButton), "Attack"))
 				{
-					manager.SendMessage("attack");
+					audio.PlayOneShot(click);
+					if (CharacterManager.aInteractiveUnitIsSelected)
+					{
+						manager.SendMessage("attack");
+					}
 				}
-			}
-			if(GUI.Button(new Rect(abilityButton), "Ability"))
-			{
-				audio.PlayOneShot(click);
+				if(GUI.Button(new Rect(abilityButton), "Ability"))
+				{
+					audio.PlayOneShot(click);
+				}
+				if(GUI.Button(new Rect(cancelButton), "Cancel"))
+				{
+					audio.PlayOneShot(click);
+				}
 			}
 			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
 			{
 				audio.PlayOneShot(click);
 				manager.SendMessage("endTurn");
-			}
-			if(GUI.Button(new Rect(cancelButton), "Cancel"))
-			{
-				audio.PlayOneShot(click);
 			}
 		}
 		GUI.EndGroup();
