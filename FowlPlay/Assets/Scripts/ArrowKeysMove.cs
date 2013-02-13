@@ -23,21 +23,36 @@ public class ArrowKeysMove : MonoBehaviour {
 		// Time.deltaTime corrects for errors with the framerate, otherwise it's a pain.
 		temp = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 		tempPos.x += temp;
+		tempPos.z += temp;
 		if(xRange.y < tempPos.x && tempPos.x < xRange.x)
 		{
 			newPosition.x += temp;
 		}
-		temp = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-		tempPos.z += temp;
 		if(zRange.y < tempPos.z && tempPos.z < zRange.x)
 		{
 			newPosition.z += temp;
 		}
-		temp = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
+		temp = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 		tempPos.z += temp;
+		tempPos.x -= temp;
 		if(zRange.y < tempPos.z && tempPos.z < zRange.x)
 		{
 			newPosition.z += temp;
+		}
+		if(xRange.y < tempPos.x && tempPos.x < xRange.x)
+		{
+			newPosition.x -= temp;
+		}
+		temp = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
+		tempPos.z += temp;
+		tempPos.x -= temp;
+		if(zRange.y < tempPos.z && tempPos.z < zRange.x)
+		{
+			newPosition.z += temp;
+		}
+		if(xRange.y < tempPos.x && tempPos.x < xRange.x)
+		{
+			newPosition.x -= temp;
 		}
 		temp = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
 		tempPos.y -= temp;

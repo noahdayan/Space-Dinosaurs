@@ -36,12 +36,11 @@ public class PlayMenuGUI : MonoBehaviour {
 		{
 			if(GUI.Button(new Rect(attackButton), "Attack"))
 			{
+				audio.PlayOneShot(click);
 				if (CharacterManager.aInteractiveUnitIsSelected)
 				{
 					manager.SendMessage("attack");
 				}
-				
-				audio.PlayOneShot(click);
 			}
 			if(GUI.Button(new Rect(abilityButton), "Ability"))
 			{
