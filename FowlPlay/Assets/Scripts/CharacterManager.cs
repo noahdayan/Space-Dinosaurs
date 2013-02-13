@@ -121,28 +121,31 @@ public class CharacterManager : MonoBehaviour {
 	
 	public void endTurn()
 	{
-		if (aInteractiveUnitIsSelected)
+		if (!ClickAndMove.aIsObjectMoving)
 		{
-			aInteractUnit.renderer.material.color = Color.blue;
-			aInteractUnit = null;
-		}
-		
-		aInteractiveUnitIsSelected = false;
-		aMidTurn = false;
-		aTurnIsCompleted = true;
-		switchTurn();
-		
-		// Some costs may not have been reset. Reset them.
-		foreach (GameObject tile in TileManager.allTiles)
-		{
-			if ((int)TileManager.costs[tile.transform.position] != -1)
+			if (aInteractiveUnitIsSelected)
 			{
-				TileManager.costs.Remove(tile.transform.position);
-				TileManager.costs.Add(tile.transform.position, -1);
+				aInteractUnit.renderer.material.color = Color.blue;
+				aInteractUnit = null;
 			}
+			
+			aInteractiveUnitIsSelected = false;
+			aMidTurn = false;
+			aTurnIsCompleted = true;
+			switchTurn();
+			
+			// Some costs may not have been reset. Reset them.
+			foreach (GameObject tile in TileManager.allTiles)
+			{
+				if ((int)TileManager.costs[tile.transform.position] != -1)
+				{
+					TileManager.costs.Remove(tile.transform.position);
+					TileManager.costs.Add(tile.transform.position, -1);
+				}
+			}
+			
+			SendMessage("deselect");
 		}
-		
-		SendMessage("deselect");
 	}
 	
 	public static void deselect()

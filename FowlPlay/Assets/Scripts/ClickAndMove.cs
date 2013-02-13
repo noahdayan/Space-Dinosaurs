@@ -53,12 +53,12 @@ public class ClickAndMove : MonoBehaviour
 					// check to see if object has reached destination tile. if so, stop movement.
 					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
 					{
+						aIsObjectMoving = false;
 						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
 						manager.SendMessage("deselect");
 						CharacterManager.aMidTurn = true;
 						manager.SendMessage("paintAttackableTilesAfterMove");
 						CharacterManager.deselect();
-						aIsObjectMoving = false;
 						//CharacterManager.switchTurn();
 					}
 				}

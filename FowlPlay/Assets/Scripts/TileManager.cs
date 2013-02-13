@@ -493,6 +493,7 @@ public class TileManager : MonoBehaviour {
 		}
 		while (isTileOccupied(randomTile));
 		
+		Debug.Log("random tile coordinate: " + randomTile.transform.position);
 		return randomTile;
 	}
 	
