@@ -35,28 +35,35 @@ public class PlayMenuGUI : MonoBehaviour {
 		if(!PauseMenuGUI.isPaused)
 		{
 			GUI.enabled = CharacterManager.aCurrentlySelectedUnit;
-			if(GUI.Button(new Rect(attackButton), "Attack"))
+		}
+		else
+		{
+			GUI.enabled = false;
+		}
+		if(GUI.Button(new Rect(attackButton), "Attack"))
+		{
+			audio.PlayOneShot(click);
+			if (CharacterManager.aInteractiveUnitIsSelected)
 			{
-				audio.PlayOneShot(click);
-				if (CharacterManager.aInteractiveUnitIsSelected)
-				{
-					manager.SendMessage("attack");
-				}
+				manager.SendMessage("attack");
 			}
-			if(GUI.Button(new Rect(abilityButton), "Ability"))
-			{
-				audio.PlayOneShot(click);
-			}
-			if(GUI.Button(new Rect(cancelButton), "Cancel"))
-			{
-				audio.PlayOneShot(click);
-			}
+		}
+		if(GUI.Button(new Rect(abilityButton), "Ability"))
+		{
+			audio.PlayOneShot(click);
+		}
+		if(GUI.Button(new Rect(cancelButton), "Cancel"))
+		{
+			audio.PlayOneShot(click);
+		}
+		if(!PauseMenuGUI.isPaused)
+		{
 			GUI.enabled = true;
-			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
-			{
-				audio.PlayOneShot(click);
-				manager.SendMessage("endTurn");
-			}
+		}
+		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
+		{
+			audio.PlayOneShot(click);
+			manager.SendMessage("endTurn");
 		}
 		GUI.EndGroup();
 	}
