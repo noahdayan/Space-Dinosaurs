@@ -15,9 +15,12 @@ public class PlayMenuGUI : MonoBehaviour {
 	public Rect cancelButton;
 	Rect menuAreaNormalized;
 	
+	GameObject manager;
+	
 	// Use this for initialization
 	void Start () {
 		menuAreaNormalized = new Rect(menuArea.x * Screen.width - (menuArea.width * 0.5f), menuArea.y * Screen.height - (menuArea.height * 0.5f), menuArea.width, menuArea.height);
+		manager = GameObject.Find("Character");
 	}
 	
 	// Update is called once per frame
@@ -33,6 +36,11 @@ public class PlayMenuGUI : MonoBehaviour {
 		{
 			if(GUI.Button(new Rect(attackButton), "Attack"))
 			{
+				if (CharacterManager.aInteractiveUnitIsSelected)
+				{
+					manager.SendMessage("attack");
+				}
+				
 				audio.PlayOneShot(click);
 			}
 			if(GUI.Button(new Rect(abilityButton), "Ability"))
@@ -42,6 +50,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
 			{
 				audio.PlayOneShot(click);
+				manager.SendMessage("endTurn");
 			}
 			if(GUI.Button(new Rect(cancelButton), "Cancel"))
 			{

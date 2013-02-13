@@ -63,7 +63,7 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aInteractUnit = gameObject;
 						gameObject.renderer.material.color = Color.red;
 
-						charManager.SendMessage("attack");
+						//charManager.SendMessage("attack");
 					}
 					
 				}
