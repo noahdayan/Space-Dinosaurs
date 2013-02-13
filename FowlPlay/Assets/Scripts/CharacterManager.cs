@@ -6,6 +6,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Contains the currently selected object.
 	public static GameObject aCurrentlySelectedUnit;
+	public static GameObject aInteractUnit;
 	
 	// Used for selection and deselection, it contains the selected
 	// unit's original position before any movement happens.
@@ -13,6 +14,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Keeps track of whether any unit is selected at the time.
 	public static bool aSingleUnitIsSelected = false;
+	public static bool aInteractiveUnitIsSelected = false;
 	
 	// These lists aggregate all units.
 	private static List<GameObject> player1Units;
@@ -28,6 +30,8 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Can be either 1 or 2 or 3 or 4
 	public static int aTurn = 1;
+	public static bool aTurnIsCompleted = false;
+	public static bool aMidTurn = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -104,6 +108,41 @@ public class CharacterManager : MonoBehaviour {
 			GameObject.Find("Character").SendMessage("getRange", pUnit);
 	}
 	
+	public void attack()
+	{
+		// Do attack stuff
+		
+		// When attack is complete, end turn (for now)
+		
+		// Deselect all tiles and clear all stuff.
+		SendMessage("unhighlightRange");
+		endTurn();
+	}
+	
+	public void endTurn()
+	{
+		if (aInteractiveUnitIsSelected)
+		{
+			aInteractUnit.renderer.material.color = Color.blue;
+			aInteractUnit = null;
+		}
+		
+		aInteractiveUnitIsSelected = false;
+		aMidTurn = false;
+		aTurnIsCompleted = true;
+		switchTurn();
+		
+		// Some costs may not have been reset. Reset them.
+		foreach (GameObject tile in TileManager.allTiles)
+		{
+			if ((int)TileManager.costs[tile.transform.position] != -1)
+			{
+				TileManager.costs.Remove(tile.transform.position);
+				TileManager.costs.Add(tile.transform.position, -1);
+			}
+		}
+	}
+	
 	public static void deselect()
 	{
 		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
@@ -131,31 +170,37 @@ public class CharacterManager : MonoBehaviour {
 	
 	public static void switchTurn()
 	{
-		if (aTurn == 1)
+		if(aTurnIsCompleted)
 		{
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
-			//GameObject.Find("Character").SendMessage("pickRandomTile");
-			/*foreach (GameObject unit in player1Units)
+			if (aTurn == 1)
 			{
-				unit.SendMessage("EndTurnTickUntame", 1);
-			}*/
-			aTurn = 2;
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
+				//GameObject.Find("Character").SendMessage("pickRandomTile");
+				/*foreach (GameObject unit in player1Units)
+				{
+					unit.SendMessage("EndTurnTickUntame", 1);
+				}*/
+				aTurn = 2;
+			}
+			else if (aTurn == 2)
+			{
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+				aTurn = 3;
+			}
+			else if (aTurn == 3)
+			{
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
+				//GameObject.Find("Character").SendMessage("pickRandomTile");
+				aTurn = 4;
+			}
+			else if (aTurn == 4)
+			{
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+				aTurn = 1;
+			}
+			
 		}
-		else if (aTurn == 2)
-		{
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
-			aTurn = 3;
-		}
-		else if (aTurn == 3)
-		{
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
-			//GameObject.Find("Character").SendMessage("pickRandomTile");
-			aTurn = 4;
-		}
-		else if (aTurn == 4)
-		{
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
-			aTurn = 1;
-		}
+		
+		aTurnIsCompleted = false;
 	}
 }

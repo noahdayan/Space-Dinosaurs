@@ -55,9 +55,11 @@ public class ClickAndMove : MonoBehaviour
 					{
 						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
 						manager.SendMessage("deselect");
+						CharacterManager.aMidTurn = true;
+						manager.SendMessage("paintAttackableTilesAfterMove");
 						CharacterManager.deselect();
 						aIsObjectMoving = false;
-						CharacterManager.switchTurn();
+						//CharacterManager.switchTurn();
 					}
 				}
 			}

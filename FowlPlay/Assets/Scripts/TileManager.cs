@@ -11,7 +11,7 @@ public class TileManager : MonoBehaviour {
 	public CharacterManager aCharacterManager;
 	
 	// Lists to aggregate tiles
-	private static GameObject[] allTiles;
+	public static GameObject[] allTiles;
 	private static GameObject[] allNonTiles; // NonTiles are the border tiles
 	
 	// Tracks all tiles (Vector3 : tile position, tile)
@@ -21,11 +21,10 @@ public class TileManager : MonoBehaviour {
 	public static Hashtable occupiedTilesHT;
 	
 	// Used for finding the range of movement
-	private Hashtable costs;
-	private Hashtable costsW;
+	public static Hashtable costs;
 	private List<GameObject> tilesInRange;
-	private List<GameObject> tilesInRangeW;
 	private List<GameObject> tilesInAttackRange;
+	public static List<GameObject> tilesInMidTurnAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
 	public Material aTileDefault, aTileBlue, aTileRed;
@@ -43,10 +42,9 @@ public class TileManager : MonoBehaviour {
 		
 		// Used for calculating ranges.
 		costs = new Hashtable();
-		costsW = new Hashtable();
 		tilesInRange = new List<GameObject>();
-		tilesInRangeW = new List<GameObject>();
 		tilesInAttackRange = new List<GameObject>();
+		tilesInMidTurnAttackRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
 		{
@@ -73,21 +71,31 @@ public class TileManager : MonoBehaviour {
 		unitsTile.y = 2;
 		
 		int range = 3;
-		int attackRange = 1;
+		int attackRange = 2;
 		
-		// The function runs and updates the attribute tilesInRange
+		// The function runs and updates the attributes tilesInRange and tilesInAttackRange
 		getTilesInRange(getTileAt(unitsTile), range, attackRange);
 	}
 	
 	public void unhighlightRange()
-	{		
-		foreach (GameObject tile in tilesInRange)
-			if (tile != null)
-				tile.renderer.material = aTileDefault;
-			
-		foreach (GameObject tile in tilesInAttackRange)
-			if (tile != null)
-				tile.renderer.material = aTileDefault;
+	{
+		if (!CharacterManager.aMidTurn)
+		{
+			foreach (GameObject tile in tilesInRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+				
+			foreach (GameObject tile in tilesInAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+		}
+		
+		else
+		{
+			foreach (GameObject tile in tilesInMidTurnAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+		}
 	}
 	
 	/**
@@ -129,6 +137,17 @@ public class TileManager : MonoBehaviour {
 		
 		Vector3 position = pUnit.transform.position;
 		position.y = 2.0f;
+		
+		List<Vector3> results = new List<Vector3>();
+		
+		if (range == 1)
+		{
+			foreach(GameObject x in getSurroundingSix(getTileAt(position)))
+				results.Add(x.transform.position);
+			
+			return results;
+		}
+		
 		Queue<Vector3> open = new Queue<Vector3>();
 		
 		List<Vector3> closed = new List<Vector3>();
@@ -176,10 +195,8 @@ public class TileManager : MonoBehaviour {
 		
 		} while (!empty);
 		
-		List<Vector3> results = new List<Vector3>();
-		
 		foreach (Vector3 x in closed)
-			if ((int)costs[x] < range)
+			if ((int)costs[x] < range )
 				results.Add(x);
 		
 		return results;
@@ -196,9 +213,7 @@ public class TileManager : MonoBehaviour {
 		tilesInRange.Clear();
 		tilesInAttackRange.Clear();
 		
-		List<Vector3> closedSpecial = new List<Vector3>();
 		List<Vector3> firstPass = new List<Vector3>();
-		List<Vector3> firstPassOccupiedTiles = new List<Vector3>();
 		
 		// The first pass. We check to see what tiles are within range, without considering obstacles that would reduce range.
 		List<Vector3> closed = dijkstra(pUnit,pRange,pAttackRange,1);
@@ -220,9 +235,7 @@ public class TileManager : MonoBehaviour {
 		List<Vector3> closedBis = dijkstra(pUnit,pRange,pAttackRange,2);
 		
 		foreach (Vector3 x in closedBis)
-		{
-			bool edgecase = false;
-			
+		{	
 			if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
 			{
 				// If the cost of reaching the tile is less than the walking range, and the tile
@@ -481,5 +494,56 @@ public class TileManager : MonoBehaviour {
 		while (isTileOccupied(randomTile));
 		
 		return randomTile;
-	}	
+	}
+	
+	// After the move is complete, we check to see if there are any enemies within attack range.
+	// If there are, paint the attack range red and allow the player to choose to attack.
+	// If there are not, end the turn (for now). TODO.
+	public void paintAttackableTilesAfterMove()
+	{	
+		// If it's the robot, ignore all of this and end its turn.
+		if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))
+			SendMessage("endTurn");
+		
+		else
+		{
+			tilesInMidTurnAttackRange.Clear();
+			
+			bool canAttack = false;
+			
+			Vector3 unitsTile = CharacterManager.aCurrentlySelectedUnit.transform.position;
+			unitsTile.y = 2.0f;
+			
+			foreach (Vector3 x in dijkstra(CharacterManager.aCurrentlySelectedUnit, 0, 2, 1))
+			{
+				if (getTileAt(x).tag.Equals("OccupiedTile") && x!= unitsTile)
+				{
+					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
+					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))	
+						canAttack = true;
+				}
+				
+				tilesInMidTurnAttackRange.Add(getTileAt(x));
+				costs.Remove(x);
+				costs.Add(x, -1);
+			}
+			
+			if (canAttack)
+			{
+				foreach (GameObject x in tilesInMidTurnAttackRange)
+				{
+					if (x.Equals(getTileAt(unitsTile)))
+						x.renderer.material = aTileDefault;
+					else
+						x.renderer.material = aTileRed;
+				}
+				
+			}
+			
+			else
+				SendMessage("endTurn");
+		}
+			
+	}
 }
+

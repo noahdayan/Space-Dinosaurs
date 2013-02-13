@@ -26,7 +26,7 @@ public class ObjectSelection : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
 	   	{
 			// check that it is the object's turn to move
-			if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3))
+			if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
 			{
 				// select the object only if it is not selected and no objects are in movement
 				if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
@@ -44,6 +44,28 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						CharacterManager.deselect();
 					}
+				}
+			}
+			
+			// If it's not the object's turn, then check to see whether it is being attacked/tamed. 
+			else// if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 2) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 4) || transform.gameObject.tag == "Enemy")
+			{
+				// select the object only if it is mid-turn
+				if (CharacterManager.aMidTurn)
+				{
+					// check to see if it's in range
+					Vector3 unitsPosition = gameObject.transform.position;
+					unitsPosition.y = 2.0f;
+
+					if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
+					{
+						CharacterManager.aInteractiveUnitIsSelected = true;
+						CharacterManager.aInteractUnit = gameObject;
+						gameObject.renderer.material.color = Color.red;
+
+						charManager.SendMessage("attack");
+					}
+					
 				}
 			}
 		}
