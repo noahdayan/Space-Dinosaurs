@@ -475,10 +475,8 @@ public class TileManager : MonoBehaviour {
 	private static bool isTileOccupied(GameObject pTile)
 	{
 		if (pTile.tag.Equals("OccupiedTile"))
-		{
-			Debug.Log("Occupied");
 			return true;
-		}
+		
 		else
 			return false;
 	}
@@ -492,8 +490,7 @@ public class TileManager : MonoBehaviour {
 			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length - 1)];
 		}
 		while (isTileOccupied(randomTile));
-		
-		Debug.Log("random tile coordinate: " + randomTile.transform.position);
+
 		return randomTile;
 	}
 	
@@ -536,10 +533,12 @@ public class TileManager : MonoBehaviour {
 					if (x.Equals(getTileAt(unitsTile)))
 						x.renderer.material = aTileDefault;
 					else
+					{
 						x.renderer.material = aTileRed;
+					}
 				}
 				
-				tilesInMidTurnAttackRange.Clear();
+				//tilesInMidTurnAttackRange.Clear();
 				
 			}
 			

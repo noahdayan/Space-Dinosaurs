@@ -116,6 +116,9 @@ public class CharacterManager : MonoBehaviour {
 		
 		// Deselect all tiles and clear all stuff.
 		SendMessage("unhighlightRange");
+		
+		deselect();
+		
 		endTurn();
 	}
 	
@@ -144,28 +147,31 @@ public class CharacterManager : MonoBehaviour {
 				}
 			}
 			
-			SendMessage("deselect");
+			deselect();
 		}
 	}
 	
 	public static void deselect()
 	{
-		aCurrentlySelectedUnit.renderer.material.color = Color.blue;
-		
-		// if the unit has moved, update the hashtables
-		if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
+		if (aCurrentlySelectedUnit != null)
 		{
-			unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
-			aCurrentlySelectedUnitOriginalPosition.y = 2.0f;
-			TileManager.occupiedTilesHT.Remove(aCurrentlySelectedUnitOriginalPosition);
-
-			unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
-			Vector3 correctedPosition = aCurrentlySelectedUnit.transform.position;
-			correctedPosition.y = 2.0f;
-			TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
+			aCurrentlySelectedUnit.renderer.material.color = Color.blue;
+			
+			// if the unit has moved, update the hashtables
+			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
+			{
+				unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+				aCurrentlySelectedUnitOriginalPosition.y = 2.0f;
+				TileManager.occupiedTilesHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+	
+				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
+				Vector3 correctedPosition = aCurrentlySelectedUnit.transform.position;
+				correctedPosition.y = 2.0f;
+				TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
+			}
+			
+			aCurrentlySelectedUnit = null;
 		}
-		
-		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
 		
 		// un-highlight tiles in range

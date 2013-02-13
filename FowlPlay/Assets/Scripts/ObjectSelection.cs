@@ -56,6 +56,8 @@ public class ObjectSelection : MonoBehaviour {
 					// check to see if it's in range
 					Vector3 unitsPosition = gameObject.transform.position;
 					unitsPosition.y = 2.0f;
+					
+					Debug.Log("midrange tiles size = " + TileManager.tilesInMidTurnAttackRange.Count);
 
 					if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
 					{
