@@ -35,9 +35,11 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						CharacterManager.deselect();
 						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
+						ProgressBarGUI.show = false;
 					}
 					charManager.SendMessage("selectUnit", gameObject);
 					gameObject.GetComponentInChildren<Camera>().camera.enabled = true;
+					ProgressBarGUI.show = true;
 				}
 				
 				// de-select the object, but only if it's not moving.
@@ -47,6 +49,7 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						CharacterManager.deselect();
 						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
+						ProgressBarGUI.show = false;
 					}
 				}
 			}

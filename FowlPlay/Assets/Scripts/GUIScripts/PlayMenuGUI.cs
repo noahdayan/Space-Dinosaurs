@@ -34,25 +34,24 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		if(!PauseMenuGUI.isPaused)
 		{
-			if(CharacterManager.aCurrentlySelectedUnit)
+			GUI.enabled = CharacterManager.aCurrentlySelectedUnit;
+			if(GUI.Button(new Rect(attackButton), "Attack"))
 			{
-				if(GUI.Button(new Rect(attackButton), "Attack"))
+				audio.PlayOneShot(click);
+				if (CharacterManager.aInteractiveUnitIsSelected)
 				{
-					audio.PlayOneShot(click);
-					if (CharacterManager.aInteractiveUnitIsSelected)
-					{
-						manager.SendMessage("attack");
-					}
-				}
-				if(GUI.Button(new Rect(abilityButton), "Ability"))
-				{
-					audio.PlayOneShot(click);
-				}
-				if(GUI.Button(new Rect(cancelButton), "Cancel"))
-				{
-					audio.PlayOneShot(click);
+					manager.SendMessage("attack");
 				}
 			}
+			if(GUI.Button(new Rect(abilityButton), "Ability"))
+			{
+				audio.PlayOneShot(click);
+			}
+			if(GUI.Button(new Rect(cancelButton), "Cancel"))
+			{
+				audio.PlayOneShot(click);
+			}
+			GUI.enabled = true;
 			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
 			{
 				audio.PlayOneShot(click);
