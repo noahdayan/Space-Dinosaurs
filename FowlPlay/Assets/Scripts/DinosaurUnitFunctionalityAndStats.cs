@@ -3,13 +3,23 @@ using System.Collections;
 
 public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
-	public int healthPoints, defensePoints, attackPoints;
-	public float tamePoints;
-	public int moveCost;
-	public float tameRate;
-	public int tameTickAmount;
+	public int healthPoints = 100;
+	public int defensePoints = 10;
+	public int attackPoints = 15;
+	public float tamePoints  = 100.0f;
+	public int moveCost = 1;
+	public int moveRange = 3;
+	public float tameRate = 1.0f;
+	public int tameTickAmount = 10;
 	public bool tamed = false;
+	public string species;
+	public GameObject deathParticle;
 	
+	
+	/*void OnMouseEnter()
+	{
+		Die ();
+	}*/
 	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function
@@ -17,11 +27,16 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	 * @param dmg the ammount of damage to be dealt
 	 * @return returns the remaining health of this unit after the attack.
 	 */
-	public int TakeDamage(int dmg)
+	public int TakeAttackDamage(int dmg)
 	{
 		if (dmg - defensePoints > 0)
 		{
 			healthPoints -= dmg - defensePoints;
+		}
+		
+		if (healthPoints <= 0)
+		{
+			Die ();
 		}
 		return healthPoints;
 	}
@@ -35,7 +50,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		unit.SendMessage("TakeDamage", attackPoints);		
+		unit.SendMessage("TakeAttackDamage", attackPoints);		
 	}
 	
 	public float AddTamePointsByRate (int tameAmount, string teamToSwitchTo)
@@ -63,5 +78,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tamed = false;
 		}
 	}
+	
+	public void OnSelectedSetHud()
+	{
+		//Set the attributes of the GUI via send message and sending this units current stats and max stats.
+	}
+	
+	public void Die()
+	{
+		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
+		Destroy(gameObject);
+	}
+		
 	
 }

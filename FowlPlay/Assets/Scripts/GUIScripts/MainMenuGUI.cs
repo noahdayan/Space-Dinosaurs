@@ -7,6 +7,7 @@ public class MainMenuGUI : MonoBehaviour {
 	
 	public AudioClip click;
 	public GUISkin menuSkin;
+	public int guiDepth = 0;
 	public Rect menuArea;
 	public Rect playButton;
 	public Rect creditsButton;
@@ -28,6 +29,7 @@ public class MainMenuGUI : MonoBehaviour {
 	
 	void OnGUI() {
 		GUI.skin = menuSkin;
+		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
 		if(menuPage == "main")
 		{

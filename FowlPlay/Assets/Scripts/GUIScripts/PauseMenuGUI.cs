@@ -7,6 +7,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	
 	public AudioClip click;
 	public GUISkin menuSkin;
+	public int guiDepth = 0;
 	public Rect menuArea;
 	public Rect resumeButton;
 	public Rect optionsButton;
@@ -15,7 +16,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	Rect menuAreaNormalized;
 	string menuPage = "main";
 	public Rect options;
-	bool isPaused = false;
+	public static bool isPaused = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -41,6 +42,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	
 	void OnGUI() {
 		GUI.skin = menuSkin;
+		GUI.depth = guiDepth;
 		if(isPaused)
 		{
 			GUI.BeginGroup(menuAreaNormalized);
