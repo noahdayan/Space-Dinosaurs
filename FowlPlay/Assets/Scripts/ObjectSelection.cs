@@ -32,9 +32,12 @@ public class ObjectSelection : MonoBehaviour {
 				if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
 				{
 					if (CharacterManager.aSingleUnitIsSelected)
+					{
 						CharacterManager.deselect();
-					
+						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
+					}
 					charManager.SendMessage("selectUnit", gameObject);
+					gameObject.GetComponentInChildren<Camera>().camera.enabled = true;
 				}
 				
 				// de-select the object, but only if it's not moving.
@@ -43,6 +46,7 @@ public class ObjectSelection : MonoBehaviour {
 					if (!ClickAndMove.aIsObjectMoving)
 					{
 						CharacterManager.deselect();
+						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
 					}
 				}
 			}

@@ -102,6 +102,7 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnitOriginalPosition = pUnit.transform.position;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
+		//pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 		
 		// highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
@@ -172,7 +173,12 @@ public class CharacterManager : MonoBehaviour {
 			
 			aCurrentlySelectedUnit = null;
 		}
+		
+		//aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
+		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
+		
+		
 		
 		// un-highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
