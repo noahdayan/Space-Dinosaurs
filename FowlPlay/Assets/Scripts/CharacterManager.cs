@@ -141,6 +141,8 @@ public class CharacterManager : MonoBehaviour {
 				TileManager.costs.Add(tile.transform.position, -1);
 			}
 		}
+		
+		SendMessage("deselect");
 	}
 	
 	public static void deselect()

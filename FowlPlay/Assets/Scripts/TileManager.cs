@@ -538,6 +538,8 @@ public class TileManager : MonoBehaviour {
 						x.renderer.material = aTileRed;
 				}
 				
+				tilesInMidTurnAttackRange.Clear();
+				
 			}
 			
 			else
