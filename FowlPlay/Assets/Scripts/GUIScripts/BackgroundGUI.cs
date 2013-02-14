@@ -25,11 +25,14 @@ public class BackgroundGUI : MonoBehaviour {
 	private int spikeCount;
 	
 	public Rect windowArea;
+	public Rect mapArea;
 	Rect windowAreaNormalized;
+	Rect mapAreaNormalized;
 	
 	// Use this for initialization
 	void Start () {
 		windowAreaNormalized = new Rect(windowArea.x * Screen.width - (windowArea.width * 0.5f), windowArea.y * Screen.height - (windowArea.height * 0.5f), windowArea.width, windowArea.height);
+		mapAreaNormalized = new Rect(mapArea.x * Screen.width - (mapArea.width * 0.5f), mapArea.y * Screen.height - (mapArea.height * 0.5f), mapArea.width, mapArea.height);
 	}
 	
 	// Update is called once per frame
@@ -41,16 +44,23 @@ public class BackgroundGUI : MonoBehaviour {
 		GUI.skin = backgroundSkin;
 		GUI.depth = guiDepth;
 		
-		GUI.Window(0, windowAreaNormalized, MapWindow, "");
+		GUI.Window(0, windowAreaNormalized, ProgressWindow, "");
+		GUI.Window(1, mapAreaNormalized, MapWindow, "");
+		
+		GameObject.Find("HUD Mini Map Camera").camera.Render();
+	}
+	
+	void ProgressWindow(int id) {
+		AddSpikes(windowAreaNormalized.width);
 	}
 	
 	void MapWindow(int id) {
-		
+		AddSpikes(mapAreaNormalized.width);
 	}
 	
-	void AddSpikes(int winX)
+	void AddSpikes(float winX)
 	{
-		spikeCount = (winX - 152)/22;
+		spikeCount = Mathf.FloorToInt(winX - 152)/22;
 		GUILayout.BeginHorizontal();
 		GUILayout.Label ("", "SpikeLeft");//-------------------------------- custom
 		for (int i = 0; i < spikeCount; i++)
