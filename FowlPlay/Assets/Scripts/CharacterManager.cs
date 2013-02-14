@@ -87,6 +87,7 @@ public class CharacterManager : MonoBehaviour {
 		}
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+
 	}
 	
 	// Update is called once per frame
@@ -118,7 +119,7 @@ public class CharacterManager : MonoBehaviour {
 		// Deselect all tiles and clear all stuff.
 		SendMessage("unhighlightRange");
 		
-		deselect();
+		deselectUnit();
 		
 		endTurn();
 	}
@@ -139,6 +140,14 @@ public class CharacterManager : MonoBehaviour {
 			switchTurn();
 			
 			// Some costs may not have been reset. Reset them.
+			resetCosts();
+
+			deselectUnit();
+		}
+	}
+	
+	public static void resetCosts()
+	{
 			foreach (GameObject tile in TileManager.allTiles)
 			{
 				if ((int)TileManager.costs[tile.transform.position] != -1)
@@ -146,13 +155,10 @@ public class CharacterManager : MonoBehaviour {
 					TileManager.costs.Remove(tile.transform.position);
 					TileManager.costs.Add(tile.transform.position, -1);
 				}
-			}
-			
-			deselect();
-		}
+			}	
 	}
 	
-	public static void deselect()
+	public void deselectUnit()
 	{
 		if (aCurrentlySelectedUnit != null)
 		{
@@ -182,7 +188,35 @@ public class CharacterManager : MonoBehaviour {
 		
 		// un-highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
-			GameObject.Find("Character").SendMessage("unhighlightRange");
+			SendMessage("unhighlightRange");
+	}
+	
+	public void cancelMove()
+	{
+		SendMessage("unhighlightRange");
+		
+		GameObject temp = aCurrentlySelectedUnit;
+		
+		Vector3 tile = aCurrentlySelectedUnit.transform.position;
+		tile.y = 2.0f;
+		
+		TileManager.getTileAt(tile).renderer.material.color = Color.red;
+		TileManager.getTileAt(tile).tag = "Tile";
+		
+		TileManager.occupiedTilesHT.Remove(tile);
+		
+		Vector3 oldTile = aCurrentlySelectedUnitOriginalPosition;
+		oldTile.y = 2.0f;
+		
+		TileManager.getTileAt(oldTile).tag = "OccupiedTile";
+		
+		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
+		
+		resetCosts();
+		aMidTurn = false;
+		deselectUnit();
+		SendMessage("deselectTile");
+		selectUnit(temp);
 	}
 	
 	public static void switchTurn()

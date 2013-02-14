@@ -34,7 +34,7 @@ public class AutoSelection : MonoBehaviour {
 				{
 					if (!ClickAndMove.aIsObjectMoving)
 					{
-						CharacterManager.deselect();
+						charManager.SendMessage("deselect");
 					}
 				}
 			}

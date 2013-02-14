@@ -33,7 +33,7 @@ public class ObjectSelection : MonoBehaviour {
 				{
 					if (CharacterManager.aSingleUnitIsSelected)
 					{
-						CharacterManager.deselect();
+						charManager.SendMessage("deselectUnit");
 						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
 					}
 					charManager.SendMessage("selectUnit", gameObject);
@@ -45,7 +45,7 @@ public class ObjectSelection : MonoBehaviour {
 				{
 					if (!ClickAndMove.aIsObjectMoving)
 					{
-						CharacterManager.deselect();
+						charManager.SendMessage("deselectUnit");
 						gameObject.GetComponentInChildren<Camera>().camera.enabled = false;
 					}
 				}

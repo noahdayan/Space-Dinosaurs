@@ -153,7 +153,6 @@ public class TileManager : MonoBehaviour {
 		List<Vector3> closed = new List<Vector3>();
 		
 		open.Enqueue(position);
-		bool empty = false;
 		
 		do
 		{
@@ -183,17 +182,12 @@ public class TileManager : MonoBehaviour {
 								open.Enqueue(neighbor.transform.position);
 						}
 					} catch (NullReferenceException e) {
-						Debug.Log("Caught exception - Null tile");
+						Debug.Log("Caught exception - Null tile" + e);
 					}
 				}
 			}
-			
-			// Try-catch to safely detect whether the queue is empty.
-			try { open.Peek(); }
-			catch (InvalidOperationException e)
-				{ empty = true; }
 		
-		} while (!empty);
+		} while (open.Count > 0);
 		
 		foreach (Vector3 x in closed)
 			if ((int)costs[x] < range )
@@ -299,11 +293,15 @@ public class TileManager : MonoBehaviour {
 					if (xx.tag.Equals("OccupiedTile"))
 					{
 						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
-						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-						{
-							xx.renderer.material = aTileRed;
-							tilesInAttackRange.Add(xx);
-						}
+						Debug.Log("OCC UNIT : " + occupiedTilesHT.ContainsKey(xx.transform.position));
+						Debug.Log("POSITION: " + xx.transform.position);
+						//xx.renderer.material.color = Color.red;
+							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+							{
+								xx.renderer.material = aTileRed;
+								tilesInAttackRange.Add(xx);
+							}
+
 					}
 				}
 			}
@@ -453,7 +451,7 @@ public class TileManager : MonoBehaviour {
 		}		
 	}
 	
-	public void deselect()
+	public void deselectTile()
 	{
 		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
@@ -499,6 +497,7 @@ public class TileManager : MonoBehaviour {
 	// If there are not, end the turn (for now). TODO.
 	public void paintAttackableTilesAfterMove()
 	{	
+			
 		// If it's the robot, ignore all of this and end its turn.
 		if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))
 			SendMessage("endTurn");

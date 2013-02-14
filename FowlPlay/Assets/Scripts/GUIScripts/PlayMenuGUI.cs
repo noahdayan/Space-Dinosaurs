@@ -51,6 +51,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				if(GUI.Button(new Rect(cancelButton), "Cancel"))
 				{
 					audio.PlayOneShot(click);
+					manager.SendMessage("cancelMove");
 				}
 			}
 			if(GUI.Button(new Rect(endTurnButton), "End Turn"))

@@ -55,7 +55,7 @@ public class ClickAndMove : MonoBehaviour
 					{
 						aIsObjectMoving = false;
 						CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-						manager.SendMessage("deselect");
+						manager.SendMessage("deselectTile");
 						CharacterManager.aMidTurn = true;
 						manager.SendMessage("paintAttackableTilesAfterMove");
 						
