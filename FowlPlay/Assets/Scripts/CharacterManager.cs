@@ -127,6 +127,27 @@ public class CharacterManager : MonoBehaviour {
 		endTurn();
 	}
 	
+	public static void killUnit(GameObject pUnit)
+	{
+		if (pUnit.tag.Equals("Player1"))
+			player1Units.Remove(pUnit);
+		
+		else if (pUnit.tag.Equals("Player2"))
+			player2Units.Remove(pUnit);
+		
+		else if (pUnit.tag.Equals("Enemy"))
+			untamedUnits.Remove(pUnit);
+		
+		
+		unitsHT.Remove(pUnit.transform.position);
+		
+		Vector3 unitsTile = pUnit.transform.position;
+		unitsTile.y = 2.0f;
+		
+		TileManager.occupiedTilesHT.Remove(unitsTile);
+		TileManager.getTileAt(unitsTile).tag = "Tile";
+	}
+	
 	public void endTurn()
 	{
 		if (!ClickAndMove.aIsObjectMoving)

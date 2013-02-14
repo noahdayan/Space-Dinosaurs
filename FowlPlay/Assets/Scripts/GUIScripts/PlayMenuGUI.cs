@@ -55,7 +55,9 @@ public class PlayMenuGUI : MonoBehaviour {
 		if(GUI.Button(new Rect(cancelButton), "Cancel"))
 		{
 			audio.PlayOneShot(click);
-			manager.SendMessage("cancelMove");
+			
+			if(CharacterManager.aMidTurn)
+				manager.SendMessage("cancelMove");
 		}
 		if(!PauseMenuGUI.isPaused)
 		{

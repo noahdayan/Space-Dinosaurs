@@ -91,6 +91,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void Die()
 	{
 		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
+		CharacterManager.killUnit(gameObject);
 		Destroy(gameObject);
 	}
 	
