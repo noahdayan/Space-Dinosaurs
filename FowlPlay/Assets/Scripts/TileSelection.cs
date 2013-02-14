@@ -17,7 +17,7 @@ public class TileSelection : MonoBehaviour {
 	void OnMouseDown()
 	{
 		// select the tile
-		if (TileManager.aCurrentlySelectedTile != gameObject)
+		if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn)
 		{
 			if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 			{
@@ -27,7 +27,7 @@ public class TileSelection : MonoBehaviour {
 		}
 		
 		// de-select the tile, but only if the unit is not moving towards it
-		else if (TileManager.aCurrentlySelectedTile == gameObject)
+		else if (TileManager.aCurrentlySelectedTile == gameObject && !CharacterManager.aMidTurn)
 		{
 			if (!CharacterManager.aSingleUnitIsSelected)
 			{

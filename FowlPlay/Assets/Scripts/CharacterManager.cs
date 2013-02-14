@@ -116,6 +116,9 @@ public class CharacterManager : MonoBehaviour {
 		// When attack is complete, end turn (for now)
 		
 		// Deselect all tiles and clear all stuff.
+		
+		aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
+		
 		SendMessage("unhighlightRange");
 		
 		deselect();

@@ -4,9 +4,11 @@ using System.Collections;
 public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public int healthPoints = 100;
+	public int maxHealthPoints = 100;
 	public int defensePoints = 10;
 	public int attackPoints = 15;
 	public float tamePoints  = 100.0f;
+	public float maxTamePoints = 100.0f;
 	public int moveCost = 1;
 	public int moveRange = 3;
 	public float tameRate = 1.0f;
@@ -38,6 +40,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			Die ();
 		}
+		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
+		UpdateGuiHealthBar();
 		return healthPoints;
 	}
 	
@@ -88,6 +92,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
 		Destroy(gameObject);
+	}
+	
+	public void UpdateGuiHealthBar()
+	{
+		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 	}
 		
 	

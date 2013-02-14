@@ -39,6 +39,7 @@ public class ObjectSelection : MonoBehaviour {
 					}
 					charManager.SendMessage("selectUnit", gameObject);
 					gameObject.GetComponentInChildren<Camera>().camera.enabled = true;
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
 					ProgressBarGUI.show = true;
 				}
 				
