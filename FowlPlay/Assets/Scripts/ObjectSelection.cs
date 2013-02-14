@@ -57,7 +57,7 @@ public class ObjectSelection : MonoBehaviour {
 			}
 			
 			// If it's not the object's turn, then check to see whether it is being attacked/tamed. 
-			else// if ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 2) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 4) || transform.gameObject.tag == "Enemy")
+			else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy") && CharacterManager.aMidTurn)
 			{
 				// select the object only if it is mid-turn
 				if (CharacterManager.aMidTurn)

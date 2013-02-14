@@ -509,6 +509,7 @@ public class TileManager : MonoBehaviour {
 			Vector3 unitsTile = CharacterManager.aCurrentlySelectedUnit.transform.position;
 			unitsTile.y = 2.0f;
 			
+			// Check to see whether there are any attackable units in range.
 			foreach (Vector3 x in dijkstra(CharacterManager.aCurrentlySelectedUnit, 0, 2, 1))
 			{
 				if (getTileAt(x).tag.Equals("OccupiedTile") && x!= unitsTile)
@@ -531,7 +532,15 @@ public class TileManager : MonoBehaviour {
 						x.renderer.material = aTileDefault;
 					else
 					{
-						x.renderer.material = aTileRed;
+						if (x.tag.Equals("OccupiedTile"))
+						{
+							GameObject occupyingUnit = (GameObject)occupiedTilesHT[x.transform.position];
+							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))	
+								x.renderer.material = aTileRed;
+						}
+						
+						else
+							x.renderer.material = aTileRed;
 					}
 				}
 				
