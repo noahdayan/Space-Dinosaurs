@@ -17,26 +17,17 @@ public class AutoSelection : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-			// check that it is the object's turn to move
-			if (CharacterManager.aTurn == 2 || CharacterManager.aTurn == 4)
+		// check that it is the object's turn to move
+		if (CharacterManager.aTurn == 2 || CharacterManager.aTurn == 4)
+		{
+			// select the object only if it is not selected and no objects are in movement
+			if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
 			{
-				// select the object only if it is not selected and no objects are in movement
-				if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
-				{
-					ClickAndMove.aIsObjectMoving = true;			
-					TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
-					TileManager.aSingleTileIsSelected = true;
-					charManager.SendMessage("selectUnit", gameObject);
-				}
-				
-				// de-select the object, but only if it's not moving.
-				else if (CharacterManager.aCurrentlySelectedUnit == gameObject)
-				{
-					if (!ClickAndMove.aIsObjectMoving)
-					{
-						charManager.SendMessage("deselect");
-					}
-				}
+				ClickAndMove.aIsObjectMoving = true;			
+				TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
+				TileManager.aSingleTileIsSelected = true;
+				charManager.SendMessage("selectUnit", gameObject);
 			}
+		}
 	}
 }

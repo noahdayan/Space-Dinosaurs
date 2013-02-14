@@ -65,5 +65,23 @@ public class ClickAndMove : MonoBehaviour
 				}
 			}
 		}
+		if (CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected)
+		{
+			Vector3 tileOne = CharacterManager.aInteractUnit.transform.position;
+			Vector3 tileTwo = CharacterManager.aCurrentlySelectedUnit.transform.position;
+			tileOne.y = 2.0f;
+			tileTwo.y = 2.0f;
+			Vector3 newRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
+			newRotation.x = CharacterManager.startRot.x;
+			newRotation.z = CharacterManager.startRot.z;
+			
+			Vector3 opponentRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+			opponentRotation.x = CharacterManager.startRot.x;
+			opponentRotation.z = CharacterManager.startRot.z;
+			
+			CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
+			CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
+
+		}
 	}
 }

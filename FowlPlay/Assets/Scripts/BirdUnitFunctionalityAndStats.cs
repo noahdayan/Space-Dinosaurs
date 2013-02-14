@@ -5,6 +5,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 
 	public int tamePower = 50;
 	public int healthPoints = 100;
+	public int maxHealthPoints = 100;
 	public int defensePoints = 10;
 	public int attackPoints = 15;
 	public int moveCost = 1;
@@ -23,6 +24,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			healthPoints -= dmg - defensePoints;
 		}
+		if (healthPoints <= 0)
+		{
+			Die ();
+		}
+		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
+		UpdateGuiHealthBar();
 		return healthPoints;
 	}
 	
@@ -52,6 +59,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
 		Destroy(gameObject);
+	}
+	
+	public void UpdateGuiHealthBar()
+	{
+		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 	}
 	
 }

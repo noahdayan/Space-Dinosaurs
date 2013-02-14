@@ -117,6 +117,9 @@ public class CharacterManager : MonoBehaviour {
 		// When attack is complete, end turn (for now)
 		
 		// Deselect all tiles and clear all stuff.
+		
+		aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
+		
 		SendMessage("unhighlightRange");
 		
 		deselectUnit();
@@ -155,7 +158,14 @@ public class CharacterManager : MonoBehaviour {
 					TileManager.costs.Remove(tile.transform.position);
 					TileManager.costs.Add(tile.transform.position, -1);
 				}
-			}	
+			}
+			
+			if(aCurrentlySelectedUnit && aCurrentlySelectedUnit.tag != "Enemy")
+			{
+				aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
+			}
+			
+			//deselectUnit();
 	}
 	
 	public void deselectUnit()

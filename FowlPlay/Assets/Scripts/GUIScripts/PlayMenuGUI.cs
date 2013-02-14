@@ -34,31 +34,37 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		if(!PauseMenuGUI.isPaused)
 		{
-			if(CharacterManager.aCurrentlySelectedUnit)
+			GUI.enabled = CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving;
+		}
+		else
+		{
+			GUI.enabled = false;
+		}
+		if(GUI.Button(new Rect(attackButton), "Attack"))
+		{
+			audio.PlayOneShot(click);
+			if (CharacterManager.aInteractiveUnitIsSelected)
 			{
-				if(GUI.Button(new Rect(attackButton), "Attack"))
-				{
-					audio.PlayOneShot(click);
-					if (CharacterManager.aInteractiveUnitIsSelected)
-					{
-						manager.SendMessage("attack");
-					}
-				}
-				if(GUI.Button(new Rect(abilityButton), "Ability"))
-				{
-					audio.PlayOneShot(click);
-				}
-				if(GUI.Button(new Rect(cancelButton), "Cancel"))
-				{
-					audio.PlayOneShot(click);
-					manager.SendMessage("cancelMove");
-				}
+				manager.SendMessage("attack");
 			}
-			if(GUI.Button(new Rect(endTurnButton), "End Turn"))
-			{
-				audio.PlayOneShot(click);
-				manager.SendMessage("endTurn");
-			}
+		}
+		if(GUI.Button(new Rect(abilityButton), "Ability"))
+		{
+			audio.PlayOneShot(click);
+		}
+		if(GUI.Button(new Rect(cancelButton), "Cancel"))
+		{
+			audio.PlayOneShot(click);
+			manager.SendMessage("cancelMove");
+		}
+		if(!PauseMenuGUI.isPaused)
+		{
+			GUI.enabled = !ClickAndMove.aIsObjectMoving;
+		}
+		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
+		{
+			audio.PlayOneShot(click);
+			manager.SendMessage("endTurn");
 		}
 		GUI.EndGroup();
 	}
