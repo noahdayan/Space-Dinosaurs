@@ -28,15 +28,6 @@ public class AutoSelection : MonoBehaviour {
 					TileManager.aSingleTileIsSelected = true;
 					charManager.SendMessage("selectUnit", gameObject);
 				}
-				
-				// de-select the object, but only if it's not moving.
-				else if (CharacterManager.aCurrentlySelectedUnit == gameObject)
-				{
-					if (!ClickAndMove.aIsObjectMoving)
-					{
-						CharacterManager.deselect();
-					}
-				}
 			}
 	}
 }
