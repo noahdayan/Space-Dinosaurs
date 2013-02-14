@@ -11,7 +11,6 @@ using System.Collections;
 
 public class ObjectSelection : MonoBehaviour {
 	
-	private bool aMouseHoveringOnObject = false;
 	private GameObject charManager;
 	
 	// Use this for initialization
@@ -22,10 +21,12 @@ public class ObjectSelection : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		// check that the mouse is on and clicked
-		if (Input.GetMouseButtonDown(0) && aMouseHoveringOnObject)
-	   	{
-			// check that it is the object's turn to move
+
+	}
+	
+	void OnMouseDown()
+	{
+		// check that it is the object's turn to move
 			if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
 			{
 				// select the object only if it is not selected and no objects are in movement
@@ -64,8 +65,6 @@ public class ObjectSelection : MonoBehaviour {
 					// check to see if it's in range
 					Vector3 unitsPosition = gameObject.transform.position;
 					unitsPosition.y = 2.0f;
-					
-					Debug.Log("midrange tiles size = " + TileManager.tilesInMidTurnAttackRange.Count);
 
 					if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
 					{
@@ -78,16 +77,5 @@ public class ObjectSelection : MonoBehaviour {
 					
 				}
 			}
-		}
-	}
-	
-	void OnMouseEnter() 
-	{
-		aMouseHoveringOnObject = true;	
-    }
-	
-	void OnMouseExit()
-	{
-		aMouseHoveringOnObject = false;
 	}
 }
