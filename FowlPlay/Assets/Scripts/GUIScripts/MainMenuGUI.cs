@@ -76,6 +76,10 @@ public class MainMenuGUI : MonoBehaviour {
 		if(levelName != "quit")
 		{
 			Application.LoadLevel(levelName);
+			PauseMenuGUI.isPaused = false;
+			CharacterManager.aTurn = 1;
+			CharacterManager.aTurnIsCompleted = false;
+			CharacterManager.aMidTurn = false;
 		}
 		else
 		{
