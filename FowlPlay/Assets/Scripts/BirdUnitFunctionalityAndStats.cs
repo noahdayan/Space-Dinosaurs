@@ -5,6 +5,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 
 	public int tamePower = 50;
 	public int healthPoints = 100;
+	public int maxHealthPoints = 100;
 	public int defensePoints = 10;
 	public int attackPoints = 15;
 	public int moveCost = 1;
@@ -45,7 +46,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void TameUnit (GameObject unit)
 	{
-		unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
+		//unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
 		//Maybe remove AP from the player here as well based on the tame cost?
 	}
 	
