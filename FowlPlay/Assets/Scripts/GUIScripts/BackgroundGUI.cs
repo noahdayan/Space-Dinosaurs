@@ -26,13 +26,16 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	public Rect windowArea;
 	public Rect mapArea;
+	public Rect faceCamArea;
 	Rect windowAreaNormalized;
 	Rect mapAreaNormalized;
+	Rect faceCamAreaNormalized;
 	
 	// Use this for initialization
 	void Start () {
 		windowAreaNormalized = new Rect(windowArea.x * Screen.width - (windowArea.width * 0.5f), windowArea.y * Screen.height - (windowArea.height * 0.5f), windowArea.width, windowArea.height);
 		mapAreaNormalized = new Rect(mapArea.x * Screen.width - (mapArea.width * 0.5f), mapArea.y * Screen.height - (mapArea.height * 0.5f), mapArea.width, mapArea.height);
+		faceCamAreaNormalized = new Rect(faceCamArea.x * Screen.width - (faceCamArea.width * 0.5f), faceCamArea.y * Screen.height - (faceCamArea.height * 0.5f), faceCamArea.width, faceCamArea.height);
 	}
 	
 	// Update is called once per frame
@@ -46,8 +49,16 @@ public class BackgroundGUI : MonoBehaviour {
 		
 		GUI.Window(0, windowAreaNormalized, ProgressWindow, "");
 		GUI.Window(1, mapAreaNormalized, MapWindow, "");
+		GUI.Window(2, faceCamAreaNormalized, FaceCamWindow, "");
 		
 		GameObject.Find("HUD Mini Map Camera").camera.Render();
+		foreach(Camera c in Camera.allCameras)
+		{
+			if(c.camera.enabled && c != Camera.main)
+			{
+				c.camera.Render();
+			}
+		}
 	}
 	
 	void ProgressWindow(int id) {
@@ -56,6 +67,10 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	void MapWindow(int id) {
 		AddSpikes(mapAreaNormalized.width);
+	}
+	
+	void FaceCamWindow(int id) {
+		AddSpikes(faceCamAreaNormalized.width);
 	}
 	
 	void AddSpikes(float winX)

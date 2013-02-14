@@ -34,7 +34,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		if(!PauseMenuGUI.isPaused)
 		{
-			GUI.enabled = CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving;
+			GUI.enabled = CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn;
 		}
 		else
 		{
