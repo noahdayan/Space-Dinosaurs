@@ -23,6 +23,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			healthPoints -= dmg - defensePoints;
 		}
+		if (healthPoints <= 0)
+		{
+			Die ();
+		}
+		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
+		UpdateGuiHealthBar();
 		return healthPoints;
 	}
 	
@@ -39,7 +45,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void TameUnit (GameObject unit)
 	{
-		//unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
+		unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
 		//Maybe remove AP from the player here as well based on the tame cost?
 	}
 	
@@ -52,6 +58,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
 		Destroy(gameObject);
+	}
+	
+	public void UpdateGuiHealthBar()
+	{
+		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 	}
 	
 }

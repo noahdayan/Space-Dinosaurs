@@ -98,6 +98,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 	}
+	
+	public void UpdateGuiTameBar()
+	{
+		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
+	}
 		
 	
 }
