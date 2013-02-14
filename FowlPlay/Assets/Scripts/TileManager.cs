@@ -468,6 +468,11 @@ public class TileManager : MonoBehaviour {
 		}
 	}
 	
+	public void deselectSingleTile(GameObject pTile)
+	{		
+		pTile.renderer.material = aTileDefault;
+	}
+	
 	private static bool isTileOccupied(GameObject pTile)
 	{
 		if (pTile.tag.Equals("OccupiedTile"))

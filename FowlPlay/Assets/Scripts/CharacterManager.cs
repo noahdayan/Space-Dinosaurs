@@ -165,8 +165,11 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Some costs may not have been reset. Reset them.
 			resetCosts();
-
+			SendMessage("unhighlightRange");
 			deselectUnit();
+			
+			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
+			SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
 		}
 	}
 	

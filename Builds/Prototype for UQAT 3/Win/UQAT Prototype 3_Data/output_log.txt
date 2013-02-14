@@ -20,43 +20,7 @@ Platform assembly: C:\Users\Javier\Documents\GitHub\Space-Dinosaurs\Builds\Proto
 Loading C:\Users\Javier\Documents\GitHub\Space-Dinosaurs\Builds\Prototype for UQAT 3\Win\UQAT Prototype 3_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\Javier\Documents\GitHub\Space-Dinosaurs\Builds\Prototype for UQAT 3\Win\UQAT Prototype 3_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
 Loading C:\Users\Javier\Documents\GitHub\Space-Dinosaurs\Builds\Prototype for UQAT 3\Win\UQAT Prototype 3_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
-- Completed reload, in  0.047 seconds
+- Completed reload, in  0.081 seconds
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 3608. Operation took 8.717574 ms.
-Platform assembly: C:\Users\Javier\Documents\GitHub\Space-Dinosaurs\Builds\Prototype for UQAT 3\Win\UQAT Prototype 3_Data\Managed\System.dll (this message is harmless)
-Current HP of anquilosaurus (UnityEngine.GameObject) is: 2
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of anquilosaurus (UnityEngine.GameObject) is: 0
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of tyrannosaur (UnityEngine.GameObject) is: 99
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of anquilosaurus (UnityEngine.GameObject) is: 2
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of tyrannosaur (UnityEngine.GameObject) is: 98
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of anquilosaurus (UnityEngine.GameObject) is: 0
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Current HP of tyrannosaur (UnityEngine.GameObject) is: 97
-
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 3608. Operation took 8.267028 ms.
