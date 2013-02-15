@@ -46,8 +46,26 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void TameUnit (GameObject unit)
 	{
-		//unit.SendMessage("AddTamePointsByRate", tamePower, gameObject.tag);
-		//Maybe remove AP from the player here as well based on the tame cost?
+		
+		int[] theParamters = {tamePower, -1};
+		//theParamters[0] = tamePower;
+		//theParamters[1] = -1; //error value, no team to switch to.
+		
+		//Getting the tag to send to the unit being tamed. Stupid SendMessage only takes one parameter...
+		if (gameObject.tag == "Player1")
+		{
+			theParamters[1] = 1;
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			theParamters[1] = 2;
+		}
+		
+		if (theParamters[1] != -1)
+		{
+			unit.SendMessage("AddTamePointsByRate", theParamters);
+			//Maybe remove AP from the player here as well based on the tame cost?
+		}
 	}
 	
 	public void OnSelectedSetHud()

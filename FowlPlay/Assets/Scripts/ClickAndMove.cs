@@ -75,13 +75,16 @@ public class ClickAndMove : MonoBehaviour
 			newRotation.x = CharacterManager.startRot.x;
 			newRotation.z = CharacterManager.startRot.z;
 			
-			Vector3 opponentRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
-			opponentRotation.x = CharacterManager.startRot.x;
-			opponentRotation.z = CharacterManager.startRot.z;
-			
 			CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
-			CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
-
+			
+			if (CharacterManager.aInteractUnit != CharacterManager.aCurrentlySelectedUnit)
+			{
+				Vector3 opponentRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+				opponentRotation.x = CharacterManager.startRot.x;
+				opponentRotation.z = CharacterManager.startRot.z;
+			
+				CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
+			}
 		}
 	}
 }

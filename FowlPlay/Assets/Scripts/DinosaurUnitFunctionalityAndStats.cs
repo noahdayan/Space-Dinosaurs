@@ -57,9 +57,27 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		unit.SendMessage("TakeAttackDamage", attackPoints);		
 	}
 	
-	public float AddTamePointsByRate (int tameAmount, string teamToSwitchTo)
+	/**
+	 * theParams will be an array of size two
+	 * theParams[0] is the amount of tame points that this dino will change by.
+	 * theParams[1] is an int representing the team that the unit will switch to if it gets tamed.
+	*/
+	public float AddTamePointsByRate (int[] theParams)// tameAmount, string teamToSwitchTo)
 	{
-		tamePoints += tameAmount * tameRate;
+		string teamToSwitchTo = "ERROR VALUE";
+		
+		//getting the string of the team this unit will switch to.
+		if (theParams[1] == 1)
+		{
+			teamToSwitchTo = "Player1";
+		}
+		else if (theParams[1] == 2)
+		{
+			teamToSwitchTo = "Player2";
+		}
+		
+		tamePoints += theParams[0] * tameRate;
+		
 		if (tamePoints > 50 && tamed == false)
 		{
 			SwitchTeams (teamToSwitchTo);
