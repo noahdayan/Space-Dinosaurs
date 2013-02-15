@@ -77,9 +77,19 @@ public class MainMenuGUI : MonoBehaviour {
 		{
 			Application.LoadLevel(levelName);
 			PauseMenuGUI.isPaused = false;
+			ProgressBarGUI.show = false;
 			CharacterManager.aTurn = 1;
 			CharacterManager.aTurnIsCompleted = false;
 			CharacterManager.aMidTurn = false;
+			CharacterManager.aSingleUnitIsSelected = false;
+			TileManager.aSingleTileIsSelected = false;
+			CharacterManager.aCurrentlySelectedUnit = null;
+			TileManager.aCurrentlySelectedTile = null;
+			CharacterManager.aCurrentlySelectedUnitOriginalPosition = Vector3.zero;
+			CharacterManager.aInteractUnit = null;
+			CharacterManager.aInteractiveUnitIsSelected = false;
+			ClickAndMove.aIsObjectMoving = false;
+			ClickAndMove.aIsObjectRotating = false;
 		}
 		else
 		{
