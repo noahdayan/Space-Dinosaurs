@@ -553,8 +553,8 @@ public class TileManager : MonoBehaviour {
 				
 			}
 			
-			else
-				SendMessage("endTurn");
+			//else
+				//SendMessage("endTurn");
 		}
 			
 	}
