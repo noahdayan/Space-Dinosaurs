@@ -105,6 +105,9 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnitOriginalRotation = pUnit.transform.rotation;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
+		pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
+		pUnit.SendMessage("UpdateGuiHealthBar");
+		ProgressBarGUI.show = true;
 		//pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 		
 		// highlight tiles in range
@@ -213,6 +216,8 @@ public class CharacterManager : MonoBehaviour {
 				TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
 			}
 			
+			aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
+			ProgressBarGUI.show = false;
 			aCurrentlySelectedUnit = null;
 		}
 		
