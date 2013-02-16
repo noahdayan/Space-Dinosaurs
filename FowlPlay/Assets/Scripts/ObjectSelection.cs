@@ -56,8 +56,18 @@ public class ObjectSelection : MonoBehaviour {
 		// If it's not the object's turn, then check to see whether it is being attacked/tamed. 
 		else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy") && CharacterManager.aMidTurn)
 		{
+			// if it is already the interact unit, deselect it.
+			if (CharacterManager.aInteractUnit == gameObject)
+			{
+				CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+				CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
+				CharacterManager.aInteractiveUnitIsSelected = false;
+				CharacterManager.aInteractUnit = null;
+				//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 50.0f);
+			}
+			
 			// select the object only if it is mid-turn
-			if (CharacterManager.aMidTurn)
+			else if (CharacterManager.aMidTurn)
 			{
 				// check to see if it's in range
 				Vector3 unitsPosition = gameObject.transform.position;
