@@ -86,6 +86,7 @@ public class MainMenuGUI : MonoBehaviour {
 			CharacterManager.aCurrentlySelectedUnit = null;
 			TileManager.aCurrentlySelectedTile = null;
 			CharacterManager.aCurrentlySelectedUnitOriginalPosition = Vector3.zero;
+			CharacterManager.aCurrentlySelectedUnitOriginalRotation = Quaternion.identity;
 			CharacterManager.aInteractUnit = null;
 			CharacterManager.aInteractiveUnitIsSelected = false;
 			ClickAndMove.aIsObjectMoving = false;
