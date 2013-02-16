@@ -65,6 +65,7 @@ public class ClickAndMove : MonoBehaviour
 				}
 			}
 		}
+		
 		if (CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected)
 		{
 			Vector3 tileOne = CharacterManager.aInteractUnit.transform.position;

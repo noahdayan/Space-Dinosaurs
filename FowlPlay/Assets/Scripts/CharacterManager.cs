@@ -11,6 +11,7 @@ public class CharacterManager : MonoBehaviour {
 	// Used for selection and deselection, it contains the selected
 	// unit's original position before any movement happens.
 	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
+	public static Quaternion aCurrentlySelectedUnitOriginalRotation;
 	
 	// Keeps track of whether any unit is selected at the time.
 	public static bool aSingleUnitIsSelected = false;
@@ -101,6 +102,7 @@ public class CharacterManager : MonoBehaviour {
 		startRot = pUnit.transform.rotation.eulerAngles;
 		aCurrentlySelectedUnit = pUnit;
 		aCurrentlySelectedUnitOriginalPosition = pUnit.transform.position;
+		aCurrentlySelectedUnitOriginalRotation = pUnit.transform.rotation;
 		pUnit.renderer.material.color = Color.yellow;
 		aSingleUnitIsSelected = true;
 		//pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
@@ -245,12 +247,20 @@ public class CharacterManager : MonoBehaviour {
 		TileManager.getTileAt(oldTile).tag = "OccupiedTile";
 		
 		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
+		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
 		
 		resetCosts();
 		aMidTurn = false;
 		deselectUnit();
 		SendMessage("deselectTile");
 		selectUnit(temp);
+		
+		if (aInteractiveUnitIsSelected)
+		{
+			aInteractUnit.renderer.material.color = Color.blue;
+			aInteractiveUnitIsSelected = false;
+			aInteractUnit = null;
+		}
 	}
 	
 	public static void switchTurn()

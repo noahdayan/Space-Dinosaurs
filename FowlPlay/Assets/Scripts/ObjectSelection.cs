@@ -68,10 +68,13 @@ public class ObjectSelection : MonoBehaviour {
 
 					if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
 					{
+						if (CharacterManager.aInteractiveUnitIsSelected)
+							CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+					
 						CharacterManager.aInteractiveUnitIsSelected = true;
 						CharacterManager.aInteractUnit = gameObject;
 						gameObject.renderer.material.color = Color.red;
-
+						
 						//charManager.SendMessage("attack");
 					}
 					
