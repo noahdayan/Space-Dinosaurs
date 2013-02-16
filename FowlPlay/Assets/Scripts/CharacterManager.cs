@@ -9,9 +9,11 @@ public class CharacterManager : MonoBehaviour {
 	public static GameObject aInteractUnit;
 	
 	// Used for selection and deselection, it contains the selected
-	// unit's original position before any movement happens.
+	// unit's original position before any movement happens, as well the rotation
+	// of the unit of any selected interactive unit.
 	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
 	public static Quaternion aCurrentlySelectedUnitOriginalRotation;
+	public static Quaternion aInteractUnitOriginalRotation;
 	
 	// Keeps track of whether any unit is selected at the time.
 	public static bool aSingleUnitIsSelected = false;
@@ -96,33 +98,34 @@ public class CharacterManager : MonoBehaviour {
 	
 	}
 	
+	// Selects a unit of the player's team.
 	public void selectUnit(GameObject pUnit)
 	{
+		// Track starting position and rotations.
 		startPos = pUnit.transform.position;
 		startRot = pUnit.transform.rotation.eulerAngles;
+		
+		// Set the unit as the currently selected unit and track its position and rotation.
 		aCurrentlySelectedUnit = pUnit;
+		aSingleUnitIsSelected = true;
 		aCurrentlySelectedUnitOriginalPosition = pUnit.transform.position;
 		aCurrentlySelectedUnitOriginalRotation = pUnit.transform.rotation;
+		
+		// Make it visible
 		pUnit.renderer.material.color = Color.yellow;
-		aSingleUnitIsSelected = true;
+		
+		// Set the GUI components
 		pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 		pUnit.SendMessage("UpdateGuiHealthBar");
 		ProgressBarGUI.show = true;
-		//pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 		
-		// highlight tiles in range
+		// Highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			GameObject.Find("Character").SendMessage("getRange", pUnit);
 	}
 	
 	public void attack()
 	{
-		// Do attack stuff
-		
-		// When attack is complete, end turn (for now)
-		
-		// Deselect all tiles and clear all stuff.
-		
 		aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
 		
 		SendMessage("unhighlightRange");
@@ -132,8 +135,10 @@ public class CharacterManager : MonoBehaviour {
 		endTurn();
 	}
 	
+	// Executed when a unit's HP hits 0.
 	public static void killUnit(GameObject pUnit)
 	{
+		// Remove it from its list.
 		if (pUnit.tag.Equals("Player1"))
 			player1Units.Remove(pUnit);
 		
@@ -143,9 +148,10 @@ public class CharacterManager : MonoBehaviour {
 		else if (pUnit.tag.Equals("Enemy"))
 			untamedUnits.Remove(pUnit);
 		
-		
+		// Remove from HT.
 		unitsHT.Remove(pUnit.transform.position);
 		
+		// Mark the tile as unoccupied.
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2.0f;
 		
@@ -153,6 +159,7 @@ public class CharacterManager : MonoBehaviour {
 		TileManager.getTileAt(unitsTile).tag = "Tile";
 	}
 	
+	// Ends the players turn.
 	public void endTurn()
 	{
 		if (!ClickAndMove.aIsObjectMoving)
@@ -171,13 +178,15 @@ public class CharacterManager : MonoBehaviour {
 			// Some costs may not have been reset. Reset them.
 			resetCosts();
 			SendMessage("unhighlightRange");
-			deselectUnit();
 			
 			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
 			SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
+			
+			deselectUnit();
 		}
 	}
 	
+	// Resets costs hashtable back to -1 for all tiles.
 	public static void resetCosts()
 	{
 			foreach (GameObject tile in TileManager.allTiles)
@@ -193,10 +202,9 @@ public class CharacterManager : MonoBehaviour {
 			{
 				aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
 			}
-			
-			//deselectUnit();
 	}
 	
+	// Deselects the currently selected unit.
 	public void deselectUnit()
 	{
 		if (aCurrentlySelectedUnit != null)
@@ -225,13 +233,12 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit = null;
 		aSingleUnitIsSelected = false;
 		
-		
-		
 		// un-highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			SendMessage("unhighlightRange");
 	}
 	
+	// Undo a move at mid-turn.
 	public void cancelMove()
 	{
 		SendMessage("unhighlightRange");
