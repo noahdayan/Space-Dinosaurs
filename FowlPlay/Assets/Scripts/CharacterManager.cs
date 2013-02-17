@@ -114,10 +114,13 @@ public class CharacterManager : MonoBehaviour {
 		// Make it visible
 		pUnit.renderer.material.color = Color.yellow;
 		
-		// Set the GUI components
-		pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
-		pUnit.SendMessage("UpdateGuiHealthBar");
-		ProgressBarGUI.show = true;
+		// Set the GUI components for players.
+		if (aTurn == 1 || aTurn == 3)
+		{
+			pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
+			pUnit.SendMessage("UpdateGuiHealthBar");
+			ProgressBarGUI.show = true;
+		}
 		
 		// Highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
@@ -170,19 +173,20 @@ public class CharacterManager : MonoBehaviour {
 				aInteractUnit = null;
 			}
 			
-			aInteractiveUnitIsSelected = false;
-			aMidTurn = false;
-			aTurnIsCompleted = true;
-			switchTurn();
-			
 			// Some costs may not have been reset. Reset them.
 			resetCosts();
 			SendMessage("unhighlightRange");
 			
 			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
-			SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
+			if (TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition) != null)
+				SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
 			
 			deselectUnit();
+			
+			aInteractiveUnitIsSelected = false;
+			aMidTurn = false;
+			aTurnIsCompleted = true;
+			switchTurn();
 		}
 	}
 	
@@ -224,9 +228,12 @@ public class CharacterManager : MonoBehaviour {
 				TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
 			}
 			
-			aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
-			ProgressBarGUI.show = false;
-			aCurrentlySelectedUnit = null;
+			if (aTurn == 1 || aTurn == 3)
+			{
+				aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
+				ProgressBarGUI.show = false;
+				aCurrentlySelectedUnit = null;
+			}
 		}
 		
 		//aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
