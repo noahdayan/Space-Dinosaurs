@@ -12,6 +12,14 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public int moveRange = 3;
 	public GameObject deathParticle;
 	
+	
+	/*void OnMouseEnter()
+	{
+		
+		TameUnit(CharacterManager.aInteractUnit);
+		Debug.Log("Taming " + CharacterManager.aInteractUnit  + "\n");
+	}*/
+	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function
 	 * 
@@ -44,26 +52,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		//maybe remove AP here as well based on an attack cost?
 	}
 	
+	//Want to make sure that this unit is the currently selected one.
 	public void TameUnit (GameObject unit)
 	{
-		
-		int[] theParamters = {tamePower, -1};
-		//theParamters[0] = tamePower;
-		//theParamters[1] = -1; //error value, no team to switch to.
-		
-		//Getting the tag to send to the unit being tamed. Stupid SendMessage only takes one parameter...
-		if (gameObject.tag == "Player1")
+		if (gameObject == CharacterManager.aCurrentlySelectedUnit)
 		{
-			theParamters[1] = 1;
-		}
-		else if (gameObject.tag == "Player2")
-		{
-			theParamters[1] = 2;
-		}
-		
-		if (theParamters[1] != -1)
-		{
-			unit.SendMessage("AddTamePointsByRate", theParamters);
+			unit.SendMessage("AddTamePointsByRate", tamePower);
 			//Maybe remove AP from the player here as well based on the tame cost?
 		}
 	}

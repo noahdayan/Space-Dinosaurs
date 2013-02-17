@@ -58,25 +58,16 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	}
 	
 	/**
-	 * theParams will be an array of size two
-	 * theParams[0] is the amount of tame points that this dino will change by.
-	 * theParams[1] is an int representing the team that the unit will switch to if it gets tamed.
+	 * dis function adds the points of taming to dis unit, 
+	 * ASSUMES THAT THE CURRENTLY SELECTED UNIT IS THE UNIT THAT IS TAMING THIS ONE!
+	 * theParams is the amount of tame points that this dino will change by.
 	*/
-	public float AddTamePointsByRate (int[] theParams)// tameAmount, string teamToSwitchTo)
+	public float AddTamePointsByRate (int tameAmount)// tameAmount, string teamToSwitchTo)
 	{
-		string teamToSwitchTo = "ERROR VALUE";
+		string teamToSwitchTo = CharacterManager.aCurrentlySelectedUnit.tag;
 		
-		//getting the string of the team this unit will switch to.
-		if (theParams[1] == 1)
-		{
-			teamToSwitchTo = "Player1";
-		}
-		else if (theParams[1] == 2)
-		{
-			teamToSwitchTo = "Player2";
-		}
-		
-		tamePoints += theParams[0] * tameRate;
+		//Make a better pokemonlike formular here
+		tamePoints += tameAmount * tameRate;
 		
 		if (tamePoints > 50 && tamed == false)
 		{
