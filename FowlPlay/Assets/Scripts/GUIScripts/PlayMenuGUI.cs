@@ -19,7 +19,7 @@ public class PlayMenuGUI : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		menuAreaNormalized = new Rect(menuArea.x * Screen.width - (menuArea.width * 0.5f), menuArea.y * Screen.height - (menuArea.height * 0.5f), menuArea.width, menuArea.height);
+		menuAreaNormalized = new Rect(menuArea.x, Screen.height - menuArea.height + menuArea.y, menuArea.width, menuArea.height);
 		manager = GameObject.Find("Character");
 	}
 	
