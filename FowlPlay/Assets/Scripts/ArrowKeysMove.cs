@@ -9,12 +9,7 @@ public class ArrowKeysMove : MonoBehaviour {
 	public Vector2 yRange;
 	public Vector2 zRange;
 	
-	int mDelta = 10; // Pixels. The width border at the edge in which the movement work
-
-	float mSpeed = 3.0f; // Scale. Speed of the movement
-
-	//private var mRightDirection = Vector3.right; // Direction the camera should move when on the right edge
-	
+	int mDelta = 10; // Pixels. The width border at the edge in which the movement work	
 	
 	// Use this for initialization
 	void Start () {
