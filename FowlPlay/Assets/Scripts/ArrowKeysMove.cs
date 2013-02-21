@@ -9,6 +9,13 @@ public class ArrowKeysMove : MonoBehaviour {
 	public Vector2 yRange;
 	public Vector2 zRange;
 	
+	int mDelta = 10; // Pixels. The width border at the edge in which the movement work
+
+	float mSpeed = 3.0f; // Scale. Speed of the movement
+
+	//private var mRightDirection = Vector3.right; // Direction the camera should move when on the right edge
+	
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -61,5 +68,30 @@ public class ArrowKeysMove : MonoBehaviour {
 			newPosition.y -= temp;
 		}
 		transform.position = newPosition;
+		
+		
+		//MOUSE MOVEMENT
+		 // Check if on the right edge
+		if ( Input.mousePosition.x >= Screen.width - mDelta )
+	    {
+        	// Move the camera
+        	transform.position += (Vector3.forward + Vector3.right) * Time.deltaTime * speed;
+		}
+		
+		if (Input.mousePosition.x <= mDelta)
+		{
+			transform.position += (Vector3.back + Vector3.left) * Time.deltaTime * speed;
+		}
+		
+		if (Input.mousePosition.y >= Screen.height - mDelta)
+		{
+			transform.position += (Vector3.forward + Vector3.left) * Time.deltaTime * speed;
+		}
+		
+		if (Input.mousePosition.y < mDelta)
+		{
+			transform.position += (Vector3.back + Vector3.right) * Time.deltaTime * speed;
+		}
+		
 	}
 }

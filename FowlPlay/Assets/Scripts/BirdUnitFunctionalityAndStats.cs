@@ -10,6 +10,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public int attackPoints = 15;
 	public int moveCost = 1;
 	public int moveRange = 3;
+	public int attackRange = 2;
 	public GameObject deathParticle;
 	
 	

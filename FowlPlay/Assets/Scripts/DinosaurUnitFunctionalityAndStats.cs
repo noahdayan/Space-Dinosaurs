@@ -11,6 +11,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public float maxTamePoints = 100.0f;
 	public int moveCost = 1;
 	public int moveRange = 3;
+	public int attackRange = 2;
 	public float tameRate = 1.0f;
 	public int tameTickAmount = 10;
 	public bool tamed = false;
