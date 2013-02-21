@@ -24,18 +24,18 @@ public class BackgroundGUI : MonoBehaviour {
 		
 	private int spikeCount;
 	
-	public Rect windowArea;
+	public Rect barArea;
 	public Rect mapArea;
 	public Rect faceCamArea;
-	Rect windowAreaNormalized;
+	Rect barAreaNormalized;
 	Rect mapAreaNormalized;
 	Rect faceCamAreaNormalized;
 	
 	// Use this for initialization
 	void Start () {
-		windowAreaNormalized = new Rect(windowArea.x * Screen.width - (windowArea.width * 0.5f), windowArea.y * Screen.height - (windowArea.height * 0.5f), windowArea.width, windowArea.height);
-		mapAreaNormalized = new Rect(mapArea.x * Screen.width - (mapArea.width * 0.5f), mapArea.y * Screen.height - (mapArea.height * 0.5f), mapArea.width, mapArea.height);
-		faceCamAreaNormalized = new Rect(faceCamArea.x * Screen.width - (faceCamArea.width * 0.5f), faceCamArea.y * Screen.height - (faceCamArea.height * 0.5f), faceCamArea.width, faceCamArea.height);
+		barAreaNormalized = new Rect(barArea.x, barArea.y, barArea.width, barArea.height);
+		mapAreaNormalized = new Rect(Screen.width - mapArea.width + mapArea.x, Screen.height - mapArea.height + mapArea.y, mapArea.width, mapArea.height);
+		faceCamAreaNormalized = new Rect(faceCamArea.x, Screen.height - faceCamArea.height + faceCamArea.y, faceCamArea.width, faceCamArea.height);
 	}
 	
 	// Update is called once per frame
@@ -47,7 +47,7 @@ public class BackgroundGUI : MonoBehaviour {
 		GUI.skin = backgroundSkin;
 		GUI.depth = guiDepth;
 		
-		GUI.Window(0, windowAreaNormalized, ProgressWindow, "");
+		GUI.Window(0, barAreaNormalized, ProgressWindow, "");
 		GUI.Window(1, mapAreaNormalized, MapWindow, "");
 		GUI.Window(2, faceCamAreaNormalized, FaceCamWindow, "");
 		
@@ -62,7 +62,7 @@ public class BackgroundGUI : MonoBehaviour {
 	}
 	
 	void ProgressWindow(int id) {
-		AddSpikes(windowAreaNormalized.width);
+		AddSpikes(barAreaNormalized.width);
 	}
 	
 	void MapWindow(int id) {

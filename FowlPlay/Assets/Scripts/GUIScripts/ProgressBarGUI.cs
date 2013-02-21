@@ -19,7 +19,7 @@ public class ProgressBarGUI : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		barAreaNormalized = new Rect(barArea.x * Screen.width - (barArea.width * 0.5f), barArea.y * Screen.height - (barArea.height * 0.5f), barArea.width, barArea.height);
+		barAreaNormalized = new Rect(barArea.x, barArea.y, barArea.width, barArea.height);
 	}
 	
 	// Update is called once per frame
