@@ -26,6 +26,8 @@ public class ArrowKeysMove : MonoBehaviour {
 		temp = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 		tempPos.x += temp;
 		tempPos.z += temp;
+		
+		//Checking range.
 		if(xRange.y < tempPos.x && tempPos.x < xRange.x)
 		{
 			newPosition.x += temp;
@@ -63,30 +65,39 @@ public class ArrowKeysMove : MonoBehaviour {
 			newPosition.y -= temp;
 		}
 		transform.position = newPosition;
-		
-		
+			
 		//MOUSE MOVEMENT
-		 // Check if on the right edge
-		if ( Input.mousePosition.x >= Screen.width - mDelta )
+		//~~~HORIZONTAL~~~
+		//Move Camera Right, and check if it's in range
+		if ( Input.mousePosition.x >= Screen.width - mDelta 
+			/*&& xRange.y < transform.position.x*/ && transform.position.x < xRange.x
+			/*&& zRange.y < transform.position.z*/ && transform.position.z < zRange.x)
 	    {
         	// Move the camera
         	transform.position += (Vector3.forward + Vector3.right) * Time.deltaTime * speed;
 		}
-		
-		if (Input.mousePosition.x <= mDelta)
+		//Move Camera Left, and check if it's in range
+		if (Input.mousePosition.x <= mDelta 
+			&& xRange.y < transform.position.x /*&& transform.position.x < xRange.x*/
+			&& zRange.y < transform.position.z /*&& transform.position.z < zRange.x*/)
 		{
 			transform.position += (Vector3.back + Vector3.left) * Time.deltaTime * speed;
 		}
-		
-		if (Input.mousePosition.y >= Screen.height - mDelta)
+		//~~~VERTICAL~~~
+		//Move Camera Up, and check if it's in range
+		if (Input.mousePosition.y >= Screen.height - mDelta
+			/*&& zRange.y < transform.position.z*/ && transform.position.z < zRange.x 
+			&& xRange.y < transform.position.x /*&& transform.position.x < xRange.x*/
+			)
 		{
 			transform.position += (Vector3.forward + Vector3.left) * Time.deltaTime * speed;
 		}
-		
-		if (Input.mousePosition.y < mDelta)
+		//Move Camera Down, and check if it's in range
+		if (Input.mousePosition.y < mDelta
+			&& zRange.y < transform.position.z /*&& transform.position.z < zRange.x*/
+			/*&& xRange.y < transform.position.x*/ && transform.position.x < xRange.x)
 		{
 			transform.position += (Vector3.back + Vector3.right) * Time.deltaTime * speed;
-		}
-		
+		}	
 	}
 }

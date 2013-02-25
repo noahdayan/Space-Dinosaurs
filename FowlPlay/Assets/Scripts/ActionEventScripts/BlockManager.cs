@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BlockManager : MonoBehaviour {
 	
-	//Like platform manager
+	//The Prefab information.
 	public Transform prefab;
 	public static int numOfBlocks = 11;
 	public int numOfGreen = 1;
