@@ -63,11 +63,8 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(GUI.Button(new Rect(tameButton), "Tame"))
 			{
 				audio.PlayOneShot(click);
+				manager.SendMessage("tame");
 			}
-		}
-		if(GUI.Button(new Rect(waitButton), "Wait"))
-		{
-			audio.PlayOneShot(click);
 		}
 		if(GUI.Button(new Rect(cancelButton), "Cancel"))
 		{
@@ -75,6 +72,25 @@ public class PlayMenuGUI : MonoBehaviour {
 			
 			if(CharacterManager.aMidTurn)
 				manager.SendMessage("cancelMove");
+		}
+		if(!PauseMenuGUI.isPaused)
+		{
+			GUI.enabled = !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected;
+		}
+		if(GUI.Button(new Rect(waitButton), "Wait"))
+		{
+			audio.PlayOneShot(click);
+			if(CharacterManager.aMidTurn)
+			{
+				manager.SendMessage("endTurn");
+			}
+			else
+			{
+				manager.SendMessage("unhighlightRange");
+				CharacterManager.aMidTurn = true;
+				ClickAndMove.aIsObjectMoving = false;
+				manager.SendMessage("paintAttackableTilesAfterMove");
+			}
 		}
 		if(!PauseMenuGUI.isPaused)
 		{
