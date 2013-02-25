@@ -11,9 +11,12 @@ public class PlayMenuGUI : MonoBehaviour {
 	public Rect menuArea;
 	public Rect attackButton;
 	public Rect abilityButton;
+	public Rect tameButton;
+	public Rect waitButton;
 	public Rect cancelButton;
 	public Rect endTurnButton;
 	Rect menuAreaNormalized;
+	public static bool isBird = false;
 	
 	GameObject manager;
 	
@@ -48,7 +51,21 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("attack");
 			}
 		}
-		if(GUI.Button(new Rect(abilityButton), "Ability"))
+		if(!isBird)
+		{
+			if(GUI.Button(new Rect(abilityButton), "Ability"))
+			{
+				audio.PlayOneShot(click);
+			}
+		}
+		else
+		{
+			if(GUI.Button(new Rect(tameButton), "Tame"))
+			{
+				audio.PlayOneShot(click);
+			}
+		}
+		if(GUI.Button(new Rect(waitButton), "Wait"))
 		{
 			audio.PlayOneShot(click);
 		}
