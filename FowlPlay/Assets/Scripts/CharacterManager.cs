@@ -19,6 +19,9 @@ public class CharacterManager : MonoBehaviour {
 	public static bool aSingleUnitIsSelected = false;
 	public static bool aInteractiveUnitIsSelected = false;
 	
+	public static GameObject bird1;
+	public static GameObject bird2;
+	
 	// These lists aggregate all units.
 	private static List<GameObject> player1Units;
 	private static List<GameObject> player2Units;
@@ -90,6 +93,8 @@ public class CharacterManager : MonoBehaviour {
 		}
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+		
+		bird1 = GameObject.Find("Bird");
 
 	}
 	
@@ -125,6 +130,15 @@ public class CharacterManager : MonoBehaviour {
 		// Highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			GameObject.Find("Character").SendMessage("getRange", pUnit);
+		
+		if(aCurrentlySelectedUnit == bird1 || aCurrentlySelectedUnit == bird2)
+		{
+			PlayMenuGUI.isBird = true;
+		}
+		else
+		{
+			PlayMenuGUI.isBird = false;
+		}
 	}
 	
 	public void attack()
