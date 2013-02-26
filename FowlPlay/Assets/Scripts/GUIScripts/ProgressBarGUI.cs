@@ -7,12 +7,16 @@ public class ProgressBarGUI : MonoBehaviour {
 	public int guiDepth = 0;
 	public static float healthBar = 0.5f;
 	public static float tamenessBar = 0.5f;
+	public static int healthPoints = 10;
+	public static int tamePoints = 10;
 	Rect barAreaNormalized;
 	public Rect barArea;
 	public Vector2 healthPos;
 	public Vector2 healthSize;
 	public Vector2 tamenessPos;
 	public Vector2 tamenessSize;
+	public Rect healthPointsArea;
+	public Rect tamePointsArea;
 	public Texture2D barEmpty;
 	public Texture2D barFull;
 	public static bool show = false;
@@ -41,12 +45,16 @@ public class ProgressBarGUI : MonoBehaviour {
 					GUI.EndGroup();
 				GUI.EndGroup();
 			
+			GUI.Label(new Rect(healthPointsArea), healthPoints.ToString());
+			
 				GUI.BeginGroup(new Rect(tamenessPos.x, tamenessPos.y, tamenessSize.x, tamenessSize.y));
 				GUI.Box(new Rect(0,0, tamenessSize.x, tamenessSize.y), barEmpty);
 					GUI.BeginGroup(new Rect(0,0, tamenessSize.x * tamenessBar, tamenessSize.y));
 					GUI.Box(new Rect(0,0, tamenessSize.x, tamenessSize.y), barFull);
 					GUI.EndGroup();
 				GUI.EndGroup();
+			
+			GUI.Label(new Rect(tamePointsArea), tamePoints.ToString());
 			
 			GUI.EndGroup();
 		}

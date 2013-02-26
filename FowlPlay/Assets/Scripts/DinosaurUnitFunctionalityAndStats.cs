@@ -55,7 +55,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		unit.SendMessage("TakeAttackDamage", attackPoints);		
+		unit.SendMessage("TakeAttackDamage", attackPoints);
+		unit.BroadcastMessage("showDamageText", "-" + attackPoints.ToString());
 	}
 	
 	/**
@@ -108,11 +109,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiHealthBar()
 	{
 		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
+		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
 	public void UpdateGuiTameBar()
 	{
 		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
+		ProgressBarGUI.tamePoints = (int)tamePoints;
 	}
 		
 	

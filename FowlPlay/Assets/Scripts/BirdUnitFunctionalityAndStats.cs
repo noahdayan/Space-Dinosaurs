@@ -50,6 +50,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public void AttackUnit (GameObject unit)
 	{
 		unit.SendMessage("TakeAttackDamage", attackPoints);
+		unit.BroadcastMessage("showDamageText", "-" + attackPoints.ToString());
 		//maybe remove AP here as well based on an attack cost?
 	}
 	
@@ -77,6 +78,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiHealthBar()
 	{
 		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
+		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
 }
