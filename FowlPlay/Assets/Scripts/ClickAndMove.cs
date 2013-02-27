@@ -12,6 +12,7 @@ public class ClickAndMove : MonoBehaviour
 	
 	void Start () 
 	{
+		
 		manager = GameObject.Find("Character");
 	}
 
@@ -47,9 +48,11 @@ public class ClickAndMove : MonoBehaviour
 				
 				if(!aIsObjectRotating)
 				{
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, destination, 2.0f);
+					/*
 					// slide to location
 					CharacterManager.aCurrentlySelectedUnit.transform.position += (destination - CharacterManager.aCurrentlySelectedUnit.transform.position).normalized * aSpeedOfMovement * Time.deltaTime;
-					
+					*/
 					// check to see if object has reached destination tile. if so, stop movement.
 					if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
 					{
@@ -62,6 +65,7 @@ public class ClickAndMove : MonoBehaviour
 						//CharacterManager.deselect();
 						//CharacterManager.switchTurn();
 					}
+					
 				}
 			}
 		}
