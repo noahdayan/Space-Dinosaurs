@@ -22,6 +22,7 @@ public class TileSelection : MonoBehaviour {
 			if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 			{
 				tileManager.SendMessage("selectTile", gameObject);
+				tileManager.SendMessage("move");
 				//ActionMenuGUI.activateMvmtMenu = true;
 			}
 		}

@@ -34,6 +34,9 @@ public class CharacterManager : MonoBehaviour {
 	// Stores (Vector3: unit position, unit)
 	public static Hashtable unitsHT;
 	
+	// Materials
+	public Material aMaterialTeamRed, aMaterialTeamBlue;
+	
 	// Can be either 1 or 2 or 3 or 4
 	public static int aTurn = 1;
 	public static bool aTurnIsCompleted = false;
@@ -62,6 +65,9 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
+			
+			// Color the unit
+			unit.renderer.material = aMaterialTeamBlue;
 		}
 
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player2"))
@@ -76,6 +82,9 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
+			
+			// Color the unit
+			unit.renderer.material = aMaterialTeamRed;
 		}
 		
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))

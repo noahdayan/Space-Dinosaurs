@@ -14,6 +14,7 @@ public class ObjectSelection : MonoBehaviour {
 	private GameObject charManager;
 	public float aSpeedOfRotation = 10.0f;
 	
+	
 	// Use this for initialization
 	void Start () {
 		charManager = GameObject.Find("Character");
@@ -69,6 +70,7 @@ public class ObjectSelection : MonoBehaviour {
 			// select the object only if it is mid-turn
 			else if (CharacterManager.aMidTurn)
 			{
+				
 				// check to see if it's in range
 				Vector3 unitsPosition = gameObject.transform.position;
 				unitsPosition.y = 2.0f;
@@ -88,10 +90,35 @@ public class ObjectSelection : MonoBehaviour {
 					CharacterManager.aInteractUnit = gameObject;
 					CharacterManager.aInteractUnitOriginalRotation = gameObject.transform.rotation;
 					gameObject.renderer.material.color = Color.red;
+					Debug.Log("here");
 					
+					// and rotate it to face the attacker/tamer
+					Vector3 tileOne = CharacterManager.aInteractUnit.transform.position;
+					Vector3 tileTwo = CharacterManager.aCurrentlySelectedUnit.transform.position;
+					tileOne.y = 2.0f;
+					tileTwo.y = 2.0f;
+					Vector3 newRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
+					newRotation.x = CharacterManager.startRot.x;
+					newRotation.z = CharacterManager.startRot.z;
+					
+					iTween.RotateTo(CharacterManager.aInteractUnit, newRotation, 1.0f);
+					
+					/*
+					CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
+					
+					if (CharacterManager.aInteractUnit != CharacterManager.aCurrentlySelectedUnit)
+					{
+						Vector3 opponentRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+						opponentRotation.x = CharacterManager.startRot.x;
+						opponentRotation.z = CharacterManager.startRot.z;
+					
+						CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
+					}
+					*/
 				}
-				
+					
 			}
+				
 		}
 	}
 }
