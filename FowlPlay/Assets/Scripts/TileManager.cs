@@ -6,6 +6,7 @@ using System;
 public class TileManager : MonoBehaviour {
 	
 	public static GameObject aCurrentlySelectedTile;
+	public static GameObject aLastSelectedTile;
 	
 	// Used to access methods on CharacterManager
 	public CharacterManager aCharacterManager;
@@ -57,6 +58,13 @@ public class TileManager : MonoBehaviour {
 			allTilesHT.Add(tile.transform.position, tile);
 			costs.Add (tile.transform.position, -1);
 		}
+		
+		Vector3 inq = new Vector3();
+			inq.x = 14.0f;
+			inq.y = 2.0f;
+			inq.z = -32.0f;
+			if (allTilesHT.ContainsKey(inq))
+				Debug.Log("found!");
 		
 	}
 	
@@ -468,11 +476,10 @@ public class TileManager : MonoBehaviour {
 	public static GameObject getTileAt(Vector3 pPosition)
 	{
 		GameObject ltile = null;
-		Vector3 position = pPosition;
-		position.y = 2.0f;
+
+		if(allTilesHT.Contains(pPosition))
+			ltile = (GameObject)allTilesHT[pPosition];
 		
-		if(allTilesHT.Contains(position))
-			ltile = (GameObject)allTilesHT[position];
 		return ltile;
 	}
 	
@@ -505,6 +512,9 @@ public class TileManager : MonoBehaviour {
 			aCurrentlySelectedTile.tag = "OccupiedTile";
 			
 			aCurrentlySelectedTile.renderer.material = aTileDefault;
+			
+			aLastSelectedTile = aCurrentlySelectedTile;
+			
 			aCurrentlySelectedTile = null;
 			aSingleTileIsSelected = false;
 		}

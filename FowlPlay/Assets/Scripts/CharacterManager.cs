@@ -278,10 +278,17 @@ public class CharacterManager : MonoBehaviour {
 		Vector3 tile = aCurrentlySelectedUnit.transform.position;
 		tile.y = 2.0f;
 		
-		TileManager.getTileAt(tile).renderer.material.color = Color.red;
-		TileManager.getTileAt(tile).tag = "Tile";
+		Debug.Log("Cancel clicked. Currently selected unit on tile: " + tile);
 		
-		TileManager.occupiedTilesHT.Remove(tile);
+		if (TileManager.allTilesHT.ContainsKey(TileManager.aLastSelectedTile.transform.position))
+			Debug.Log("yay");
+		else
+			Debug.Log("nay");
+		
+		TileManager.aLastSelectedTile.renderer.material.color = Color.red;
+		TileManager.aLastSelectedTile.tag = "Tile";
+		
+		TileManager.occupiedTilesHT.Remove(TileManager.aLastSelectedTile.transform.position);
 		
 		Vector3 oldTile = aCurrentlySelectedUnitOriginalPosition;
 		oldTile.y = 2.0f;

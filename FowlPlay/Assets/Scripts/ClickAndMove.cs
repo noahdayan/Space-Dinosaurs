@@ -28,30 +28,41 @@ public class ClickAndMove : MonoBehaviour
 				CharacterManager.aMidTurn = true;
 				manager.SendMessage("paintAttackableTilesAfterMove");
 				aIsObjectMoving = false;
+				Debug.Log("Movement ended. Unit at: " + CharacterManager.aCurrentlySelectedUnit.transform.position);
 			}
 		}
 		
 	}
 	
+	
+	// Move takes the currently selected unit and moves it to the currently selected tile.
 	void move()
 	{
 		if (CharacterManager.aSingleUnitIsSelected)
 		{
 			if (TileManager.aSingleTileIsSelected)
-			{				
+			{	
+				Vector3 startTile = CharacterManager.aCurrentlySelectedUnitOriginalPosition;
+				startTile.y = 2.0f;
+				
 				destination = TileManager.aCurrentlySelectedTile.transform.position;
-				destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
-		
-				Vector3[] path = TileManager.findPath(TileManager.getTileAt(CharacterManager.aCurrentlySelectedUnitOriginalPosition), TileManager.getTileAt(destination));
+				//destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
+				
+				Debug.Log("Initiate movement. Unit moving to: " + destination);
+				// Get the path that is to be followed.
+				Vector3[] path = TileManager.findPath(TileManager.getTileAt(startTile), TileManager.getTileAt(destination));
 				
 				aIsObjectMoving = true;
+				
+				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (path.Length > 1)
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", path, "time", 3.0f)); 
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", path, "speed", 18.0f)); 
 				else
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, destination, 3.0f);
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, destination, 1.0f);
 				
 			}
 		}
 		
 	}
+	
 }
