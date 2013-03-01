@@ -21,12 +21,12 @@ public class ClickAndMove : MonoBehaviour
 	{
 		if (aIsObjectMoving)
 		{
-			if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 0.5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 0.5))
+			if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 5))
 			{
 				CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
 				manager.SendMessage("deselectTile");
-				CharacterManager.aMidTurn = true;
 				manager.SendMessage("paintAttackableTilesAfterMove");
+				CharacterManager.aMidTurn = true;
 				aIsObjectMoving = false;
 				Debug.Log("Movement ended. Unit at: " + CharacterManager.aCurrentlySelectedUnit.transform.position);
 			}

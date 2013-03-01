@@ -310,6 +310,9 @@ public class CharacterManager : MonoBehaviour {
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
 		}
+		
+		Debug.Log("aCurrentlySelectedUnit original pos = " + aCurrentlySelectedUnitOriginalPosition);
+		Debug.Log("aCurrentlySelectedUnit actual pos = " + aCurrentlySelectedUnit.transform.position);
 	}
 	
 	public static void switchTurn()
