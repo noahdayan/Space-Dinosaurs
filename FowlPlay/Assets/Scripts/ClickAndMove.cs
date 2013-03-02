@@ -42,9 +42,15 @@ public class ClickAndMove : MonoBehaviour
 		manager.SendMessage("deselectTile");
 		manager.SendMessage("paintAttackableTilesAfterMove");
 		aIsObjectMoving = false;
-
-		CharacterManager.aMidTurn = true;		
-			
+		
+		if(CharacterManager.aTurn == 2 || CharacterManager.aTurn == 4)
+		{
+			manager.SendMessage("endTurn");
+		}
+		else
+		{
+			CharacterManager.aMidTurn = true;		
+		}
 	}
 	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
