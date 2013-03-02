@@ -110,14 +110,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		case "Player1":
 			Debug.Log("Adding to player one's team.\n");
 			CharacterManager.player1Units.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Player2":
 			CharacterManager.player2Units.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.red;
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Enemy":
 			CharacterManager.untamedUnits.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.yellow;
 			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = true;
 			break;
 		}
