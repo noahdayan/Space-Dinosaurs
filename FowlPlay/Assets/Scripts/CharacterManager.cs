@@ -132,7 +132,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		// Make it visible
 		//pUnit.renderer.material.color = Color.yellow;
-		pUnit.GetComponentInChildren<Renderer>().material.color = Color.yellow;
+		pUnit.transform.FindChild("model").renderer.material.color = Color.yellow;
 		
 		// Set the GUI components for players.
 		if (aTurn == 1 || aTurn == 3)
@@ -210,7 +210,7 @@ public class CharacterManager : MonoBehaviour {
 			if (aInteractiveUnitIsSelected)
 			{
 				//aInteractUnit.renderer.material.color = Color.blue;
-				aInteractUnit.GetComponentInChildren<Renderer>().material.color = Color.blue;
+				aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 				aInteractUnit = null;
 			}
 			
@@ -255,7 +255,7 @@ public class CharacterManager : MonoBehaviour {
 		if (aCurrentlySelectedUnit != null)
 		{
 			//aCurrentlySelectedUnit.renderer.material.color = Color.blue;
-			aCurrentlySelectedUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
+			aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			
 			// if the unit has moved, update the hashtables
 			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
@@ -320,7 +320,7 @@ public class CharacterManager : MonoBehaviour {
 		if (aInteractiveUnitIsSelected)
 		{
 			//aInteractUnit.renderer.material.color = Color.blue;
-			aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
+			aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
 		}

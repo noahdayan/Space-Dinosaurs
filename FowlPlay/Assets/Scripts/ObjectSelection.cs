@@ -61,7 +61,7 @@ public class ObjectSelection : MonoBehaviour {
 			if (CharacterManager.aInteractUnit == gameObject)
 			{
 				//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
-				CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
+				CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 				//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
 				//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
 				iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
@@ -83,7 +83,7 @@ public class ObjectSelection : MonoBehaviour {
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
-						CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
+						CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 						//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
 						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
@@ -95,7 +95,7 @@ public class ObjectSelection : MonoBehaviour {
 					CharacterManager.aInteractUnitOriginalRotation = gameObject.transform.rotation;
 					
 					//gameObject.renderer.material.color = Color.red;
-					gameObject.GetComponentInChildren<Renderer>().renderer.material.color = Color.red;
+					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					
 					// and rotate it to face the attacker/tamer
 					Vector3 tileOne = CharacterManager.aInteractUnit.transform.position;

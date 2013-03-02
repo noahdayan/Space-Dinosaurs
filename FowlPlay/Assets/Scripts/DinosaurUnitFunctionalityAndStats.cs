@@ -133,7 +133,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			SwitchTeams("Enemy");
 			//animation
 			//gameObject.renderer.material.color = Color.red;
-			gameObject.GetComponentInChildren<Renderer>().renderer.material.color = Color.red;
+			gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 			tamed = false;
 		}
 	}
