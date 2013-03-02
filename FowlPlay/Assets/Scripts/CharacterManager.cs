@@ -23,9 +23,9 @@ public class CharacterManager : MonoBehaviour {
 	public static GameObject bird2;
 	
 	// These lists aggregate all units.
-	private static List<GameObject> player1Units;
-	private static List<GameObject> player2Units;
-	private static List<GameObject> untamedUnits;
+	public static List<GameObject> player1Units;
+	public static List<GameObject> player2Units;
+	public static List<GameObject> untamedUnits;
 	
 	// Used for rotation of units.
 	public static Vector3 startPos;
@@ -99,8 +99,10 @@ public class CharacterManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+	{
+		if (aInteractUnit)
+			aInteractUnit.SendMessage("UpdateGuiTameButton");
 	}
 	
 	// Selects a unit of the player's team.

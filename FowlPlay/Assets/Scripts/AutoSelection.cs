@@ -23,7 +23,8 @@ public class AutoSelection : MonoBehaviour {
 			// select the object only if it is not selected and no objects are in movement
 			if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
 			{
-				ClickAndMove.aIsObjectMoving = true;			
+				ClickAndMove.aIsObjectMoving = true;	
+				CharacterManager.aCurrentlySelectedUnit = gameObject;
 				TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
 				TileManager.aSingleTileIsSelected = true;
 				charManager.SendMessage("selectUnit", gameObject);

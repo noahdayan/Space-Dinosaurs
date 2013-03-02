@@ -337,7 +337,7 @@ public class TileManager : MonoBehaviour {
 	/**
 	 * Returns the neighbor of a tile at a specified direction
 	 * */
-	public GameObject getSingleNeighbor (GameObject pTile, int pDirection)
+	public static GameObject getSingleNeighbor (GameObject pTile, int pDirection)
 	{
 		if (pTile == null)
 			return null;
@@ -485,12 +485,14 @@ public class TileManager : MonoBehaviour {
 	public static GameObject pickRandomTile()
 	{
 		GameObject randomTile;
+		Vector3 tile = CharacterManager.aCurrentlySelectedUnit.transform.position;
+		tile.y = 2.0f;
 		
 		do
 		{
-			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length - 1)];
+			randomTile = getSingleNeighbor(getTileAt(tile) ,UnityEngine.Random.Range(0, 6));
 		}
-		while (isTileOccupied(randomTile));
+		while (isTileOccupied(randomTile) || randomTile == null);
 
 		return randomTile;
 	}

@@ -83,7 +83,40 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void SwitchTeams(string team)
 	{
+		//Removing units from the list of the team it used to be in.
+		switch(CharacterManager.aInteractUnit.tag)
+		{
+		case "Player1":
+			CharacterManager.player1Units.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			break;
+		case "Player2":
+			CharacterManager.player2Units.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			break;
+		case "Enemy":
+			CharacterManager.untamedUnits.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = false;
+			break;
+		}	
+		
+		//Adding the unit to it's new team!
 		gameObject.tag = team;
+		switch(team)
+		{
+		case "Player1":
+			CharacterManager.player1Units.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
+			break;
+		case "Player2":
+			CharacterManager.player2Units.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
+			break;
+		case "Enemy":
+			CharacterManager.untamedUnits.Add(CharacterManager.aInteractUnit);
+			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = true;
+			break;
+		}
 	}
 	
 	public void CheckTamePoints()
@@ -120,6 +153,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
 		ProgressBarGUI.tamePoints = (int)tamePoints;
+	}
+	
+	public void UpdateGuiTameButton()
+	{
+		PlayMenuGUI.untamed = !tamed;
 	}
 		
 	
