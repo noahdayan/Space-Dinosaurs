@@ -28,6 +28,8 @@ public class ClickAndMove : MonoBehaviour
 		// Start the movement
 		StartCoroutine("moveHelper");
 		
+		yield return new WaitForSeconds(1.0f);
+		
 		// Busy loop... wait until the movement animation is complete by checking to see when the unit has reached the destination.
 		do
 		{
