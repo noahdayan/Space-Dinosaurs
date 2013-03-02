@@ -61,10 +61,11 @@ public class ObjectSelection : MonoBehaviour {
 			{
 				//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 				CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
-				CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
+				//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
+				//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
+				iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 				CharacterManager.aInteractiveUnitIsSelected = false;
 				CharacterManager.aInteractUnit = null;
-				//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 50.0f);
 			}
 			
 			// select the object only if it is mid-turn
@@ -81,8 +82,9 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 						CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
-						CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
-						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 50.0f);
+						//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
+						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
+						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 					}
 					
 					// select the new interact unit.
