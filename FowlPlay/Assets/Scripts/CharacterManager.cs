@@ -117,7 +117,8 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnitOriginalRotation = pUnit.transform.rotation;
 		
 		// Make it visible
-		pUnit.renderer.material.color = Color.yellow;
+		//pUnit.renderer.material.color = Color.yellow;
+		pUnit.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 		
 		// Set the GUI components for players.
 		if (aTurn == 1 || aTurn == 3)
@@ -183,7 +184,8 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (aInteractiveUnitIsSelected)
 			{
-				aInteractUnit.renderer.material.color = Color.blue;
+				//aInteractUnit.renderer.material.color = Color.blue;
+				aInteractUnit.GetComponentInChildren<Renderer>().material.color = Color.blue;
 				aInteractUnit = null;
 			}
 			
@@ -227,7 +229,8 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aCurrentlySelectedUnit != null)
 		{
-			aCurrentlySelectedUnit.renderer.material.color = Color.blue;
+			//aCurrentlySelectedUnit.renderer.material.color = Color.blue;
+			aCurrentlySelectedUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
 			
 			// if the unit has moved, update the hashtables
 			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
@@ -269,7 +272,6 @@ public class CharacterManager : MonoBehaviour {
 		Vector3 tile = aCurrentlySelectedUnit.transform.position;
 		tile.y = 2.0f;
 		
-		TileManager.getTileAt(tile).renderer.material.color = Color.red;
 		TileManager.getTileAt(tile).tag = "Tile";
 		
 		TileManager.occupiedTilesHT.Remove(tile);
@@ -290,7 +292,8 @@ public class CharacterManager : MonoBehaviour {
 		
 		if (aInteractiveUnitIsSelected)
 		{
-			aInteractUnit.renderer.material.color = Color.blue;
+			//aInteractUnit.renderer.material.color = Color.blue;
+			aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
 		}

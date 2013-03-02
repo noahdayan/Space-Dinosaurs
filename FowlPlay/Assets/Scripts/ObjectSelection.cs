@@ -59,7 +59,8 @@ public class ObjectSelection : MonoBehaviour {
 			// if it is already the interact unit, deselect it.
 			if (CharacterManager.aInteractUnit == gameObject)
 			{
-				CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+				//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+				CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
 				CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
 				CharacterManager.aInteractiveUnitIsSelected = false;
 				CharacterManager.aInteractUnit = null;
@@ -78,7 +79,8 @@ public class ObjectSelection : MonoBehaviour {
 					// if another interact unit is already selected, deselect it and revert its rotation to the original.
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
-						CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
+						CharacterManager.aInteractUnit.GetComponentInChildren<Renderer>().renderer.material.color = Color.blue;
 						CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
 						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 50.0f);
 					}
@@ -87,7 +89,8 @@ public class ObjectSelection : MonoBehaviour {
 					CharacterManager.aInteractiveUnitIsSelected = true;
 					CharacterManager.aInteractUnit = gameObject;
 					CharacterManager.aInteractUnitOriginalRotation = gameObject.transform.rotation;
-					gameObject.renderer.material.color = Color.red;
+					//gameObject.renderer.material.color = Color.red;
+					gameObject.GetComponentInChildren<Renderer>().renderer.material.color = Color.red;
 					
 				}
 				
