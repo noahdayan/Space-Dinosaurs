@@ -44,6 +44,14 @@ public class PlayMenuGUI : MonoBehaviour {
 		{
 			GUI.enabled = false;
 		}
+		if(GUI.Button(new Rect(cancelButton), "Cancel"))
+		{
+			audio.PlayOneShot(click);
+			
+			if(CharacterManager.aMidTurn)
+				manager.SendMessage("cancelMove");
+		}
+		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected;
 		if(GUI.Button(new Rect(attackButton), "Attack"))
 		{
 			audio.PlayOneShot(click);
@@ -51,13 +59,6 @@ public class PlayMenuGUI : MonoBehaviour {
 			{
 				manager.SendMessage("attack");
 			}
-		}
-		if(GUI.Button(new Rect(cancelButton), "Cancel"))
-		{
-			audio.PlayOneShot(click);
-			
-			if(CharacterManager.aMidTurn)
-				manager.SendMessage("cancelMove");
 		}
 		if(!isBird)
 		{
