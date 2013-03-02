@@ -74,8 +74,7 @@ public class ObjectSelection : MonoBehaviour {
 			{
 				
 				// check to see if it's in range
-				Vector3 unitsPosition = gameObject.transform.position;
-				unitsPosition.y = 2.0f;
+				Vector3 unitsPosition = TileManager.getTileUnitIsStandingOn(gameObject);
 
 				if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
 				{
@@ -98,10 +97,9 @@ public class ObjectSelection : MonoBehaviour {
 					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					
 					// and rotate it to face the attacker/tamer
-					Vector3 tileOne = CharacterManager.aInteractUnit.transform.position;
-					Vector3 tileTwo = CharacterManager.aCurrentlySelectedUnit.transform.position;
-					tileOne.y = 2.0f;
-					tileTwo.y = 2.0f;
+					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
+					Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
+
 					Vector3 newRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
 					newRotation.x = CharacterManager.startRot.x;
 					newRotation.z = CharacterManager.startRot.z;

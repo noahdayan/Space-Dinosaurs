@@ -59,8 +59,7 @@ public class CharacterManager : MonoBehaviour {
 			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
-			Vector3 tile = unit.transform.position;
-			tile.y = 2.0f;
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
@@ -76,8 +75,7 @@ public class CharacterManager : MonoBehaviour {
 			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
-			Vector3 tile = unit.transform.position;
-			tile.y = 2.0f;
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
@@ -93,8 +91,7 @@ public class CharacterManager : MonoBehaviour {
 			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
-			Vector3 tile = unit.transform.position;
-			tile.y = 2.0f;
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
 			TileManager.getTileAt(tile).tag = "OccupiedTile";
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
@@ -195,8 +192,7 @@ public class CharacterManager : MonoBehaviour {
 		unitsHT.Remove(pUnit.transform.position);
 		
 		// Mark the tile as unoccupied.
-		Vector3 unitsTile = pUnit.transform.position;
-		unitsTile.y = 2.0f;
+		Vector3 unitsTile = TileManager.getTileUnitIsStandingOn(pUnit);
 		
 		TileManager.occupiedTilesHT.Remove(unitsTile);
 		TileManager.getTileAt(unitsTile).tag = "Tile";
@@ -261,12 +257,11 @@ public class CharacterManager : MonoBehaviour {
 			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
 			{
 				unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
-				aCurrentlySelectedUnitOriginalPosition.y = 2.0f;
-				TileManager.occupiedTilesHT.Remove(aCurrentlySelectedUnitOriginalPosition);
+				TileManager.occupiedTilesHT.Remove(TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition));
 	
 				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
-				Vector3 correctedPosition = aCurrentlySelectedUnit.transform.position;
-				correctedPosition.y = 2.0f;
+				Vector3 correctedPosition = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
+				
 				TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
 			}
 			
@@ -294,8 +289,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		GameObject temp = aCurrentlySelectedUnit;
 		
-		Vector3 tile = aCurrentlySelectedUnit.transform.position;
-		tile.y = 2.0f;
+		Vector3 tile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
 		
 		TileManager.getTileAt(tile).tag = "Tile";
 		//TileManager.aLastSelectedTile.renderer.material.color = Color.red;
@@ -303,8 +297,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		TileManager.occupiedTilesHT.Remove(TileManager.aLastSelectedTile.transform.position);
 		
-		Vector3 oldTile = aCurrentlySelectedUnitOriginalPosition;
-		oldTile.y = 2.0f;
+		Vector3 oldTile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition);
 		
 		TileManager.getTileAt(oldTile).tag = "OccupiedTile";
 		

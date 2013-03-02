@@ -147,8 +147,7 @@ public class TileManager : MonoBehaviour {
 	{
 		int range = pRange + pAttackRange;
 		
-		Vector3 position = pUnit.transform.position;
-		position.y = 2.0f;
+		Vector3 position = getTileUnitIsStandingOn(pUnit);
 		
 		List<Vector3> results = new List<Vector3>();
 		
@@ -508,8 +507,8 @@ public class TileManager : MonoBehaviour {
 		if (aSingleTileIsSelected) 
 		{
 			// mark the old tile as unoccupied
-			Vector3 tile = CharacterManager.aCurrentlySelectedUnitOriginalPosition;
-			tile.y = 2.0f;
+			Vector3 tile = getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnitOriginalPosition);
+			
 			getTileAt(tile).tag = "Tile";
 			
 			// and mark the new tile as occupied
@@ -541,8 +540,7 @@ public class TileManager : MonoBehaviour {
 	public static GameObject pickRandomTile()
 	{
 		GameObject randomTile;
-		Vector3 tile = CharacterManager.aCurrentlySelectedUnit.transform.position;
-		tile.y = 2.0f;
+		Vector3 tile = getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
 		
 		do
 		{
@@ -569,8 +567,7 @@ public class TileManager : MonoBehaviour {
 			
 			bool canAttack = false;
 			
-			Vector3 unitsTile = CharacterManager.aCurrentlySelectedUnit.transform.position;
-			unitsTile.y = 2.0f;
+			Vector3 unitsTile = getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
 			
 			int attackRange;
 			if(CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>())
@@ -625,6 +622,22 @@ public class TileManager : MonoBehaviour {
 				//SendMessage("endTurn");
 		}
 			
+	}
+	
+	public static Vector3 getTileUnitIsStandingOn(GameObject pUnit)
+	{	
+		Vector3 result = pUnit.transform.position;
+		result.y = 2.0f;
+		
+		return result;
+	}
+	
+	public static Vector3 getTileUnitIsStandingOn(Vector3 pUnit)
+	{	
+		Vector3 result = pUnit;
+		result.y = 2.0f;
+		
+		return result;
 	}
 }
 
