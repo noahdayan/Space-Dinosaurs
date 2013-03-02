@@ -315,11 +315,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
 		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
-		
-<<<<<<< HEAD
-		//resetCosts();
-=======
-		resetCosts();
+
 		if (aCurrentlySelectedUnit.tag == "Player1")
 		{
 			bird1.SendMessage("RestoreMana");
@@ -328,7 +324,7 @@ public class CharacterManager : MonoBehaviour {
 		{
 			bird2.SendMessage("RestoreMana");
 		}
->>>>>>> 53825e28125133c8de45b1d984eaf17d74999d77
+
 		aMidTurn = false;
 		deselectUnit();
 		SendMessage("deselectTile");
