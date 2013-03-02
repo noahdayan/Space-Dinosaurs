@@ -6,6 +6,7 @@ using System;
 public class TileManager : MonoBehaviour {
 	
 	public static GameObject aCurrentlySelectedTile;
+	public static GameObject aLastSelectedTile;
 	
 	// Used to access methods on CharacterManager
 	public CharacterManager aCharacterManager;
@@ -399,7 +400,7 @@ public class TileManager : MonoBehaviour {
 	/**
 	 * Returns the six tiles that getTilesInRange the chosen tile.
 	 * */
-	public List<GameObject> getSurroundingSix (GameObject pTile)
+	public static List<GameObject> getSurroundingSix (GameObject pTile)
 	{
 		List<GameObject> lTiles = new List<GameObject>();
 		
@@ -428,6 +429,46 @@ public class TileManager : MonoBehaviour {
 		return lTiles;
 	}
 	
+	// Finds a path to the destination.
+	// Returns a collection of nodes to follow.
+  	public static Vector3[] findPath(GameObject pStartTile, GameObject pEndTile)
+	{
+		// The list that will aggregate the tiles in the path.
+		List<Vector3> lPath = new List<Vector3>();
+		
+		Vector3 destination = pEndTile.transform.position;
+		
+		Vector3 currentPosition = pStartTile.transform.position;
+		
+		while (currentPosition != destination)
+		{
+			// Get all surrounding tiles and check to see which one is closes to the destination.
+			// Add it to the list and repeat until we get to the destination tile.
+			List<GameObject> surroundingTiles = getSurroundingSix(getTileAt(currentPosition));
+			
+			
+			GameObject lowestCost = pStartTile;
+			
+			foreach (GameObject tile in surroundingTiles)
+			{
+				if(movementCost(tile, pEndTile) < movementCost(lowestCost, pEndTile) && tile.tag.Equals("Tile"))
+					lowestCost = tile;
+			}
+			
+			// Convert it into a node usable by a unit.
+			Vector3 lowestCostPosition = lowestCost.transform.position;
+			lowestCostPosition.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
+			
+			lPath.Add(lowestCostPosition);
+			currentPosition = lowestCost.transform.position;
+		}
+		
+		Vector3[] results = lPath.ToArray();
+		
+		return results;
+		//return lPath;
+	}
+	
 	public void highlightTile(GameObject pTile)
 	{
 		pTile.renderer.material.color = Color.cyan;
@@ -439,9 +480,10 @@ public class TileManager : MonoBehaviour {
 	public static GameObject getTileAt(Vector3 pPosition)
 	{
 		GameObject ltile = null;
-		
+
 		if(allTilesHT.Contains(pPosition))
 			ltile = (GameObject)allTilesHT[pPosition];
+		
 		return ltile;
 	}
 	
@@ -474,6 +516,9 @@ public class TileManager : MonoBehaviour {
 			aCurrentlySelectedTile.tag = "OccupiedTile";
 			
 			aCurrentlySelectedTile.renderer.material = aTileDefault;
+			
+			aLastSelectedTile = aCurrentlySelectedTile;
+			
 			aCurrentlySelectedTile = null;
 			aSingleTileIsSelected = false;
 		}

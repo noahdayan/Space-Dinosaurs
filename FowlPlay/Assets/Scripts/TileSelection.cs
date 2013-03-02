@@ -16,12 +16,13 @@ public class TileSelection : MonoBehaviour {
 	
 	void OnMouseDown()
 	{
-		// select the tile
+		// select the tile and move the currently selected unit towards it.
 		if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn)
 		{
 			if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 			{
 				tileManager.SendMessage("selectTile", gameObject);
+				tileManager.SendMessage("move");
 				//ActionMenuGUI.activateMvmtMenu = true;
 			}
 		}

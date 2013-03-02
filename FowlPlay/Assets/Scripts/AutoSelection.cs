@@ -28,6 +28,7 @@ public class AutoSelection : MonoBehaviour {
 				TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
 				TileManager.aSingleTileIsSelected = true;
 				charManager.SendMessage("selectUnit", gameObject);
+				charManager.SendMessage("move");
 			}
 		}
 	}
