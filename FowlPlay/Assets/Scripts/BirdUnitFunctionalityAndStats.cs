@@ -8,6 +8,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public int maxHealthPoints = 100;
 	public int defensePoints = 10;
 	public int attackPoints = 15;
+	public int tameCost = 1;
+	public int attackCost = 1;
 	public int moveCost = 1;
 	public int moveRange = 3;
 	public int attackRange = 2;
@@ -29,14 +31,18 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	 */
 	public int TakeAttackDamage(int dmg)
 	{
+		//Need to make a better formula.
+		int actualDamageTaken = dmg - defensePoints;
 		if (dmg - defensePoints > 0)
 		{
-			healthPoints -= dmg - defensePoints;
+			healthPoints -= actualDamageTaken;
 		}
+		
 		if (healthPoints <= 0)
 		{
 			Die ();
 		}
+		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		UpdateGuiHealthBar();
 		return healthPoints;
@@ -50,8 +56,26 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public void AttackUnit (GameObject unit)
 	{
 		unit.SendMessage("TakeAttackDamage", attackPoints);
-		unit.BroadcastMessage("showDamageText", "-" + attackPoints.ToString());
-		//maybe remove AP here as well based on an attack cost?
+		if (gameObject.tag == "Player1")
+		{
+			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+		}
+	}
+	
+	public void RemoveMoveMana()
+	{
+		if (gameObject.tag == "Player1")
+		{
+			CharacterManager.bird1.SendMessage("RemoveMana", moveCost);
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			CharacterManager.bird2.SendMessage("RemoveMana", moveCost);
+		}
 	}
 	
 	//Want to make sure that this unit is the currently selected one.
@@ -61,6 +85,14 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			unit.SendMessage("AddTamePointsByRate", tamePower);
 			//Maybe remove AP from the player here as well based on the tame cost?
+		}
+		if (gameObject.tag == "Player1")
+		{
+			CharacterManager.bird1.SendMessage("RemoveMana", tameCost);
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			CharacterManager.bird2.SendMessage("RemoveMana", tameCost);
 		}
 	}
 	

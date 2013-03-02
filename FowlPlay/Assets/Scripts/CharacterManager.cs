@@ -14,6 +14,7 @@ public class CharacterManager : MonoBehaviour {
 	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
 	public static Quaternion aCurrentlySelectedUnitOriginalRotation;
 	public static Quaternion aInteractUnitOriginalRotation;
+	public static int aOriginalMana;
 	
 	// Keeps track of whether any unit is selected at the time.
 	public static bool aSingleUnitIsSelected = false;
@@ -38,6 +39,9 @@ public class CharacterManager : MonoBehaviour {
 	public Material aMaterialTeamRed, aMaterialTeamBlue;
 	
 	// Can be either 1 or 2 or 3 or 4
+	//1 for player 1's turn.
+	//3 for player 2's turn.
+	//and 2 or 4 for untamed unit turn.
 	public static int aTurn = 1;
 	public static bool aTurnIsCompleted = false;
 	public static bool aMidTurn = false;
@@ -161,7 +165,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		deselectUnit();
 		
-		endTurn();
+		//endTurn();
 	}
 	
 	public void tame()
@@ -172,7 +176,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		deselectUnit();
 		
-		endTurn();
+		//endTurn();
 	}
 	
 	// Executed when a unit's HP hits 0.
@@ -307,6 +311,14 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
 		
 		resetCosts();
+		if (aCurrentlySelectedUnit.tag == "Player1")
+		{
+			bird1.SendMessage("RestoreMana");
+		}
+		else if (aCurrentlySelectedUnit.tag == "Player2")
+		{
+			bird2.SendMessage("RestoreMana");
+		}
 		aMidTurn = false;
 		deselectUnit();
 		SendMessage("deselectTile");
@@ -337,6 +349,7 @@ public class CharacterManager : MonoBehaviour {
 				if (untamedUnits.Count == 0)
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+					bird2.SendMessage("StartTurn");
 					aTurn = 3;	
 				}
 				else
@@ -344,11 +357,12 @@ public class CharacterManager : MonoBehaviour {
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 					aTurn = 2;
 				}
+				bird1.SendMessage("PlayerEndTurn");
 			}
 			else if (aTurn == 2)
 			{
 				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
-				
+				bird2.SendMessage("StartTurn");
 				aTurn = 3;
 			}
 			else if (aTurn == 3)
@@ -357,6 +371,7 @@ public class CharacterManager : MonoBehaviour {
 				if (untamedUnits.Count == 0)
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+					bird1.SendMessage("StartTurn");
 					aTurn = 1;
 				}
 				else
@@ -364,16 +379,43 @@ public class CharacterManager : MonoBehaviour {
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
 					aTurn = 4;
 				}
+				bird2.SendMessage("PlayerEndTurn");
 			}
 			else if (aTurn == 4)
 			{
 				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
-				
+				bird1.SendMessage("StartTurn");
 				aTurn = 1;
 			}
 			
 		}
 		
 		aTurnIsCompleted = false;
+	}
+	
+	public void EndMidTurn()
+	{
+		if (!ClickAndMove.aIsObjectMoving)
+		{
+			if (aInteractiveUnitIsSelected)
+			{
+				//aInteractUnit.renderer.material.color = Color.blue;
+				aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				aInteractUnit = null;
+			}
+			
+			// Some costs may not have been reset. Reset them.
+			resetCosts();
+			SendMessage("unhighlightRange");
+			
+			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
+			if (TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition) != null)
+				SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
+			
+			deselectUnit();
+			
+			aInteractiveUnitIsSelected = false;
+			aMidTurn = false;
+		}
 	}
 }
