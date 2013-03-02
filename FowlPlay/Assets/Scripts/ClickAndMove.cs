@@ -19,24 +19,36 @@ public class ClickAndMove : MonoBehaviour
 	// Update is called once per frame
   	void Update ()
 	{
-		if (aIsObjectMoving)
-		{
-			if ( (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) < 5) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) < 5))
-			{
-				CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-				manager.SendMessage("deselectTile");
-				manager.SendMessage("paintAttackableTilesAfterMove");
-				CharacterManager.aMidTurn = true;
-				aIsObjectMoving = false;
-				Debug.Log("Movement ended. Unit at: " + CharacterManager.aCurrentlySelectedUnit.transform.position);
-			}
-		}
 		
 	}
 	
 	
+	IEnumerator move()
+	{
+		// Start the movement
+		StartCoroutine("moveHelper");
+		
+		// Busy loop... wait until the movement animation is complete by checking to see when the unit has reached the destination.
+		do
+		{
+			yield return null;	
+		} while ((Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) > 0.1) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) > 0.1));
+		
+		// Destination reached, stop the co-routine and do all the mid-turn things.
+		StopCoroutine("moveHelper");
+		iTween.Stop(CharacterManager.aCurrentlySelectedUnit);
+		
+		CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
+		manager.SendMessage("deselectTile");
+		manager.SendMessage("paintAttackableTilesAfterMove");
+		aIsObjectMoving = false;
+
+		CharacterManager.aMidTurn = true;		
+			
+	}
+	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
-	void move()
+	void moveHelper()
 	{
 		if (CharacterManager.aSingleUnitIsSelected)
 		{
@@ -46,9 +58,7 @@ public class ClickAndMove : MonoBehaviour
 				startTile.y = 2.0f;
 				
 				destination = TileManager.aCurrentlySelectedTile.transform.position;
-				//destination.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
 				
-				Debug.Log("Initiate movement. Unit moving to: " + destination);
 				// Get the path that is to be followed.
 				Vector3[] path = TileManager.findPath(TileManager.getTileAt(startTile), TileManager.getTileAt(destination));
 				
@@ -56,13 +66,14 @@ public class ClickAndMove : MonoBehaviour
 				
 				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (path.Length > 1)
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", path, "speed", 18.0f)); 
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", path, "time", 2.0f)); 
 				else
 					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, destination, 1.0f);
 				
+				destination.y = CharacterManager.aCurrentlySelectedUnitOriginalPosition.y;
+				
 			}
 		}
-		
 	}
 	
 }

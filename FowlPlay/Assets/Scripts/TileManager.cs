@@ -59,13 +59,6 @@ public class TileManager : MonoBehaviour {
 			costs.Add (tile.transform.position, -1);
 		}
 		
-		Vector3 inq = new Vector3();
-			inq.x = 14.0f;
-			inq.y = 2.0f;
-			inq.z = -32.0f;
-			if (allTilesHT.ContainsKey(inq))
-				Debug.Log("found!");
-		
 	}
 	
 	// Update is called once per frame
