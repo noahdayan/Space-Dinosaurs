@@ -75,6 +75,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (tamePoints > 50 && tamed == false)
 		{
 			Debug.Log("This unit has switched teams " + gameObject);
+			tamed = true;
 			SwitchTeams (teamToSwitchTo);
 		}
 		return tamePoints;
