@@ -36,14 +36,16 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.skin = menuSkin;
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
-		if(!PauseMenuGUI.isPaused)
+		
+		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn;
+		if(GUI.Button(new Rect(cancelButton), "Cancel"))
 		{
-			GUI.enabled = CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn;
+			audio.PlayOneShot(click);
+			
+			if(CharacterManager.aMidTurn)
+				manager.SendMessage("cancelMove");
 		}
-		else
-		{
-			GUI.enabled = false;
-		}
+		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected;
 		if(GUI.Button(new Rect(attackButton), "Attack"))
 		{
 			audio.PlayOneShot(click);
@@ -51,13 +53,6 @@ public class PlayMenuGUI : MonoBehaviour {
 			{
 				manager.SendMessage("attack");
 			}
-		}
-		if(GUI.Button(new Rect(cancelButton), "Cancel"))
-		{
-			audio.PlayOneShot(click);
-			
-			if(CharacterManager.aMidTurn)
-				manager.SendMessage("cancelMove");
 		}
 		if(!isBird)
 		{
@@ -78,10 +73,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				}
 			}
 		}
-		if(!PauseMenuGUI.isPaused)
-		{
-			GUI.enabled = !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected;
-		}
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected;
 		if(GUI.Button(new Rect(waitButton), "Wait"))
 		{
 			audio.PlayOneShot(click);
@@ -97,10 +89,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("paintAttackableTilesAfterMove");
 			}
 		}
-		if(!PauseMenuGUI.isPaused)
-		{
-			GUI.enabled = !ClickAndMove.aIsObjectMoving;
-		}
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving;
 		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
 		{
 			audio.PlayOneShot(click);
