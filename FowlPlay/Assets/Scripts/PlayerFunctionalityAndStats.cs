@@ -8,6 +8,8 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	public int startingMana = 10;
 	public int bonus = 0;
 	
+	public static bool isLegalMove = true;
+	
 	public bool isTurn = false;
 	
 	void Start()
@@ -57,15 +59,15 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 		ManaPointsGUI.manaPoints = mana;
 	}
 	
-	public bool CheckLegalMove (int manaCost)
+	public void CheckLegalMove (int manaCost)
 	{
 		if (manaCost > mana)
 		{
-			return false;
+			isLegalMove = false;
 		}
 		else
 		{
-			return true;
+			isLegalMove = true;
 		}
 	}
 }

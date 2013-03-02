@@ -103,7 +103,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void Die()
 	{
-		GameObject instance = Instantiate(deathParticle, transform.position, deathParticle.transform.rotation) as GameObject;
+		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
 	}
 	

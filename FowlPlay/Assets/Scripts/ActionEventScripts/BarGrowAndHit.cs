@@ -5,7 +5,7 @@ public class BarGrowAndHit : MonoBehaviour {
 	
 	public GameObject blockChild;
 	
-	int speed = 30;
+//	int speed = 30;
 	float t = 0f;
 	bool growing = true;
 	bool stopped = false;
