@@ -211,7 +211,7 @@ public class CharacterManager : MonoBehaviour {
 			}
 			
 			// Some costs may not have been reset. Reset them.
-			resetCosts();
+			//resetCosts();
 			SendMessage("unhighlightRange");
 			
 			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
@@ -271,6 +271,8 @@ public class CharacterManager : MonoBehaviour {
 				ProgressBarGUI.show = false;
 				aCurrentlySelectedUnit = null;
 			}
+			
+			resetCosts();
 		}
 		
 		//aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
@@ -292,7 +294,7 @@ public class CharacterManager : MonoBehaviour {
 		Vector3 tile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
 		
 		TileManager.getTileAt(tile).tag = "Tile";
-		//TileManager.aLastSelectedTile.renderer.material.color = Color.red;
+
 		if (TileManager.aLastSelectedTile != null)
 		{
 			TileManager.aLastSelectedTile.tag = "Tile";
@@ -306,7 +308,7 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
 		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
 		
-		resetCosts();
+		//resetCosts();
 		aMidTurn = false;
 		deselectUnit();
 		SendMessage("deselectTile");

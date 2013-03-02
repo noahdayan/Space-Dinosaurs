@@ -316,8 +316,8 @@ public class TileManager : MonoBehaviour {
 			}
 			
 			// Reset the hashtable.
-			costs.Remove(x);
-			costs.Add(x, -1);
+			//costs.Remove(x);
+			//costs.Add(x, -1);
 				
 		}
 		
@@ -330,7 +330,7 @@ public class TileManager : MonoBehaviour {
 	
 	
 	/**
-	 * Calculates the total number of tiles reachable from the current tile
+	 * Calculates the maximum number of tiles reachable from the current tile
 	 * for the given range. Does not count the current tile.
 	 * */
 	public int totalNumberOfReachableTiles(int pRange)
@@ -441,7 +441,7 @@ public class TileManager : MonoBehaviour {
 		
 		while (currentPosition != destination)
 		{
-			// Get all surrounding tiles and check to see which one is closes to the destination.
+			// Get all surrounding tiles and check to see which one is closest to the destination.
 			// Add it to the list and repeat until we get to the destination tile.
 			List<GameObject> surroundingTiles = getSurroundingSix(getTileAt(currentPosition));
 			
@@ -461,6 +461,77 @@ public class TileManager : MonoBehaviour {
 			lPath.Add(lowestCostPosition);
 			currentPosition = lowestCost.transform.position;
 		}
+		
+		Vector3[] results = lPath.ToArray();
+		
+		return results;
+		//return lPath;
+	}
+	
+	// Finds the shortest path from one tile to another.
+	/*
+	public void shortestPath(GameObject pStartTile, GameObject pEndTile)
+	{
+		//PriorityQueue<int, Vector3> open = new PriorityQueue<int, Vector3>();
+		
+		Queue<Vector3> open = new Queue<Vector3>();
+		
+		List<Vector3> closed = new List<Vector3>();
+		
+		while(true)
+		{
+			Vector3 current = open.Dequeue();
+			closed.Add(closed);
+			
+			foreach(GameObject neighbor in getSurroundingSix(getTileAt(current)))
+			{
+				int cost = (int)costs[current] + movementCost(getTileAt(current), neighbor);
+				
+				if (open.Contains(neighbor) && cost < (int)costs[neighbor])
+				{
+					open.	
+				}
+			}
+		}
+	}
+	*/
+	
+	public static Vector3[] shortestPath(GameObject pStartTile, GameObject pEndTile)
+	{
+		// The list that will aggregate the tiles in the path.
+		List<Vector3> lPath = new List<Vector3>();
+		
+		Vector3 destination = pStartTile.transform.position;
+		
+		Vector3 currentPosition = pEndTile.transform.position;
+		
+		while (currentPosition != destination)
+		{
+			// Get all surrounding tiles and check to see which one is closest to the destination.
+			// Add it to the list and repeat until we get to the destination tile.
+			List<GameObject> surroundingTiles = getSurroundingSix(getTileAt(currentPosition));
+			
+			Debug.Log("jj " + surroundingTiles.Count);
+			GameObject lowestCost = pStartTile;
+			
+			foreach (GameObject tile in surroundingTiles)
+			{
+				//Debug.Log("x");
+				if((int)costs[tile.transform.position] < (int)costs[lowestCost.transform.position] && tile.tag.Equals("Tile"))
+					lowestCost = tile;
+			}
+			
+			// Convert it into a node usable by a unit.
+			Vector3 lowestCostPosition = lowestCost.transform.position;
+			lowestCostPosition.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
+			
+			lPath.Add(lowestCostPosition);
+			currentPosition = lowestCost.transform.position;
+		}
+		
+		Debug.Log("x " + lPath.Count);
+		foreach (Vector3 x in lPath)
+			getTileAt(x).renderer.material.color = Color.cyan;
 		
 		Vector3[] results = lPath.ToArray();
 		
@@ -640,4 +711,3 @@ public class TileManager : MonoBehaviour {
 		return result;
 	}
 }
-
