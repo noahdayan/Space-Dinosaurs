@@ -328,7 +328,10 @@ public class CharacterManager : MonoBehaviour {
 				Debug.Log("There are " + untamedUnits.Count + " untamed doods\n");
 				
 				if (untamedUnits.Count == 0)
+				{
+					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
 					aTurn = 3;	
+				}
 				else
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
@@ -345,7 +348,10 @@ public class CharacterManager : MonoBehaviour {
 			{
 				//GameObject.Find("Character").SendMessage("pickRandomTile");
 				if (untamedUnits.Count == 0)
+				{
+					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 					aTurn = 1;
+				}
 				else
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
