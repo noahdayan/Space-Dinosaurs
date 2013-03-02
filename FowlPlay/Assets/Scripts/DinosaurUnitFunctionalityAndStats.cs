@@ -68,11 +68,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		string teamToSwitchTo = CharacterManager.aCurrentlySelectedUnit.tag;
 		
+		Debug.Log("Taming " + gameObject + "\n");
 		//Make a better pokemonlike formular here
 		tamePoints += tameAmount * tameRate;
 		
 		if (tamePoints > 50 && tamed == false)
 		{
+			Debug.Log("This unit has switched teams " + gameObject);
 			SwitchTeams (teamToSwitchTo);
 		}
 		return tamePoints;

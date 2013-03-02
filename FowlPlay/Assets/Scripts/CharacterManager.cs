@@ -152,6 +152,17 @@ public class CharacterManager : MonoBehaviour {
 		endTurn();
 	}
 	
+	public void tame()
+	{
+		aCurrentlySelectedUnit.SendMessage("TameUnit", aInteractUnit);
+		
+		SendMessage("unhighlightRange");
+		
+		deselectUnit();
+		
+		endTurn();
+	}
+	
 	// Executed when a unit's HP hits 0.
 	public static void killUnit(GameObject pUnit)
 	{
