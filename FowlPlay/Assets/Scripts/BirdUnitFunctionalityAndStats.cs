@@ -81,4 +81,10 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
+	
+	public void UpdateGuiTameButton()
+	{
+		PlayMenuGUI.untamed = false;
+	}	
+	
 }

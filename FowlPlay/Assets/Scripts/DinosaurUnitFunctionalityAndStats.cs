@@ -95,7 +95,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
+			Debug.Log("Removing an enemy from the list!\n");
+			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.untamedUnits.Remove(CharacterManager.aInteractUnit);
+			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = false;
 			break;
 		}	
@@ -105,6 +108,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		switch(team)
 		{
 		case "Player1":
+			Debug.Log("Adding to player one's team.\n");
 			CharacterManager.player1Units.Add(CharacterManager.aInteractUnit);
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
@@ -158,7 +162,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiTameButton()
 	{
 		PlayMenuGUI.untamed = !tamed;
-	}
-		
+	}	
 	
 }

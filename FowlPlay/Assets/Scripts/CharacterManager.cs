@@ -320,28 +320,42 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (aTurn == 1)
 			{
-				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 				//GameObject.Find("Character").SendMessage("pickRandomTile");
 				/*foreach (GameObject unit in player1Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", 1);
 				}*/
-				aTurn = 2;
+				Debug.Log("There are " + untamedUnits.Count + " untamed doods\n");
+				
+				if (untamedUnits.Count == 0)
+					aTurn = 3;	
+				else
+				{
+					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
+					aTurn = 2;
+				}
 			}
 			else if (aTurn == 2)
 			{
 				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 2's Turn");
+				
 				aTurn = 3;
 			}
 			else if (aTurn == 3)
 			{
-				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
 				//GameObject.Find("Character").SendMessage("pickRandomTile");
-				aTurn = 4;
+				if (untamedUnits.Count == 0)
+					aTurn = 1;
+				else
+				{
+					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
+					aTurn = 4;
+				}
 			}
 			else if (aTurn == 4)
 			{
 				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
+				
 				aTurn = 1;
 			}
 			
