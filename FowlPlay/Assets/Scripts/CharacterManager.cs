@@ -14,6 +14,7 @@ public class CharacterManager : MonoBehaviour {
 	public static Vector3 aCurrentlySelectedUnitOriginalPosition;
 	public static Quaternion aCurrentlySelectedUnitOriginalRotation;
 	public static Quaternion aInteractUnitOriginalRotation;
+	public static Quaternion aRotationAfterMove;
 	
 	// Keeps track of whether any unit is selected at the time.
 	public static bool aSingleUnitIsSelected = false;

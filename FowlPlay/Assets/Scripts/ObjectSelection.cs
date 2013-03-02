@@ -5,8 +5,6 @@ using System.Collections;
  * This script handles the selection behavior of units
  * When the user clicks on an object, it becomes selected. 
  * When he clicks it again, it becomes de-selected.
- * 
- * It uses OnMouseEnter instead of OnMouseDown because the game makes use of two cameras.
  **/
 
 public class ObjectSelection : MonoBehaviour {
@@ -28,71 +26,79 @@ public class ObjectSelection : MonoBehaviour {
 	
 	void OnMouseDown()
 	{
-		// check that it is the object's turn to move and that we're not mid-turn.
+		// FIRST - Click on an object
+		
+		// SECOND - Check that it is the object's turn to move (e.g. turn 1 for units belonging to team 1) 
+		// 			and that it is not mid-turn.
 		if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
 		{
-			// select the object only if it is not selected and no objects are in movement
+			// THIRD - Select the object only if it is not already selected and no objects are in movement.
 			if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
 			{
-				// deselect the previously selected unit
+				// If another object is already selected, we deselect it.
 				if (CharacterManager.aSingleUnitIsSelected)
 				{
 					charManager.SendMessage("deselectUnit");
 				}
 				
-				// select the new unit
+				// FOURTH - Select the object.
 				charManager.SendMessage("selectUnit", gameObject);
 			}
 			
-			// de-select the object, but only if it's not moving.
-			else if (CharacterManager.aCurrentlySelectedUnit == gameObject)
-			{
-				if (!ClickAndMove.aIsObjectMoving)
-				{
-					charManager.SendMessage("deselectUnit");
-				}
-			}
+			// THIRD - If the object is already selected, then deselect it.
+			else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving)
+				charManager.SendMessage("deselectUnit");
 		}
 			
-		// If it's not the object's turn, then check to see whether it is being attacked/tamed. 
+		// SECOND - If it is not the object's turn, check to see that it is:
+		//			1) mid-turn
+		//				AND
+		//			2) it belongs to the opposite team or is untamed. 
 		else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy") && CharacterManager.aMidTurn)
 		{
-			// if it is already the interact unit, deselect it.
+			
+			// THIRD - If the object we're trying to select is already selected
+			//			(i.e., it is already the interact unit), then we deselect it
+			//			and return the attacking/taming unit to its original rotation.
 			if (CharacterManager.aInteractUnit == gameObject)
 			{
-				//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 				CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-				//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
-				//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
+	
+				// Revert the interact unit's rotation.
 				iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
+				
+				// Revert the attacker/tamer's rotation.
+				iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
+				
 				CharacterManager.aInteractiveUnitIsSelected = false;
 				CharacterManager.aInteractUnit = null;
 			}
 			
-			// select the object only if it is mid-turn
-			else if (CharacterManager.aMidTurn)
+			// THIRD - Else, the object we're trying to select is not selected, so let's select it.
+			else
 			{
 				
-				// check to see if it's in range
+				// FOURTH - We have to check that it is within "interact" range, i.e., it's within attacking
+				//			or taming range.
+				
+				// Get the object's position.
 				Vector3 unitsPosition = TileManager.getTileUnitIsStandingOn(gameObject);
-
+				
+				// And now perform the check.
 				if(TileManager.tilesInMidTurnAttackRange.Contains(TileManager.getTileAt(unitsPosition)))
 				{
-					// if another interact unit is already selected, deselect it and revert its rotation to the original.
+					// FIFTH - If another interact unit is already selected, deselect it and revert its rotation to the original.
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 						CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-						//CharacterManager.aInteractUnit.transform.rotation = CharacterManager.aInteractUnitOriginalRotation;
-						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, CharacterManager.aInteractUnitOriginalRotation, Time.deltaTime * 10.0f);
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 					}
 					
-					// select the new interact unit.
+					// Select the new interact unit.
 					CharacterManager.aInteractiveUnitIsSelected = true;
 					CharacterManager.aInteractUnit = gameObject;
-					CharacterManager.aInteractUnitOriginalRotation = gameObject.transform.rotation;
-					
+
 					//gameObject.renderer.material.color = Color.red;
 					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					

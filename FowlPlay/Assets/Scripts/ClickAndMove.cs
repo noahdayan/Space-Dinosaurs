@@ -54,7 +54,10 @@ public class ClickAndMove : MonoBehaviour
 			CharacterManager.aMidTurn = true;		
 		}
 		
-		CharacterManager.resetCosts();
+		if (CharacterManager.aSingleUnitIsSelected)
+			CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
+		
+		//CharacterManager.resetCosts();
 	}
 	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
@@ -70,7 +73,7 @@ public class ClickAndMove : MonoBehaviour
 				destination = TileManager.aCurrentlySelectedTile.transform.position;
 				
 				// Get the path that is to be followed.
-				Vector3[] path = TileManager.shortestPath(TileManager.getTileAt(startTile), TileManager.getTileAt(destination));
+				Vector3[] path = TileManager.findPath(TileManager.getTileAt(startTile), TileManager.getTileAt(destination));
 				
 				aIsObjectMoving = true;
 				
