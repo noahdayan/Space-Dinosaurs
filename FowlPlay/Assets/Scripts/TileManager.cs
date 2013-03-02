@@ -70,8 +70,19 @@ public class TileManager : MonoBehaviour {
 		Vector3 unitsTile = pUnit.transform.position;
 		unitsTile.y = 2;
 		
-		int range = 3;
-		int attackRange = 2;
+		int range;
+		int attackRange;
+		
+		if(CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>())
+		{
+			range = CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().moveRange;
+			attackRange = CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackRange;
+		}
+		else
+		{
+			range = CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().moveRange;
+			attackRange = CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackRange;
+		}
 		
 		// The function runs and updates the attributes tilesInRange and tilesInAttackRange
 		getTilesInRange(getTileAt(unitsTile), range, attackRange);
@@ -516,8 +527,18 @@ public class TileManager : MonoBehaviour {
 			Vector3 unitsTile = CharacterManager.aCurrentlySelectedUnit.transform.position;
 			unitsTile.y = 2.0f;
 			
+			int attackRange;
+			if(CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>())
+			{
+				attackRange = CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackRange;
+			}
+			else
+			{
+				attackRange = CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackRange;
+			}
+			
 			// Check to see whether there are any attackable units in range.
-			foreach (Vector3 x in dijkstra(CharacterManager.aCurrentlySelectedUnit, 0, 2, 1))
+			foreach (Vector3 x in dijkstra(CharacterManager.aCurrentlySelectedUnit, 0, attackRange, 1))
 			{
 				if (getTileAt(x).tag.Equals("OccupiedTile") && x!= unitsTile)
 				{
