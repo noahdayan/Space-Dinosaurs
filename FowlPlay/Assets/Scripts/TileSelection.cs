@@ -23,6 +23,9 @@ public class TileSelection : MonoBehaviour {
 			{
 				tileManager.SendMessage("selectTile", gameObject);
 				tileManager.SendMessage("move");
+				//Removing Mana for the move action.
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("RemoveMoveMana");
+				
 				//ActionMenuGUI.activateMvmtMenu = true;
 			}
 		}

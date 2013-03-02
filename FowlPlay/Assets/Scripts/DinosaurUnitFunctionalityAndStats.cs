@@ -9,6 +9,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public int attackPoints = 15;
 	public float tamePoints  = 100.0f;
 	public float maxTamePoints = 100.0f;
+	public int attackCost = 1;
 	public int moveCost = 1;
 	public int moveRange = 3;
 	public int attackRange = 2;
@@ -24,6 +25,31 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		Die ();
 	}*/
 	
+	public void AttackUnit (GameObject unit)
+	{
+		unit.SendMessage("TakeAttackDamage", attackPoints);
+		if (gameObject.tag == "Player1")
+		{
+			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+		}
+	}
+	
+	public void RemoveMoveMana()
+	{
+		if (gameObject.tag == "Player1")
+		{
+			CharacterManager.bird1.SendMessage("RemoveMana", moveCost);
+		}
+		else if (gameObject.tag == "Player2")
+		{
+			CharacterManager.bird2.SendMessage("RemoveMana", moveCost);
+		}
+	}
+	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function
 	 * 
@@ -32,15 +58,18 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	 */
 	public int TakeAttackDamage(int dmg)
 	{
+		//Need to make a better formula.
+		int actualDamageTaken = dmg - defensePoints;
 		if (dmg - defensePoints > 0)
 		{
-			healthPoints -= dmg - defensePoints;
+			healthPoints -= actualDamageTaken;
 		}
 		
 		if (healthPoints <= 0)
 		{
 			Die ();
 		}
+		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		UpdateGuiHealthBar();
 		return healthPoints;
@@ -51,12 +80,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		tamePoints -= (tameTickAmount * commanderDistance);
 		CheckTamePoints();
 		return tamePoints;
-	}
-	
-	public void AttackUnit (GameObject unit)
-	{
-		unit.SendMessage("TakeAttackDamage", attackPoints);
-		unit.BroadcastMessage("showDamageText", "-" + attackPoints.ToString());
 	}
 	
 	/**

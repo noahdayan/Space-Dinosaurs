@@ -52,6 +52,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			if (CharacterManager.aInteractiveUnitIsSelected)
 			{
 				manager.SendMessage("attack");
+				manager.SendMessage("EndMidTurn");
 			}
 		}
 		if(!isBird)
@@ -70,6 +71,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				if (CharacterManager.aInteractiveUnitIsSelected)
 				{
 					manager.SendMessage("tame");
+					manager.SendMessage("EndMidTurn");
 				}
 			}
 		}
@@ -79,7 +81,8 @@ public class PlayMenuGUI : MonoBehaviour {
 			audio.PlayOneShot(click);
 			if(CharacterManager.aMidTurn)
 			{
-				manager.SendMessage("endTurn");
+				//manager.SendMessage("endTurn");
+				manager.SendMessage("EndMidTurn");
 			}
 			else
 			{
