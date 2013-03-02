@@ -103,7 +103,8 @@ public class CharacterManager : MonoBehaviour {
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 		
-		bird1 = GameObject.Find("Bird");
+		bird1 = GameObject.Find("Bird1");
+		bird2 = GameObject.Find("Bird2");
 
 	}
 	
