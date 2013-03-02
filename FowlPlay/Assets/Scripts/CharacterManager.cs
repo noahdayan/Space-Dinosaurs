@@ -293,9 +293,11 @@ public class CharacterManager : MonoBehaviour {
 		
 		TileManager.getTileAt(tile).tag = "Tile";
 		//TileManager.aLastSelectedTile.renderer.material.color = Color.red;
-		TileManager.aLastSelectedTile.tag = "Tile";
-		
-		TileManager.occupiedTilesHT.Remove(TileManager.aLastSelectedTile.transform.position);
+		if (TileManager.aLastSelectedTile != null)
+		{
+			TileManager.aLastSelectedTile.tag = "Tile";
+			TileManager.occupiedTilesHT.Remove(TileManager.aLastSelectedTile.transform.position);
+		}
 		
 		Vector3 oldTile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition);
 		
