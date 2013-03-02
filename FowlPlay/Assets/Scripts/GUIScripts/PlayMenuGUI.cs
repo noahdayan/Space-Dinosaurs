@@ -63,7 +63,10 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(GUI.Button(new Rect(tameButton), "Tame"))
 			{
 				audio.PlayOneShot(click);
-				manager.SendMessage("tame");
+				if (CharacterManager.aInteractiveUnitIsSelected)
+				{
+					manager.SendMessage("tame");
+				}
 			}
 		}
 		if(GUI.Button(new Rect(cancelButton), "Cancel"))
