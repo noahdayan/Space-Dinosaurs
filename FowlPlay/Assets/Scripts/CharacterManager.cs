@@ -103,6 +103,8 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aInteractUnit)
 			aInteractUnit.SendMessage("UpdateGuiTameButton");
+		else
+			PlayMenuGUI.untamed = false;
 	}
 	
 	// Selects a unit of the player's team.
