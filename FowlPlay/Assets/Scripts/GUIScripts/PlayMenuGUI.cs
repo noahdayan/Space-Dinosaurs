@@ -17,6 +17,7 @@ public class PlayMenuGUI : MonoBehaviour {
 	public Rect endTurnButton;
 	Rect menuAreaNormalized;
 	public static bool isBird = false;
+	public static bool untamed = false;
 	
 	GameObject manager;
 	
@@ -51,6 +52,13 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("attack");
 			}
 		}
+		if(GUI.Button(new Rect(cancelButton), "Cancel"))
+		{
+			audio.PlayOneShot(click);
+			
+			if(CharacterManager.aMidTurn)
+				manager.SendMessage("cancelMove");
+		}
 		if(!isBird)
 		{
 			if(GUI.Button(new Rect(abilityButton), "Ability"))
@@ -60,6 +68,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		}
 		else
 		{
+			GUI.enabled = untamed;
 			if(GUI.Button(new Rect(tameButton), "Tame"))
 			{
 				audio.PlayOneShot(click);
@@ -68,13 +77,6 @@ public class PlayMenuGUI : MonoBehaviour {
 					manager.SendMessage("tame");
 				}
 			}
-		}
-		if(GUI.Button(new Rect(cancelButton), "Cancel"))
-		{
-			audio.PlayOneShot(click);
-			
-			if(CharacterManager.aMidTurn)
-				manager.SendMessage("cancelMove");
 		}
 		if(!PauseMenuGUI.isPaused)
 		{
