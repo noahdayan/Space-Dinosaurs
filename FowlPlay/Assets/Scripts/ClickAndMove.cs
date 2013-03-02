@@ -53,6 +53,11 @@ public class ClickAndMove : MonoBehaviour
 		{
 			CharacterManager.aMidTurn = true;		
 		}
+		
+		if (CharacterManager.aSingleUnitIsSelected)
+			CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
+		
+		//CharacterManager.resetCosts();
 	}
 	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
