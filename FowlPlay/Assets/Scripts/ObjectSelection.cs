@@ -100,24 +100,23 @@ public class ObjectSelection : MonoBehaviour {
 					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
 					Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
 
-					Vector3 newRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
+					Vector3 newRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
 					newRotation.x = CharacterManager.startRot.x;
 					newRotation.z = CharacterManager.startRot.z;
 					
 					iTween.RotateTo(CharacterManager.aInteractUnit, newRotation, 1.0f);
 					
-					/*
-					CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
+					//CharacterManager.aCurrentlySelectedUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aCurrentlySelectedUnit.transform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * aSpeedOfRotation);
 					
-					if (CharacterManager.aInteractUnit != CharacterManager.aCurrentlySelectedUnit)
-					{
-						Vector3 opponentRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+					//if (CharacterManager.aInteractUnit != CharacterManager.aCurrentlySelectedUnit)
+					//{
+						Vector3 opponentRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
 						opponentRotation.x = CharacterManager.startRot.x;
 						opponentRotation.z = CharacterManager.startRot.z;
 					
-						CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
-					}
-					*/
+						iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
+						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
+					//}
 				}
 					
 			}
