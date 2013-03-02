@@ -88,11 +88,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 		case "Player1":
 			CharacterManager.player1Units.Remove(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Player2":
 			CharacterManager.player2Units.Remove(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
 			CharacterManager.untamedUnits.Remove(CharacterManager.aInteractUnit);
@@ -106,11 +106,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 		case "Player1":
 			CharacterManager.player1Units.Add(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Player2":
 			CharacterManager.player2Units.Add(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Enemy":
 			CharacterManager.untamedUnits.Add(CharacterManager.aInteractUnit);
