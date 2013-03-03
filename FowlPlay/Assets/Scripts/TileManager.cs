@@ -255,11 +255,12 @@ public class TileManager : MonoBehaviour {
 				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] < (pRange-1))
 				{
 					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-					{
-						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).renderer.material = aTileRed;
-					}
+					
+						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+						{
+							tilesInAttackRange.Add(getTileAt(x));
+							getTileAt(x).renderer.material = aTileRed;
+						}
 				}
 				
 				// Get the tiles at the edge of the walking range that are occupied. These are special cases and must be handled separately.
@@ -305,6 +306,7 @@ public class TileManager : MonoBehaviour {
 					{
 						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
 						//xx.renderer.material.color = Color.red;
+						//problematic
 							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 							{
 								xx.renderer.material = aTileRed;
@@ -466,16 +468,19 @@ public class TileManager : MonoBehaviour {
 			// Add it to the list and repeat until we get to the destination tile, working backwards.
 			List<GameObject> surroundingTiles = getSurroundingSix(getTileAt(currentPosition));
 			
-			GameObject lowestCost = new GameObject();
+			GameObject lowestCost = surroundingTiles[0];
 			
 			
 			// Start off with any tile as the minimum cost, as long as it is not occupied.
-			foreach (GameObject x in surroundingTiles)
+			if (!lowestCost.tag.Equals("Tile"))
 			{
-				if (x.tag.Equals("Tile"))
+				foreach (GameObject x in surroundingTiles)
 				{
-					lowestCost = x;
-					break;
+					if (x.tag.Equals("Tile"))
+					{
+						lowestCost = x;
+						break;
+					}
 				}
 			}
 			
