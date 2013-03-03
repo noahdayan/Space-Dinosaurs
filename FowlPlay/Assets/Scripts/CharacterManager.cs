@@ -219,7 +219,7 @@ public class CharacterManager : MonoBehaviour {
 			}
 			
 			// Some costs may not have been reset. Reset them.
-			//resetCosts();
+			resetCosts();
 			SendMessage("unhighlightRange");
 			
 			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
@@ -280,7 +280,6 @@ public class CharacterManager : MonoBehaviour {
 				aCurrentlySelectedUnit = null;
 			}
 			
-			resetCosts();
 		}
 		
 		//aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
@@ -324,7 +323,8 @@ public class CharacterManager : MonoBehaviour {
 		{
 			bird2.SendMessage("RestoreMana");
 		}
-
+		
+		resetCosts();
 		aMidTurn = false;
 		deselectUnit();
 		SendMessage("deselectTile");

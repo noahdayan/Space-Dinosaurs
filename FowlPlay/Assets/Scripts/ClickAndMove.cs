@@ -7,6 +7,8 @@ public class ClickAndMove : MonoBehaviour
 	public static bool aIsObjectMoving = false;
 	public static bool aIsObjectRotating = false;
 	
+	public static Vector3[] aPath;
+	
 	private Vector3 destination;
 	
 	private GameObject manager;
@@ -56,8 +58,7 @@ public class ClickAndMove : MonoBehaviour
 		
 		if (CharacterManager.aSingleUnitIsSelected)
 			CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
-		
-		//CharacterManager.resetCosts();
+
 	}
 	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
@@ -72,14 +73,12 @@ public class ClickAndMove : MonoBehaviour
 				
 				destination = TileManager.aCurrentlySelectedTile.transform.position;
 				
-				// Get the path that is to be followed.
-				Vector3[] path = TileManager.findPath(TileManager.getTileAt(startTile), TileManager.getTileAt(destination));
-				
+				manager.SendMessage("shortestPath");
 				aIsObjectMoving = true;
 				
 				// Slide the unit to the location following the path, or directly if the distance is just one.
-				if (path.Length > 1)
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", path, "time", 2.0f, "orienttopath", true)); 
+				if (aPath.Length > 1)
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "time", 2.0f, "orienttopath", true)); 
 				else
 					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("position", destination, "time", 1.0f, "orienttopath", true));
 				
