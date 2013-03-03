@@ -52,7 +52,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+
 		// Initialize and populate all collections
 		
 		player1Units = new List<GameObject>();
@@ -350,7 +350,6 @@ public class CharacterManager : MonoBehaviour {
 				{
 					unit.SendMessage("EndTurnTickUntame", 1);
 				}*/
-				Debug.Log("There are " + untamedUnits.Count + " untamed doods\n");
 				
 				if (untamedUnits.Count == 0)
 				{

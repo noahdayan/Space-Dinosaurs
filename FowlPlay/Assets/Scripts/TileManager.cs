@@ -505,6 +505,8 @@ public class TileManager : MonoBehaviour {
 		Vector3[] results = lPath.ToArray();
 		
 		ClickAndMove.aPath = results;
+		
+		CharacterManager.resetCosts();
 	}
 	
 	public void highlightTile(GameObject pTile)
