@@ -37,10 +37,14 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			healthPoints -= actualDamageTaken;
 		}
+		else
+		{
+			actualDamageTaken = 0;
+		}
 		
 		if (healthPoints <= 0)
 		{
-			Die ();
+			StartCoroutine("Die");
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
@@ -101,8 +105,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		//Set the attributes of the GUI via send message and sending this units current stats and max stats.
 	}
 	
-	public void Die()
+	public IEnumerator Die()
 	{
+		yield return new WaitForSeconds(1.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
 	}
