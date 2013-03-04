@@ -72,6 +72,7 @@ public class ObjectSelection : MonoBehaviour {
 				// Revert the attacker/tamer's rotation.
 				iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
 				
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
 				CharacterManager.aInteractiveUnitIsSelected = false;
 				CharacterManager.aInteractUnit = null;
 			}
@@ -95,12 +96,15 @@ public class ObjectSelection : MonoBehaviour {
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 						CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
+						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
 					}
 					
 					// Select the new interact unit.
 					CharacterManager.aInteractiveUnitIsSelected = true;
 					CharacterManager.aInteractUnit = gameObject;
-
+					
+					CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
+					
 					//gameObject.renderer.material.color = Color.red;
 					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					
