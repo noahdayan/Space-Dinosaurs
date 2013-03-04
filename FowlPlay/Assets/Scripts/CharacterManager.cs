@@ -36,9 +36,6 @@ public class CharacterManager : MonoBehaviour {
 	public static Vector3 startPos;
 	public static Vector3 startRot;
 	
-	// Stores (Vector3: unit position, unit)
-	public static Hashtable unitsHT;
-	
 	// Materials
 	public Material aMaterialTeamRed, aMaterialTeamBlue;
 	
@@ -59,12 +56,9 @@ public class CharacterManager : MonoBehaviour {
 		player2Units = new List<GameObject>();
 		untamedUnits = new List<GameObject>();
 		
-		unitsHT = new Hashtable();
-		
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player1"))
 		{
 			player1Units.Add(unit);
-			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
@@ -80,7 +74,6 @@ public class CharacterManager : MonoBehaviour {
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player2"))
 		{
 			player2Units.Add(unit);
-			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
@@ -96,7 +89,6 @@ public class CharacterManager : MonoBehaviour {
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
 			untamedUnits.Add(unit);
-			unitsHT.Add(unit.transform.position, unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
@@ -196,9 +188,6 @@ public class CharacterManager : MonoBehaviour {
 		else if (pUnit.tag.Equals("Enemy"))
 			untamedUnits.Remove(pUnit);
 		
-		// Remove from HT.
-		unitsHT.Remove(pUnit.transform.position);
-		
 		// Mark the tile as unoccupied.
 		Vector3 unitsTile = TileManager.getTileUnitIsStandingOn(pUnit);
 		
@@ -258,24 +247,7 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aCurrentlySelectedUnit != null)
 		{
-			//aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 			aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-			
-			// edit
-			/*
-			// if the unit has moved, update the hashtables
-			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
-			{
-				unitsHT.Remove(aCurrentlySelectedUnitOriginalPosition);
-				TileManager.occupiedTilesHT.Remove(TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition));
-	
-				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
-				Vector3 correctedPosition = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
-				
-				// Edit here
-				//TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
-			}
-			*/
 			
 			if (aTurn == 1 || aTurn == 3)
 			{

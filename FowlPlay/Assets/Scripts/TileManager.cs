@@ -441,14 +441,15 @@ public class TileManager : MonoBehaviour {
 		// If the distance is just 1, then return the end tile.
 		if (distanceFromDestination == 1)
 		{
-			Vector3[] result = new Vector3[] {pEndTile.transform.position}; 
+			Vector3 node = pEndTile.transform.position;
+			node.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
+			Vector3[] result = new Vector3[] {node}; 
 			ClickAndMove.aPath = result;
 		}
 		
 		// The list that will aggregate the tiles in the path.
 		List<Vector3> lPath = new List<Vector3>();
 		
-		Vector3 destination = pStartTile.transform.position;
 		Vector3 currentPosition = pEndTile.transform.position;
 		
 		// Run Dijkstra's and get costs
@@ -551,17 +552,7 @@ public class TileManager : MonoBehaviour {
 	{
 		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
-		{
-			// mark the old tile as unoccupied
-			Vector3 tile = getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnitOriginalPosition);
-			
-			//getTileAt(tile).tag = "Tile";
-			//occupiedTilesHT.Remove(tile);
-			
-			// and mark the new tile as occupied
-			//aCurrentlySelectedTile.tag = "OccupiedTile";
-			//occupiedTilesHT.Add(aCurrentlySelectedTile.transform.position, aCurrentlySelectedTile);
-			
+		{		
 			aCurrentlySelectedTile.renderer.material = aTileDefault;
 			
 			aLastSelectedTile = aCurrentlySelectedTile;
@@ -601,7 +592,6 @@ public class TileManager : MonoBehaviour {
 	
 	// After the move is complete, we check to see if there are any enemies within attack range.
 	// If there are, paint the attack range red and allow the player to choose to attack.
-	// If there are not, end the turn (for now). TODO.
 	public void paintAttackableTilesAfterMove()
 	{	
 			
@@ -662,12 +652,7 @@ public class TileManager : MonoBehaviour {
 					}
 				}
 				
-				//tilesInMidTurnAttackRange.Clear();
-				
 			}
-			
-			//else
-				//SendMessage("endTurn");
 		}
 			
 	}

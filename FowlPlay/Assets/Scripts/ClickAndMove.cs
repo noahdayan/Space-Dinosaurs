@@ -80,7 +80,7 @@ public class ClickAndMove : MonoBehaviour
 				if (aPath.Length > 1)
 					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "time", 2.0f, "orienttopath", true));
 				else
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("position", destination, "time", 1.0f, "orienttopath", true));
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("position", aPath[0], "time", 1.0f, "orienttopath", true));
 				
 				// Update hashtable and tags
 				

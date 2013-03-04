@@ -49,7 +49,9 @@ public class ObjectSelection : MonoBehaviour {
 			else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving)
 				charManager.SendMessage("deselectUnit");
 		}
-			
+		
+		// INTERACT UNIT SELECTION
+		
 		// SECOND - If it is not the object's turn, check to see that it is:
 		//			1) mid-turn
 		//				AND
