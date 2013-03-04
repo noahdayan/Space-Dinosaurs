@@ -253,7 +253,7 @@ public class TileManager : MonoBehaviour {
 				
 				// Get the tiles within walking range, but not at the edge of the walkable area that contain enemy units.
 				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] < (pRange-1))
-				{
+				{					
 					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
 					
 						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
@@ -305,7 +305,7 @@ public class TileManager : MonoBehaviour {
 					if (xx.tag.Equals("OccupiedTile"))
 					{
 						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
-						//xx.renderer.material.color = Color.red;
+
 						//problematic
 							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 							{
@@ -555,10 +555,12 @@ public class TileManager : MonoBehaviour {
 			// mark the old tile as unoccupied
 			Vector3 tile = getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnitOriginalPosition);
 			
-			getTileAt(tile).tag = "Tile";
+			//getTileAt(tile).tag = "Tile";
+			//occupiedTilesHT.Remove(tile);
 			
 			// and mark the new tile as occupied
-			aCurrentlySelectedTile.tag = "OccupiedTile";
+			//aCurrentlySelectedTile.tag = "OccupiedTile";
+			//occupiedTilesHT.Add(aCurrentlySelectedTile.transform.position, aCurrentlySelectedTile);
 			
 			aCurrentlySelectedTile.renderer.material = aTileDefault;
 			

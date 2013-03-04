@@ -261,6 +261,8 @@ public class CharacterManager : MonoBehaviour {
 			//aCurrentlySelectedUnit.renderer.material.color = Color.blue;
 			aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			
+			// edit
+			/*
 			// if the unit has moved, update the hashtables
 			if(aCurrentlySelectedUnit.transform.position != aCurrentlySelectedUnitOriginalPosition)
 			{
@@ -270,8 +272,10 @@ public class CharacterManager : MonoBehaviour {
 				unitsHT.Add(aCurrentlySelectedUnit.transform.position, aCurrentlySelectedUnit);
 				Vector3 correctedPosition = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
 				
-				TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
+				// Edit here
+				//TileManager.occupiedTilesHT.Add(correctedPosition, aCurrentlySelectedUnit);		
 			}
+			*/
 			
 			if (aTurn == 1 || aTurn == 3)
 			{
@@ -300,17 +304,15 @@ public class CharacterManager : MonoBehaviour {
 		
 		Vector3 tile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
 		
-		TileManager.getTileAt(tile).tag = "Tile";
-
-		if (TileManager.aLastSelectedTile != null)
+		if (ClickAndMove.aMovementHappened)
 		{
-			TileManager.aLastSelectedTile.tag = "Tile";
-			TileManager.occupiedTilesHT.Remove(TileManager.aLastSelectedTile.transform.position);
+			
+			TileManager.occupiedTilesHT.Remove(tile);
+			TileManager.getTileAt(tile).tag = "Tile";
+			
+			TileManager.occupiedTilesHT.Add(TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition), aCurrentlySelectedUnit);
+			TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition)).tag = "OccupiedTile";
 		}
-		
-		Vector3 oldTile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnitOriginalPosition);
-		
-		TileManager.getTileAt(oldTile).tag = "OccupiedTile";
 		
 		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
 		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
@@ -329,10 +331,10 @@ public class CharacterManager : MonoBehaviour {
 		deselectUnit();
 		SendMessage("deselectTile");
 		selectUnit(temp);
+		ClickAndMove.aMovementHappened = false;
 		
 		if (aInteractiveUnitIsSelected)
 		{
-			//aInteractUnit.renderer.material.color = Color.blue;
 			aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
@@ -422,5 +424,7 @@ public class CharacterManager : MonoBehaviour {
 			aInteractiveUnitIsSelected = false;
 			aMidTurn = false;
 		}
+		
+		ClickAndMove.aMovementHappened = false;
 	}
 }
