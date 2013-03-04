@@ -143,13 +143,25 @@ public class CharacterManager : MonoBehaviour {
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			GameObject.Find("Character").SendMessage("getRange", pUnit);
 		
-		if(aCurrentlySelectedUnit == bird1 || aCurrentlySelectedUnit == bird2)
+		if(aCurrentlySelectedUnit == bird1 && aTurn == 1)
 		{
 			PlayMenuGUI.isBird = true;
+			bird1.SendMessage("CheckLegalMove", aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().moveCost);
 		}
-		else
+		else if(aCurrentlySelectedUnit != bird1 && aTurn == 1)
 		{
 			PlayMenuGUI.isBird = false;
+			bird1.SendMessage("CheckLegalMove", aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().moveCost);
+		}
+		if(aCurrentlySelectedUnit == bird2 && aTurn == 3)
+		{
+			PlayMenuGUI.isBird = true;
+			bird2.SendMessage("CheckLegalMove", aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().moveCost);
+		}
+		else if(aCurrentlySelectedUnit != bird2 && aTurn == 3)
+		{
+			PlayMenuGUI.isBird = false;
+			bird2.SendMessage("CheckLegalMove", aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().moveCost);
 		}
 	}
 	

@@ -105,6 +105,23 @@ public class ObjectSelection : MonoBehaviour {
 					
 					CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
 					
+					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
+					{
+						CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
+					}
+					else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird1 && CharacterManager.aTurn == 1)
+					{
+						CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
+					}
+					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2 && CharacterManager.aTurn == 3)
+					{
+						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
+					}
+					else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird2 && CharacterManager.aTurn == 3)
+					{;
+						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
+					}
+					
 					//gameObject.renderer.material.color = Color.red;
 					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					

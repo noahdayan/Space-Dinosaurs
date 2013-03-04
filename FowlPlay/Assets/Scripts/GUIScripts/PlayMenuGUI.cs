@@ -45,7 +45,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(CharacterManager.aMidTurn)
 				manager.SendMessage("cancelMove");
 		}
-		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected;
+		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove;
 		if(GUI.Button(new Rect(attackButton), "Attack"))
 		{
 			audio.PlayOneShot(click);

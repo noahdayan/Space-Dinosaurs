@@ -14,18 +14,18 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	
 	void Start()
 	{
+		isTurn = true;
 		mana = startingMana;
 		UpdateGuiMana();
 	}
 	
-	/*void Update()
+	void Update()
 	{
 		if (mana <= 0 && isTurn)
 		{
-			isTurn = false;
-			EndTurn();
+			GameObject.Find("Character").SendMessage("endTurn");
 		}
-	}*/
+	}
 	
 	public void PlayerEndTurn()
 	{
