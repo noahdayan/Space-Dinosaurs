@@ -632,8 +632,8 @@ public class TileManager : MonoBehaviour {
 				costs.Add(x, -1);
 			}
 			
-			if (canAttack)
-			{
+			//if (canAttack)
+			//{
 				foreach (GameObject x in tilesInMidTurnAttackRange)
 				{
 					if (x.Equals(getTileAt(unitsTile)))
@@ -652,7 +652,7 @@ public class TileManager : MonoBehaviour {
 					}
 				}
 				
-			}
+			//}
 		}
 			
 	}
