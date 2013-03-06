@@ -31,13 +31,13 @@ public class ClickAndMove : MonoBehaviour
 		// Start the movement
 		StartCoroutine("moveHelper");
 		
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.0f);
 		
 		// Busy loop... wait until the movement animation is complete by checking to see when the unit has reached the destination.
-		do
-		{
-			yield return new WaitForSeconds(0.5f);
-		} while ((Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) > 0.1) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) > 0.1));
+		//do
+		//{
+		//	yield return new WaitForSeconds(0.5f);
+		//} while ((Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) > 0.1) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) > 0.1));
 		
 		// Destination reached, stop the co-routine and do all the mid-turn things.
 		StopCoroutine("moveHelper");

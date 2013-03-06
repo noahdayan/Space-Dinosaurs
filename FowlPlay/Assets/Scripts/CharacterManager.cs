@@ -347,6 +347,7 @@ public class CharacterManager : MonoBehaviour {
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 					aTurn = 2;
+					UntamedManager.RandomMovement();
 				}
 				bird1.SendMessage("PlayerEndTurn");
 			}
