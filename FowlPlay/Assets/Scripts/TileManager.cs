@@ -443,8 +443,12 @@ public class TileManager : MonoBehaviour {
 		{
 			Vector3 node = pEndTile.transform.position;
 			node.y = CharacterManager.aCurrentlySelectedUnit.transform.position.y;
-			Vector3[] result = new Vector3[] {node}; 
-			ClickAndMove.aPath = result;
+			Vector3[] result = new Vector3[] {node};
+			
+			if (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3)
+				ClickAndMove.aPath = result;
+			else
+				UntamedManager.aPath = result;
 		}
 		
 		// The list that will aggregate the tiles in the path.
@@ -510,7 +514,10 @@ public class TileManager : MonoBehaviour {
 		
 		Vector3[] results = lPath.ToArray();
 		
-		ClickAndMove.aPath = results;
+		if (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3)
+			ClickAndMove.aPath = results;
+		else
+			UntamedManager.aPath = results;
 		
 		CharacterManager.resetCosts();
 	}

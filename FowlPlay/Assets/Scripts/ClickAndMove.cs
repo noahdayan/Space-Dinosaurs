@@ -28,21 +28,10 @@ public class ClickAndMove : MonoBehaviour
 	
 	IEnumerator move()
 	{
-		// Start the movement
-		StartCoroutine("moveHelper");
+		// Start the movement.
+		yield return StartCoroutine("moveHelper");
 		
-		yield return new WaitForSeconds(1.0f);
-		
-		// Busy loop... wait until the movement animation is complete by checking to see when the unit has reached the destination.
-		//do
-		//{
-		//	yield return new WaitForSeconds(0.5f);
-		//} while ((Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.x - destination.x) > 0.1) && (Mathf.Abs(CharacterManager.aCurrentlySelectedUnit.transform.position.z - destination.z) > 0.1));
-		
-		// Destination reached, stop the co-routine and do all the mid-turn things.
-		StopCoroutine("moveHelper");
-		iTween.Stop(CharacterManager.aCurrentlySelectedUnit);
-		
+		// Proceed once the movement has ended.
 		CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
 		manager.SendMessage("deselectTile");
 		manager.SendMessage("paintAttackableTilesAfterMove");
@@ -63,7 +52,7 @@ public class ClickAndMove : MonoBehaviour
 	}
 	
 	// Move takes the currently selected unit and moves it to the currently selected tile.
-	void moveHelper()
+	IEnumerator moveHelper()
 	{
 		if (CharacterManager.aSingleUnitIsSelected)
 		{
@@ -96,6 +85,12 @@ public class ClickAndMove : MonoBehaviour
 				aMovementHappened = true;
 				
 				destination.y = CharacterManager.aCurrentlySelectedUnitOriginalPosition.y;
+				
+				// This next loop ensures the routine finishes once the iTween animation has finished.
+				do
+				{
+					yield return new WaitForSeconds(0.5f);
+				} while (iTween.tweens.Count > 0);
 				
 			}
 		}
