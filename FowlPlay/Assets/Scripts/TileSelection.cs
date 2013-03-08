@@ -4,6 +4,7 @@ using System.Collections;
 public class TileSelection : MonoBehaviour {
 	
 	private GameObject tileManager;
+	private int rangeBlueHC = 934;
 	
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,7 @@ public class TileSelection : MonoBehaviour {
 		if(PlayerFunctionalityAndStats.isLegalMove)
 		{
 			// select the tile and move the currently selected unit towards it.
-			if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn)
+			if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn && gameObject.renderer.sharedMaterial.GetHashCode() == rangeBlueHC)
 			{
 				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 				{

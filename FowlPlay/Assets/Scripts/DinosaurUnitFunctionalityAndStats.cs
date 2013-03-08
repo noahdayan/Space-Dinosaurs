@@ -191,6 +191,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiTameButton()
 	{
 		PlayMenuGUI.untamed = !tamed;
-	}	
+	}
 	
 }
