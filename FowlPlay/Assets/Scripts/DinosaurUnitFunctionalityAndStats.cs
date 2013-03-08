@@ -126,7 +126,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.untamedUnits.Remove(CharacterManager.aInteractUnit);
 			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
-			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = false;
 			break;
 		}	
 		
@@ -148,7 +147,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		case "Enemy":
 			CharacterManager.untamedUnits.Add(CharacterManager.aInteractUnit);
 			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.yellow;
-			CharacterManager.aInteractUnit.GetComponent<AutoSelection>().enabled = true;
 			break;
 		}
 	}

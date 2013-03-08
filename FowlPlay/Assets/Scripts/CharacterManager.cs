@@ -47,6 +47,8 @@ public class CharacterManager : MonoBehaviour {
 	public static bool aTurnIsCompleted = false;
 	public static bool aMidTurn = false;
 	
+	public UntamedManager untamedMovementManager;
+	
 	// Use this for initialization
 	void Start () {
 
@@ -234,6 +236,9 @@ public class CharacterManager : MonoBehaviour {
 			aTurnIsCompleted = true;
 			switchTurn();
 		}
+		
+		//yield return untamedMovementManager.StartCoroutine("untamedMove");
+		
 	}
 	
 	// Resets costs hashtable back to -1 for all tiles.
@@ -347,7 +352,9 @@ public class CharacterManager : MonoBehaviour {
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 					aTurn = 2;
+					GameObject.Find("Character").SendMessage("untamedMove");
 				}
+				
 				bird1.SendMessage("PlayerEndTurn");
 			}
 			else if (aTurn == 2)
@@ -369,6 +376,7 @@ public class CharacterManager : MonoBehaviour {
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
 					aTurn = 4;
+					GameObject.Find("Character").SendMessage("untamedMove");
 				}
 				bird2.SendMessage("PlayerEndTurn");
 			}
@@ -379,9 +387,12 @@ public class CharacterManager : MonoBehaviour {
 				aTurn = 1;
 			}
 			
+			aTurnIsCompleted = false;
+			
+			//if (aTurn == 2 || aTurn == 4)
+				//GameObject.Find("Character").SendMessage("untamedMove");
 		}
 		
-		aTurnIsCompleted = false;
 	}
 	
 	public void EndMidTurn()
