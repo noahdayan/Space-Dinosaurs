@@ -597,6 +597,20 @@ public class TileManager : MonoBehaviour {
 		return randomTile;
 	}
 	
+	
+	public static GameObject TruePickRandomTile()
+	{
+		GameObject randomTile;
+		
+		do 
+			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length-1)]; 
+
+		while (isTileOccupied(randomTile) || randomTile == null);
+				
+		return randomTile;	
+		
+	}
+	
 	// After the move is complete, we check to see if there are any enemies within attack range.
 	// If there are, paint the attack range red and allow the player to choose to attack.
 	public void paintAttackableTilesAfterMove()
