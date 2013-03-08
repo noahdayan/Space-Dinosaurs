@@ -24,6 +24,18 @@ public class ObjectSelection : MonoBehaviour {
 
 	}
 	
+	void OnMouseOver()
+	{
+		if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
+		{
+			if (CharacterManager.aSingleUnitIsSelected)
+			{
+				
+			}
+		}
+		
+	}
+	
 	void OnMouseDown()
 	{
 		// FIRST - Click on an object

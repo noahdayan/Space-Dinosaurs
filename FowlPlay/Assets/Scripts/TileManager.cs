@@ -603,11 +603,11 @@ public class TileManager : MonoBehaviour {
 	{	
 			
 		// If it's the robot, ignore all of this and end its turn.
-		if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))
-			SendMessage("endTurn");
+		//if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))
+		//	SendMessage("endTurn");
 		
-		else
-		{
+		//else
+		//{
 			tilesInMidTurnAttackRange.Clear();
 			
 			bool canAttack = false;
@@ -660,7 +660,7 @@ public class TileManager : MonoBehaviour {
 				}
 				
 			//}
-		}
+		//}
 			
 	}
 	

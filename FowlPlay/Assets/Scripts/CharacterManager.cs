@@ -210,7 +210,7 @@ public class CharacterManager : MonoBehaviour {
 	}
 	
 	// Ends the players turn.
-	public IEnumerator endTurn()
+	public void endTurn()
 	{
 		if (!ClickAndMove.aIsObjectMoving)
 		{
@@ -237,7 +237,7 @@ public class CharacterManager : MonoBehaviour {
 			switchTurn();
 		}
 		
-		yield return untamedMovementManager.StartCoroutine("untamedMove");
+		//yield return untamedMovementManager.StartCoroutine("untamedMove");
 		
 	}
 	
@@ -352,6 +352,7 @@ public class CharacterManager : MonoBehaviour {
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed Turn");
 					aTurn = 2;
+					GameObject.Find("Character").SendMessage("untamedMove");
 				}
 				
 				bird1.SendMessage("PlayerEndTurn");
@@ -375,6 +376,7 @@ public class CharacterManager : MonoBehaviour {
 				{
 					GameObject.Find("GUI Hot Seat").SendMessage("showText", "Untamed's Turn");
 					aTurn = 4;
+					GameObject.Find("Character").SendMessage("untamedMove");
 				}
 				bird2.SendMessage("PlayerEndTurn");
 			}

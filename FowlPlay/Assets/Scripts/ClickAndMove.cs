@@ -37,14 +37,7 @@ public class ClickAndMove : MonoBehaviour
 		manager.SendMessage("paintAttackableTilesAfterMove");
 		aIsObjectMoving = false;
 		
-		if(CharacterManager.aTurn == 2 || CharacterManager.aTurn == 4)
-		{
-			manager.SendMessage("endTurn");
-		}
-		else
-		{
-			CharacterManager.aMidTurn = true;		
-		}
+		CharacterManager.aMidTurn = true;
 		
 		if (CharacterManager.aSingleUnitIsSelected)
 			CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;

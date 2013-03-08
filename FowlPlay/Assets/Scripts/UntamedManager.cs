@@ -51,17 +51,19 @@ public class UntamedManager : MonoBehaviour {
 			
 			// Proceed once the movement has ended.
 			CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-			charManager.SendMessage("deselectTile");
-			charManager.SendMessage("paintAttackableTilesAfterMove");
 			aIsObjectMoving = false;
+			charManager.SendMessage("deselectTile");
 			
 			if (CharacterManager.aSingleUnitIsSelected)
 				CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
 			
+			// Start the mid-turn routine.
+			yield return StartCoroutine("untamedMidTurn");
+			
 			charManager.SendMessage("deselectUnit");
-			Debug.Log(CharacterManager.aTurn);
-			Debug.Log(CharacterManager.aTurnIsCompleted);
 		}
+		
+		charManager.SendMessage("endTurn");
 
 	}
 	
@@ -102,6 +104,18 @@ public class UntamedManager : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 		} while (iTween.tweens.Count > 0);
 				
+	}
+	
+	// Decides what the untamed unit will do mid-turn.
+	// For now, it just stands there for a second and waits.
+	IEnumerator untamedMidTurn()
+	{
+		charManager.SendMessage("paintAttackableTilesAfterMove");
+		CharacterManager.aMidTurn = true;
+		
+		yield return new WaitForSeconds(1.0f);
+		
+		charManager.SendMessage("EndMidTurn");			
 	}
 		
 }
