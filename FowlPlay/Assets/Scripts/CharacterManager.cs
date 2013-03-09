@@ -44,6 +44,7 @@ public class CharacterManager : MonoBehaviour {
 	//3 for player 2's turn.
 	//and 2 or 4 for untamed unit turn.
 	public static int aTurn = 1;
+	public static int aTurnCount = 1;
 	public static bool aTurnIsCompleted = false;
 	public static bool aMidTurn = false;
 	
@@ -389,6 +390,7 @@ public class CharacterManager : MonoBehaviour {
 			}
 			
 			aTurnIsCompleted = false;
+			aTurnCount++;
 			
 			//if (aTurn == 2 || aTurn == 4)
 				//GameObject.Find("Character").SendMessage("untamedMove");

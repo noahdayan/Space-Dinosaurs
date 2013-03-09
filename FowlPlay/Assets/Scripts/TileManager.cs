@@ -592,7 +592,7 @@ public class TileManager : MonoBehaviour {
 		{
 			randomTile = getSingleNeighbor(getTileAt(tile) ,UnityEngine.Random.Range(0, 6));
 		}
-		while (isTileOccupied(randomTile) || randomTile == null);
+		while (isTileOccupied(randomTile) || randomTile == null || !randomTile.tag.Equals("Tile"));
 
 		return randomTile;
 	}
@@ -605,7 +605,7 @@ public class TileManager : MonoBehaviour {
 		do 
 			randomTile = allTiles[UnityEngine.Random.Range(0, allTiles.Length-1)]; 
 
-		while (isTileOccupied(randomTile) || randomTile == null);
+		while (isTileOccupied(randomTile) || randomTile == null || !randomTile.tag.Equals("Tile"));
 				
 		return randomTile;	
 		
