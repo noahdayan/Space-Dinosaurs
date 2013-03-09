@@ -9,7 +9,6 @@ public class ItemManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
 		tilesWithItems = new Hashtable();
 		StartCoroutine("SpawnItems");
 	}
@@ -28,11 +27,14 @@ public class ItemManager : MonoBehaviour {
 				 tile = TileManager.TruePickRandomTile();
 			while (tilesWithItems.Contains(tile.transform.position));
 			
+			// Set position
 			Vector3 itemPosition = tile.transform.position;
 			itemPosition.y = 6.0f;
 			
-			tilesWithItems.Add(tile.transform.position, dinoChow);
-			Instantiate(dinoChow, itemPosition, Quaternion.identity);
+			// Instantiate (put on map) and add to hashtable
+			Object item = Instantiate(dinoChow, itemPosition, Quaternion.identity);
+			tilesWithItems.Add(tile.transform.position, item);
+			
 		}
 		
 	}

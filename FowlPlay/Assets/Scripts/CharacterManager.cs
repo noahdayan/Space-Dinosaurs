@@ -422,4 +422,14 @@ public class CharacterManager : MonoBehaviour {
 		
 		ClickAndMove.aMovementHappened = false;
 	}
+	
+	public static bool isBird(GameObject pUnit)
+	{
+		bool result = false;
+		
+		if (pUnit == bird1 || pUnit == bird2)
+			result = true;
+		
+		return result;
+	}
 }

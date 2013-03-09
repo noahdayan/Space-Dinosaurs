@@ -39,6 +39,37 @@ public class ClickAndMove : MonoBehaviour
 		
 		CharacterManager.aMidTurn = true;
 		
+		// Check to see if there are any items at the destination.
+		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
+		{
+			
+			GameObject item = (GameObject)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)];
+			bool consume = false;
+			
+			if (item.tag.Equals("DinoChow") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{
+				consume = true;
+				// plug-in functionality here
+			}
+			else if (item.tag.Equals("BirdSeed") && CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{
+				consume = true;
+				// plug-in functionality here	
+			}
+			else if (item.tag.Equals("DinoCoOil") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{	
+				consume = true;
+				// plug-in functionality here	
+			}
+			
+			if (consume)
+			{
+				// Destroy the object and update hashtable. Gotta use DestroyImmediate, because Unity won't let you Destroy an asset.
+				GameObject.Destroy((Object)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)]);
+				ItemManager.tilesWithItems.Remove(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit));
+			}
+		}
+		
 		if (CharacterManager.aSingleUnitIsSelected)
 			CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
 
