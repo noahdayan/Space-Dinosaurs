@@ -37,7 +37,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
 		
-		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn;
+		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
 		if(GUI.Button(new Rect(cancelButton), "Cancel"))
 		{
 			audio.PlayOneShot(click);
@@ -45,7 +45,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(CharacterManager.aMidTurn)
 				manager.SendMessage("cancelMove");
 		}
-		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove;
+		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
 		if(GUI.Button(new Rect(attackButton), "Attack"))
 		{
 			audio.PlayOneShot(click);
@@ -75,7 +75,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				}
 			}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected;
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
 		if(GUI.Button(new Rect(waitButton), "Wait"))
 		{
 			audio.PlayOneShot(click);
@@ -92,7 +92,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("paintAttackableTilesAfterMove");
 			}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving;
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
 		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
 		{
 			audio.PlayOneShot(click);
