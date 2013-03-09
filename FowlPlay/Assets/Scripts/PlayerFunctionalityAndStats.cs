@@ -40,6 +40,11 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 		return mana;
 	}
 	
+	public void SetOriginalMana()
+	{
+		CharacterManager.aOriginalMana = mana;
+	}
+	
 	public int RestoreMana ()
 	{
 		mana = CharacterManager.aOriginalMana;

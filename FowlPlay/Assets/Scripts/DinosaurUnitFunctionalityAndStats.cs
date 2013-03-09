@@ -79,6 +79,25 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		return healthPoints;
 	}
 	
+	// Adds pAmount to this unit's HP.
+	// If the recovery amount would result in having more HP than the max, just make it the max.
+	public void RecoverHP(int pAmount)
+	{
+		healthPoints += pAmount;
+		
+		if (healthPoints > maxHealthPoints)
+			healthPoints = maxHealthPoints;
+		
+		UpdateGuiHealthBar();
+	}
+	
+	// Stores whether the unit has full HP in a temporary register in ClickAndMove & UntamedManager for the purpose of items.
+	public void CheckHP()
+	{
+		ClickAndMove.fullHP = healthPoints == maxHealthPoints;
+		UntamedManager.fullHP = healthPoints == maxHealthPoints;	
+	}
+	
 	public float EndTurnTickUntame (int commanderDistance)
 	{
 		tamePoints -= (tameTickAmount * commanderDistance);

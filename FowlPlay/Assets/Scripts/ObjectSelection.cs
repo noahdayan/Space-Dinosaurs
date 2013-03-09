@@ -24,18 +24,6 @@ public class ObjectSelection : MonoBehaviour {
 
 	}
 	
-	void OnMouseOver()
-	{
-		if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
-		{
-			if (CharacterManager.aSingleUnitIsSelected)
-			{
-				
-			}
-		}
-		
-	}
-	
 	void OnMouseDown()
 	{
 		// FIRST - Click on an object
@@ -55,6 +43,10 @@ public class ObjectSelection : MonoBehaviour {
 				
 				// FOURTH - Select the object.
 				charManager.SendMessage("selectUnit", gameObject);
+				if (CharacterManager.aTurn == 1)
+					CharacterManager.bird1.SendMessage("SetOriginalMana");
+				else if (CharacterManager.aTurn == 3)
+					CharacterManager.bird2.SendMessage("SetOriginalMana");
 			}
 			
 			// THIRD - If the object is already selected, then deselect it.

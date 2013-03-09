@@ -8,6 +8,8 @@ public class UntamedManager : MonoBehaviour {
 	public static bool aIsObjectRotating = false;
 	public static bool aMovementHappened = false;
 	
+	public static bool fullHP = false;
+	
 	public static Vector3[] aPath;
 	
 	private Vector3 destination;
@@ -112,6 +114,49 @@ public class UntamedManager : MonoBehaviour {
 	{
 		charManager.SendMessage("paintAttackableTilesAfterMove");
 		CharacterManager.aMidTurn = true;
+		
+		fullHP = false;
+		
+		// Check to see if there are any items at the destination.
+		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
+		{
+			
+			GameObject item = (GameObject)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)];
+			bool consume = false;
+			
+			if (item.tag.Equals("DinoChow") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("CheckHP");
+				
+				if (!fullHP)
+				{
+					consume = true;
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+				}
+			}
+			else if (item.tag.Equals("BirdSeed") && CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("CheckHP");
+				
+				if (!fullHP)
+				{
+					consume = true;
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+				}	
+			}
+			else if (item.tag.Equals("DinoCoOil") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			{	
+				consume = true;
+				// plug-in functionality here	
+			}
+			
+			if (consume)
+			{
+				// Destroy the object and update hashtable. Gotta use DestroyImmediate, because Unity won't let you Destroy an asset.
+				GameObject.Destroy((Object)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)]);
+				ItemManager.tilesWithItems.Remove(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit));
+			}
+		}
 		
 		yield return new WaitForSeconds(1.0f);
 		

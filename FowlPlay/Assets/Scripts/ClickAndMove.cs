@@ -7,6 +7,7 @@ public class ClickAndMove : MonoBehaviour
 	public static bool aIsObjectMoving = false;
 	public static bool aIsObjectRotating = false;
 	public static bool aMovementHappened = false;
+	public static bool fullHP = false;
 	
 	public static Vector3[] aPath;
 	
@@ -28,6 +29,8 @@ public class ClickAndMove : MonoBehaviour
 	
 	IEnumerator move()
 	{
+		fullHP = false;
+		
 		// Start the movement.
 		yield return StartCoroutine("moveHelper");
 		
@@ -48,13 +51,23 @@ public class ClickAndMove : MonoBehaviour
 			
 			if (item.tag.Equals("DinoChow") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{
-				consume = true;
-				// plug-in functionality here
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("CheckHP");
+				
+				if (!fullHP)
+				{
+					consume = true;
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+				}
 			}
 			else if (item.tag.Equals("BirdSeed") && CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{
-				consume = true;
-				// plug-in functionality here	
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("CheckHP");
+				
+				if (!fullHP)
+				{
+					consume = true;
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+				}	
 			}
 			else if (item.tag.Equals("DinoCoOil") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{	

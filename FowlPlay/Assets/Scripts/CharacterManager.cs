@@ -332,6 +332,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	public static void switchTurn()
 	{
+		
 		if(aTurnIsCompleted)
 		{
 			if (aTurn == 1)
