@@ -256,7 +256,7 @@ public class CharacterManager : MonoBehaviour {
 			
 			if(aCurrentlySelectedUnit && aCurrentlySelectedUnit.tag != "Enemy")
 			{
-				aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
+				//aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
 			}
 	}
 	
