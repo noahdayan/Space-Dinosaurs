@@ -155,5 +155,10 @@ public class ObjectSelection : MonoBehaviour {
 			}
 				
 		}
+		else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy"))
+		{
+			gameObject.SendMessage("UpdateGuiHealthBar");
+			ProgressBarGUI.show = true;
+		}
 	}
 }
