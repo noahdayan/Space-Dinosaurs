@@ -16,6 +16,15 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public GameObject deathParticle;
 	
 	
+	void Start()
+	{
+		UpdateColor();
+	}
+	void OnMouseEnter()
+	{
+		UpdateColor();
+	}
+	
 	/*void OnMouseEnter()
 	{
 		
@@ -142,5 +151,19 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		PlayMenuGUI.untamed = false;
 	}	
+	
+	public void UpdateColor()
+	{
+		foreach (Transform child in transform)
+		{
+			//string childString = child.ToString();
+  			//child is your child transform
+			//Debug.Log("child name: " + child.ToString() + "\n");
+			if (string.Equals(child.ToString(), "model (UnityEngine.Transform)"))
+			{
+				child.SendMessage("UpdateModelColor", gameObject.tag);
+			}
+		}
+	}
 	
 }

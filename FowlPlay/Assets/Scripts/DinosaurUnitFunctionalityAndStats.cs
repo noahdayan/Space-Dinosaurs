@@ -19,11 +19,14 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public string species;
 	public GameObject deathParticle;
 	
-	
-	/*void OnMouseEnter()
+	void Start()
 	{
-		Die ();
-	}*/
+		UpdateColor();
+	}
+	void OnMouseEnter()
+	{
+		UpdateColor();
+	}
 	
 	public void AttackUnit (GameObject unit)
 	{
@@ -210,6 +213,20 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiTameButton()
 	{
 		PlayMenuGUI.untamed = !tamed;
+	}
+	
+	public void UpdateColor()
+	{
+		foreach (Transform child in transform)
+		{
+			//string childString = child.ToString();
+  			//child is your child transform
+			//Debug.Log("child name: " + child.ToString() + "\n");
+			if (string.Equals(child.ToString(), "model (UnityEngine.Transform)"))
+			{
+				child.SendMessage("UpdateModelColor", gameObject.tag);
+			}
+		}
 	}
 	
 }
