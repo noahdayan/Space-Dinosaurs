@@ -38,6 +38,9 @@ public class ClickAndMove : MonoBehaviour
 		CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
 		manager.SendMessage("deselectTile");
 		manager.SendMessage("paintAttackableTilesAfterMove");
+
+		CharacterManager.aUnitsAndTilesHT.Remove(CharacterManager.aCurrentlySelectedUnit);
+		CharacterManager.aUnitsAndTilesHT.Add(CharacterManager.aCurrentlySelectedUnit, TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)));
 		aIsObjectMoving = false;
 		
 		CharacterManager.aMidTurn = true;

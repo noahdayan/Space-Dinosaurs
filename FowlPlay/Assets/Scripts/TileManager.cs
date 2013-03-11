@@ -10,6 +10,7 @@ public class TileManager : MonoBehaviour {
 	
 	// Used to access methods on CharacterManager
 	public CharacterManager aCharacterManager;
+	public static GameObject aCurrentlySelectedUnitCurrentTile;
 	
 	// Lists to aggregate tiles
 	public static GameObject[] allTiles;
