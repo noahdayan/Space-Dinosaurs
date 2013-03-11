@@ -23,10 +23,10 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		UpdateColor();
 	}
-	void OnMouseEnter()
+	/*void OnMouseEnter()
 	{
 		UpdateColor();
-	}
+	}*/
 	
 	/*void OnMouseEnter()
 	{

@@ -31,10 +31,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		UpdateColor();
 	}
-	void OnMouseEnter()
+	/*void OnMouseEnter()
 	{
 		UpdateColor();
-	}
+	}*/
 	
 	public void AttackUnit (GameObject unit)
 	{

@@ -227,7 +227,8 @@ public class CharacterManager : MonoBehaviour {
 			if (aInteractiveUnitIsSelected)
 			{
 				//aInteractUnit.renderer.material.color = Color.blue;
-				aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				aInteractUnit.SendMessage("UpdateColor");
 				aInteractUnit = null;
 			}
 			
@@ -274,7 +275,8 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aCurrentlySelectedUnit != null)
 		{
-			aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+			//aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+			aCurrentlySelectedUnit.SendMessage("UpdateColor");
 			
 			if (aTurn == 1 || aTurn == 3)
 			{
@@ -339,7 +341,8 @@ public class CharacterManager : MonoBehaviour {
 		
 		if (aInteractiveUnitIsSelected)
 		{
-			aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+			//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+			aInteractUnit.SendMessage("UpdateColor");
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
 		}
@@ -419,7 +422,8 @@ public class CharacterManager : MonoBehaviour {
 			if (aInteractiveUnitIsSelected)
 			{
 				//aInteractUnit.renderer.material.color = Color.blue;
-				aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				aInteractUnit.SendMessage("UpdateColor");
 				aInteractUnit = null;
 			}
 			
