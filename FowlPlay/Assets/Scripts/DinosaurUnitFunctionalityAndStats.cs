@@ -18,6 +18,14 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public bool tamed = false;
 	public string species;
 	public GameObject deathParticle;
+	//Colors
+	public Color player1Color = Color.green;
+	public Color player2Color = Color.blue;
+	public Color enemyColor = Color.red;
+	
+	public Color unitColor;
+	public Color currentColor;
+
 	
 	void Start()
 	{
@@ -217,16 +225,29 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateColor()
 	{
-		foreach (Transform child in transform)
+		if (tag == "Player1")
 		{
-			//string childString = child.ToString();
-  			//child is your child transform
-			//Debug.Log("child name: " + child.ToString() + "\n");
-			if (string.Equals(child.ToString(), "model (UnityEngine.Transform)"))
-			{
-				child.SendMessage("UpdateModelColor", gameObject.tag);
-			}
+			gameObject.transform.FindChild("model").renderer.material.color = player1Color;
+			unitColor = player1Color;
 		}
+		else if (tag == "Player2")
+		{
+			gameObject.transform.FindChild("model").renderer.material.color = player2Color;
+			unitColor = player2Color;
+		}
+		else if (tag == "Enemy")
+		{
+			gameObject.transform.FindChild("model").renderer.material.color = enemyColor;
+			unitColor = enemyColor;
+		}
+	}
+	
+	public void SelectedColor()
+	{
+		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
+		unitColor = gameObject.transform.FindChild("model").renderer.material.color;
+		unitColor = Color.white;
+		gameObject.transform.FindChild("model").renderer.material.color = unitColor;
 	}
 	
 }

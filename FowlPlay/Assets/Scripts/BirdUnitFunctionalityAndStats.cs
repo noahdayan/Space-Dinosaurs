@@ -14,8 +14,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public int moveRange = 3;
 	public int attackRange = 2;
 	public GameObject deathParticle;
-	
-	
+	//Colors
+	public Color player1Color = Color.green;
+	public Color player2Color = Color.blue;
+	public Color enemyColor = Color.red;
+		
 	void Start()
 	{
 		UpdateColor();
@@ -154,15 +157,17 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateColor()
 	{
-		foreach (Transform child in transform)
+		if (tag == "Player1")
 		{
-			//string childString = child.ToString();
-  			//child is your child transform
-			//Debug.Log("child name: " + child.ToString() + "\n");
-			if (string.Equals(child.ToString(), "model (UnityEngine.Transform)"))
-			{
-				child.SendMessage("UpdateModelColor", gameObject.tag);
-			}
+			gameObject.transform.FindChild("model").renderer.material.color = player1Color;
+		}
+		else if (tag == "Player2")
+		{
+			gameObject.transform.FindChild("model").renderer.material.color = player2Color;
+		}
+		else if (tag == "Enemy")
+		{
+			gameObject.transform.FindChild("model").renderer.material.color = enemyColor;
 		}
 	}
 	
