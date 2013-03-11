@@ -122,10 +122,10 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
 					}
 					else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird2 && CharacterManager.aTurn == 3)
-					{;
+					{
 						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
 					}
-					
+
 					//gameObject.renderer.material.color = Color.red;
 					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					
@@ -148,6 +148,7 @@ public class ObjectSelection : MonoBehaviour {
 						opponentRotation.z = CharacterManager.startRot.z;
 					
 						iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
+					
 						//CharacterManager.aInteractUnit.transform.rotation = Quaternion.Slerp(CharacterManager.aInteractUnit.transform.rotation, Quaternion.Euler(opponentRotation), Time.deltaTime * aSpeedOfRotation);
 					//}
 				}
@@ -155,10 +156,12 @@ public class ObjectSelection : MonoBehaviour {
 			}
 				
 		}
+		
 		else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy"))
 		{
 			gameObject.SendMessage("UpdateGuiHealthBar");
 			ProgressBarGUI.show = true;
 		}
+		
 	}
 }

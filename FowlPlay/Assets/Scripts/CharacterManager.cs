@@ -8,6 +8,10 @@ public class CharacterManager : MonoBehaviour {
 	public static GameObject aCurrentlySelectedUnit;
 	public static GameObject aInteractUnit;
 	
+	
+	// GameObject Unit -> GameObject Tile
+	public static Hashtable aUnitsAndTilesHT;
+	
 	// Used for selection and deselection, it contains the selected
 	// unit's original position before any movement happens, as well the rotation
 	// of the unit of any selected interactive unit.
@@ -59,6 +63,8 @@ public class CharacterManager : MonoBehaviour {
 		player2Units = new List<GameObject>();
 		untamedUnits = new List<GameObject>();
 		
+		aUnitsAndTilesHT = new Hashtable();
+		
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player1"))
 		{
 			player1Units.Add(unit);
@@ -69,6 +75,7 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
+			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
 			
 			// Color the unit
 			//unit.renderer.material = aMaterialTeamBlue;
@@ -84,6 +91,7 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
+			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
 			
 			// Color the unit
 			//unit.renderer.material = aMaterialTeamRed;
@@ -99,6 +107,7 @@ public class CharacterManager : MonoBehaviour {
 			
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
+			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
 		}
 		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
@@ -292,7 +301,8 @@ public class CharacterManager : MonoBehaviour {
 		
 		GameObject temp = aCurrentlySelectedUnit;
 		
-		Vector3 tile = TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit);
+		GameObject tileGO = (GameObject)aUnitsAndTilesHT[aCurrentlySelectedUnit];
+		Vector3 tile = tileGO.transform.position;
 		
 		if (ClickAndMove.aMovementHappened)
 		{
@@ -306,6 +316,10 @@ public class CharacterManager : MonoBehaviour {
 		
 		aCurrentlySelectedUnit.transform.position = aCurrentlySelectedUnitOriginalPosition;
 		aCurrentlySelectedUnit.transform.rotation = aCurrentlySelectedUnitOriginalRotation;
+		
+		// Update HT with new position
+		aUnitsAndTilesHT.Remove(aCurrentlySelectedUnit);
+		aUnitsAndTilesHT.Add(aCurrentlySelectedUnit,TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(aCurrentlySelectedUnit)));
 
 		if (aCurrentlySelectedUnit.tag == "Player1")
 		{
