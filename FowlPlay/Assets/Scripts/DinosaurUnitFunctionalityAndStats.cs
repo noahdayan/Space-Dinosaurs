@@ -7,14 +7,25 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public int maxHealthPoints = 100;
 	public int defensePoints = 10;
 	public int attackPoints = 15;
+	//The current and max amount of how tamed this unit can be.
 	public float tamePoints  = 100.0f;
 	public float maxTamePoints = 100.0f;
+	//Various mana costs of certain actions.
 	public int attackCost = 1;
 	public int moveCost = 1;
 	public int moveRange = 3;
 	public int attackRange = 2;
+	//How quickly this unit gets tamed
 	public float tameRate = 1.0f;
+	//The amount of tameness that goes away each turn.
 	public int tameTickAmount = 10;
+	//The distance that the Commander must be at for the tameTickAmount to go down by its actual cost
+	//The higher this is the further a unit can safely be away from its commander.
+	public float ObeyRange = 80.0f;
+	//Amount that taking damage untames the dino.
+	public float fury = 5.0f;
+	//Amount that attacking untames the dino.
+	public float bloodlust = 5.0f;
 	public bool tamed = false;
 	public string species;
 	public GameObject deathParticle;
@@ -39,6 +50,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void AttackUnit (GameObject unit)
 	{
 		unit.SendMessage("TakeAttackDamage", attackPoints);
+		tamePoints -= bloodlust;
+		
 		if (gameObject.tag == "Player1")
 		{
 			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
@@ -74,6 +87,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (dmg - defensePoints > 0)
 		{
 			healthPoints -= actualDamageTaken;
+			tamePoints -= fury;
 		}
 		else
 		{
@@ -109,9 +123,23 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		UntamedManager.fullHP = healthPoints == maxHealthPoints;	
 	}
 	
-	public float EndTurnTickUntame (int commanderDistance)
+	public float EndTurnTickUntame (Vector3 commanderPosition)
 	{
-		tamePoints -= (tameTickAmount * commanderDistance);
+		float commanderDistance, commanderRateBonus, xDist, zDist;
+		
+		//Calculating distance from the commander.
+		xDist = (commanderPosition.x - gameObject.transform.position.x);
+		zDist = (commanderPosition.z - gameObject.transform.position.z);
+		commanderDistance = Mathf.Sqrt((xDist * xDist) + (zDist * zDist));
+		
+		commanderRateBonus = commanderDistance / ObeyRange;
+		
+		tamePoints -= (tameTickAmount * commanderRateBonus);
+		
+		if (tamePoints < 1)
+			tamePoints = 0.0f;
+		
+		UpdateGuiTameBar();
 		CheckTamePoints();
 		return tamePoints;
 	}
@@ -135,6 +163,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tamed = true;
 			SwitchTeams (teamToSwitchTo);
 		}
+		UpdateGuiTameBar();
 		return tamePoints;
 	}
 	
@@ -188,7 +217,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			SwitchTeams("Enemy");
 			//animation
 			//gameObject.renderer.material.color = Color.red;
-			gameObject.transform.FindChild("model").renderer.material.color = Color.red;
+			UpdateColor();
 			tamed = false;
 		}
 	}

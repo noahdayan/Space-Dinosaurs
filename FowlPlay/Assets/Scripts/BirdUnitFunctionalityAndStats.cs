@@ -149,6 +149,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
+	public void UpdateGuiTameBar()
+	{
+		PlayMenuGUI.untamed = false;
+	}
+	
 	
 	public void UpdateGuiTameButton()
 	{
@@ -169,6 +174,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			gameObject.transform.FindChild("model").renderer.material.color = enemyColor;
 		}
+	}
+	
+	public float EndTurnTickUntame (Vector3 commanderPosition)
+	{
+		return 0.0f;
 	}
 	
 }

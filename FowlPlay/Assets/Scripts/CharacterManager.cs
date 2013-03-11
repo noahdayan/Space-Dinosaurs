@@ -148,6 +148,7 @@ public class CharacterManager : MonoBehaviour {
 		{
 			pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 			pUnit.SendMessage("UpdateGuiHealthBar");
+			pUnit.SendMessage("UpdateGuiTameBar");
 			ProgressBarGUI.show = true;
 		}
 		
@@ -241,6 +242,24 @@ public class CharacterManager : MonoBehaviour {
 				SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
 			
 			deselectUnit();
+			
+			//End Of Turn Updates for the Units.
+			
+			//The units all lose a little bit of their tameness.
+			if (aTurn == 1)
+			{
+				foreach (GameObject unit in player1Units)
+				{
+					unit.SendMessage("EndTurnTickUntame", bird1.transform.position);
+				}
+			}
+			else if (aTurn == 3)
+			{
+				foreach (GameObject unit in player2Units)
+				{
+					unit.SendMessage("EndTurnTickUntame", bird2.transform.position);
+				}
+			}
 			
 			aInteractiveUnitIsSelected = false;
 			aMidTurn = false;

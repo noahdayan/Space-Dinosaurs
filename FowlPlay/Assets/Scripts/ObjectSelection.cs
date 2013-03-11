@@ -77,6 +77,7 @@ public class ObjectSelection : MonoBehaviour {
 				iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
 				
 				CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
+				CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
 				CharacterManager.aInteractiveUnitIsSelected = false;
 				CharacterManager.aInteractUnit = null;
 			}
@@ -101,6 +102,7 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
+						CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
 					}
 					
 					// Select the new interact unit.
@@ -108,6 +110,7 @@ public class ObjectSelection : MonoBehaviour {
 					CharacterManager.aInteractUnit = gameObject;
 					
 					CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
+					CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
 					
 					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
 					{
@@ -160,6 +163,7 @@ public class ObjectSelection : MonoBehaviour {
 		else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy"))
 		{
 			gameObject.SendMessage("UpdateGuiHealthBar");
+			gameObject.SendMessage("UpdateGuiTameBar");
 			ProgressBarGUI.show = true;
 		}
 		
