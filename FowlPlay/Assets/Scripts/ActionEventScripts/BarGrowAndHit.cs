@@ -12,6 +12,7 @@ public class BarGrowAndHit : MonoBehaviour {
 	Vector3 currentScale;
 	Vector3 newScale;
 	public float flashRate = 0.5f;
+	public int counter = 0;
 	
 	private Color originalColor;
 	private Color currentColor;
@@ -48,6 +49,9 @@ public class BarGrowAndHit : MonoBehaviour {
 			StopCoroutine("Return");
 			currentColor = BlockManager.CheckPosition((int) currentScale.y).renderer.material.color;
 			blockChild.renderer.material.color = currentColor;
+			if (currentColor == Color.green)
+				counter++;
+			Debug.Log("Counter is: " + counter + "\n");
 			BlockManager.Shuffle();
 			BlockManager.PlaceBlocks();
 			//LERPING IS TAKING TOO LONG :(

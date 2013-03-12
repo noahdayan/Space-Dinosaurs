@@ -4,6 +4,7 @@ using System.Collections;
 public class BlockManager : MonoBehaviour {
 	
 	//The Prefab information.
+	public GameObject parent;
 	public Transform prefab;
 	public static int numOfBlocks = 11;
 	public int numOfGreen = 1;
@@ -45,7 +46,14 @@ public class BlockManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		for (int i = 0; i < numOfBlocks; i++)
+		{
+			Vector3 newPos;
+			newPos = gameObject.transform.position;
+			newPos.x += 1;
+			newPos.y += (float) i + 0.5f;
+			objectList[i].position = newPos;
+		}
 	}
 	
 	
@@ -67,7 +75,7 @@ public class BlockManager : MonoBehaviour {
 	public static void PlaceBlocks()
 	{
 		//MAYBE MAKE IT A CHILD AND MAKE THESE THINGS RELATIVE
-		Vector3 newPlacement = new Vector3(1, 0, 5);
+		Vector3 newPlacement = new Vector3(-15, -15, -15);
 		
 		for (int i = 0; i < numOfBlocks; i++)
 		{
