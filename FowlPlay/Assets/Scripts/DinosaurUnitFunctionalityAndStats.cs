@@ -157,6 +157,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		//Make a better pokemonlike formular here
 		tamePoints += tameAmount * tameRate;
 		
+		if (tamePoints > maxTamePoints)
+			tamePoints = maxTamePoints;
+		
 		if (tamePoints > 50 && tamed == false)
 		{
 			Debug.Log("This unit has switched teams " + gameObject);
