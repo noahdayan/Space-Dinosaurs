@@ -49,10 +49,13 @@ public class BlockManager : MonoBehaviour {
 		for (int i = 0; i < numOfBlocks; i++)
 		{
 			Vector3 newPos;
+			Quaternion newRotation;
+			newRotation = parent.transform.rotation;
 			newPos = gameObject.transform.position;
-			newPos.x += 1;
-			newPos.y += (float) i + 0.5f;
-			objectList[i].position = newPos;
+			newPos += 1 * transform.right;
+			newPos += ((float) i + 0.5f) * transform.up;
+			objectList[i].localPosition = newPos;
+			objectList[i].rotation = newRotation;
 		}
 	}
 	
