@@ -35,8 +35,21 @@ public class ItemManager : MonoBehaviour {
 			itemPosition.y = 6.0f;
 			
 			// Instantiate (put on map) and add to hashtable
-			Object item = Instantiate(prefabs[Random.Range(0, prefabs.Length)], itemPosition, Quaternion.identity);
+			GameObject item = (GameObject)Instantiate(prefabs[Random.Range(0, prefabs.Length)], itemPosition, Quaternion.identity);
 			tilesWithItems.Add(tile.transform.position, item);
+			
+			switch (item.name)
+			{
+				case "DinoChow(Clone)" :
+					item.tag = "DinoChow";
+					break;
+				case "BirdSeed(Clone)" :
+					item.tag = "BirdSeed";
+					break;
+				case "DinoCoOil(Clone)" :
+					item.tag = "DinoCoOil";
+					break;
+			}
 			
 		}
 		
