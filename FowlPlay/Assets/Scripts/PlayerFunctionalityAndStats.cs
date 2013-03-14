@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerFunctionalityAndStats : MonoBehaviour {
 
 	private int mana;
-	public int manaPerTurn = 3;
+	public int manaPerTurn = 8;
 	public int startingMana = 10;
 	public int bonus = 0;
 	
