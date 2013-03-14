@@ -256,6 +256,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
 		ProgressBarGUI.tamePoints = (int)tamePoints;
+		ProgressBarGUI.isBird = false;
 	}
 	
 	public void UpdateGuiTameButton()
