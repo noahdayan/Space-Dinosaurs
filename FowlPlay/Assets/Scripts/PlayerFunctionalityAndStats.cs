@@ -54,12 +54,9 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	
 	public void StartTurn()
 	{
-		if (CharacterManager.aTurnCount > 3)
-		{
-			mana += manaPerTurn + bonus;
-			isTurn = true;
-			UpdateGuiMana();
-		}
+		mana += manaPerTurn + bonus;
+		isTurn = true;
+		UpdateGuiMana();
 	}
 	
 	public void UpdateGuiMana()
