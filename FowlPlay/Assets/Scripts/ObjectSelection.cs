@@ -68,8 +68,7 @@ public class ObjectSelection : MonoBehaviour {
 			//			and return the attacking/taming unit to its original rotation.
 			if (CharacterManager.aInteractUnit == gameObject)
 			{
-				//CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-				CharacterManager.aInteractUnit.SendMessage("SelectedColor");
+				CharacterManager.aInteractUnit.SendMessage("UpdateColor");
 				// Revert the interact unit's rotation.
 				iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 				
@@ -98,8 +97,6 @@ public class ObjectSelection : MonoBehaviour {
 					// FIFTH - If another interact unit is already selected, deselect it and revert its rotation to the original.
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
-						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
-						//CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 						CharacterManager.aInteractUnit.SendMessage("UpdateColor");
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
@@ -129,9 +126,6 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
 					}
-
-					//gameObject.renderer.material.color = Color.red;
-					//gameObject.transform.FindChild("model").renderer.material.color = Color.red;
 					CharacterManager.aInteractUnit.SendMessage("SelectedColor");
 					// and rotate it to face the attacker/tamer
 					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
