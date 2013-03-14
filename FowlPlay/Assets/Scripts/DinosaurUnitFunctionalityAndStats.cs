@@ -148,7 +148,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tamePoints = 0.0f;
 		
 		UpdateGuiTameBar();
-		CheckTamePoints();
+		//CheckTamePoints();
 		return tamePoints;
 	}
 	
@@ -180,7 +180,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			Debug.Log("This unit has switched teams " + gameObject);
 			tamed = true;
-			SwitchTeams (teamToSwitchTo);
+			SwitchTeams(teamToSwitchTo);
 		}
 		UpdateGuiTameBar();
 		return tamePoints;
@@ -201,10 +201,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
-			Debug.Log("Removing an enemy from the list!\n");
-			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
+			//Debug.Log("Removing an enemy from the list!\n");
+			//Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.untamedUnits.Remove(gameObject);
-			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
+			//Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			break;
 		}	
 		
@@ -213,7 +213,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		switch(team)
 		{
 		case "Player1":
-			Debug.Log("Adding to player one's team.\n");
+			//Debug.Log("Adding to player one's team.\n");
 			CharacterManager.player1Units.Add(gameObject);
 			UpdateColor();
 			//CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
@@ -235,7 +235,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void CheckTamePoints()
 	{
-		if (tamePoints < 1.0f)
+		if (tamePoints <= 0)
 		{
 			SwitchTeams("Enemy");
 			//animation
@@ -333,7 +333,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tp -= 0 - tamePoints;
 			tamePoints = 0;
 		}
-		CheckTamePoints();
 		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
 	}
 	
@@ -345,7 +344,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tp -= tamePoints - maxTamePoints;
 			tamePoints = maxTamePoints;
 		}
-		CheckTamePoints();
 		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
 	}
 	

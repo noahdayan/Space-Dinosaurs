@@ -221,24 +221,48 @@ public class CharacterManager : MonoBehaviour {
 			deselectUnit();
 			
 			//End Of Turn Updates for the Units.
-		
+			
 			//The units all lose a little bit of their tameness.
 			if (aTurn == 1)
 			{
-				GameObject[] tempUnits = new GameObject[player1Units.Count];
-				player1Units.CopyTo(tempUnits);
-				foreach (GameObject unit in tempUnits)//player1Units)
+				List<GameObject> toUntame = new List<GameObject>();
+				
+				foreach (GameObject unit in player1Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird1.transform.position);
+					
+					if (!isBird(unit))
+						if (unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamePoints <= 0)
+							toUntame.Add(unit);
+				}
+				
+				foreach (GameObject unit in toUntame)
+				{
+					player1Units.Remove(unit);
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().SwitchTeams("Enemy");
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().UpdateColor();
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamed = false;
 				}
 			}
 			else if (aTurn == 3)
 			{
-				GameObject[] tempUnits = new GameObject[player2Units.Count];
-				player2Units.CopyTo(tempUnits);
-				foreach (GameObject unit in tempUnits)
+				List<GameObject> toUntame = new List<GameObject>();
+				
+				foreach (GameObject unit in player2Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird2.transform.position);
+					
+					if (!isBird(unit))
+						if (unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamePoints <= 0)
+							toUntame.Add(unit);
+				}
+				
+				foreach (GameObject unit in toUntame)
+				{
+					player2Units.Remove(unit);
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().SwitchTeams("Enemy");
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().UpdateColor();
+					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamed = false;
 				}
 			}
 			
@@ -396,6 +420,7 @@ public class CharacterManager : MonoBehaviour {
 					aTurn = 4;
 					GameObject.Find("Character").SendMessage("untamedMove");
 				}
+				
 				bird2.SendMessage("PlayerEndTurn");
 			}
 			else if (aTurn == 4)
