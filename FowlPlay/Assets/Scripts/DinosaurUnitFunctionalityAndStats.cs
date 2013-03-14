@@ -51,7 +51,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void AttackUnit (GameObject unit)
 	{
 		unit.SendMessage("TakeAttackDamage", attackPoints);
-		tamePoints -= bloodlust;
+		RemoveTamePoints(bloodlust);
 		
 		if (gameObject.tag == "Player1")
 		{
@@ -85,10 +85,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		//Need to make a better formula.
 		int actualDamageTaken = dmg - defensePoints;
+		RemoveTamePoints(fury);
 		if (dmg - defensePoints > 0)
 		{
 			healthPoints -= actualDamageTaken;
-			tamePoints -= fury;
 		}
 		else
 		{
@@ -142,7 +142,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		commanderRateBonus = commanderDistance / ObeyRange;
 		
-		tamePoints -= (tameTickAmount * commanderRateBonus);
+		RemoveTamePoints(tameTickAmount * commanderRateBonus);
 		
 		if (tamePoints < 1)
 			tamePoints = 0.0f;
@@ -159,14 +159,22 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	*/
 	public float AddTamePointsByRate (int tameAmount)// tameAmount, string teamToSwitchTo)
 	{
+		float tempTamePoints = tamePoints;
+		float overTP;
 		string teamToSwitchTo = CharacterManager.aCurrentlySelectedUnit.tag;
 		
 		Debug.Log("Taming " + gameObject + "\n");
 		//Make a better pokemonlike formular here
-		tamePoints += tameAmount * tameRate;
+		tempTamePoints += tameAmount * tameRate;
 		
-		if (tamePoints > maxTamePoints)
-			tamePoints = maxTamePoints;
+		if (tempTamePoints > maxTamePoints)
+		{
+			overTP = tempTamePoints - maxTamePoints;
+			AddTamePoints((tameAmount*tameRate) - overTP);
+			//tempTamePoints = maxTamePoints;
+		}
+		else
+			AddTamePoints(tameAmount*tameRate);
 		
 		if (tamePoints > 50 && tamed == false)
 		{
@@ -290,6 +298,18 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
 		gameObject.transform.FindChild("model").FindChild("body").renderer.material.color = selectColor;
+	}
+	
+	public void RemoveTamePoints(float tp)
+	{
+		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
+		tamePoints -= tp;
+	}
+	
+	public void AddTamePoints(float tp)
+	{
+		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
+		tamePoints += tp;
 	}
 	
 }
