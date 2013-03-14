@@ -7,9 +7,12 @@ public class ItemManager : MonoBehaviour {
 	
 	public GameObject dinoCoOil, birdSeed, dinoChow;
 	
+	private GameObject[] prefabs;
+	
 	// Use this for initialization
 	void Start () {
 		tilesWithItems = new Hashtable();
+		prefabs = new GameObject[] {dinoCoOil, birdSeed, dinoChow};
 		StartCoroutine("SpawnItems");
 	}
 	
@@ -32,7 +35,7 @@ public class ItemManager : MonoBehaviour {
 			itemPosition.y = 6.0f;
 			
 			// Instantiate (put on map) and add to hashtable
-			Object item = Instantiate(dinoChow, itemPosition, Quaternion.identity);
+			Object item = Instantiate(prefabs[Random.Range(0, prefabs.Length)], itemPosition, Quaternion.identity);
 			tilesWithItems.Add(tile.transform.position, item);
 			
 		}
