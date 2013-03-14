@@ -107,7 +107,43 @@ public class ClickAndMove : MonoBehaviour
 				
 				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (aPath.Length > 1)
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "speed", 10.0f, "orienttopath", true, "lookahead", 1.0f, "easetype", "linear"));
+				{
+					float movementSpeed = 30.0f;
+					
+					if (!CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+					{	
+						switch (CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species)
+						{	
+							case "tyrannosaur" :
+							{
+								movementSpeed = 10.0f;
+								break;
+							}
+							case "anquilosaurus" :
+							{
+								movementSpeed = 10.0f;
+								break;
+							}
+							case "pterodactyl" :
+							{
+								movementSpeed = 35.0f;
+								break;
+							}
+							case "triceratops" :
+							{
+								movementSpeed = 10.0f;
+								break;
+							}
+							case "velociraptor" :
+							{
+								movementSpeed = 40.0f;
+								break;
+							}
+						}
+					}
+					
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "speed", movementSpeed, "orienttopath", true, "lookahead", 0.1f, "easetype", "linear"));
+				}
 				else
 					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("position", aPath[0], "time", 1.0f, "orienttopath", true));
 				
