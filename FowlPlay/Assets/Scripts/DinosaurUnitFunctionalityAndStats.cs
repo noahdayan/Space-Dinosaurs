@@ -235,7 +235,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void CheckTamePoints()
 	{
-		if (tamePoints <= 0)
+		if (tamePoints < 1.0f)
 		{
 			SwitchTeams("Enemy");
 			//animation
@@ -333,6 +333,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tp -= 0 - tamePoints;
 			tamePoints = 0;
 		}
+		CheckTamePoints();
 		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
 	}
 	
@@ -344,6 +345,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tp -= tamePoints - maxTamePoints;
 			tamePoints = maxTamePoints;
 		}
+		CheckTamePoints();
 		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
 	}
 	

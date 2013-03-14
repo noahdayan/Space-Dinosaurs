@@ -221,18 +221,22 @@ public class CharacterManager : MonoBehaviour {
 			deselectUnit();
 			
 			//End Of Turn Updates for the Units.
-			
+		
 			//The units all lose a little bit of their tameness.
 			if (aTurn == 1)
 			{
-				foreach (GameObject unit in player1Units)
+				GameObject[] tempUnits = new GameObject[player1Units.Count];
+				player1Units.CopyTo(tempUnits);
+				foreach (GameObject unit in tempUnits)//player1Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird1.transform.position);
 				}
 			}
 			else if (aTurn == 3)
 			{
-				foreach (GameObject unit in player2Units)
+				GameObject[] tempUnits = new GameObject[player2Units.Count];
+				player2Units.CopyTo(tempUnits);
+				foreach (GameObject unit in tempUnits)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird2.transform.position);
 				}
