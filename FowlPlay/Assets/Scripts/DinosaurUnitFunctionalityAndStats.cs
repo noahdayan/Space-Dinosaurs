@@ -259,17 +259,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (tag == "Player1")
 		{
-			gameObject.transform.FindChild("body").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player1Color;
 			unitColor = player1Color;
 		}
 		else if (tag == "Player2")
 		{
-			gameObject.transform.FindChild("body").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player2Color;
 			unitColor = player2Color;
 		}
 		else if (tag == "Enemy")
 		{
-			gameObject.transform.FindChild("body").renderer.material.color = enemyColor;
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = enemyColor;
 			unitColor = enemyColor;
 		}
 	}

@@ -141,7 +141,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		// Make it visible
 		//pUnit.renderer.material.color = Color.yellow;
-		pUnit.transform.FindChild("body").renderer.material.color = Color.yellow;
+		pUnit.transform.FindChild("model").transform.FindChild("body").renderer.material.color = Color.yellow;
 		
 		// Set the GUI components for players.
 		if (aTurn == 1 || aTurn == 3)
