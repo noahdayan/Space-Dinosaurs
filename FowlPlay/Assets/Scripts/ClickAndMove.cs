@@ -107,7 +107,7 @@ public class ClickAndMove : MonoBehaviour
 				
 				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (aPath.Length > 1)
-					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "speed", 4.0f, "orienttopath", true));
+					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("path", aPath, "speed", 10.0f, "orienttopath", true, "lookahead", 1.0f, "easetype", "linear"));
 				else
 					iTween.MoveTo(CharacterManager.aCurrentlySelectedUnit, iTween.Hash("position", aPath[0], "time", 1.0f, "orienttopath", true));
 				
@@ -125,6 +125,8 @@ public class ClickAndMove : MonoBehaviour
 				aMovementHappened = true;
 				
 				destination.y = CharacterManager.aCurrentlySelectedUnitOriginalPosition.y;
+				
+				bool hasArrived = false;
 				
 				// This next loop ensures the routine finishes once the iTween animation has finished.
 				do

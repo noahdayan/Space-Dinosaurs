@@ -9,7 +9,7 @@ public class AnimationManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!ClickAndMove.aIsObjectMoving && CharacterManager.aCurrentlySelectedUnit == gameObject && !CharacterManager.aMidTurn)
+		if(!ClickAndMove.aIsObjectMoving && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			transform.FindChild("model").animation.Play("standing");
 		else if(ClickAndMove.aIsObjectMoving && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			transform.FindChild("model").animation.Play("walking");
