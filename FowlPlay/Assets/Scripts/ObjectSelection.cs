@@ -100,7 +100,7 @@ public class ObjectSelection : MonoBehaviour {
 					{
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
 						//CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-						CharacterManager.aInteractUnit.SendMessage("SelectedColor");
+						CharacterManager.aInteractUnit.SendMessage("UpdateColor");
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
