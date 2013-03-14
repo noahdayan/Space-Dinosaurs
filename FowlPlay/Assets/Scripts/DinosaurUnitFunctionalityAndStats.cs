@@ -302,14 +302,24 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void RemoveTamePoints(float tp)
 	{
-		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
 		tamePoints -= tp;
+		if (tamePoints < 0)
+		{
+			tp -= 0 - tamePoints;
+			tamePoints = 0;
+		}
+		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
 	}
 	
 	public void AddTamePoints(float tp)
 	{
-		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
 		tamePoints += tp;
+		if (tamePoints > maxTamePoints)
+		{
+			tp -= tamePoints - maxTamePoints;
+			tamePoints = maxTamePoints;
+		}
+		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
 	}
 	
 }
