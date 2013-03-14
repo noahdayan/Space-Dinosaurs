@@ -350,6 +350,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		if (aInteractiveUnitIsSelected)
 		{
+			aInteractUnit.transform.rotation = aInteractUnitOriginalRotation;
 			aInteractUnit.SendMessage("UpdateColor");
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
