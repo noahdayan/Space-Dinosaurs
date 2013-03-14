@@ -68,8 +68,8 @@ public class ObjectSelection : MonoBehaviour {
 			//			and return the attacking/taming unit to its original rotation.
 			if (CharacterManager.aInteractUnit == gameObject)
 			{
-				CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
-	
+				//CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+				CharacterManager.aInteractUnit.SendMessage("SelectedColor");
 				// Revert the interact unit's rotation.
 				iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 				
@@ -99,7 +99,8 @@ public class ObjectSelection : MonoBehaviour {
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
 						//CharacterManager.aInteractUnit.renderer.material.color = Color.blue;
-						CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+						//CharacterManager.aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
+						CharacterManager.aInteractUnit.SendMessage("SelectedColor");
 						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
 						CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
@@ -130,8 +131,8 @@ public class ObjectSelection : MonoBehaviour {
 					}
 
 					//gameObject.renderer.material.color = Color.red;
-					gameObject.transform.FindChild("model").renderer.material.color = Color.red;
-					
+					//gameObject.transform.FindChild("model").renderer.material.color = Color.red;
+					CharacterManager.aInteractUnit.SendMessage("SelectedColor");
 					// and rotate it to face the attacker/tamer
 					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
 					Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);

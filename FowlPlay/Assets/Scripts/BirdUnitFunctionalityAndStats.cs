@@ -18,6 +18,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public Color player1Color = Color.green;
 	public Color player2Color = Color.blue;
 	public Color enemyColor = Color.red;
+	public Color selectColor = Color.yellow;
 		
 	void Start()
 	{
@@ -179,6 +180,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public float EndTurnTickUntame (Vector3 commanderPosition)
 	{
 		return 0.0f;
+	}
+	
+	public void SelectedColor()
+	{
+		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
+		gameObject.transform.FindChild("model").FindChild("body").renderer.material.color = selectColor;
 	}
 	
 }

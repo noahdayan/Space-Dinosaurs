@@ -21,7 +21,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public int tameTickAmount = 10;
 	//The distance that the Commander must be at for the tameTickAmount to go down by its actual cost
 	//The higher this is the further a unit can safely be away from its commander.
-	public float ObeyRange = 80.0f;
+	public float ObeyRange = 4.0f;
 	//Amount that taking damage untames the dino.
 	public float fury = 5.0f;
 	//Amount that attacking untames the dino.
@@ -33,6 +33,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public Color player1Color = Color.green;
 	public Color player2Color = Color.blue;
 	public Color enemyColor = Color.red;
+	public Color selectColor = Color.yellow;
 	
 	public Color unitColor;
 	public Color currentColor;
@@ -125,12 +126,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public float EndTurnTickUntame (Vector3 commanderPosition)
 	{
-		float commanderDistance, commanderRateBonus, xDist, zDist;
+		float commanderDistance, commanderRateBonus;//, xDist, zDist;
 		
 		//Calculating distance from the commander.
-		xDist = (commanderPosition.x - gameObject.transform.position.x);
-		zDist = (commanderPosition.z - gameObject.transform.position.z);
-		commanderDistance = Mathf.Sqrt((xDist * xDist) + (zDist * zDist));
+		//xDist = (commanderPosition.x - gameObject.transform.position.x);
+		//zDist = (commanderPosition.z - gameObject.transform.position.z);
+		//commanderDistance = Mathf.Sqrt((xDist * xDist) + (zDist * zDist));
+		
+		if (tag == "Player1")
+			commanderDistance = (float) TileManager.movementCost(gameObject, CharacterManager.bird1);
+		else if (tag == "Player2")
+			commanderDistance = (float) TileManager.movementCost(gameObject, CharacterManager.bird2);
+		else
+			commanderDistance = -1.0f;
 		
 		commanderRateBonus = commanderDistance / ObeyRange;
 		
@@ -260,16 +268,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (tag == "Player1")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = player1Color;
 			unitColor = player1Color;
 		}
 		else if (tag == "Player2")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = player2Color;
 			unitColor = player2Color;
 		}
 		else if (tag == "Enemy")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = enemyColor;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = enemyColor;
 			unitColor = enemyColor;
 		}
 	}
@@ -277,9 +288,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void SelectedColor()
 	{
 		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
-		unitColor = gameObject.transform.FindChild("model").FindChild("body").renderer.material.color;
-		unitColor = Color.white;
-		gameObject.transform.FindChild("model").renderer.material.color = unitColor;
+		gameObject.transform.FindChild("model").FindChild("body").renderer.material.color = selectColor;
 	}
 	
 }

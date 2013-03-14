@@ -76,9 +76,6 @@ public class CharacterManager : MonoBehaviour {
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
 			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
-			
-			// Color the unit
-			//unit.renderer.material = aMaterialTeamBlue;
 		}
 
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player2"))
@@ -92,9 +89,6 @@ public class CharacterManager : MonoBehaviour {
 			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
 			TileManager.occupiedTilesHT.Add(tile, unit);
 			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
-			
-			// Color the unit
-			//unit.renderer.material = aMaterialTeamRed;
 		}
 		
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -140,8 +134,7 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnitOriginalRotation = pUnit.transform.rotation;
 		
 		// Make it visible
-		//pUnit.renderer.material.color = Color.yellow;
-		pUnit.transform.FindChild("model").transform.FindChild("body").renderer.material.color = Color.yellow;
+		pUnit.SendMessage("SelectedColor");
 		
 		// Set the GUI components for players.
 		if (aTurn == 1 || aTurn == 3)
@@ -227,8 +220,6 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (aInteractiveUnitIsSelected)
 			{
-				//aInteractUnit.renderer.material.color = Color.blue;
-				//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 				aInteractUnit.SendMessage("UpdateColor");
 				aInteractUnit = null;
 			}
@@ -294,7 +285,6 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if (aCurrentlySelectedUnit != null)
 		{
-			//aCurrentlySelectedUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			aCurrentlySelectedUnit.SendMessage("UpdateColor");
 			
 			if (aTurn == 1 || aTurn == 3)
@@ -360,7 +350,6 @@ public class CharacterManager : MonoBehaviour {
 		
 		if (aInteractiveUnitIsSelected)
 		{
-			//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 			aInteractUnit.SendMessage("UpdateColor");
 			aInteractiveUnitIsSelected = false;
 			aInteractUnit = null;
@@ -440,8 +429,6 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (aInteractiveUnitIsSelected)
 			{
-				//aInteractUnit.renderer.material.color = Color.blue;
-				//aInteractUnit.transform.FindChild("model").renderer.material.color = Color.blue;
 				aInteractUnit.SendMessage("UpdateColor");
 				aInteractUnit = null;
 			}
