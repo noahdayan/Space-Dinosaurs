@@ -58,7 +58,6 @@ public class CharacterManager : MonoBehaviour {
 	void Start () {
 
 		// Initialize and populate all collections
-		
 		player1Units = new List<GameObject>();
 		player2Units = new List<GameObject>();
 		untamedUnits = new List<GameObject>();
@@ -81,19 +80,6 @@ public class CharacterManager : MonoBehaviour {
 		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Player2"))
 		{
 			player2Units.Add(unit);
-			
-			// Get the tile the unit is standing on and mark it as occupied.
-			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
-			TileManager.getTileAt(tile).tag = "OccupiedTile";
-			
-			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
-			TileManager.occupiedTilesHT.Add(tile, unit);
-			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
-		}
-		
-		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))
-		{
-			untamedUnits.Add(unit);
 			
 			// Get the tile the unit is standing on and mark it as occupied.
 			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);

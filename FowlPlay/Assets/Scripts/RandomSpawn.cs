@@ -33,24 +33,25 @@ public class RandomSpawn : MonoBehaviour {
 	
 	IEnumerator SpawnDinos()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.0f);
 		
 		for (int i = 0; i < numberOfDinos; i++)
 		{
-			GameObject tile;
-			
-			do
-				 tile = TileManager.TruePickRandomTile();
-			while (tilesWithDinos.Contains(tile.transform.position));
+			GameObject tile = TileManager.TruePickRandomTile();
 			
 			Vector3 dinoPosition = tile.transform.position;
 			dinoPosition.y = 0.0f;
 			
 			Quaternion rot = Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
 			
-			Object dino = Instantiate(prefabs[Random.Range(0, prefabs.Length)], dinoPosition, rot);
-			tilesWithDinos.Add(tile.transform.position, dino);
+			GameObject dino = (GameObject)Instantiate(prefabs[Random.Range(0, prefabs.Length)], dinoPosition, rot);
+			CharacterManager.aUnitsAndTilesHT.Add(dino, TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(dino)));
+			TileManager.occupiedTilesHT.Add(tile.transform.position, dino);
+			CharacterManager.untamedUnits.Add (dino);
+			tile.tag = "OccupiedTile";
+			dino.tag = "Enemy";
 			
 		}
+		
 	}
 }
