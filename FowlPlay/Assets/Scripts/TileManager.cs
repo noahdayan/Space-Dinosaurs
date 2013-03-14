@@ -395,7 +395,7 @@ public class TileManager : MonoBehaviour {
 				break;
 			
 		}
-	
+		
 		return getTileAt(position);
 	}
 	
@@ -593,8 +593,8 @@ public class TileManager : MonoBehaviour {
 		{
 			randomTile = getSingleNeighbor(getTileAt(tile) ,UnityEngine.Random.Range(0, 6));
 		}
-		while (isTileOccupied(randomTile) || randomTile == null || !randomTile.tag.Equals("Tile"));
-
+		while (randomTile == null || isTileOccupied(randomTile));
+		
 		return randomTile;
 	}
 	
