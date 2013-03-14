@@ -189,20 +189,21 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void SwitchTeams(string team)
 	{
 		//Removing units from the list of the team it used to be in.
-		switch(CharacterManager.aInteractUnit.tag)
+		switch(gameObject.tag)
 		{
 		case "Player1":
-			CharacterManager.player1Units.Remove(CharacterManager.aInteractUnit);
+			//CharacterManager.player1Units.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.player1Units.Remove(gameObject);
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Player2":
-			CharacterManager.player2Units.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.player2Units.Remove(gameObject);
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
 			Debug.Log("Removing an enemy from the list!\n");
 			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
-			CharacterManager.untamedUnits.Remove(CharacterManager.aInteractUnit);
+			CharacterManager.untamedUnits.Remove(gameObject);
 			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			break;
 		}	
@@ -213,18 +214,21 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 		case "Player1":
 			Debug.Log("Adding to player one's team.\n");
-			CharacterManager.player1Units.Add(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
+			CharacterManager.player1Units.Add(gameObject);
+			UpdateColor();
+			//CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Player2":
-			CharacterManager.player2Units.Add(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.red;
+			CharacterManager.player2Units.Add(gameObject);
+			UpdateColor();
+			//CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.red;
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = true;
 			break;
 		case "Enemy":
-			CharacterManager.untamedUnits.Add(CharacterManager.aInteractUnit);
-			CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.yellow;
+			CharacterManager.untamedUnits.Add(gameObject);
+			UpdateColor();
+			//CharacterManager.aInteractUnit.transform.FindChild("HUD Point").renderer.material.color = Color.yellow;
 			break;
 		}
 	}
@@ -248,6 +252,27 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
+		//removing dead unit from the team.
+		switch(gameObject.tag)
+		{
+		case "Player1":
+			CharacterManager.player1Units.Remove(gameObject);
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			break;
+		case "Player2":
+			CharacterManager.player2Units.Remove(gameObject);
+			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
+			break;
+		case "Enemy":
+			Debug.Log("Removing an enemy from the list!\n");
+			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
+			CharacterManager.untamedUnits.Remove(gameObject);
+			break;
+		}
+		CharacterManager.aUnitsAndTilesHT.Remove(gameObject);
+		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
+		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
+		
 		yield return new WaitForSeconds(1.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		CharacterManager.killUnit(gameObject);
