@@ -152,7 +152,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateGuiTameBar()
 	{
-		PlayMenuGUI.untamed = false;
+		ProgressBarGUI.isBird = true;
 	}
 	
 	

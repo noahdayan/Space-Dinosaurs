@@ -20,6 +20,7 @@ public class ProgressBarGUI : MonoBehaviour {
 	public Texture2D barEmpty;
 	public Texture2D barFull;
 	public static bool show = false;
+	public static bool isBird = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,7 @@ public class ProgressBarGUI : MonoBehaviour {
 	void OnGUI() {
 		GUI.skin = hudSkin;
 		GUI.depth = guiDepth;
-		if(show)
+		if(show && !PauseMenuGUI.isPaused)
 		{
 			GUI.BeginGroup(barAreaNormalized);
 			
@@ -46,7 +47,8 @@ public class ProgressBarGUI : MonoBehaviour {
 				GUI.EndGroup();
 			
 			GUI.Label(new Rect(healthPointsArea), healthPoints.ToString());
-			
+			if (!isBird)
+			{
 				GUI.BeginGroup(new Rect(tamenessPos.x, tamenessPos.y, tamenessSize.x, tamenessSize.y));
 				GUI.Box(new Rect(0,0, tamenessSize.x, tamenessSize.y), barEmpty);
 					GUI.BeginGroup(new Rect(0,0, tamenessSize.x * tamenessBar, tamenessSize.y));
@@ -55,7 +57,7 @@ public class ProgressBarGUI : MonoBehaviour {
 				GUI.EndGroup();
 			
 			GUI.Label(new Rect(tamePointsArea), tamePoints.ToString());
-			
+			}
 			GUI.EndGroup();
 		}
     }
