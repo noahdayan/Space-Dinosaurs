@@ -27,6 +27,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
+			audio.PlayOneShot(click);
 			if(!isPaused)
 			{
 				Time.timeScale = 0.0f;
