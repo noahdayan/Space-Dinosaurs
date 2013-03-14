@@ -164,15 +164,15 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (tag == "Player1")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("body").renderer.material.color = player1Color;
 		}
 		else if (tag == "Player2")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("body").renderer.material.color = player2Color;
 		}
 		else if (tag == "Enemy")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = enemyColor;
+			gameObject.transform.FindChild("body").renderer.material.color = enemyColor;
 		}
 	}
 	

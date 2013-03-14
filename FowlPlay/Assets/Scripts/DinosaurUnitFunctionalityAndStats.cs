@@ -259,17 +259,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (tag == "Player1")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("body").renderer.material.color = player1Color;
 			unitColor = player1Color;
 		}
 		else if (tag == "Player2")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("body").renderer.material.color = player2Color;
 			unitColor = player2Color;
 		}
 		else if (tag == "Enemy")
 		{
-			gameObject.transform.FindChild("model").renderer.material.color = enemyColor;
+			gameObject.transform.FindChild("body").renderer.material.color = enemyColor;
 			unitColor = enemyColor;
 		}
 	}
@@ -277,7 +277,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void SelectedColor()
 	{
 		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
-		unitColor = gameObject.transform.FindChild("model").renderer.material.color;
+		unitColor = gameObject.transform.FindChild("model").FindChild("body").renderer.material.color;
 		unitColor = Color.white;
 		gameObject.transform.FindChild("model").renderer.material.color = unitColor;
 	}
