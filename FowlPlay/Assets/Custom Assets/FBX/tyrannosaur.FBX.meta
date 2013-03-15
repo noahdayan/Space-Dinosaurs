@@ -29,7 +29,7 @@ ModelImporter:
     clipAnimations:
     - name: standing
       firstFrame: 1
-      lastFrame: 120
+      lastFrame: 119
       wrapMode: 2
       loop: 1
     - name: walking
