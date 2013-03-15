@@ -275,7 +275,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (species.Equals("tyrannosaur"))
 		{
-			Debug.Log("here");
 			AnimationManager.hold = true;
 			gameObject.transform.FindChild("model").animation.Play("death");
 			yield return new WaitForSeconds(2.0f);

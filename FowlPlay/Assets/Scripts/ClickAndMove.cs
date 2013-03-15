@@ -59,7 +59,6 @@ public class ClickAndMove : MonoBehaviour
 				if (!fullHP)
 				{
 					consume = true;
-					Debug.Log("here");
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
 				}
 			}
