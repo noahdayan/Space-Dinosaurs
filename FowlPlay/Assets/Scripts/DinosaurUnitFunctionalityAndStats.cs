@@ -100,7 +100,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			StartCoroutine("Die");
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
+		//Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		UpdateGuiHealthBar();
 		return healthPoints;
 	}
@@ -163,7 +163,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		float overTP;
 		string teamToSwitchTo = CharacterManager.aCurrentlySelectedUnit.tag;
 		
-		Debug.Log("Taming " + gameObject + "\n");
+		//Debug.Log("Taming " + gameObject + "\n");
 		//Make a better pokemonlike formular here
 		tempTamePoints += tameAmount * tameRate;
 		
@@ -178,7 +178,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (tamePoints > 50 && tamed == false)
 		{
-			Debug.Log("This unit has switched teams " + gameObject);
+			//Debug.Log("This unit has switched teams " + gameObject);
 			tamed = true;
 			SwitchTeams(teamToSwitchTo);
 		}
@@ -264,8 +264,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
-			Debug.Log("Removing an enemy from the list!\n");
-			Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
+			//Debug.Log("Removing an enemy from the list!\n");
+			//Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.untamedUnits.Remove(gameObject);
 			break;
 		}
@@ -341,24 +341,28 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void RemoveTamePoints(float tp)
 	{
+		int showTP;
 		tamePoints -= tp;
 		if (tamePoints < 0)
 		{
 			tp -= 0 - tamePoints;
 			tamePoints = 0;
 		}
-		gameObject.BroadcastMessage("showTameText", "-" + tp.ToString());
+		showTP = (int) tp;
+		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
 	}
 	
 	public void AddTamePoints(float tp)
 	{
+		int showTP;
 		tamePoints += tp;
 		if (tamePoints > maxTamePoints)
 		{
 			tp -= tamePoints - maxTamePoints;
 			tamePoints = maxTamePoints;
 		}
-		gameObject.BroadcastMessage("showTameText", "+" + tp.ToString());
+		showTP = (int) tp;
+		gameObject.BroadcastMessage("showTameText", "+" + showTP.ToString());
 	}
 	
 }
