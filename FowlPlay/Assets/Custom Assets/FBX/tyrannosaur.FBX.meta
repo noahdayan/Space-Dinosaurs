@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: fe8f811e4c738da408bc3fb056357965
+guid: 804265b17bcd64e4ab425b29eec1fc5d
 ModelImporter:
   fileIDToRecycleName:
     4300000: tyrannosaur
-    7400000: Take 001 //// tyrannosaur%40anim
-    7400002: Take 001 //// animated TRex
-    7400004: standing //// animated TRex
-    7400006: walking //// animated TRex
-    7400008: standing //// tyrannosaur
-    7400010: walking //// tyrannosaur
+    7400000: Take 001 //// tyrannosaur@anim
+    7400002: Take 001 //// tyrannosaur_anim
+    7400004: Take 001 //// tyrannosaur
+    7400006: standing //// tyrannosaur
+    7400008: walk //// tyrannosaur
+    7400010: attack //// tyrannosaur
+    7400012: damage //// tyrannosaur
+    7400014: death //// tyrannosaur
+    7400016: walking //// tyrannosaur
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -26,12 +29,27 @@ ModelImporter:
     clipAnimations:
     - name: standing
       firstFrame: 1
-      lastFrame: 119
+      lastFrame: 120
       wrapMode: 2
       loop: 1
     - name: walking
       firstFrame: 121
       lastFrame: 165
+      wrapMode: 2
+      loop: 1
+    - name: attack
+      firstFrame: 166
+      lastFrame: 245
+      wrapMode: 2
+      loop: 1
+    - name: damage
+      firstFrame: 246
+      lastFrame: 330
+      wrapMode: 2
+      loop: 1
+    - name: death
+      firstFrame: 331
+      lastFrame: 450
       wrapMode: 2
       loop: 1
   meshes:
@@ -56,475 +74,475 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: 0e870100
+        second: a0860100
       data:
         first: 4
-        second: ee1a0600
+        second: 801a0600
       data:
         first: 111
         second: 605fa900
     Bone001:
       data:
         first: 1
-        second: f4860100
-      data:
-        first: 4
-        second: d41a0600
-    BoneBradD1:
-      data:
-        first: 1
-        second: 02870100
-      data:
-        first: 4
-        second: e21a0600
-    BoneBradD2:
-      data:
-        first: 1
-        second: 00870100
-      data:
-        first: 4
-        second: e01a0600
-    BoneBradG1:
-      data:
-        first: 1
-        second: e8860100
-      data:
-        first: 4
-        second: c81a0600
-    BoneBradG2:
-      data:
-        first: 1
-        second: e6860100
-      data:
-        first: 4
-        second: c61a0600
-    BoneCoinD:
-      data:
-        first: 1
-        second: d8860100
-      data:
-        first: 4
-        second: b81a0600
-    BoneCoinG:
-      data:
-        first: 1
-        second: 18870100
-      data:
-        first: 4
-        second: f81a0600
-    BoneColonne1:
-      data:
-        first: 1
-        second: f2860100
-      data:
-        first: 4
-        second: d21a0600
-    BoneColonne2:
-      data:
-        first: 1
-        second: f0860100
-      data:
-        first: 4
-        second: d01a0600
-    BoneColonne3:
-      data:
-        first: 1
-        second: ee860100
-      data:
-        first: 4
-        second: ce1a0600
-    BoneColonne4:
-      data:
-        first: 1
-        second: ec860100
-      data:
-        first: 4
-        second: cc1a0600
-    BoneCuisseD:
-      data:
-        first: 1
-        second: b8860100
-      data:
-        first: 4
-        second: 981a0600
-    BoneCuisseG:
-      data:
-        first: 1
-        second: d2860100
-      data:
-        first: 4
-        second: b21a0600
-    BoneDoigtD1-1:
-      data:
-        first: 1
-        second: f8860100
-      data:
-        first: 4
-        second: d81a0600
-    BoneDoigtD1-2:
-      data:
-        first: 1
         second: f6860100
       data:
         first: 4
         second: d61a0600
-    BoneDoigtD2-1:
-      data:
-        first: 1
-        second: fc860100
-      data:
-        first: 4
-        second: dc1a0600
-    BoneDoigtD2-2:
-      data:
-        first: 1
-        second: fa860100
-      data:
-        first: 4
-        second: da1a0600
-    BoneDoigtG1-1:
-      data:
-        first: 1
-        second: e2860100
-      data:
-        first: 4
-        second: c21a0600
-    BoneDoigtG1-2:
-      data:
-        first: 1
-        second: e0860100
-      data:
-        first: 4
-        second: c01a0600
-    BoneDoigtG2-1:
-      data:
-        first: 1
-        second: de860100
-      data:
-        first: 4
-        second: be1a0600
-    BoneDoigtG2-2:
-      data:
-        first: 1
-        second: 06870100
-      data:
-        first: 4
-        second: e61a0600
-    BoneEpauleD:
+    BoneBradD1:
       data:
         first: 1
         second: 04870100
       data:
         first: 4
         second: e41a0600
-    BoneEpauleG:
+    BoneBradD2:
       data:
         first: 1
-        second: ea860100
+        second: 02870100
       data:
         first: 4
-        second: ca1a0600
-    BoneJambeD1:
-      data:
-        first: 1
-        second: bc860100
-      data:
-        first: 4
-        second: 9c1a0600
-    BoneJambeD2:
-      data:
-        first: 1
-        second: ba860100
-      data:
-        first: 4
-        second: 9a1a0600
-    BoneJambeD3:
-      data:
-        first: 1
-        second: aa860100
-      data:
-        first: 4
-        second: 8a1a0600
-    BoneJambeG1:
-      data:
-        first: 1
-        second: cc860100
-      data:
-        first: 4
-        second: ac1a0600
-    BoneJambeG2:
-      data:
-        first: 1
-        second: ca860100
-      data:
-        first: 4
-        second: aa1a0600
-    BoneJambeG3:
-      data:
-        first: 1
-        second: c8860100
-      data:
-        first: 4
-        second: a81a0600
-    BoneMachoire:
-      data:
-        first: 1
-        second: 20870100
-      data:
-        first: 4
-        second: 001b0600
-    BoneMainD:
-      data:
-        first: 1
-        second: fe860100
-      data:
-        first: 4
-        second: de1a0600
-    BoneMainG:
-      data:
-        first: 1
-        second: e4860100
-      data:
-        first: 4
-        second: c41a0600
-    BoneMaster:
-      data:
-        first: 1
-        second: 0a870100
-      data:
-        first: 4
-        second: ea1a0600
-    BoneMuseauD:
-      data:
-        first: 1
-        second: d6860100
-      data:
-        first: 4
-        second: b61a0600
-    BoneMuseauG:
-      data:
-        first: 1
-        second: d4860100
-      data:
-        first: 4
-        second: b41a0600
-    BoneOeilD:
-      data:
-        first: 1
-        second: 1e870100
-      data:
-        first: 4
-        second: fe1a0600
-    BoneOeilG:
-      data:
-        first: 1
-        second: 1c870100
-      data:
-        first: 4
-        second: fc1a0600
-    BoneOrteilD1-1:
-      data:
-        first: 1
-        second: b4860100
-      data:
-        first: 4
-        second: 941a0600
-    BoneOrteilD1-2:
-      data:
-        first: 1
-        second: c0860100
-      data:
-        first: 4
-        second: a01a0600
-    BoneOrteilD2-1:
-      data:
-        first: 1
-        second: 1a870100
-      data:
-        first: 4
-        second: fa1a0600
-    BoneOrteilD2-2:
-      data:
-        first: 1
-        second: a4860100
-      data:
-        first: 4
-        second: 841a0600
-    BoneOrteilD3-1:
-      data:
-        first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-    BoneOrteilD3-2:
-      data:
-        first: 1
-        second: 24870100
-      data:
-        first: 4
-        second: 041b0600
-    BoneOrteilG1-1:
-      data:
-        first: 1
-        second: ae860100
-      data:
-        first: 4
-        second: 8e1a0600
-    BoneOrteilG1-2:
-      data:
-        first: 1
-        second: ac860100
-      data:
-        first: 4
-        second: 8c1a0600
-    BoneOrteilG2-1:
-      data:
-        first: 1
-        second: dc860100
-      data:
-        first: 4
-        second: bc1a0600
-    BoneOrteilG2-2:
-      data:
-        first: 1
-        second: da860100
-      data:
-        first: 4
-        second: ba1a0600
-    BoneOrteilG3-1:
-      data:
-        first: 1
-        second: b2860100
-      data:
-        first: 4
-        second: 921a0600
-    BoneOrteilG3-2:
-      data:
-        first: 1
-        second: b0860100
-      data:
-        first: 4
-        second: 901a0600
-    BonePaupiereBasD:
+        second: e21a0600
+    BoneBradG1:
       data:
         first: 1
         second: 14870100
       data:
         first: 4
         second: f41a0600
-    BonePaupiereBasG:
-      data:
-        first: 1
-        second: 10870100
-      data:
-        first: 4
-        second: f01a0600
-    BonePaupiereHautD:
-      data:
-        first: 1
-        second: 16870100
-      data:
-        first: 4
-        second: f61a0600
-    BonePaupiereHautG:
+    BoneBradG2:
       data:
         first: 1
         second: 12870100
       data:
         first: 4
         second: f21a0600
-    BonePiedD:
+    BoneCoinD:
       data:
         first: 1
-        second: b6860100
+        second: e2860100
       data:
         first: 4
-        second: 961a0600
-    BonePiedG:
+        second: c21a0600
+    BoneCoinG:
       data:
         first: 1
-        second: c6860100
+        second: e4860100
       data:
         first: 4
-        second: a61a0600
-    BonePosterieur:
+        second: c41a0600
+    BoneColonne1:
       data:
         first: 1
-        second: d0860100
+        second: 1e870100
       data:
         first: 4
-        second: b01a0600
-    BoneQueue1:
+        second: fe1a0600
+    BoneColonne2:
       data:
         first: 1
-        second: ce860100
+        second: 1c870100
       data:
         first: 4
-        second: ae1a0600
-    BoneQueue2:
+        second: fc1a0600
+    BoneColonne3:
       data:
         first: 1
-        second: c4860100
+        second: 1a870100
       data:
         first: 4
-        second: a41a0600
-    BoneQueue3:
+        second: fa1a0600
+    BoneColonne4:
       data:
         first: 1
-        second: c2860100
+        second: 18870100
       data:
         first: 4
-        second: a21a0600
-    BoneQueue4:
+        second: f81a0600
+    BoneCuisseD:
       data:
         first: 1
-        second: a8860100
+        second: ba860100
       data:
         first: 4
-        second: 881a0600
-    BoneQueue5:
+        second: 9a1a0600
+    BoneCuisseG:
       data:
         first: 1
-        second: a6860100
+        second: dc860100
       data:
         first: 4
-        second: 861a0600
-    BoneTete:
+        second: bc1a0600
+    BoneDoigtD1-1:
       data:
         first: 1
-        second: 22870100
+        second: fa860100
       data:
         first: 4
-        second: 021b0600
-    DummyBassin:
+        second: da1a0600
+    BoneDoigtD1-2:
       data:
         first: 1
-        second: 08870100
+        second: f8860100
       data:
         first: 4
-        second: e81a0600
-    IK Chain001:
+        second: d81a0600
+    BoneDoigtD2-1:
       data:
         first: 1
-        second: a0860100
+        second: fe860100
       data:
         first: 4
-        second: 801a0600
-    IK Chain002:
+        second: de1a0600
+    BoneDoigtD2-2:
       data:
         first: 1
-        second: be860100
+        second: fc860100
       data:
         first: 4
-        second: 9e1a0600
-    tyrannosaur:
+        second: dc1a0600
+    BoneDoigtG1-1:
+      data:
+        first: 1
+        second: 0e870100
+      data:
+        first: 4
+        second: ee1a0600
+    BoneDoigtG1-2:
       data:
         first: 1
         second: 0c870100
       data:
         first: 4
         second: ec1a0600
+    BoneDoigtG2-1:
+      data:
+        first: 1
+        second: 0a870100
+      data:
+        first: 4
+        second: ea1a0600
+    BoneDoigtG2-2:
+      data:
+        first: 1
+        second: 08870100
+      data:
+        first: 4
+        second: e81a0600
+    BoneEpauleD:
+      data:
+        first: 1
+        second: 06870100
+      data:
+        first: 4
+        second: e61a0600
+    BoneEpauleG:
+      data:
+        first: 1
+        second: 16870100
+      data:
+        first: 4
+        second: f61a0600
+    BoneJambeD1:
+      data:
+        first: 1
+        second: b8860100
+      data:
+        first: 4
+        second: 981a0600
+    BoneJambeD2:
+      data:
+        first: 1
+        second: b6860100
+      data:
+        first: 4
+        second: 961a0600
+    BoneJambeD3:
+      data:
+        first: 1
+        second: b4860100
+      data:
+        first: 4
+        second: 941a0600
+    BoneJambeG1:
+      data:
+        first: 1
+        second: da860100
+      data:
+        first: 4
+        second: ba1a0600
+    BoneJambeG2:
+      data:
+        first: 1
+        second: d8860100
+      data:
+        first: 4
+        second: b81a0600
+    BoneJambeG3:
+      data:
+        first: 1
+        second: d6860100
+      data:
+        first: 4
+        second: b61a0600
+    BoneMachoire:
+      data:
+        first: 1
+        second: f2860100
+      data:
+        first: 4
+        second: d21a0600
+    BoneMainD:
+      data:
+        first: 1
+        second: 00870100
+      data:
+        first: 4
+        second: e01a0600
+    BoneMainG:
+      data:
+        first: 1
+        second: 10870100
+      data:
+        first: 4
+        second: f01a0600
+    BoneMaster:
+      data:
+        first: 1
+        second: 22870100
+      data:
+        first: 4
+        second: 021b0600
+    BoneMuseauD:
+      data:
+        first: 1
+        second: e0860100
+      data:
+        first: 4
+        second: c01a0600
+    BoneMuseauG:
+      data:
+        first: 1
+        second: de860100
+      data:
+        first: 4
+        second: be1a0600
+    BoneOeilD:
+      data:
+        first: 1
+        second: f0860100
+      data:
+        first: 4
+        second: d01a0600
+    BoneOeilG:
+      data:
+        first: 1
+        second: ee860100
+      data:
+        first: 4
+        second: ce1a0600
+    BoneOrteilD1-1:
+      data:
+        first: 1
+        second: b0860100
+      data:
+        first: 4
+        second: 901a0600
+    BoneOrteilD1-2:
+      data:
+        first: 1
+        second: ae860100
+      data:
+        first: 4
+        second: 8e1a0600
+    BoneOrteilD2-1:
+      data:
+        first: 1
+        second: ac860100
+      data:
+        first: 4
+        second: 8c1a0600
+    BoneOrteilD2-2:
+      data:
+        first: 1
+        second: aa860100
+      data:
+        first: 4
+        second: 8a1a0600
+    BoneOrteilD3-1:
+      data:
+        first: 1
+        second: a8860100
+      data:
+        first: 4
+        second: 881a0600
+    BoneOrteilD3-2:
+      data:
+        first: 1
+        second: a6860100
+      data:
+        first: 4
+        second: 861a0600
+    BoneOrteilG1-1:
+      data:
+        first: 1
+        second: ce860100
+      data:
+        first: 4
+        second: ae1a0600
+    BoneOrteilG1-2:
+      data:
+        first: 1
+        second: cc860100
+      data:
+        first: 4
+        second: ac1a0600
+    BoneOrteilG2-1:
+      data:
+        first: 1
+        second: ca860100
+      data:
+        first: 4
+        second: aa1a0600
+    BoneOrteilG2-2:
+      data:
+        first: 1
+        second: c8860100
+      data:
+        first: 4
+        second: a81a0600
+    BoneOrteilG3-1:
+      data:
+        first: 1
+        second: d2860100
+      data:
+        first: 4
+        second: b21a0600
+    BoneOrteilG3-2:
+      data:
+        first: 1
+        second: d0860100
+      data:
+        first: 4
+        second: b01a0600
+    BonePaupiereBasD:
+      data:
+        first: 1
+        second: ea860100
+      data:
+        first: 4
+        second: ca1a0600
+    BonePaupiereBasG:
+      data:
+        first: 1
+        second: e6860100
+      data:
+        first: 4
+        second: c61a0600
+    BonePaupiereHautD:
+      data:
+        first: 1
+        second: ec860100
+      data:
+        first: 4
+        second: cc1a0600
+    BonePaupiereHautG:
+      data:
+        first: 1
+        second: e8860100
+      data:
+        first: 4
+        second: c81a0600
+    BonePiedD:
+      data:
+        first: 1
+        second: b2860100
+      data:
+        first: 4
+        second: 921a0600
+    BonePiedG:
+      data:
+        first: 1
+        second: d4860100
+      data:
+        first: 4
+        second: b41a0600
+    BonePosterieur:
+      data:
+        first: 1
+        second: c6860100
+      data:
+        first: 4
+        second: a61a0600
+    BoneQueue1:
+      data:
+        first: 1
+        second: c4860100
+      data:
+        first: 4
+        second: a41a0600
+    BoneQueue2:
+      data:
+        first: 1
+        second: c2860100
+      data:
+        first: 4
+        second: a21a0600
+    BoneQueue3:
+      data:
+        first: 1
+        second: c0860100
+      data:
+        first: 4
+        second: a01a0600
+    BoneQueue4:
+      data:
+        first: 1
+        second: be860100
+      data:
+        first: 4
+        second: 9e1a0600
+    BoneQueue5:
+      data:
+        first: 1
+        second: bc860100
+      data:
+        first: 4
+        second: 9c1a0600
+    BoneTete:
+      data:
+        first: 1
+        second: f4860100
+      data:
+        first: 4
+        second: d41a0600
+    DummyBassin:
+      data:
+        first: 1
+        second: 20870100
+      data:
+        first: 4
+        second: 001b0600
+    IK Chain001:
+      data:
+        first: 1
+        second: a4860100
+      data:
+        first: 4
+        second: 841a0600
+    IK Chain002:
+      data:
+        first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+    tyrannosaur:
+      data:
+        first: 1
+        second: 24870100
+      data:
+        first: 4
+        second: 041b0600
       data:
         first: 137
         second: a00bd100
