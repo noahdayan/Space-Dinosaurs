@@ -273,10 +273,25 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
 		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
 		
-		yield return new WaitForSeconds(1.0f);
-		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
-		CharacterManager.killUnit(gameObject);
-		Destroy(gameObject);
+		if (species.Equals("tyrannosaur"))
+		{
+			Debug.Log("here");
+			AnimationManager.hold = true;
+			gameObject.transform.FindChild("model").animation.Play("death");
+			yield return new WaitForSeconds(2.0f);
+			CharacterManager.killUnit(gameObject);
+			Destroy(gameObject);
+		}
+			
+		else
+		{	
+			yield return new WaitForSeconds(1.0f);
+			Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
+			CharacterManager.killUnit(gameObject);
+			Destroy(gameObject);
+		}
+		
+		AnimationManager.hold = false;
 	}
 	
 	public void UpdateGuiHealthBar()
