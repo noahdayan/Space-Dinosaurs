@@ -15,5 +15,9 @@ public class AnimationManager : MonoBehaviour {
 			transform.FindChild("model").animation.Play("walking");
 		else if(CharacterManager.aMidTurn && !CharacterManager.aInteractiveUnitIsSelected)
 			transform.FindChild("model").animation.Play("standing");
+		else if(CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			transform.FindChild("model").animation.Play("attack");
+		else if(CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			transform.FindChild("model").animation.Play("damage");
 	}
 }
