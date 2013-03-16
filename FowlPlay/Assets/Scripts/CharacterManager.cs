@@ -20,6 +20,7 @@ public class CharacterManager : MonoBehaviour {
 	public static Quaternion aInteractUnitOriginalRotation;
 
 	public static Quaternion aRotationAfterMove;
+	public static Quaternion aRotationBeforeMove;
 
 	public static int aOriginalMana;
 
