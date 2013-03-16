@@ -41,6 +41,10 @@ public class TileSelection : MonoBehaviour {
 				}
 			}
 		}
+		else
+		{
+			GameObject.Find("GUI Mana Points").SendMessage("ShakeText");
+		}
 	}
 
 }

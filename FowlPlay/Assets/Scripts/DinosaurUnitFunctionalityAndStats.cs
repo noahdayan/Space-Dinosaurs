@@ -83,6 +83,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	 */
 	public int TakeAttackDamage(int dmg)
 	{
+		int temp = healthPoints;
 		//Need to make a better formula.
 		int actualDamageTaken = dmg - defensePoints;
 		RemoveTamePoints(fury);
@@ -101,7 +102,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		//Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
-		UpdateGuiHealthBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
 	}
 	
@@ -109,12 +110,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	// If the recovery amount would result in having more HP than the max, just make it the max.
 	public void RecoverHP(int pAmount)
 	{
+		int temp = healthPoints;
 		healthPoints += pAmount;
 		
 		if (healthPoints > maxHealthPoints)
 			healthPoints = maxHealthPoints;
 		
-		UpdateGuiHealthBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 	}
 	
 	// Stores whether the unit has full HP in a temporary register in ClickAndMove & UntamedManager for the purpose of items.
@@ -127,7 +129,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public float EndTurnTickUntame (Vector3 commanderPosition)
 	{
 		float commanderDistance, commanderRateBonus;//, xDist, zDist;
-		
+		float temp = tamePoints;
 		//Calculating distance from the commander.
 		//xDist = (commanderPosition.x - gameObject.transform.position.x);
 		//zDist = (commanderPosition.z - gameObject.transform.position.z);
@@ -147,7 +149,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (tamePoints < 1)
 			tamePoints = 0.0f;
 		
-		UpdateGuiTameBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", tamePoints, "onupdate", "UpdateGuiTameBarDynamic"));
 		//CheckTamePoints();
 		return tamePoints;
 	}
@@ -162,7 +164,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		float tempTamePoints = tamePoints;
 		float overTP;
 		string teamToSwitchTo = CharacterManager.aCurrentlySelectedUnit.tag;
-		
+		float temp = tamePoints;
 		//Debug.Log("Taming " + gameObject + "\n");
 		//Make a better pokemonlike formular here
 		tempTamePoints += tameAmount * tameRate;
@@ -182,7 +184,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tamed = true;
 			SwitchTeams(teamToSwitchTo);
 		}
-		UpdateGuiTameBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", tamePoints, "onupdate", "UpdateGuiTameBarDynamic"));
 		return tamePoints;
 	}
 	
@@ -303,6 +305,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
 		ProgressBarGUI.tamePoints = (int)tamePoints;
+		ProgressBarGUI.isBird = false;
+	}
+	
+	public void UpdateGuiHealthBarDynamic(int newValue)
+	{
+		ProgressBarGUI.healthBar = (float)newValue / (float)maxHealthPoints;
+		ProgressBarGUI.healthPoints = newValue;
+	}
+	
+	public void UpdateGuiTameBarDynamic(float newValue)
+	{
+		ProgressBarGUI.tamenessBar = newValue/maxTamePoints;
+		ProgressBarGUI.tamePoints = (int)newValue;
 		ProgressBarGUI.isBird = false;
 	}
 	

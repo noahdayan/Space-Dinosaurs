@@ -16,7 +16,7 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	{
 		isTurn = true;
 		mana = startingMana;
-		UpdateGuiMana();
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", startingMana, "onupdate", "UpdateGuiMana"));
 	}
 	
 	void Update()
@@ -36,7 +36,7 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	{
 		CharacterManager.aOriginalMana = mana;
 		mana -= amountToRemove;
-		UpdateGuiMana();
+		iTween.ValueTo(gameObject, iTween.Hash("from", CharacterManager.aOriginalMana, "to", mana, "onupdate", "UpdateGuiMana"));
 		return mana;
 	}
 	
@@ -47,21 +47,22 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	
 	public int RestoreMana ()
 	{
+		iTween.ValueTo(gameObject, iTween.Hash("from", mana, "to", CharacterManager.aOriginalMana, "onupdate", "UpdateGuiMana"));
 		mana = CharacterManager.aOriginalMana;
-		UpdateGuiMana();
 		return mana;
 	}
 	
 	public void StartTurn()
 	{
+		int temp = mana;
 		mana += manaPerTurn + bonus;
 		isTurn = true;
-		UpdateGuiMana();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", mana, "onupdate", "UpdateGuiMana"));
 	}
 	
-	public void UpdateGuiMana()
+	public void UpdateGuiMana(int newValue)
 	{
-		ManaPointsGUI.manaPoints = mana;
+		ManaPointsGUI.manaPoints = newValue;
 	}
 	
 	public void CheckLegalMove (int manaCost)

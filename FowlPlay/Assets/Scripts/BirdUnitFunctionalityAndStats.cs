@@ -44,6 +44,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	 */
 	public int TakeAttackDamage(int dmg)
 	{
+		int temp = healthPoints;
 		//Need to make a better formula.
 		int actualDamageTaken = dmg - defensePoints;
 		if (dmg - defensePoints > 0)
@@ -61,7 +62,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
-		UpdateGuiHealthBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
 	}
 	
@@ -69,12 +70,13 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	// If the recovery amount would result in having more HP than the max, just make it the max.
 	public void RecoverHP(int pAmount)
 	{
+		int temp = healthPoints;
 		healthPoints += pAmount;
 		
 		if (healthPoints > maxHealthPoints)
 			healthPoints = maxHealthPoints;
 		
-		UpdateGuiHealthBar();
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiManaDynamic"));
 	}
 	
 	// Stores whether the unit has full HP in a temporary register in ClickAndMove & UntamedManager for the purpose of items.
@@ -148,6 +150,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 		ProgressBarGUI.healthPoints = healthPoints;
+	}
+	
+	public void UpdateGuiHealthBarDynamic(int newValue)
+	{
+		ProgressBarGUI.healthBar = (float)newValue / (float)maxHealthPoints;
+		ProgressBarGUI.healthPoints = newValue;
 	}
 	
 	public void UpdateGuiTameBar()

@@ -99,5 +99,14 @@ public class ArrowKeysMove : MonoBehaviour {
 		{
 			transform.position += (Vector3.back + Vector3.right) * Time.deltaTime * speed;
 		}	
+		
+		if(Input.GetKey(KeyCode.Q))
+		{
+			transform.RotateAround(Vector3.zero, Vector3.up, speed * Time.deltaTime);
+		}
+		if(Input.GetKey(KeyCode.E))
+		{
+			transform.RotateAround(Vector3.zero, Vector3.down, speed * Time.deltaTime);
+		}
 	}
 }

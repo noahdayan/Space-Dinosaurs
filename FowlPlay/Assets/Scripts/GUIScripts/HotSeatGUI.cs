@@ -15,8 +15,16 @@ public class HotSeatGUI : MonoBehaviour {
 	
 	IEnumerator showText(string message) {
 		guiText.text = message;
+		iTween.ValueTo(gameObject, iTween.Hash("from", -0.5f, "to", 0.5f, "onupdate", "UpdatePosition"));
 		guiText.enabled = true;
 		yield return new WaitForSeconds(2.0f);
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0.5f, "to", 1.5f, "onupdate", "UpdatePosition"));
+		yield return new WaitForSeconds(2.0f);
 		guiText.enabled = false;
+	}
+	
+	void UpdatePosition(float newValue)
+	{
+		gameObject.transform.position = new Vector3(newValue, 0.5f, 0.0f);
 	}
 }
