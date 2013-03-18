@@ -38,7 +38,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		
 		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(cancelButton), "Cancel"))
+		if(GUI.Button(new Rect(cancelButton), "3 Cancel") || (Input.GetKeyDown(KeyCode.Alpha3) && GUI.enabled))
 		{
 			audio.PlayOneShot(click);
 			
@@ -46,7 +46,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("cancelMove");
 		}
 		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(attackButton), "Attack"))
+		if(GUI.Button(new Rect(attackButton), "1 Attack") || (Input.GetKeyDown(KeyCode.Alpha1) && GUI.enabled))
 		{
 			audio.PlayOneShot(click);
 			if (CharacterManager.aInteractiveUnitIsSelected)
@@ -57,7 +57,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		}
 		if(!isBird)
 		{
-			if(GUI.Button(new Rect(abilityButton), "Ability"))
+			if(GUI.Button(new Rect(abilityButton), "2 Ability") || (Input.GetKeyDown(KeyCode.Alpha2) && GUI.enabled))
 			{
 				audio.PlayOneShot(click);
 			}
@@ -65,7 +65,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		else
 		{
 			GUI.enabled = untamed;
-			if(GUI.Button(new Rect(tameButton), "Tame"))
+			if(GUI.Button(new Rect(tameButton), "2 Tame") || (Input.GetKeyDown(KeyCode.Alpha2) && GUI.enabled))
 			{
 				audio.PlayOneShot(click);
 				if (CharacterManager.aInteractiveUnitIsSelected)
@@ -76,7 +76,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 		}
 		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(waitButton), "Wait"))
+		if(GUI.Button(new Rect(waitButton), "4 Wait") || (Input.GetKeyDown(KeyCode.Alpha4) && GUI.enabled))
 		{
 			audio.PlayOneShot(click);
 			if(CharacterManager.aMidTurn)
@@ -93,7 +93,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 		}
 		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(endTurnButton), "End Turn"))
+		if(GUI.Button(new Rect(endTurnButton), "5 End Turn") || (Input.GetKeyDown(KeyCode.Alpha5) && GUI.enabled))
 		{
 			audio.PlayOneShot(click);
 			manager.SendMessage("endTurn");
