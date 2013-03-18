@@ -15,6 +15,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public int moveCost = 1;
 	public int moveRange = 3;
 	public int attackRange = 2;
+	public int abilityCost = -1;
 	//How quickly this unit gets tamed
 	public float tameRate = 1.0f;
 	//The amount of tameness that goes away each turn.
@@ -324,6 +325,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateGuiTameButton()
 	{
 		PlayMenuGUI.untamed = !tamed;
+	}
+	
+	public void UpdateGuiCosts()
+	{
+		PlayMenuGUI.abilityCost = abilityCost;
+		PlayMenuGUI.attackCost = attackCost;
+		PlayMenuGUI.moveCost = moveCost;
 	}
 	
 	public void UpdateColor()

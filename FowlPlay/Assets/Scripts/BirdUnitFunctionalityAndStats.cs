@@ -169,6 +169,13 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		PlayMenuGUI.untamed = false;
 	}	
 	
+	public void UpdateGuiCosts()
+	{
+		PlayMenuGUI.tameCost = tameCost;
+		PlayMenuGUI.attackCost = attackCost;
+		PlayMenuGUI.moveCost = moveCost;
+	}
+	
 	public void UpdateColor()
 	{
 		if (tag == "Player1")
