@@ -29,32 +29,31 @@ public class ArrowKeysMove : MonoBehaviour {
 		transform.Translate(tempKey * speed * Time.deltaTime, Space.Self);
 		transform.Translate(tempMouse * scrollSpeed * Time.deltaTime, Space.Self);
 		
-		/*
+		transform.position = new Vector3(Mathf.Clamp(transform.position.x, xRange.y, xRange.x), Mathf.Clamp(transform.position.y, yRange.y, yRange.x), Mathf.Clamp(transform.position.z, zRange.y, zRange.x));
+		
 		//MOUSE MOVEMENT
 		//~~~HORIZONTAL~~~
 		//Move Camera Right, and check if it's in range
-		if ( Input.mousePosition.x >= Screen.width - mDelta && transform.position.x < xRange.x && transform.position.z < zRange.x)
+		if ( Input.mousePosition.x >= Screen.width - mDelta)
 	    {
-        	// Move the camera
-        	transform.position += (Vector3.forward + Vector3.right) * Time.deltaTime * speed;
+        	transform.Translate(Vector3.right * speed * Time.deltaTime, Space.Self);
 		}
 		//Move Camera Left, and check if it's in range
-		if (Input.mousePosition.x <= mDelta && xRange.y < transform.position.x && zRange.y < transform.position.z)
+		if (Input.mousePosition.x <= mDelta)
 		{
-			transform.position += (Vector3.back + Vector3.left) * Time.deltaTime * speed;
+			transform.Translate(Vector3.left * speed * Time.deltaTime, Space.Self);
 		}
 		//~~~VERTICAL~~~
 		//Move Camera Up, and check if it's in range
-		if (Input.mousePosition.y >= Screen.height - mDelta && transform.position.z < zRange.x && xRange.y < transform.position.x)
+		if (Input.mousePosition.y >= Screen.height - mDelta)
 		{
-			transform.position += (Vector3.forward + Vector3.left) * Time.deltaTime * speed;
+			transform.Translate((Vector3.forward + Vector3.up) * speed * Time.deltaTime, Space.Self);
 		}
 		//Move Camera Down, and check if it's in range
-		if (Input.mousePosition.y <= mDelta && zRange.y < transform.position.z && transform.position.x < xRange.x)
+		if (Input.mousePosition.y <= mDelta)
 		{
-			transform.position += (Vector3.back + Vector3.right) * Time.deltaTime * speed;
-		}	
-		*/
+			transform.Translate((Vector3.back + Vector3.down) * speed * Time.deltaTime, Space.Self);
+		}
 		
 		if(Input.GetKey(KeyCode.Q))
 		{
