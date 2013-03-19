@@ -45,6 +45,9 @@ public class ClickAndMove : MonoBehaviour
 		
 		CharacterManager.aMidTurn = true;
 		
+		//Spend The Unit's Movement
+		CharacterManager.aCurrentlySelectedUnit.SendMessage("SpendMovement");
+		
 		// Check to see if there are any items at the destination.
 		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
 		{

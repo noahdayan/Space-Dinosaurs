@@ -24,6 +24,7 @@ public class PlayMenuGUI : MonoBehaviour {
 	Rect menuAreaNormalized;
 	public static bool isBird = false;
 	public static bool untamed = false;
+	//public static bool attackIsSpent = false;
 	
 	GameObject manager;
 	
@@ -62,7 +63,11 @@ public class PlayMenuGUI : MonoBehaviour {
 			if(CharacterManager.aMidTurn)
 				manager.SendMessage("cancelMove");
 		}
-		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		//if (!isBird && CharacterManager.aCurrentlySelectedUnit)
+		//	CharacterManager.aCurrentlySelectedUnit.SendMessage("SendAttackSpentStatus");
+		//else
+		//	attackIsSpent = false;
+		GUI.enabled = CharacterManager.aInteractiveUnitIsSelected && PlayerFunctionalityAndStats.isLegalMove && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);// && !attackIsSpent;
 		if(GUI.Button(new Rect(attackButton), "[1] Attack: " + attackCost) || (Input.GetKeyDown(KeyCode.Alpha1) && GUI.enabled))
 		{
 			audio.PlayOneShot(click);

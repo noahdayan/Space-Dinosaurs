@@ -199,6 +199,25 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		return 0.0f;
 	}
 	
+	
+	//Resetting the spent values and recoloring unit.
+	public void StartTurn()
+	{
+		UpdateColor();
+	}
+	
+	public void SpendMovement()
+	{
+		//moveSpent = true;
+		UpdateColor();
+	}
+	
+	public void UnspendMovement()
+	{
+		//moveSpent = false;
+		;
+	}
+	
 	public void SelectedColor()
 	{
 		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.

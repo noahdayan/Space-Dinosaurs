@@ -231,6 +231,7 @@ public class CharacterManager : MonoBehaviour {
 				foreach (GameObject unit in player1Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird1.transform.position);
+					unit.SendMessage("StartTurn");
 					
 					if (!isBird(unit))
 						if (unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamePoints <= 0)
@@ -252,6 +253,7 @@ public class CharacterManager : MonoBehaviour {
 				foreach (GameObject unit in player2Units)
 				{
 					unit.SendMessage("EndTurnTickUntame", bird2.transform.position);
+					unit.SendMessage("StartTurn");
 					
 					if (!isBird(unit))
 						if (unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamePoints <= 0)
@@ -362,6 +364,8 @@ public class CharacterManager : MonoBehaviour {
 		SendMessage("deselectTile");
 		selectUnit(temp);
 		ClickAndMove.aMovementHappened = false;
+		//Unspending Movement
+		CharacterManager.aCurrentlySelectedUnit.SendMessage("UnspendMovement");
 		
 		if (aInteractiveUnitIsSelected)
 		{

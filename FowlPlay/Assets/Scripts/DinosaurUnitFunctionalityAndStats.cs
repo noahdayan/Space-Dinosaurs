@@ -38,6 +38,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public Color player2Color = Color.blue;
 	public Color enemyColor = Color.red;
 	public Color selectColor = Color.yellow;
+	public Color spentColor = Color.gray;
 	
 	public Color unitColor;
 	public Color currentColor;
@@ -54,17 +55,27 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		unit.SendMessage("TakeAttackDamage", attackPoints);
-		RemoveTamePoints(bloodlust);
+		if (!attackSpent)
+		{
+			//Dealing damage to the unit that we are attacking.
+			unit.SendMessage("TakeAttackDamage", attackPoints);
+			//Remove tame points for attacking.
+			RemoveTamePoints(bloodlust);
+			//This unit has spent its attack for the turn.
+			attackSpent = true;
+			UpdateColor();
 		
-		if (gameObject.tag == "Player1")
-		{
-			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+			if (gameObject.tag == "Player1")
+			{
+				CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+			}
+			else if (gameObject.tag == "Player2")
+			{
+				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+			}
 		}
-		else if (gameObject.tag == "Player2")
-		{
-			CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
-		}
+		else
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Attack Already Used This Turn!!");
 	}
 	
 	public void RemoveMoveMana()
@@ -337,6 +348,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		PlayMenuGUI.moveCost = moveCost;
 	}
 	
+	//Changes the color of the unit according to which team it's on (or if it is spent).
 	public void UpdateColor()
 	{
 		if (tag == "Player1")
@@ -357,7 +369,37 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			gameObject.transform.FindChild("HUD Point").renderer.material.color = enemyColor;
 			unitColor = enemyColor;
 		}
+		
+		if (attackSpent && moveSpent)
+		{
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = spentColor;
+		}
+		
 	}
+	
+	//Resetting the spent values and recoloring unit.
+	public void StartTurn()
+	{
+		moveSpent = false;
+		attackSpent = false;
+		UpdateColor();
+	}
+	
+	public void SpendMovement()
+	{
+		moveSpent = true;
+		UpdateColor();
+	}
+	
+	public void UnspendMovement()
+	{
+		moveSpent = false;
+	}
+	
+	/*public void SendAttackSpentStatus()
+	{
+		PlayMenuGUI.attackIsSpent = attackSpent;
+	}*/
 	
 	public void SelectedColor()
 	{
@@ -365,6 +407,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		gameObject.transform.FindChild("model").FindChild("body").renderer.material.color = selectColor;
 	}
 	
+	//Remove a flat number of tame points.
 	public void RemoveTamePoints(float tp)
 	{
 		int showTP;
@@ -378,6 +421,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
 	}
 	
+	//Adding flat amount of tame points.
 	public void AddTamePoints(float tp)
 	{
 		int showTP;
