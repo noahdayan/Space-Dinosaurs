@@ -15,8 +15,11 @@ public class PauseMenuGUI : MonoBehaviour {
 	public Rect quitButton;
 	Rect menuAreaNormalized;
 	string menuPage = "main";
-	public Rect options;
+	public Rect musicToggle;
+	public Rect sfxToggle;
 	public static bool isPaused = false;
+	public static bool music = true;
+	public static bool sfx = true;
 	
 	// Use this for initialization
 	void Start () {
@@ -74,7 +77,8 @@ public class PauseMenuGUI : MonoBehaviour {
 			}
 			else if(menuPage == "options")
 			{
-				GUI.Label(new Rect(options), "Options Here");
+				music = GUI.Toggle(new Rect(musicToggle), music, "Music");
+				sfx = GUI.Toggle(new Rect(sfxToggle), sfx, "SFX");
 				if(GUI.Button(new Rect(quitButton), "Back"))
 				{
 					audio.PlayOneShot(click);
