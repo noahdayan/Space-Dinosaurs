@@ -30,6 +30,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public bool tamed = false;
 	public string species;
 	public GameObject deathParticle;
+	//Active Variables
+	public bool attackSpent = false;
+	public bool moveSpent = false;
 	//Colors
 	public Color player1Color = Color.green;
 	public Color player2Color = Color.blue;

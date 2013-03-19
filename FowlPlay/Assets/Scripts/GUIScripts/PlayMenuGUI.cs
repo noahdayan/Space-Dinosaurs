@@ -16,10 +16,10 @@ public class PlayMenuGUI : MonoBehaviour {
 	public Rect cancelButton;
 	public Rect endTurnButton;
 	
-	public static int attackCost = -1;
-	public static int tameCost = -1;
-	public static int abilityCost = -1;
-	public static int moveCost = -1;
+	public static int attackCost = 0;
+	public static int tameCost = 0;
+	public static int abilityCost = 0;
+	public static int moveCost = 0;
 	
 	Rect menuAreaNormalized;
 	public static bool isBird = false;
@@ -42,6 +42,13 @@ public class PlayMenuGUI : MonoBehaviour {
 		if (CharacterManager.aCurrentlySelectedUnit)
 		{
 			CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiCosts");
+		}
+		else
+		{
+			attackCost = 0;
+			tameCost = 0;
+			abilityCost = 0;
+			moveCost = 0;
 		}
 		GUI.skin = menuSkin;
 		GUI.depth = guiDepth;
