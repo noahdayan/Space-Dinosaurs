@@ -35,6 +35,7 @@ public class PauseMenuGUI : MonoBehaviour {
 			{
 				Time.timeScale = 0.0f;
 				isPaused = true;
+				menuPage = "main";
 			}
 			else
 			{
