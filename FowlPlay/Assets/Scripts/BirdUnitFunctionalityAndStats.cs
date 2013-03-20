@@ -144,6 +144,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
+		GameObject.Find("GUI Hot Seat").SendMessage("showText", "GG NO RE");
+		//yield return new WaitForSeconds(1.0f);
+		//StartCoroutine("ButtonAction", "Menu");
+		Debug.Log("Right before the loadlevel...");
+		Application.LoadLevel("Menu");
+		Debug.Log("Here");
 	}
 	
 	public void UpdateGuiHealthBar()
