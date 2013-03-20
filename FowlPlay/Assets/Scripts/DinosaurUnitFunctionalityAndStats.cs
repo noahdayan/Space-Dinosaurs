@@ -399,7 +399,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	}
 	
 	//Resetting the spent values and recoloring unit.
-	public void StartTurn()
+	public void StartTurnUpdateSpent()
 	{
 		moveSpent = false;
 		attackSpent = false;

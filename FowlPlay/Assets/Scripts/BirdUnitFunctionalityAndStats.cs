@@ -201,7 +201,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	
 	//Resetting the spent values and recoloring unit.
-	public void StartTurn()
+	public void StartTurnUpdateSpent()
 	{
 		UpdateColor();
 	}
