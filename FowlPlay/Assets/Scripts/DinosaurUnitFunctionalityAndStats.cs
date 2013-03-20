@@ -55,7 +55,23 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		if (!attackSpent)
+		GameObject birdCommander;
+		
+		//Checking for mana cost too!
+		if (gameObject.tag == "Player1")
+		{
+			birdCommander = CharacterManager.bird1;
+			birdCommander.SendMessage("CheckLegalMove", attackCost);
+		}	
+		else if (gameObject.tag == "Player2")
+		{
+			birdCommander = CharacterManager.bird2;
+			birdCommander.SendMessage("CheckLegalMove", attackCost);
+		}
+		else
+			PlayerFunctionalityAndStats.isLegalMove = true;
+		
+		if (!attackSpent && PlayerFunctionalityAndStats.isLegalMove)
 		{
 			//Dealing damage to the unit that we are attacking.
 			unit.SendMessage("TakeAttackDamage", attackPoints);
@@ -75,7 +91,12 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			}
 		}
 		else
-			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Attack Already Used This Turn!!");
+		{
+			if (!PlayerFunctionalityAndStats.isLegalMove)
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Insufficient Mana");
+			else
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Can't Attack Again");
+		}
 	}
 	
 	public void RemoveMoveMana()
@@ -396,10 +417,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		moveSpent = false;
 	}
 	
-	/*public void SendAttackSpentStatus()
+	public void SendMoveSpentStatus()
 	{
-		PlayMenuGUI.attackIsSpent = attackSpent;
-	}*/
+		TileSelection.moveIsSpent = moveSpent;
+	}
 	
 	public void SelectedColor()
 	{

@@ -4,6 +4,7 @@ using System.Collections;
 public class TileSelection : MonoBehaviour {
 	
 	private GameObject tileManager;
+	public static bool moveIsSpent = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,12 @@ public class TileSelection : MonoBehaviour {
 	
 	void OnMouseDown()
 	{
-		if(PlayerFunctionalityAndStats.isLegalMove)
+		if (CharacterManager.aSingleUnitIsSelected)
+		{
+			CharacterManager.aCurrentlySelectedUnit.SendMessage("SendMoveSpentStatus");
+		}
+		
+		if(PlayerFunctionalityAndStats.isLegalMove && !moveIsSpent)
 		{
 			// select the tile and move the currently selected unit towards it.
 			if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn && gameObject.renderer.sharedMaterial.name.Equals("RangeBlue"))
@@ -43,7 +49,15 @@ public class TileSelection : MonoBehaviour {
 		}
 		else
 		{
-			GameObject.Find("GUI Mana Points").SendMessage("ShakeText");
+			if (!PlayerFunctionalityAndStats.isLegalMove)
+			{
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Insufficient Mana");
+				GameObject.Find("GUI Mana Points").SendMessage("ShakeText");
+			}
+			else
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Can't Move Again");
+			
+			moveIsSpent = false;
 		}
 	}
 

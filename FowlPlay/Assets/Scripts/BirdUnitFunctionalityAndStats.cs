@@ -218,6 +218,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		;
 	}
 	
+	public void SendMoveSpentStatus()
+	{
+		TileSelection.moveIsSpent = false;
+	}
+	
 	public void SelectedColor()
 	{
 		//ENTIRELY INCOMPLETE, MAYBE HAVE SELECTED UNITS LERP BETWEEEN WHITE AND UNITCOLOR... OR SOMETHING.
