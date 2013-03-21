@@ -41,7 +41,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public Color spentColor = Color.gray;
 	
 	public Color unitColor;
-	public Color currentColor;
+	float flashRate = 1.0f;
+	
 
 	
 	void Start()
@@ -273,6 +274,15 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void CheckTamePoints()
 	{
+		if (tamePoints > 0 && tamePoints <=15 && tamed == true)
+		{
+			StartCoroutine("Flash");
+		}
+		else
+		{
+			StopCoroutine("Flash");
+			StopCoroutine("Return");
+		}
 		if (tamePoints <= 0)
 		{
 			SwitchTeams("Enemy");
@@ -393,6 +403,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (attackSpent && moveSpent)
 		{
+			unitColor = spentColor;
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = spentColor;
 		}
 		
@@ -439,6 +450,15 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			tamePoints = 0;
 		}
 		showTP = (int) tp;
+		if (tamePoints > 0 && tamePoints <= 20 && tamed == true)
+		{
+			StartCoroutine("Flash");
+		}
+		else
+		{
+			StopCoroutine("Flash");
+			StopCoroutine("Return");
+		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
 	}
 	
@@ -454,6 +474,34 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		showTP = (int) tp;
 		gameObject.BroadcastMessage("showTameText", "+" + showTP.ToString());
+	}
+	
+	// When Dino is 
+	// Update is called once per frame
+	IEnumerator Flash()
+	{
+		float t = 0;
+		while(t < flashRate)
+		{
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = Color.Lerp(unitColor,Color.red,t/flashRate);
+			t += Time.deltaTime;
+			yield return null;
+		}
+		gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = Color.red;
+		StartCoroutine("Return");
+	}
+	
+	IEnumerator Return()
+	{
+		float t = 0;
+		while(t < flashRate)
+		{
+			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = Color.Lerp(Color.red,unitColor,t/flashRate);
+			t += Time.deltaTime;
+			yield return null;
+		}
+		gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = unitColor;
+		StartCoroutine("Flash");
 	}
 	
 }
