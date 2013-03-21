@@ -20,6 +20,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	public static bool isPaused = false;
 	public static bool music = true;
 	public static bool sfx = true;
+	public static bool gameOver = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -28,7 +29,7 @@ public class PauseMenuGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Escape))
+		if(Input.GetKeyDown(KeyCode.Escape) && !gameOver)
 		{
 			audio.PlayOneShot(click);
 			if(!isPaused)
@@ -48,21 +49,24 @@ public class PauseMenuGUI : MonoBehaviour {
 	void OnGUI() {
 		GUI.skin = menuSkin;
 		GUI.depth = guiDepth;
-		if(isPaused)
+		if(isPaused || gameOver)
 		{
 			GUI.BeginGroup(menuAreaNormalized);
 			if(menuPage == "main")
 			{
-				if(GUI.Button(new Rect(resumeButton), "Resume"))
+				if(!gameOver)
 				{
-					audio.PlayOneShot(click);
-					Time.timeScale = 1.0f;
-					isPaused = false;
-				}
-				if(GUI.Button(new Rect(optionsButton), "Options"))
-				{
-					audio.PlayOneShot(click);
-					menuPage = "options";
+					if(GUI.Button(new Rect(resumeButton), "Resume"))
+					{
+						audio.PlayOneShot(click);
+						Time.timeScale = 1.0f;
+						isPaused = false;
+					}
+					if(GUI.Button(new Rect(optionsButton), "Options"))
+					{
+						audio.PlayOneShot(click);
+						menuPage = "options";
+					}
 				}
 				if(GUI.Button(new Rect(backMainButton), "Back to Main Menu"))
 				{

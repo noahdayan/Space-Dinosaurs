@@ -23,6 +23,12 @@ public class HotSeatGUI : MonoBehaviour {
 		guiText.enabled = false;
 	}
 	
+	void showTextEnd(string message) {
+		guiText.text = message;
+		UpdatePosition(0.5f);
+		guiText.enabled = true;
+	}
+	
 	void UpdatePosition(float newValue)
 	{
 		gameObject.transform.position = new Vector3(newValue, 0.5f, 0.0f);
