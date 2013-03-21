@@ -36,10 +36,85 @@ public class PlayMenuGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
+		// Hotkeys
+		if (!PauseMenuGUI.isPaused)
+		{
+			// End turn
+			if (Input.GetKeyDown(KeyCode.Alpha5) && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			{
+				audio.PlayOneShot(click);
+				manager.SendMessage("endTurn");
+			}
+			
+			if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			{
+				// Attack
+				if (Input.GetKeyDown(KeyCode.Alpha1))
+				{
+					if (CharacterManager.aInteractiveUnitIsSelected)
+					{
+						manager.SendMessage("attack");
+						manager.SendMessage("EndMidTurn");
+					}
+				}
+				
+				// Ability / Tame
+				else if (Input.GetKeyDown(KeyCode.Alpha2))
+				{
+					if (!isBird) // ability
+					{
+						audio.PlayOneShot(click);
+						// plug ability code here
+					}
+					
+					else // attack
+					{
+						audio.PlayOneShot(click);
+						if (CharacterManager.aInteractiveUnitIsSelected)
+						{
+							manager.SendMessage("tame");
+							manager.SendMessage("EndMidTurn");
+						}
+					}
+				}
+			}
+			
+			// Cancel
+			if (CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			{
+				if (Input.GetKeyDown(KeyCode.Alpha3))
+				{
+					audio.PlayOneShot(click);
+					if(CharacterManager.aMidTurn)
+						manager.SendMessage("cancelMove");
+				}
+			}
+			
+			if (!ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			{
+				if (Input.GetKeyDown(KeyCode.Alpha4))
+				{
+					audio.PlayOneShot(click);
+					if(CharacterManager.aMidTurn)
+					{
+						manager.SendMessage("EndMidTurn");
+					}
+				
+					else
+					{
+						manager.SendMessage("unhighlightRange");
+						CharacterManager.aMidTurn = true;
+						ClickAndMove.aIsObjectMoving = false;
+						manager.SendMessage("paintAttackableTilesAfterMove");
+					}
+				}
+			}	
+		}
 	}
 	
 	void OnGUI() {
+		
 		if (CharacterManager.aCurrentlySelectedUnit)
 		{
 			CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiCosts");
@@ -56,7 +131,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.BeginGroup(menuAreaNormalized);
 		
 		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(cancelButton), "[3] Cancel") || (Input.GetKeyDown(KeyCode.Alpha3) && GUI.enabled))
+		if(GUI.Button(new Rect(cancelButton), "[3] Cancel"))
 		{
 			audio.PlayOneShot(click);
 			
@@ -68,7 +143,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		//else
 		//	attackIsSpent = false;
 		GUI.enabled = CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && /*PlayerFunctionalityAndStats.isLegalMove &&*/ (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);// && !attackIsSpent;
-		if(GUI.Button(new Rect(attackButton), "[1] Attack: " + attackCost) || (Input.GetKeyDown(KeyCode.Alpha1) && GUI.enabled))
+		if(GUI.Button(new Rect(attackButton), "[1] Attack: " + attackCost))
 		{
 			audio.PlayOneShot(click);
 			if (CharacterManager.aInteractiveUnitIsSelected)
@@ -79,7 +154,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		}
 		if(!isBird)
 		{
-			if(GUI.Button(new Rect(abilityButton), "[2] Ability: " + abilityCost) || (Input.GetKeyDown(KeyCode.Alpha2) && GUI.enabled))
+			if(GUI.Button(new Rect(abilityButton), "[2] Ability: " + abilityCost))
 			{
 				audio.PlayOneShot(click);
 			}
@@ -87,7 +162,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		else
 		{
 			GUI.enabled = untamed;
-			if(GUI.Button(new Rect(tameButton), "[2] Tame: " + tameCost) || (Input.GetKeyDown(KeyCode.Alpha2) && GUI.enabled))
+			if(GUI.Button(new Rect(tameButton), "[2] Tame: " + tameCost))
 			{
 				audio.PlayOneShot(click);
 				if (CharacterManager.aInteractiveUnitIsSelected)
@@ -98,7 +173,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 		}
 		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(waitButton), "[4] Wait: " + moveCost) || (Input.GetKeyDown(KeyCode.Alpha4) && GUI.enabled))
+		if(GUI.Button(new Rect(waitButton), "[4] Wait: " + moveCost))
 		{
 			audio.PlayOneShot(click);
 			if(CharacterManager.aMidTurn)
@@ -115,7 +190,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 		}
 		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
-		if(GUI.Button(new Rect(endTurnButton), "[5] End Turn") || (Input.GetKeyDown(KeyCode.Alpha5) && GUI.enabled))
+		if(GUI.Button(new Rect(endTurnButton), "[5] End Turn"))
 		{
 			audio.PlayOneShot(click);
 			manager.SendMessage("endTurn");
