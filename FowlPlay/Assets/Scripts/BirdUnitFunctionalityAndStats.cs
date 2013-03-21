@@ -24,17 +24,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		UpdateColor();
 	}
-	/*void OnMouseEnter()
-	{
-		UpdateColor();
-	}*/
 	
-	/*void OnMouseEnter()
+	void OnMouseEnter()
 	{
-		
-		TameUnit(CharacterManager.aInteractUnit);
-		Debug.Log("Taming " + CharacterManager.aInteractUnit  + "\n");
-	}*/
+		StartCoroutine("Die");
+	}
 	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function
@@ -144,12 +138,17 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
-		GameObject.Find("GUI Hot Seat").SendMessage("showText", "GG NO RE");
+		if(gameObject == CharacterManager.bird1)
+		{
+			GameObject.Find("GUI Hot Seat").SendMessage("showTextEnd", "Player 2 Wins!");
+		}
+		else if(gameObject == CharacterManager.bird2)
+		{
+			GameObject.Find("GUI Hot Seat").SendMessage("showTextEnd", "Player 1 Wins!");
+		}
 		//yield return new WaitForSeconds(1.0f);
-		//StartCoroutine("ButtonAction", "Menu");
-		Debug.Log("Right before the loadlevel...");
-		Application.LoadLevel("Menu");
-		Debug.Log("Here");
+		PauseMenuGUI.gameOver = true;
+		Time.timeScale = 0.0f;
 	}
 	
 	public void UpdateGuiHealthBar()
