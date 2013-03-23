@@ -53,7 +53,7 @@ public class BackgroundGUI : MonoBehaviour {
 		GUI.Window(0, barAreaNormalized, ProgressWindow, "");
 		GUI.Window(1, mapAreaNormalized, MapWindow, "");
 		GUI.Window(2, faceCamAreaNormalized, FaceCamWindow, "");
-		//GUI.Window(3, miniGameAreaNormalized, MiniGameWindow, "");
+	//	GUI.Window(3, miniGameAreaNormalized, MiniGameWindow, "");
 		
 		GameObject.Find("HUD Mini Map Camera").camera.Render();
 		foreach(Camera c in Camera.allCameras)

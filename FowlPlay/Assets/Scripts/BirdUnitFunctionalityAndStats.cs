@@ -25,10 +25,10 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		UpdateColor();
 	}
 	
-	void OnMouseEnter()
+	/*void OnMouseEnter()
 	{
 		StartCoroutine("Die");
-	}
+	}*/
 	
 	/**
 	 * Has this unit take damage, usually called by another unit's "AttackUnit" function

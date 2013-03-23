@@ -78,7 +78,7 @@ public class BlockManager : MonoBehaviour {
 	public static void PlaceBlocks()
 	{
 		//MAYBE MAKE IT A CHILD AND MAKE THESE THINGS RELATIVE
-		Vector3 newPlacement = new Vector3(-15, -15, -15);
+		Vector3 newPlacement = new Vector3(0, 0, 0);
 		
 		for (int i = 0; i < numOfBlocks; i++)
 		{
