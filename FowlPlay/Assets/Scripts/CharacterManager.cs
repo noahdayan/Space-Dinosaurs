@@ -379,7 +379,7 @@ public class CharacterManager : MonoBehaviour {
 	public static void switchTurn()
 	{
 		
-		if(aTurnIsCompleted)
+		if(aTurnIsCompleted && !PauseMenuGUI.gameOver)
 		{
 			if (aTurn == 1)
 			{
