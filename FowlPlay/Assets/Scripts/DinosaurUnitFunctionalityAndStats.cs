@@ -74,6 +74,24 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (!attackSpent && PlayerFunctionalityAndStats.isLegalMove)
 		{
+			//~~~~~~~MINI GAME START HERE
+			//Activate mini game stuff and camera
+			BackgroundGUI.inMiniGame = true;
+			GameObject.Find("Mini Game Camera").camera.enabled = true;
+			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
+			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+			
+			//Start coroutine, that will modify the variable bonusDamage
+			
+			//busy loop that runs till the coroutine is done.
+			
+			
+			//BackgroundGUI.inMiniGame = false;
+			
+			
+			//~~~~~~~MINI GAME END HERE
+			//Make sure to add the bonus to attackPoints
+			
 			//Dealing damage to the unit that we are attacking.
 			unit.SendMessage("TakeAttackDamage", attackPoints);
 			//Remove tame points for attacking.

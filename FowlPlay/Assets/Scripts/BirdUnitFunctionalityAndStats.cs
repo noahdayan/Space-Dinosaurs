@@ -87,7 +87,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void AttackUnit (GameObject unit)
 	{
-		unit.SendMessage("TakeAttackDamage", attackPoints);
+		/*unit.SendMessage("TakeAttackDamage", attackPoints);
 		if (gameObject.tag == "Player1")
 		{
 			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
@@ -95,7 +95,49 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		else if (gameObject.tag == "Player2")
 		{
 			CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+		}*/
+		gameObject.SendMessage("CheckLegalMove", attackCost);
+		
+		if (PlayerFunctionalityAndStats.isLegalMove)
+		{
+			//~~~~~~~MINI GAME START HERE
+			//Activate mini game stuff and camera
+			
+			GameObject.Find("Mini Game Camera").camera.enabled = true;
+			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
+			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+			
+			//Start coroutine, that will modify the variable bonusDamage
+			
+			
+			
+			//busy loop that runs till the coroutine is done.
+			
+			
+			//~~~~~~~MINI GAME END HERE
+			//Make sure to add the bonus to attackPoints
+			
+			
+			//Dealing damage to the unit that we are attacking.
+			unit.SendMessage("TakeAttackDamage", attackPoints);
+			UpdateColor();
+		
+			if (gameObject.tag == "Player1")
+			{
+				CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+			}
+			else if (gameObject.tag == "Player2")
+			{
+				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+			}
 		}
+		else
+		{
+			if (!PlayerFunctionalityAndStats.isLegalMove)
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Insufficient Mana");
+			else
+				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Can't Attack Again");
+		}	
 	}
 	
 	public void RemoveMoveMana()

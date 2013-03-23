@@ -33,6 +33,8 @@ public class BackgroundGUI : MonoBehaviour {
 	Rect faceCamAreaNormalized;
 	Rect miniGameAreaNormalized;
 	
+	public static bool inMiniGame = false;
+	
 	// Use this for initialization
 	void Start () {
 		barAreaNormalized = new Rect(barArea.x, barArea.y, barArea.width, barArea.height);
@@ -53,7 +55,8 @@ public class BackgroundGUI : MonoBehaviour {
 		GUI.Window(0, barAreaNormalized, ProgressWindow, "");
 		GUI.Window(1, mapAreaNormalized, MapWindow, "");
 		GUI.Window(2, faceCamAreaNormalized, FaceCamWindow, "");
-	//	GUI.Window(3, miniGameAreaNormalized, MiniGameWindow, "");
+		if (inMiniGame)
+			GUI.Window(3, miniGameAreaNormalized, MiniGameWindow, "");
 		
 		GameObject.Find("HUD Mini Map Camera").camera.Render();
 		foreach(Camera c in Camera.allCameras)
