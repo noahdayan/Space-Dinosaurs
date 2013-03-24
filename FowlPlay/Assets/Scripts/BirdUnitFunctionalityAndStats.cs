@@ -47,7 +47,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		else
 		{
-			actualDamageTaken = 0;
+			actualDamageTaken = 1;
 		}
 		
 		if (healthPoints <= 0)
@@ -130,6 +130,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			//Dealing damage to the unit that we are attacking.
 			unit.SendMessage("TakeAttackDamage", attackPoints + BarGrowAndHit.counter);
+			BarGrowAndHit.counter = 0;
 			UpdateColor();
 		
 			if (gameObject.tag == "Player1")

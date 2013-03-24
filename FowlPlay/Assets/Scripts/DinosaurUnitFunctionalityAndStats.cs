@@ -107,6 +107,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			//Dealing damage to the unit that we are attacking.
 			unit.SendMessage("TakeAttackDamage", attackPoints + BarGrowAndHit.counter);
+			BarGrowAndHit.counter = 0;
 			//Remove tame points for attacking.
 			RemoveTamePoints(bloodlust);
 			//This unit has spent its attack for the turn.
@@ -161,7 +162,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		else
 		{
-			actualDamageTaken = 0;
+			actualDamageTaken = 1;
 		}
 		
 		if (healthPoints <= 0)
