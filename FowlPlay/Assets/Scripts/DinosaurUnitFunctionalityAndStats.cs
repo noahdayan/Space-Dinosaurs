@@ -54,7 +54,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		UpdateColor();
 	}*/
 	
-	public void AttackUnit (GameObject unit)
+	public IEnumerator AttackUnit (GameObject unit)
 	{
 		GameObject birdCommander;
 		
@@ -86,9 +86,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			float initTime = Time.time;
 			
-			//For now the bar game will be about getting 4 greens in the shortest amount of time
-			//while (BarGrowAndHit.counter < 4)
-			//{;}
+			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
+			yield return new WaitForSeconds(7);
+			
 			
 			float endTime = Time.time;
 			
@@ -106,7 +106,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//Make sure to add the bonus to attackPoints
 			
 			//Dealing damage to the unit that we are attacking.
-			unit.SendMessage("TakeAttackDamage", attackPoints);
+			unit.SendMessage("TakeAttackDamage", attackPoints + BarGrowAndHit.counter);
 			//Remove tame points for attacking.
 			RemoveTamePoints(bloodlust);
 			//This unit has spent its attack for the turn.

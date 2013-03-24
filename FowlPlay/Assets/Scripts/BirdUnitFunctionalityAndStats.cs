@@ -85,7 +85,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		player.SendMessage("RemoveAp", moveCost);
 	}
 	
-	public void AttackUnit (GameObject unit)
+	public IEnumerator AttackUnit (GameObject unit)
 	{
 		/*unit.SendMessage("TakeAttackDamage", attackPoints);
 		if (gameObject.tag == "Player1")
@@ -112,9 +112,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			float initTime = Time.time;
 			
-			//For now the bar game will be about getting 4 greens in the shortest amount of time
-			//while (BarGrowAndHit.counter < 4)
-			//{;}
+			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
+			yield return new WaitForSeconds(7);
 			
 			float endTime = Time.time;
 			
@@ -130,7 +129,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			
 			//Dealing damage to the unit that we are attacking.
-			unit.SendMessage("TakeAttackDamage", attackPoints);
+			unit.SendMessage("TakeAttackDamage", attackPoints + BarGrowAndHit.counter);
 			UpdateColor();
 		
 			if (gameObject.tag == "Player1")
