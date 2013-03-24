@@ -82,13 +82,26 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
 			
 			//Start coroutine, that will modify the variable bonusDamage
-			
 			//busy loop that runs till the coroutine is done.
+			
+			float initTime = Time.time;
+			
+			//For now the bar game will be about getting 4 greens in the shortest amount of time
+			//while (BarGrowAndHit.counter < 4)
+			//{;}
+			
+			float endTime = Time.time;
+			
+			Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
 			
 			
 			//BackgroundGUI.inMiniGame = false;
 			
 			
+			BackgroundGUI.inMiniGame = false;
+			GameObject.Find("Mini Game Camera").camera.enabled = false;
+			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
+			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
 			//~~~~~~~MINI GAME END HERE
 			//Make sure to add the bonus to attackPoints
 			

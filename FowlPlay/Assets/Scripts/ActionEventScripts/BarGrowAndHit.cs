@@ -12,7 +12,7 @@ public class BarGrowAndHit : MonoBehaviour {
 	Vector3 currentScale;
 	Vector3 newScale;
 	public float flashRate = 0.5f;
-	public int counter = 0;
+	public static int counter = 0;
 	
 	private Color originalColor;
 	private Color currentColor;
