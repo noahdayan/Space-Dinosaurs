@@ -92,6 +92,17 @@ public class BlockManager : MonoBehaviour {
 		}
 	}
 	
+	public static void HideBlocks()
+	{
+		Vector3 hidingPlace = new Vector3(1000, 1000, 1000);
+		
+		for (int i = 0; i < numOfBlocks; i++)
+		{
+			Debug.Log("BLAH BLAH BLAH: i\n");
+			objectList[i].position = hidingPlace;
+		}
+	}
+	
 	public static Transform CheckPosition(int scale)
 	{
 		Debug.Log("Color of the block at " + scale + " is: " + objectList[scale].renderer.material.color + "\n");

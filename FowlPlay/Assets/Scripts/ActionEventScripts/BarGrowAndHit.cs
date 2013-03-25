@@ -22,17 +22,7 @@ public class BarGrowAndHit : MonoBehaviour {
 		originalColor = Color.white;
 		blockChild.renderer.material.color = originalColor;
 		//Grow();
-	}
-	
-	
-/*	8 - 11 red
-	6 - 8 yellow
-	5 - 6 green
-	3 - 5 yellow
-	0 - 3 red */
-	
-	
-	
+	}	
 	
 	// Update is called once per frame
 	void Update () {
@@ -93,7 +83,11 @@ public class BarGrowAndHit : MonoBehaviour {
 		
 	}
 	
-	
+	public void ResetScale()
+	{
+		currentScale.y = 0.0f;
+		Debug.Log("~~~~~~~RESETING SCALE~~~~~~~\n");
+	}
 	
 	IEnumerator Flash () 
 	{

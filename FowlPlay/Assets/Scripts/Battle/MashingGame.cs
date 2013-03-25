@@ -14,7 +14,8 @@ public class MashingGame : MonoBehaviour {
 	GameObject aTimer;
 	
 	// Count the button mashes
-	int aMashes = 0;
+	public static int aMashes = 0;
+
 	
 	// Use this for initialization
 	void Start () 

@@ -87,15 +87,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator AttackUnit (GameObject unit)
 	{
-		/*unit.SendMessage("TakeAttackDamage", attackPoints);
-		if (gameObject.tag == "Player1")
-		{
-			CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
-		}
-		else if (gameObject.tag == "Player2")
-		{
-			CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
-		}*/
+		int bonusDamage = 0;
 		gameObject.SendMessage("CheckLegalMove", attackCost);
 		
 		if (PlayerFunctionalityAndStats.isLegalMove)
@@ -104,8 +96,21 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			//Activate mini game stuff and camera
 			BackgroundGUI.inMiniGame = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
-			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
-			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+			
+			int miniGameNum = Random.Range(0, 2);
+			
+			if (miniGameNum == 0)
+			{
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+			}
+			else if (miniGameNum == 1)
+			{
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
+			}
+			
 			
 			//Start coroutine, that will modify the variable bonusDamage
 			//busy loop that runs till the coroutine is done.
@@ -113,24 +118,40 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			float initTime = Time.time;
 			
 			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
-			yield return new WaitForSeconds(7);
+			yield return new WaitForSeconds(10);
 			
 			float endTime = Time.time;
 			
 			Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
 			
 			
+			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
-			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
-			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
+			if (miniGameNum == 0)
+			{
+				GameObject.Find("BlockManagerObj").SendMessage("HideBlocks");
+				GameObject.Find("Meter").SendMessage("ResetScale");
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
+				bonusDamage = BarGrowAndHit.counter;
+				BarGrowAndHit.counter = 0;
+			}
+			else if (miniGameNum == 1)
+			{
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
+				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = false;
+				bonusDamage = mattsMash.theMashes;
+				mattsMash.theMashes = 0;
+			}
 			//~~~~~~~MINI GAME END HERE
 			//Make sure to add the bonus to attackPoints
 			
 			
 			//Dealing damage to the unit that we are attacking.
-			unit.SendMessage("TakeAttackDamage", attackPoints + BarGrowAndHit.counter);
-			BarGrowAndHit.counter = 0;
+			unit.SendMessage("TakeAttackDamage", attackPoints + bonusDamage);
+			bonusDamage = 0;
 			UpdateColor();
 		
 			if (gameObject.tag == "Player1")
