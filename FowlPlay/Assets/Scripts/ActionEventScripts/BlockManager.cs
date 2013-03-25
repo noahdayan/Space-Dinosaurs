@@ -17,15 +17,20 @@ public class BlockManager : MonoBehaviour {
 	private static Transform[] objectList;
 	private static Vector3 position;
 	
+	private Vector3 InstantiatePoint;
+	
+	
+	
 	// Use this for initialization
 	void Start () {
+		InstantiatePoint = new Vector3(500, 500, 500);
 		Debug.Log ("The total number of blocks is: " + numOfBlocks + "\n");
 		Debug.Log ("The number of colors is: " + (numOfGreen + numOfRed + numOfYellow) + "\n");
 		
 		objectList = new Transform[numOfBlocks];
 		for(int i = 0; i < numOfBlocks; i++)
 		{
-			objectList[i] = ((Transform)Instantiate(prefab));
+			objectList[i] = ((Transform)Instantiate(prefab, InstantiatePoint, gameObject.transform.rotation));
 		}
 		for (int i = 0; i < numOfGreen; i++)
 		{
@@ -78,7 +83,7 @@ public class BlockManager : MonoBehaviour {
 	public static void PlaceBlocks()
 	{
 		//MAYBE MAKE IT A CHILD AND MAKE THESE THINGS RELATIVE
-		Vector3 newPlacement = new Vector3(0, 0, 0);
+		Vector3 newPlacement = new Vector3(500, 500, 500);
 		
 		for (int i = 0; i < numOfBlocks; i++)
 		{
