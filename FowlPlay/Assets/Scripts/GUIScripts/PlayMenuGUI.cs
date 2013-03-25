@@ -159,9 +159,10 @@ public class PlayMenuGUI : MonoBehaviour {
 				audio.PlayOneShot(click);
 			}
 		}
+		
 		else
 		{
-			GUI.enabled = untamed;
+			//GUI.enabled = untamed;
 			if(GUI.Button(new Rect(tameButton), "[2] Tame: " + tameCost))
 			{
 				audio.PlayOneShot(click);
@@ -171,6 +172,20 @@ public class PlayMenuGUI : MonoBehaviour {
 					manager.SendMessage("EndMidTurn");
 				}
 			}
+		}
+		
+		if (CharacterManager.aInteractiveUnitIsSelected)
+		{
+		if (isBird && CharacterManager.aInteractUnit.tag.Equals(CharacterManager.aCurrentlySelectedUnit.tag))
+		{
+			//GUI.enabled = untamed;
+			if(GUI.Button(new Rect(tameButton), "[2] Tame: " + tameCost))
+			{
+				audio.PlayOneShot(click);
+				manager.SendMessage("tame");
+				manager.SendMessage("EndMidTurn");
+			}
+		}
 		}
 		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
 		if(GUI.Button(new Rect(waitButton), "[4] Wait: " + moveCost))
