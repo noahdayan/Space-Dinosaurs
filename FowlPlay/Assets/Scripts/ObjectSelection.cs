@@ -182,61 +182,64 @@ public class ObjectSelection : MonoBehaviour {
 				// The currently selected unit must be the bird and we must be in mid-turn the interact unit is a friendly dino
 				else if(CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit) && ((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && ((CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1") && CharacterManager.aTurn == 1) || (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2") && CharacterManager.aTurn == 3)))
 				{
-					// if it's already selected, deselect it.
-					if (CharacterManager.aInteractUnit == gameObject)
+					if(gameObject != CharacterManager.aCurrentlySelectedUnit)
 					{
-						CharacterManager.aInteractUnit.SendMessage("UpdateColor");
-						// Revert the interact unit's rotation.
-						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
-
-						// Revert the attacker/tamer's rotation.
-						iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
-
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
-						CharacterManager.aInteractiveUnitIsSelected = false;
-						CharacterManager.aInteractUnit = null;
+						// if it's already selected, deselect it.
+						if (CharacterManager.aInteractUnit == gameObject)
+						{
+							CharacterManager.aInteractUnit.SendMessage("UpdateColor");
+							// Revert the interact unit's rotation.
+							iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
+	
+							// Revert the attacker/tamer's rotation.
+							iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
+	
+							CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
+							CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
+							CharacterManager.aInteractiveUnitIsSelected = false;
+							CharacterManager.aInteractUnit = null;
+						}
+					
+						// Select the new interact unit.
+						CharacterManager.aInteractiveUnitIsSelected = true;
+						CharacterManager.aInteractUnit = gameObject;
+	
+						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
+						CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+					
+						if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
+						{
+							CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
+						}
+						else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird1 && CharacterManager.aTurn == 1)
+						{
+							CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
+						}
+						if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2 && CharacterManager.aTurn == 3)
+						{
+							CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
+						}
+						else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird2 && CharacterManager.aTurn == 3)
+						{
+							CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
+						}
+						CharacterManager.aInteractUnit.SendMessage("SelectedColor");
+						// and rotate it to face the attacker/tamer
+						Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
+						Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
+	
+						Vector3 newRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+						newRotation.x = CharacterManager.startRot.x;
+						newRotation.z = CharacterManager.startRot.z;
+	
+						iTween.RotateTo(CharacterManager.aInteractUnit, newRotation, 1.0f);
+					
+						Vector3 opponentRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
+								opponentRotation.x = CharacterManager.startRot.x;
+								opponentRotation.z = CharacterManager.startRot.z;
+	
+						iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
 					}
-				
-					// Select the new interact unit.
-					CharacterManager.aInteractiveUnitIsSelected = true;
-					CharacterManager.aInteractUnit = gameObject;
-
-					CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-					CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
-				
-					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
-					{
-						CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
-					}
-					else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird1 && CharacterManager.aTurn == 1)
-					{
-						CharacterManager.bird1.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
-					}
-					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2 && CharacterManager.aTurn == 3)
-					{
-						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().attackCost);
-					}
-					else if(CharacterManager.aCurrentlySelectedUnit != CharacterManager.bird2 && CharacterManager.aTurn == 3)
-					{
-						CharacterManager.bird2.SendMessage("CheckLegalMove", CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackCost);
-					}
-					CharacterManager.aInteractUnit.SendMessage("SelectedColor");
-					// and rotate it to face the attacker/tamer
-					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
-					Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
-
-					Vector3 newRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
-					newRotation.x = CharacterManager.startRot.x;
-					newRotation.z = CharacterManager.startRot.z;
-
-					iTween.RotateTo(CharacterManager.aInteractUnit, newRotation, 1.0f);
-				
-					Vector3 opponentRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
-							opponentRotation.x = CharacterManager.startRot.x;
-							opponentRotation.z = CharacterManager.startRot.z;
-
-					iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
 				}
 
 				else if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 3) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 1) || transform.gameObject.tag == "Enemy"))
