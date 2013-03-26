@@ -91,6 +91,7 @@ public class MainMenuGUI : MonoBehaviour {
 			CharacterManager.aInteractiveUnitIsSelected = false;
 			ClickAndMove.aIsObjectMoving = false;
 			ClickAndMove.aIsObjectRotating = false;
+			PauseMenuGUI.gameOver = false;
 		}
 		else
 		{
