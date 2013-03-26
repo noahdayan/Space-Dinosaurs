@@ -228,17 +228,59 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateGuiHealthBar()
 	{
-		ProgressBarGUI.healthPoints = healthPoints;
-	}
-	
-	public void UpdateGuiHealthBarDynamic(int newValue)
-	{
-		ProgressBarGUI.healthPoints = newValue;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.healthPoints1 = healthPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
 	public void UpdateGuiTameBar()
 	{
-		ProgressBarGUI.isBird = true;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.isBird1 = true;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.isBird2 = true;
+	}
+	
+	public void UpdateGuiAttackDamage()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.attackPoints1 = attackPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.attackPoints2 = attackPoints;
+
+	}
+	
+	public void UpdateGuiDefensePoints()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.defensePoints1 = defensePoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.defensePoints2 = defensePoints;
+	}
+	
+	public void UpdateGuiAttackRange()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.attackRange1 = attackRange;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.attackRange2 = attackRange;
+	}
+	
+	public void UpdateGuiMoveRange()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.moveRange1 = moveRange;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.moveRange2 = moveRange;
+	}
+	
+	public void UpdateGuiHealthBarDynamic(int newValue)
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.healthPoints1 = newValue;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.healthPoints2 = newValue;
 	}
 	
 	

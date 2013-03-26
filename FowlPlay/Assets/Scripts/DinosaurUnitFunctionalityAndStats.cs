@@ -403,24 +403,80 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateGuiHealthBar()
 	{
-		ProgressBarGUI.healthPoints = healthPoints;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.healthPoints1 = healthPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
 	public void UpdateGuiTameBar()
 	{
-		ProgressBarGUI.tamePoints = (int)tamePoints;
-		ProgressBarGUI.isBird = false;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+		{
+			ProgressBarGUI.tamePoints1 = (int)tamePoints;
+			ProgressBarGUI.isBird1 = false;
+		}
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		{
+			ProgressBarGUI.tamePoints2 = (int)tamePoints;
+			ProgressBarGUI.isBird2 = false;
+		}
+	}
+	
+	public void UpdateGuiAttackDamage()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.attackPoints1 = attackPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.attackPoints2 = attackPoints;
+
+	}
+	
+	public void UpdateGuiDefensePoints()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.defensePoints1 = defensePoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.defensePoints2 = defensePoints;
+	}
+	
+	public void UpdateGuiAttackRange()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.attackRange1 = attackRange;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.attackRange2 = attackRange;
+	}
+	
+	public void UpdateGuiMoveRange()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.moveRange1 = moveRange;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.moveRange2 = moveRange;
 	}
 	
 	public void UpdateGuiHealthBarDynamic(int newValue)
 	{
-		ProgressBarGUI.healthPoints = newValue;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.healthPoints1 = newValue;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.healthPoints2 = newValue;
 	}
 	
 	public void UpdateGuiTameBarDynamic(float newValue)
 	{
-		ProgressBarGUI.tamePoints = (int)newValue;
-		ProgressBarGUI.isBird = false;
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+		{
+			ProgressBarGUI.tamePoints1 = (int)newValue;
+			ProgressBarGUI.isBird1 = false;
+		}
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		{
+			ProgressBarGUI.tamePoints2 = (int)newValue;
+			ProgressBarGUI.isBird2 = false;
+		}
+		
 	}
 	
 	public void UpdateGuiTameButton()
