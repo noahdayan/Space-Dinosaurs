@@ -127,8 +127,7 @@ public class CharacterManager : MonoBehaviour {
 		if (aTurn == 1 || aTurn == 3)
 		{
 			pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
-			pUnit.SendMessage("UpdateGuiHealthBar");
-			pUnit.SendMessage("UpdateGuiTameBar");
+			pUnit.SendMessage("UpdateGuiStats");
 			ProgressBarGUI.show1 = true;
 			ProgressBarGUI.show2 = true;
 		}

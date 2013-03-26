@@ -283,6 +283,16 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.healthPoints2 = newValue;
 	}
 	
+	public void UpdateGuiStats()
+	{
+		UpdateGuiHealthBar();
+		UpdateGuiTameBar();
+		UpdateGuiAttackDamage();
+		UpdateGuiDefensePoints();
+		UpdateGuiAttackRange();
+		UpdateGuiMoveRange();
+	}
+	
 	
 	public void UpdateGuiTameButton()
 	{

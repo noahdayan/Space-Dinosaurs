@@ -476,7 +476,16 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.tamePoints2 = (int)newValue;
 			ProgressBarGUI.isBird2 = false;
 		}
-		
+	}
+	
+	public void UpdateGuiStats()
+	{
+		UpdateGuiHealthBar();
+		UpdateGuiTameBar();
+		UpdateGuiAttackDamage();
+		UpdateGuiDefensePoints();
+		UpdateGuiAttackRange();
+		UpdateGuiMoveRange();
 	}
 	
 	public void UpdateGuiTameButton()

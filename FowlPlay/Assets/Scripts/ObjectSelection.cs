@@ -62,8 +62,7 @@ public class ObjectSelection : MonoBehaviour {
 						// Revert the attacker/tamer's rotation.
 						iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationBeforeMove.eulerAngles, 2.0f);
 
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
+						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
 
@@ -98,8 +97,7 @@ public class ObjectSelection : MonoBehaviour {
 						// Revert the attacker/tamer's rotation.
 						iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
 
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
+						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
 					}
@@ -122,16 +120,14 @@ public class ObjectSelection : MonoBehaviour {
 							{
 								CharacterManager.aInteractUnit.SendMessage("UpdateColor");
 								iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
-								CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-								CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+								CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 							}
 
 							// Select the new interact unit.
 							CharacterManager.aInteractiveUnitIsSelected = true;
 							CharacterManager.aInteractUnit = gameObject;
 
-							CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-							CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+							CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 
 							if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
 							{
@@ -194,8 +190,7 @@ public class ObjectSelection : MonoBehaviour {
 							// Revert the attacker/tamer's rotation.
 							iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
 	
-							CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
-							CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
+							CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 							CharacterManager.aInteractiveUnitIsSelected = false;
 							CharacterManager.aInteractUnit = null;
 						}
@@ -204,8 +199,7 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aInteractiveUnitIsSelected = true;
 						CharacterManager.aInteractUnit = gameObject;
 	
-						CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-						CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+						CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 					
 						if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
 						{
@@ -253,8 +247,7 @@ public class ObjectSelection : MonoBehaviour {
 						// Revert the attacker/tamer's rotation.
 						iTween.RotateTo (CharacterManager.aCurrentlySelectedUnit, CharacterManager.aRotationAfterMove.eulerAngles, 2.0f);
 
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiHealthBar");
-						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiTameBar");
+						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
 					}
@@ -272,16 +265,14 @@ public class ObjectSelection : MonoBehaviour {
 							{
 								CharacterManager.aInteractUnit.SendMessage("UpdateColor");
 								iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
-								CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-								CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+								CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 							}
 
 							// Select the new interact unit.
 							CharacterManager.aInteractiveUnitIsSelected = true;
 							CharacterManager.aInteractUnit = gameObject;
 
-							CharacterManager.aInteractUnit.SendMessage("UpdateGuiHealthBar");
-							CharacterManager.aInteractUnit.SendMessage("UpdateGuiTameBar");
+							CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 
 							if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
 							{
@@ -325,8 +316,7 @@ public class ObjectSelection : MonoBehaviour {
 						}
 					}
 
-					gameObject.SendMessage("UpdateGuiHealthBar");
-					gameObject.SendMessage("UpdateGuiTameBar");
+					gameObject.SendMessage("UpdateGuiStats");
 					ProgressBarGUI.show1 = true;
 					ProgressBarGUI.show2 = true;
 				}
