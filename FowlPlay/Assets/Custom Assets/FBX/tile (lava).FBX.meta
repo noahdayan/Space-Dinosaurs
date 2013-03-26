@@ -7,6 +7,7 @@ ModelImporter:
     4300004: Object002
     7400000: Take 001 //// tile_lava@anim
     7400002: Take 001 //// tile (lava)
+    7400004: idle //// tile (lava)
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -20,8 +21,13 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
-    clipAnimations: []
+    animationWrapMode: 2
+    clipAnimations:
+    - name: idle
+      firstFrame: 1
+      lastFrame: 80
+      wrapMode: 2
+      loop: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978
