@@ -129,7 +129,8 @@ public class CharacterManager : MonoBehaviour {
 			pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 			pUnit.SendMessage("UpdateGuiHealthBar");
 			pUnit.SendMessage("UpdateGuiTameBar");
-			ProgressBarGUI.show = true;
+			ProgressBarGUI.show1 = true;
+			ProgressBarGUI.show2 = true;
 		}
 		
 		// Highlight tiles in range
@@ -312,7 +313,8 @@ public class CharacterManager : MonoBehaviour {
 			if (aTurn == 1 || aTurn == 3)
 			{
 				aCurrentlySelectedUnit.GetComponentInChildren<Camera>().camera.enabled = false;
-				ProgressBarGUI.show = false;
+				ProgressBarGUI.show1 = false;
+				ProgressBarGUI.show2 = false;
 				aCurrentlySelectedUnit = null;
 			}
 			

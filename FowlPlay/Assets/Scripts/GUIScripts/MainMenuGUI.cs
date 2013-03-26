@@ -77,7 +77,8 @@ public class MainMenuGUI : MonoBehaviour {
 		{
 			Application.LoadLevel(levelName);
 			PauseMenuGUI.isPaused = false;
-			ProgressBarGUI.show = false;
+			ProgressBarGUI.show1 = false;
+			ProgressBarGUI.show2 = false;
 			CharacterManager.aTurn = 1;
 			CharacterManager.aTurnIsCompleted = false;
 			CharacterManager.aMidTurn = false;

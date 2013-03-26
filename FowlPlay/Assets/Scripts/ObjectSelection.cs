@@ -327,7 +327,8 @@ public class ObjectSelection : MonoBehaviour {
 
 					gameObject.SendMessage("UpdateGuiHealthBar");
 					gameObject.SendMessage("UpdateGuiTameBar");
-					ProgressBarGUI.show = true;
+					ProgressBarGUI.show1 = true;
+					ProgressBarGUI.show2 = true;
 				}
 
 			}
