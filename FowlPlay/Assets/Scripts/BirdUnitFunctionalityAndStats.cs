@@ -143,7 +143,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
 				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = false;
-				bonusDamage = mattsMash.theMashes;
+				bonusDamage = mattsMash.theMashes / 8;
 				mattsMash.theMashes = 0;
 			}
 			//~~~~~~~MINI GAME END HERE
@@ -228,13 +228,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateGuiHealthBar()
 	{
-		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
 	public void UpdateGuiHealthBarDynamic(int newValue)
 	{
-		ProgressBarGUI.healthBar = (float)newValue / (float)maxHealthPoints;
 		ProgressBarGUI.healthPoints = newValue;
 	}
 	

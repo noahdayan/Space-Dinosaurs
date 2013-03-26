@@ -98,7 +98,6 @@ public class BlockManager : MonoBehaviour {
 		
 		for (int i = 0; i < numOfBlocks; i++)
 		{
-			Debug.Log("BLAH BLAH BLAH: i\n");
 			objectList[i].position = hidingPlace;
 		}
 	}

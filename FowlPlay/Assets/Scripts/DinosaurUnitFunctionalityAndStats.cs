@@ -83,12 +83,16 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			int miniGameNum = Random.Range(0, 2);
 			
 			if (miniGameNum == 0)
-			{GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
-			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;}
+			{
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
+			}
 			else if (miniGameNum == 1)
 			{
-			GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
-			GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
 			}
 			
 			
@@ -98,7 +102,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			float initTime = Time.time;
 			
 			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
-			yield return new WaitForSeconds(7);
+			yield return new WaitForSeconds(10);
 			
 			float endTime = Time.time;
 			
@@ -110,17 +114,20 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
 			if (miniGameNum == 0)
 			{
-			GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
-			GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
-			bonusDamage = BarGrowAndHit.counter;
-			BarGrowAndHit.counter = 0;
+				BlockManager.HideBlocks();
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
+				bonusDamage = BarGrowAndHit.counter;
+				BarGrowAndHit.counter = 0;
 			}
 			else if (miniGameNum == 1)
 			{
-			GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
-			GameObject.Find("Plane").GetComponent<MashingGame>().enabled = false;
-			bonusDamage = MashingGame.aMashes;
-			MashingGame.aMashes = 0;
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
+				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = false;
+				bonusDamage = mattsMash.theMashes / 8;
+				mattsMash.theMashes = 0;
 			}
 			//~~~~~~~MINI GAME END HERE
 			//Make sure to add the bonus to attackPoints
@@ -396,26 +403,22 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public void UpdateGuiHealthBar()
 	{
-		ProgressBarGUI.healthBar = (float)healthPoints / (float)maxHealthPoints;
 		ProgressBarGUI.healthPoints = healthPoints;
 	}
 	
 	public void UpdateGuiTameBar()
 	{
-		ProgressBarGUI.tamenessBar = tamePoints/maxTamePoints;
 		ProgressBarGUI.tamePoints = (int)tamePoints;
 		ProgressBarGUI.isBird = false;
 	}
 	
 	public void UpdateGuiHealthBarDynamic(int newValue)
 	{
-		ProgressBarGUI.healthBar = (float)newValue / (float)maxHealthPoints;
 		ProgressBarGUI.healthPoints = newValue;
 	}
 	
 	public void UpdateGuiTameBarDynamic(float newValue)
 	{
-		ProgressBarGUI.tamenessBar = newValue/maxTamePoints;
 		ProgressBarGUI.tamePoints = (int)newValue;
 		ProgressBarGUI.isBird = false;
 	}
