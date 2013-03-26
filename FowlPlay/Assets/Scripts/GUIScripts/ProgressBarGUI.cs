@@ -7,12 +7,16 @@ public class ProgressBarGUI : MonoBehaviour {
 	public int guiDepth = 0;
 	public static int healthPoints1 = 10;
 	public static int tamePoints1 = 10;
+	public static int maxHealthPoints1 = 10;
+	public static int maxTamePoints1 = 10;
 	public static int attackPoints1 = 10;
 	public static int defensePoints1 = 10;
 	public static int moveRange1 = 10;
 	public static int attackRange1 = 10;
 	public static int healthPoints2 = 10;
 	public static int tamePoints2 = 10;
+	public static int maxHealthPoints2 = 10;
+	public static int maxTamePoints2 = 10;
 	public static int attackPoints2 = 10;
 	public static int defensePoints2 = 10;
 	public static int moveRange2 = 10;
@@ -64,9 +68,9 @@ public class ProgressBarGUI : MonoBehaviour {
 				GUI.BeginGroup(barAreaNormalized1);
 				if (!isBird1)
 				{
-					GUI.Label(new Rect(tamePointsArea1), tamePoints1.ToString());
+					GUI.Label(new Rect(tamePointsArea1), tamePoints1.ToString() + "/" + maxTamePoints1.ToString());
 				}
-				GUI.Label(new Rect(healthPointsArea1), healthPoints1.ToString());
+				GUI.Label(new Rect(healthPointsArea1), healthPoints1.ToString() + "/" + maxHealthPoints1.ToString());
 				GUI.Label(new Rect(attackPointsArea1), attackPoints1.ToString());
 				GUI.Label(new Rect(defensePointsArea1), defensePoints1.ToString());
 				GUI.Label(new Rect(moveRangeArea1), moveRange1.ToString());
@@ -80,9 +84,9 @@ public class ProgressBarGUI : MonoBehaviour {
 				GUI.BeginGroup(barAreaNormalized2);
 				if (!isBird2)
 				{
-					GUI.Label(new Rect(tamePointsArea2), tamePoints2.ToString());
+					GUI.Label(new Rect(tamePointsArea2), tamePoints2.ToString() + "/" + maxTamePoints2.ToString());
 				}
-				GUI.Label(new Rect(healthPointsArea2), healthPoints2.ToString());
+				GUI.Label(new Rect(healthPointsArea2), healthPoints2.ToString() + "/" + maxHealthPoints2.ToString());
 				GUI.Label(new Rect(attackPointsArea2), attackPoints2.ToString());
 				GUI.Label(new Rect(defensePointsArea2), defensePoints2.ToString());
 				GUI.Label(new Rect(moveRangeArea2), moveRange2.ToString());
