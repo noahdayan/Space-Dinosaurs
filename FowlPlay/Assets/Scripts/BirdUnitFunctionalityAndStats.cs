@@ -234,6 +234,14 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
+	public void UpdateGuiMaxHealth()
+	{		
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.maxHealthPoints1 = maxHealthPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.maxHealthPoints2 = maxHealthPoints;
+	}	
+	
 	public void UpdateGuiTameBar()
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
@@ -291,6 +299,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		UpdateGuiDefensePoints();
 		UpdateGuiAttackRange();
 		UpdateGuiMoveRange();
+		UpdateGuiMaxHealth();
 	}
 	
 	

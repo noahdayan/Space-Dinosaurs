@@ -409,6 +409,28 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
+	public void UpdateGuiMaxHealth()
+	{		
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+			ProgressBarGUI.maxHealthPoints1 = maxHealthPoints;
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+			ProgressBarGUI.maxHealthPoints2 = maxHealthPoints;
+	}
+	
+	public void UpdateGuiMaxTame()
+	{
+		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
+		{
+			ProgressBarGUI.maxTamePoints1 = (int)maxTamePoints;
+			ProgressBarGUI.isBird1 = false;
+		}
+		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		{
+			ProgressBarGUI.maxTamePoints2 = (int)maxTamePoints;
+			ProgressBarGUI.isBird2 = false;
+		}
+	}
+	
 	public void UpdateGuiTameBar()
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
@@ -486,6 +508,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		UpdateGuiDefensePoints();
 		UpdateGuiAttackRange();
 		UpdateGuiMoveRange();
+		UpdateGuiMaxHealth();
+		UpdateGuiMaxTame();
 	}
 	
 	public void UpdateGuiTameButton()
