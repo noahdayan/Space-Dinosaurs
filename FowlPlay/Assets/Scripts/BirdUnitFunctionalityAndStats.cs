@@ -103,6 +103,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			{
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
 			}
 			else if (miniGameNum == 1)
 			{
@@ -130,8 +131,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
 			if (miniGameNum == 0)
 			{
-				GameObject.Find("BlockManagerObj").SendMessage("HideBlocks");
-				GameObject.Find("Meter").SendMessage("ResetScale");
+				BlockManager.HideBlocks();
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
 				bonusDamage = BarGrowAndHit.counter;

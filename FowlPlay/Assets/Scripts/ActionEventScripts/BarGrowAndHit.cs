@@ -83,12 +83,6 @@ public class BarGrowAndHit : MonoBehaviour {
 		
 	}
 	
-	public void ResetScale()
-	{
-		currentScale.y = 0.0f;
-		Debug.Log("~~~~~~~RESETING SCALE~~~~~~~\n");
-	}
-	
 	IEnumerator Flash () 
 	{
 		float t = 0;
