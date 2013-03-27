@@ -23,10 +23,12 @@ public class MinigameMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Pauses the game for instructions
 		if (isPausedForInstructions)
 		{
 			Time.timeScale = 0.0f;
 		}
+		//Mini game is running so take away seconds for the countdown
 		else if (minigameIsRunning)
 		{
 			aSeconds -= Time.deltaTime;		
@@ -38,19 +40,21 @@ public class MinigameMenu : MonoBehaviour {
 	{
 		GUI.skin = menuSkin;
 		GUI.depth = guiDepth;
-		if(isPausedForInstructions)
+		if(isPausedForInstructions && PauseMenuGUI.instructionsOn)
 		{
+		//Instructions and Mini game start button
 		GUI.BeginGroup(menuAreaNormalized);
 			GUI.Label(instructionArea, gameInstructions);
 			if(GUI.Button(new Rect(resumeButton), "Start!"))
 			{
 				audio.PlayOneShot(click);
-				minigameIsRunning = true;
 				Time.timeScale = 1.0f;
+				minigameIsRunning = true;
 				isPausedForInstructions = false;
-			}			
+			}
 		GUI.EndGroup();
 		}
+		//Else if the mini game is running then do the countdown!
 		else if (minigameIsRunning)
 		{
 			GUI.BeginGroup(menuAreaNormalized);

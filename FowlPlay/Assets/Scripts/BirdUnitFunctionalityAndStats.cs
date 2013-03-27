@@ -100,10 +100,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			BackgroundGUI.inMiniGame = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
 			
+			//Determine which minigame is going to run
 			int miniGameNum = Random.Range(0, 2);
-			
-			
-			
+			//Bar Grow and Hit Mini Game
 			if (miniGameNum == 0)
 			{
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
@@ -111,31 +110,28 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
 				MinigameMenu.gameInstructions = miniGame0Inst;
 			}
+			//Button Mash Mini Game
 			else if (miniGameNum == 1)
 			{
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
 				MinigameMenu.gameInstructions = miniGame1Inst;
-				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
 			}
 			
-			MinigameMenu.isPausedForInstructions = true;
+			//Can turn instructions on or off, if on pause and display the menu
+			if (PauseMenuGUI.instructionsOn)
+				MinigameMenu.isPausedForInstructions = true;
+			//else just start running the minigame
+			else
+				MinigameMenu.minigameIsRunning = true;
 			
+			//Start the mini game with 11 seconds, just in case we're keeping track of the time for now
 			MinigameMenu.aSeconds = 11;
-			
-			
-			//Start coroutine, that will modify the variable bonusDamage
-			//busy loop that runs till the coroutine is done.
-			
 			float initTime = Time.time;
-			
-			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
 			yield return new WaitForSeconds(11);
 			MinigameMenu.minigameIsRunning = false;
-			
 			float endTime = Time.time;
-			
-			Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
+			//Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
 			
 			
 			//Reseting things back to where they were before the mini game.
