@@ -55,7 +55,8 @@ public class PlayMenuGUI : MonoBehaviour {
 					if (CharacterManager.aInteractiveUnitIsSelected)
 					{
 						manager.SendMessage("attack");
-						manager.SendMessage("EndMidTurn");
+						if (CharacterManager.aMidTurn)
+							manager.SendMessage("EndMidTurn");
 					}
 				}
 				
@@ -98,7 +99,8 @@ public class PlayMenuGUI : MonoBehaviour {
 					audio.PlayOneShot(click);
 					if(CharacterManager.aMidTurn)
 					{
-						manager.SendMessage("EndMidTurn");
+						if (CharacterManager.aMidTurn)
+							manager.SendMessage("EndMidTurn");
 					}
 				
 					else

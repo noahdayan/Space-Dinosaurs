@@ -167,10 +167,16 @@ public class CharacterManager : MonoBehaviour {
 
 		//aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
 		
-		SendMessage("unhighlightRange");
-		
-		deselectUnit();
-		
+		if (aMidTurn)
+		{
+			SendMessage("unhighlightRange");
+			deselectUnit();
+		}
+		else
+		{
+			SendMessage("highlightBlueRange");
+			aMidTurn = true;
+		}
 		//endTurn();
 	}
 	
@@ -326,6 +332,8 @@ public class CharacterManager : MonoBehaviour {
 		// un-highlight tiles in range
 		if (!ClickAndMove.aIsObjectMoving && (aTurn == 1 || aTurn ==3))
 			SendMessage("unhighlightRange");
+		
+		resetCosts();
 	}
 	
 	// Undo a move at mid-turn.

@@ -51,7 +51,6 @@ public class ClickAndMove : MonoBehaviour
 		// Check to see if there are any items at the destination.
 		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
 		{
-			Debug.Log("here2");
 			GameObject item = (GameObject)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)];
 			bool consume = false;
 			

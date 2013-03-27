@@ -26,10 +26,13 @@ public class TileManager : MonoBehaviour {
 	public static Hashtable costs;
 	private List<GameObject> tilesInRange;
 	private List<GameObject> tilesInAttackRange;
+	public static List<GameObject> tilesInImmediateAttackRange;
+
 	public static List<GameObject> tilesInMidTurnAttackRange;
+	public static List<GameObject> tilesInStartTurnAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
-	public Material aTileDefault, aTileBlue, aTileRed;
+	public Material aTileDefault, aTileBlue, aTileRed, aTilePurple;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -46,6 +49,7 @@ public class TileManager : MonoBehaviour {
 		costs = new Hashtable();
 		tilesInRange = new List<GameObject>();
 		tilesInAttackRange = new List<GameObject>();
+		tilesInImmediateAttackRange = new List<GameObject>();
 		tilesInMidTurnAttackRange = new List<GameObject>();
 		
 		foreach (GameObject tile in allTiles)
@@ -97,6 +101,10 @@ public class TileManager : MonoBehaviour {
 			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
 					tile.renderer.material = aTileDefault;
+			
+			foreach (GameObject tile in tilesInImmediateAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
 				
 			foreach (GameObject tile in tilesInAttackRange)
 				if (tile != null)
@@ -110,6 +118,46 @@ public class TileManager : MonoBehaviour {
 					tile.renderer.material = aTileDefault;
 		}
 	}
+	
+	public void unhighlightNotImmediateRange()
+	{
+		if (!CharacterManager.aMidTurn)
+		{
+			foreach (GameObject tile in tilesInRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+			
+			foreach (GameObject tile in tilesInImmediateAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileRed;
+				
+			foreach (GameObject tile in tilesInAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+
+		}
+		
+		else
+		{
+			foreach (GameObject tile in tilesInMidTurnAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileDefault;
+		}
+	}
+	
+	public void highlightBlueRange()
+	{
+			foreach (GameObject tile in tilesInRange)
+				if (tile != null)
+					tile.renderer.material = aTileBlue;
+			
+			foreach (GameObject tile in tilesInImmediateAttackRange)
+				if (tile != null)
+					tile.renderer.material = aTileBlue;
+				
+			tilesInAttackRange.Clear();
+			tilesInMidTurnAttackRange.Clear();
+	}	
 	
 	/**
 	 * Returns how many tiles you have to cross to reach the destination tile, including the destination tile.
@@ -217,6 +265,7 @@ public class TileManager : MonoBehaviour {
 	{	
 		int range = pRange + pAttackRange;
 		tilesInRange.Clear();
+		tilesInMidTurnAttackRange.Clear ();
 		tilesInAttackRange.Clear();
 		
 		List<Vector3> firstPass = new List<Vector3>();
@@ -244,9 +293,22 @@ public class TileManager : MonoBehaviour {
 		{	
 			if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
 			{
+				
+				// Get the occupied tiles that are within attacking range at the start position and mark them as red.
+				if ((int)costs[x] < pAttackRange)
+				{
+					//if(!getTileAt(x).tag.Equals("OccupiedTile"))
+						getTileAt (x).renderer.material = aTilePurple;
+						tilesInImmediateAttackRange.Add(getTileAt(x));
+					//else if (getTileAt(x).tag.Equals("OccupiedTile") && )
+					//{
+						
+					//}
+				}
+				
 				// If the cost of reaching the tile is less than the walking range, and the tile
 				// is unoccupied, then mark it blue.
-				if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
+				else if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
 				{
 					tilesInRange.Add(getTileAt(x));
 					getTileAt(x).renderer.material = aTileBlue;
@@ -544,7 +606,7 @@ public class TileManager : MonoBehaviour {
 	public void selectTile(GameObject pTile)
 	{
 		// If the tile is not occupied and is within range
-		if (pTile.tag.Equals("Tile") && tilesInRange.Contains(pTile))
+		if (pTile.tag.Equals("Tile") && (tilesInRange.Contains(pTile) || tilesInImmediateAttackRange.Contains(pTile)))
 		{
 			aCurrentlySelectedTile = pTile;
 			aSingleTileIsSelected = true;
@@ -616,13 +678,6 @@ public class TileManager : MonoBehaviour {
 	// If there are, paint the attack range red and allow the player to choose to attack.
 	public void paintAttackableTilesAfterMove()
 	{	
-			
-		// If it's the robot, ignore all of this and end its turn.
-		//if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))
-		//	SendMessage("endTurn");
-		
-		//else
-		//{
 			tilesInMidTurnAttackRange.Clear();
 			
 			bool canAttack = false;
