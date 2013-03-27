@@ -7,7 +7,7 @@ public class CharacterManager : MonoBehaviour {
 	// Contains the currently selected object.
 	public static GameObject aCurrentlySelectedUnit;
 	public static GameObject aInteractUnit;
-	
+	public static string aInteractSpecies;
 	
 	// GameObject Unit -> GameObject Tile
 	public static Hashtable aUnitsAndTilesHT;

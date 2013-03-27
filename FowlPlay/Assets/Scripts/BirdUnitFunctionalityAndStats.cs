@@ -99,25 +99,14 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			//Activate mini game stuff and camera
 			BackgroundGUI.inMiniGame = true;
 			
-			//Since this is a bid we know that tile 1 should be filled by a bird model.
+			//Since this is a bird we know that tile 1 should be filled by a bird model.
 			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("body").renderer.enabled = true;
-			
-			//getting the string of the game object
-			string interactSpecies;
-			
-			if (CharacterManager.aInteractUnit == CharacterManager.bird1 || CharacterManager.aInteractUnit == CharacterManager.bird2)
-			{
-				interactSpecies = "Bird";
-			}
-			else
-			{
-				interactSpecies = "Tyranosaur";
-			}
-			
-			GameObject.Find("Tile2").transform.FindChild("battle"+interactSpecies).transform.FindChild("body").renderer.enabled = true;
-			
-			
-			
+			//the longest fucking line evar
+			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
+			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
+			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;
+			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
+				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
 			
 			//Determine which minigame is going to run
@@ -147,16 +136,25 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			//Start the mini game with 11 seconds, just in case we're keeping track of the time for now
 			MinigameMenu.aSeconds = 11;
-			float initTime = Time.time;
+			//float initTime = Time.time;
 			yield return new WaitForSeconds(11);
 			MinigameMenu.minigameIsRunning = false;
-			float endTime = Time.time;
+			//float endTime = Time.time;
 			//Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
 			
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
+			
+			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("body").renderer.enabled = false;
+			//the longest fucking line evar
+			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
+			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = false;
+			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
+				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
+			
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
+			
 			if (miniGameNum == 0)
 			{
 				BlockManager.HideBlocks();
@@ -199,6 +197,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			else
 				GameObject.Find("GUI Hot Seat").SendMessage("showText", "Can't Attack Again");
 		}	
+	}
+	
+	public void UpdateInteractSpecies()
+	{
+		CharacterManager.aInteractSpecies = "Bird";
 	}
 	
 	public void RemoveMoveMana()
