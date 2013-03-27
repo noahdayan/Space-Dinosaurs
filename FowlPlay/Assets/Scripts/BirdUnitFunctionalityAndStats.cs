@@ -98,6 +98,26 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			//~~~~~~~MINI GAME START HERE
 			//Activate mini game stuff and camera
 			BackgroundGUI.inMiniGame = true;
+			
+			//Since this is a bid we know that tile 1 should be filled by a bird model.
+			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("body").renderer.enabled = true;
+			
+			//getting the string of the game object
+			string interactSpecies;
+			
+			if (CharacterManager.aInteractUnit == CharacterManager.bird1 || CharacterManager.aInteractUnit == CharacterManager.bird2)
+			{
+				interactSpecies = "Bird";
+			}
+			else
+			{
+				interactSpecies = "Tyranosaur";
+			}
+			
+			GameObject.Find("Tile2").transform.FindChild("battle"+interactSpecies).transform.FindChild("body").renderer.enabled = true;
+			
+			
+			
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
 			
 			//Determine which minigame is going to run
