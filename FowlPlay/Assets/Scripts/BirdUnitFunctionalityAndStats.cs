@@ -121,6 +121,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			MinigameMenu.isPausedForInstructions = true;
 			
+			MinigameMenu.aSeconds = 11;
+			
 			
 			//Start coroutine, that will modify the variable bonusDamage
 			//busy loop that runs till the coroutine is done.
@@ -128,7 +130,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			float initTime = Time.time;
 			
 			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
-			yield return new WaitForSeconds(10);
+			yield return new WaitForSeconds(11);
+			MinigameMenu.minigameIsRunning = false;
 			
 			float endTime = Time.time;
 			

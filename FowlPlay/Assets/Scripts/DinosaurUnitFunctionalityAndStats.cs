@@ -82,9 +82,10 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//Activate mini game stuff and camera
 			BackgroundGUI.inMiniGame = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
-
 			
 			int miniGameNum = Random.Range(0, 2);
+			
+			
 			
 			if (miniGameNum == 0)
 			{
@@ -103,6 +104,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			MinigameMenu.isPausedForInstructions = true;
 			
+			MinigameMenu.aSeconds = 11;
+			
 			
 			//Start coroutine, that will modify the variable bonusDamage
 			//busy loop that runs till the coroutine is done.
@@ -110,7 +113,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			float initTime = Time.time;
 			
 			//Let the bar game run for 7 seconds, as of now the straight up add the number of greens hit to attack damage.
-			yield return new WaitForSeconds(10);
+			yield return new WaitForSeconds(11);
+			MinigameMenu.minigameIsRunning = false;
 			
 			float endTime = Time.time;
 			
