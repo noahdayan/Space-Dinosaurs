@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 0dc7b93db571f094a91e2664bfaf95fc
+guid: 78566bf03d42f4a95ac158dc847cdce5
 ModelImporter:
   fileIDToRecycleName:
     4300000: Tile
     4300002: Object001
     4300004: Object002
-    7400000: Take 001 //// tile_lava@anim
-    7400002: Take 001 //// tile (lava)
-    7400004: idle //// tile (lava)
+    7400000: Take 001 //// tile_water@anim
+    7400002: Take 001 //// tile (water)
+    7400004: idle //// tile (water)
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -50,62 +50,62 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
+        second: a0860100
       data:
         first: 4
-        second: 821a0600
+        second: 801a0600
       data:
         first: 111
         second: 605fa900
     Dummy001:
       data:
         first: 1
-        second: ac860100
-      data:
-        first: 4
-        second: 8c1a0600
-    Dummy002:
-      data:
-        first: 1
         second: aa860100
       data:
         first: 4
         second: 8a1a0600
-    Dummy003:
-      data:
-        first: 1
-        second: b2860100
-      data:
-        first: 4
-        second: 921a0600
-    Dummy004:
-      data:
-        first: 1
-        second: b0860100
-      data:
-        first: 4
-        second: 901a0600
-    Dummy005:
-      data:
-        first: 1
-        second: a6860100
-      data:
-        first: 4
-        second: 861a0600
-    DummyMaster:
-      data:
-        first: 1
-        second: a0860100
-      data:
-        first: 4
-        second: 801a0600
-    Object001:
+    Dummy002:
       data:
         first: 1
         second: a8860100
       data:
         first: 4
         second: 881a0600
+    Dummy003:
+      data:
+        first: 1
+        second: a6860100
+      data:
+        first: 4
+        second: 861a0600
+    Dummy004:
+      data:
+        first: 1
+        second: a4860100
+      data:
+        first: 4
+        second: 841a0600
+    Dummy005:
+      data:
+        first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+    DummyMaster:
+      data:
+        first: 1
+        second: ac860100
+      data:
+        first: 4
+        second: 8c1a0600
+    Object001:
+      data:
+        first: 1
+        second: b0860100
+      data:
+        first: 4
+        second: 901a0600
       data:
         first: 23
         second: 60182300
@@ -115,20 +115,20 @@ ModelImporter:
     Object002:
       data:
         first: 1
-        second: a4860100
+        second: ae860100
       data:
         first: 4
-        second: 841a0600
+        second: 8e1a0600
       data:
         first: 137
         second: a00bd100
     Tile:
       data:
         first: 1
-        second: ae860100
+        second: b2860100
       data:
         first: 4
-        second: 8e1a0600
+        second: 921a0600
       data:
         first: 23
         second: 62182300
