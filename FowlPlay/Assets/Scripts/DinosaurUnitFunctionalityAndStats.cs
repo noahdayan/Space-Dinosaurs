@@ -43,6 +43,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public Color unitColor;
 	float flashRate = 1.0f;
 	
+	public string miniGame0Inst = "Left Click or press 'Z' when the sliding bar is lined up with the green block"; 
+	public string miniGame1Inst = "Mash the 'Z' button!!";
+	
 
 	
 	void Start()
@@ -79,6 +82,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//Activate mini game stuff and camera
 			BackgroundGUI.inMiniGame = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
+
 			
 			int miniGameNum = Random.Range(0, 2);
 			
@@ -87,13 +91,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame0Inst;
 			}
 			else if (miniGameNum == 1)
 			{
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame1Inst;
 				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
 			}
+			
+			MinigameMenu.isPausedForInstructions = true;
 			
 			
 			//Start coroutine, that will modify the variable bonusDamage

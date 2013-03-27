@@ -20,6 +20,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public Color enemyColor = Color.red;
 	public Color selectColor = Color.yellow;
 		
+	public string miniGame0Inst = "Left Click or press 'Z' when the sliding bar is lined up with the green block"; 
+	public string miniGame1Inst = "Mash the 'Z' button!!";
+			
 	void Start()
 	{
 		UpdateColor();
@@ -99,18 +102,24 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			
 			int miniGameNum = Random.Range(0, 2);
 			
+			
+			
 			if (miniGameNum == 0)
 			{
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame0Inst;
 			}
 			else if (miniGameNum == 1)
 			{
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame1Inst;
 				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = true;
 			}
+			
+			MinigameMenu.isPausedForInstructions = true;
 			
 			
 			//Start coroutine, that will modify the variable bonusDamage

@@ -32,7 +32,7 @@ public class BarGrowAndHit : MonoBehaviour {
 		
 		//Maybe get the difference of the absolute value of the current scale and 5.5. Then divide by that.
 		//If between 5 and 6, it's actually a multiplication. Other wise it's less damage!
-		if (Input.GetButtonDown("Fire1") && !stopped)
+		if (Input.GetButtonDown("Fire1") && !stopped && !MinigameMenu.isPausedForInstructions)
 		{
 			//stopped = true;
 			Debug.Log("The current scale is: " + currentScale.y);
