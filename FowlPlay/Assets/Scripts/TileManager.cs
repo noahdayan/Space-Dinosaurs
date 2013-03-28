@@ -29,7 +29,7 @@ public class TileManager : MonoBehaviour {
 	public static List<GameObject> tilesInMidTurnAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
-	public Material aTileDefault, aTileBlue, aTileRed;
+	public Material aTileGrass, aTileBlue, aTileRed;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -96,18 +96,18 @@ public class TileManager : MonoBehaviour {
 		{
 			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 				
 			foreach (GameObject tile in tilesInAttackRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 		
 		else
 		{
 			foreach (GameObject tile in tilesInMidTurnAttackRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 	}
 	
@@ -223,12 +223,15 @@ public class TileManager : MonoBehaviour {
 		
 		// The first pass. We check to see what tiles are within range, without considering obstacles that would reduce range.
 		List<Vector3> closed = dijkstra(pUnit,pRange,pAttackRange,1);
+		List<Vector3> occupied = new List<Vector3>();
 		foreach (Vector3 x in closed)
 		{
 			if ((int)costs[x] < range )
 			{
 				if (getTileAt(x).tag.Equals("Tile"))
 					getTileAt(x).transform.Find("Object002").renderer.material.color = Color.green;
+				else
+					occupied.Add(x);
 				
 				firstPass.Add(x);
 			}
@@ -242,80 +245,29 @@ public class TileManager : MonoBehaviour {
 		
 		foreach (Vector3 x in closedBis)
 		{	
+			// If it is within range
 			if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
 			{
-				// If the cost of reaching the tile is less than the walking range, and the tile
-				// is unoccupied, then mark it blue.
-				if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
-				{
-					tilesInRange.Add(getTileAt(x));
-					getTileAt(x).transform.Find("Object002").renderer.material = aTileBlue;
-				}
+				GameObject currentTile = getTileAt(x);
 				
-				// Get the tiles within walking range, but not at the edge of the walkable area that contain enemy units.
-				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] < (pRange-1))
-				{					
-					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					
-						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-						{
-							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
-						}
-				}
-				
-				// Get the tiles at the edge of the walking range that are occupied. These are special cases and must be handled separately.
-				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] == (pRange-1))
+				// Unoccupied tile
+				if (currentTile.tag.Equals("Tile"))
 				{
-					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+					// Within walk range
+					if ((int)costs[x] < pRange)
 					{
-						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
-					}
-				}
-				
-				// Get the tiles beyond the walking range that can be attacked.
-				else if (((int)costs[x] > (pRange-1)) && ((int)costs[x] < (range)))
-				{
-					if(getTileAt(x).tag.Equals("OccupiedTile"))
-					{
-						// the tile is occupied, check if it's by an enemy
-						GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-						{
-							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
-						}
+						currentTile.transform.Find("Object002").renderer.material = aTileBlue;
+						tilesInRange.Add(currentTile);
 					}
 					
-					// if it's not occupied, mark it.
-					else if(getTileAt(x).tag.Equals("Tile"))
+					// Tiles that can be attacked at edge
+					else
 					{
-						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
+						currentTile.transform.Find("Object002").renderer.material = aTileRed;
+						tilesInAttackRange.Add(currentTile);
 					}
 				}
-			}
-			
-			// Now we need to find the tiles occupied by enemies not at the fringe that are actually reachable.
-			if ((int)costs[x] < (range-1) )
-			{
-				foreach(GameObject xx in getSurroundingSix(getTileAt(x)))
-				{
-					if (xx.tag.Equals("OccupiedTile"))
-					{
-						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
 
-						//problematic
-							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-							{
-								xx.transform.Find("Object002").renderer.material = aTileRed;
-								tilesInAttackRange.Add(xx);
-							}
-
-					}
-				}
 			}
 			
 			// Reset the hashtable.
@@ -324,10 +276,29 @@ public class TileManager : MonoBehaviour {
 				
 		}
 		
+		// Handle the occupied tiles
+		foreach (Vector3 x in occupied)
+		{
+			if ((int)costs[x] < range)
+			{
+				GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
+					
+				if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+				{
+					getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
+					tilesInAttackRange.Add(getTileAt(x));
+				}
+			}
+			
+			// Reset the hashtable.
+			costs.Remove(x);
+			costs.Add(x, -1);
+		}
+		
 		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
 		foreach (Vector3 y in firstPass)
 			if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed)
-				getTileAt(y).transform.Find("Object002").renderer.material = aTileDefault;
+				getTileAt(y).transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	
@@ -561,7 +532,7 @@ public class TileManager : MonoBehaviour {
 		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
 		{		
-			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileDefault;
+			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileGrass;
 			
 			aLastSelectedTile = aCurrentlySelectedTile;
 			
@@ -572,7 +543,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void deselectSingleTile(GameObject pTile)
 	{		
-		pTile.transform.Find("Object002").renderer.material = aTileDefault;
+		pTile.transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	private static bool isTileOccupied(GameObject pTile)
@@ -659,7 +630,7 @@ public class TileManager : MonoBehaviour {
 				foreach (GameObject x in tilesInMidTurnAttackRange)
 				{
 					if (x.Equals(getTileAt(unitsTile)))
-						x.transform.Find("Object002").renderer.material = aTileDefault;
+						x.transform.Find("Object002").renderer.material = aTileGrass;
 					else
 					{
 						if (x.tag.Equals("OccupiedTile"))
