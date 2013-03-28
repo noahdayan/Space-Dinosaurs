@@ -83,6 +83,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			BackgroundGUI.inMiniGame = true;
 			
 			//Since this is a bird we know that tile 1 should be filled by a bird model.
+			GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = true;
 			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
 			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;

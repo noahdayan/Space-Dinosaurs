@@ -100,6 +100,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			BackgroundGUI.inMiniGame = true;
 			
 			//Since this is a bird we know that tile 1 should be filled by a bird model.
+			GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("body").renderer.enabled = true;
 			//the longest fucking line evar
 			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
