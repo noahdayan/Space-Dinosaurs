@@ -76,4 +76,11 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 			isLegalMove = true;
 		}
 	}
+	
+	public void AddManaPoints(int toAdd)
+	{
+		int originalMana = mana;
+		mana += toAdd;
+		iTween.ValueTo(gameObject, iTween.Hash("from", originalMana, "to", mana, "onupdate", "UpdateGuiMana"));
+	}
 }

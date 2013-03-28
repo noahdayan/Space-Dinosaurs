@@ -75,10 +75,14 @@ public class ClickAndMove : MonoBehaviour
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
 				}	
 			}
-			else if (item.tag.Equals("DinoCoOil") && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
+			else if (item.tag.Equals("DinoCoOil"))// && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{	
+				//for now add mana to the team.
 				consume = true;
-				// plug-in functionality here	
+				if (CharacterManager.aCurrentlySelectedUnit.tag == "Player1")
+				{
+					CharacterManager.bird1.SendMessage("AddManaPoints", 3);
+				}
 			}
 			
 			if (consume)
