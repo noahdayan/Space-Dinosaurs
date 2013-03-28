@@ -29,7 +29,7 @@ public class TileManager : MonoBehaviour {
 	public static List<GameObject> tilesInMidTurnAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
-	public Material aTileDefault, aTileBlue, aTileRed;
+	public Material aTileGrass, aTileBlue, aTileRed;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -96,18 +96,18 @@ public class TileManager : MonoBehaviour {
 		{
 			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 				
 			foreach (GameObject tile in tilesInAttackRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 		
 		else
 		{
 			foreach (GameObject tile in tilesInMidTurnAttackRange)
 				if (tile != null)
-					tile.transform.Find("Object002").renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 	}
 	
@@ -297,8 +297,8 @@ public class TileManager : MonoBehaviour {
 		
 		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
 		foreach (Vector3 y in firstPass)
-			if (!closedBis.Contains(y) && getTileAt(y).renderer.sharedMaterial != aTileRed)
-				getTileAt(y).transform.Find("Object002").renderer.material = aTileDefault;
+			if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed)
+				getTileAt(y).transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	
@@ -532,7 +532,7 @@ public class TileManager : MonoBehaviour {
 		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
 		{		
-			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileDefault;
+			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileGrass;
 			
 			aLastSelectedTile = aCurrentlySelectedTile;
 			
@@ -543,7 +543,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void deselectSingleTile(GameObject pTile)
 	{		
-		pTile.transform.Find("Object002").renderer.material = aTileDefault;
+		pTile.transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	private static bool isTileOccupied(GameObject pTile)
@@ -630,7 +630,7 @@ public class TileManager : MonoBehaviour {
 				foreach (GameObject x in tilesInMidTurnAttackRange)
 				{
 					if (x.Equals(getTileAt(unitsTile)))
-						x.transform.Find("Object002").renderer.material = aTileDefault;
+						x.transform.Find("Object002").renderer.material = aTileGrass;
 					else
 					{
 						if (x.tag.Equals("OccupiedTile"))
