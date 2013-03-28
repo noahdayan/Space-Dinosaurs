@@ -40,11 +40,14 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public Color selectColor = Color.yellow;
 	public Color spentColor = Color.gray;
 	
+	public Color P1UntameColor;// = new Color(maxTamePoints/tamePoints, tamePoint/maxTamePoints, 0, 1);
+	public Color P2UntameColor;// = new Color(tamePoints/maxTamePoints, 0, maxTamePoints/tamePoints, 1);
+	
 	public Color unitColor;
 	float flashRate = 1.0f;
 	
-	public string miniGame0Inst = "Left Click or press 'Z' when the sliding bar is lined up with the green block"; 
-	public string miniGame1Inst = "Mash the 'Z' button!!";
+	public string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
+	public string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
 
 	
@@ -56,6 +59,18 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		UpdateColor();
 	}*/
+	
+	/*void Update()
+	{
+		float tpOverMtp = 1 - (tamePoints/maxTamePoints);
+		float mtpOverTp = 1 - (maxTamePoints/tamePoints);
+		
+		P1UntameColor = new Color(mtpOverTp, 1.0f, 0.0f, 1.0f);
+		P2UntameColor = new Color(tpOverMtp, 0.0f, 1.0f, 1.0f);
+		player1Color = P1UntameColor;
+		player2Color = P2UntameColor;
+	}*/
+	
 	
 	public IEnumerator AttackUnit (GameObject unit)
 	{
@@ -550,6 +565,15 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	//Changes the color of the unit according to which team it's on (or if it is spent).
 	public void UpdateColor()
 	{
+		float tpOverMtp = 1 - (tamePoints/maxTamePoints);
+		float mtpOverTp = 1 - (maxTamePoints/tamePoints);
+		
+		P1UntameColor = new Color(mtpOverTp, 1.0f, 0.0f, 1.0f);
+		P2UntameColor = new Color(tpOverMtp, 0.0f, 1.0f, 1.0f);
+		player1Color = P1UntameColor;
+		player2Color = P2UntameColor;
+		
+		
 		if (tag == "Player1")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player1Color;
@@ -628,6 +652,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			StopCoroutine("Return");
 		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
+		UpdateColor();
 	}
 	
 	//Adding flat amount of tame points.
@@ -642,6 +667,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		showTP = (int) tp;
 		gameObject.BroadcastMessage("showTameText", "+" + showTP.ToString());
+		UpdateColor();
 	}
 	
 	// When Dino is 
