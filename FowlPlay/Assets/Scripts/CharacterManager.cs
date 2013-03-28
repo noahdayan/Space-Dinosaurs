@@ -91,6 +91,19 @@ public class CharacterManager : MonoBehaviour {
 			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
 		}
 		
+		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Enemy"))
+		{
+			untamedUnits.Add(unit);
+			
+			// Get the tile the unit is standing on and mark it as occupied.
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(unit);
+			TileManager.getTileAt(tile).tag = "OccupiedTile";
+			
+			// Add the occupied tile to a hashtable that keeps track of what tiles are occupied and who is occupying them.
+			TileManager.occupiedTilesHT.Add(tile, unit);
+			aUnitsAndTilesHT.Add(unit, TileManager.getTileAt(tile));
+		}
+		
 		GameObject.Find("GUI Hot Seat").SendMessage("showText", "Player 1's Turn");
 		
 		bird1 = GameObject.Find("Bird1");
@@ -348,7 +361,6 @@ public class CharacterManager : MonoBehaviour {
 		
 		if (ClickAndMove.aMovementHappened)
 		{
-			
 			TileManager.occupiedTilesHT.Remove(tile);
 			TileManager.getTileAt(tile).tag = "Tile";
 			

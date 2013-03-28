@@ -26,13 +26,13 @@ public class TileManager : MonoBehaviour {
 	public static Hashtable costs;
 	private List<GameObject> tilesInRange;
 	private List<GameObject> tilesInAttackRange;
-	public static List<GameObject> tilesInImmediateAttackRange;
+	private List<GameObject> tilesInImmediateAttackRange;
 
 	public static List<GameObject> tilesInMidTurnAttackRange;
 	public static List<GameObject> tilesInStartTurnAttackRange;
 	
 	// The materials used for highlighting the range and the tile colors.
-	public Material aTileDefault, aTileBlue, aTileRed, aTilePurple;
+	public Material aTileDefault, aTileBlue, aTileRed, aTileOrange;
 	
 	public static bool aSingleTileIsSelected = false;
 	
@@ -113,6 +113,7 @@ public class TileManager : MonoBehaviour {
 		
 		else
 		{
+			Debug.Log("here");
 			foreach (GameObject tile in tilesInMidTurnAttackRange)
 				if (tile != null)
 					tile.renderer.material = aTileDefault;
@@ -276,7 +277,7 @@ public class TileManager : MonoBehaviour {
 		{
 			if ((int)costs[x] < range )
 			{
-				if (getTileAt(x).tag.Equals("Tile"))
+				if (getTileAt(x).tag.Equals("Tile") || getTileAt(x).tag.Equals("OccupiedTile") && x != getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit))
 					getTileAt(x).renderer.material.color = Color.green;
 				
 				firstPass.Add(x);
@@ -291,99 +292,42 @@ public class TileManager : MonoBehaviour {
 		
 		foreach (Vector3 x in closedBis)
 		{	
-			if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
+			if (getTileAt(x) != getTileAt(getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
 			{
-				
-				// Get the occupied tiles that are within attacking range at the start position and mark them as red.
-				if ((int)costs[x] < pAttackRange)
+				if (getTileAt(x).tag.Equals("Tile"))
 				{
-					//if(!getTileAt(x).tag.Equals("OccupiedTile"))
-						getTileAt (x).renderer.material = aTilePurple;
+					if ((int)costs[x] < pRange)
+					{
+						getTileAt(x).renderer.material = aTileBlue;
+						tilesInRange.Add(getTileAt(x));
+					}
+					
+					else if ((int)costs[x] >= pRange)
+					{
+						getTileAt(x).renderer.material = aTileOrange;
+						tilesInAttackRange.Add(getTileAt(x));
+					}
+				}
+				
+				else if (getTileAt(x).tag.Equals("OccupiedTile"))
+				{
+					if ((int)costs[x] < pAttackRange)
+					{
+						getTileAt(x).renderer.material = aTileRed;
 						tilesInImmediateAttackRange.Add(getTileAt(x));
-					//else if (getTileAt(x).tag.Equals("OccupiedTile") && )
-					//{
-						
-					//}
-				}
-				
-				// If the cost of reaching the tile is less than the walking range, and the tile
-				// is unoccupied, then mark it blue.
-				else if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
-				{
-					tilesInRange.Add(getTileAt(x));
-					getTileAt(x).renderer.material = aTileBlue;
-				}
-				
-				// Get the tiles within walking range, but not at the edge of the walkable area that contain enemy units.
-				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] < (pRange-1))
-				{					
-					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					
-						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-						{
-							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).renderer.material = aTileRed;
-						}
-				}
-				
-				// Get the tiles at the edge of the walking range that are occupied. These are special cases and must be handled separately.
-				else if (getTileAt(x).tag.Equals("OccupiedTile") && (int)costs[x] == (pRange-1))
-				{
-					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-					{
-						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).renderer.material = aTileRed;
-					}
-				}
-				
-				// Get the tiles beyond the walking range that can be attacked.
-				else if (((int)costs[x] > (pRange-1)) && ((int)costs[x] < (range)))
-				{
-					if(getTileAt(x).tag.Equals("OccupiedTile"))
-					{
-						// the tile is occupied, check if it's by an enemy
-						GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-						{
-							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).renderer.material = aTileRed;
-						}
 					}
 					
-					// if it's not occupied, mark it.
-					else if(getTileAt(x).tag.Equals("Tile"))
+					else
 					{
+						getTileAt(x).renderer.material = aTileOrange;
 						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).renderer.material = aTileRed;
-					}
-				}
-			}
-			
-			// Now we need to find the tiles occupied by enemies not at the fringe that are actually reachable.
-			if ((int)costs[x] < (range-1) )
-			{
-				foreach(GameObject xx in getSurroundingSix(getTileAt(x)))
-				{
-					if (xx.tag.Equals("OccupiedTile"))
-					{
-						GameObject occupyingUnit = (GameObject)occupiedTilesHT[xx.transform.position];
-
-						//problematic
-							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-							{
-								xx.renderer.material = aTileRed;
-								tilesInAttackRange.Add(xx);
-							}
-
 					}
 				}
 			}
 			
 			// Reset the hashtable.
 			costs.Remove(x);
-			costs.Add(x, -1);
-				
+			costs.Add(x, -1);	
 		}
 		
 		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
