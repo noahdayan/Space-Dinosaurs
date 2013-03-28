@@ -20,8 +20,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public Color enemyColor = Color.red;
 	public Color selectColor = Color.yellow;
 		
-	public string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
-	public string miniGame1Inst = "Mash the Spacebar or Left Click!!";
+	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
+	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 			
 	void Start()
 	{
