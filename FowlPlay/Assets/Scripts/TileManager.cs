@@ -96,18 +96,18 @@ public class TileManager : MonoBehaviour {
 		{
 			foreach (GameObject tile in tilesInRange)
 				if (tile != null)
-					tile.renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileDefault;
 				
 			foreach (GameObject tile in tilesInAttackRange)
 				if (tile != null)
-					tile.renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileDefault;
 		}
 		
 		else
 		{
 			foreach (GameObject tile in tilesInMidTurnAttackRange)
 				if (tile != null)
-					tile.renderer.material = aTileDefault;
+					tile.transform.Find("Object002").renderer.material = aTileDefault;
 		}
 	}
 	
@@ -228,7 +228,7 @@ public class TileManager : MonoBehaviour {
 			if ((int)costs[x] < range )
 			{
 				if (getTileAt(x).tag.Equals("Tile"))
-					getTileAt(x).renderer.material.color = Color.green;
+					getTileAt(x).transform.Find("Object002").renderer.material.color = Color.green;
 				
 				firstPass.Add(x);
 			}
@@ -249,7 +249,7 @@ public class TileManager : MonoBehaviour {
 				if ((int)costs[x] < pRange && getTileAt(x).tag.Equals("Tile"))
 				{
 					tilesInRange.Add(getTileAt(x));
-					getTileAt(x).renderer.material = aTileBlue;
+					getTileAt(x).transform.Find("Object002").renderer.material = aTileBlue;
 				}
 				
 				// Get the tiles within walking range, but not at the edge of the walkable area that contain enemy units.
@@ -260,7 +260,7 @@ public class TileManager : MonoBehaviour {
 						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 						{
 							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).renderer.material = aTileRed;
+							getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
 						}
 				}
 				
@@ -271,7 +271,7 @@ public class TileManager : MonoBehaviour {
 					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 					{
 						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).renderer.material = aTileRed;
+						getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
 					}
 				}
 				
@@ -285,7 +285,7 @@ public class TileManager : MonoBehaviour {
 						if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 						{
 							tilesInAttackRange.Add(getTileAt(x));
-							getTileAt(x).renderer.material = aTileRed;
+							getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
 						}
 					}
 					
@@ -293,7 +293,7 @@ public class TileManager : MonoBehaviour {
 					else if(getTileAt(x).tag.Equals("Tile"))
 					{
 						tilesInAttackRange.Add(getTileAt(x));
-						getTileAt(x).renderer.material = aTileRed;
+						getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
 					}
 				}
 			}
@@ -310,7 +310,7 @@ public class TileManager : MonoBehaviour {
 						//problematic
 							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
 							{
-								xx.renderer.material = aTileRed;
+								xx.transform.Find("Object002").renderer.material = aTileRed;
 								tilesInAttackRange.Add(xx);
 							}
 
@@ -327,7 +327,7 @@ public class TileManager : MonoBehaviour {
 		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
 		foreach (Vector3 y in firstPass)
 			if (!closedBis.Contains(y) && getTileAt(y).renderer.sharedMaterial != aTileRed)
-				getTileAt(y).renderer.material = aTileDefault;
+				getTileAt(y).transform.Find("Object002").renderer.material = aTileDefault;
 	}
 	
 	
@@ -424,7 +424,7 @@ public class TileManager : MonoBehaviour {
 		for (int i = 1; i < 7; i++)
 		{
 			GameObject x = getSingleNeighbor(pTile, i);
-			if (x != null && x.renderer.material.color == Color.green && !x.tag.Equals("NonTile"))
+			if (x != null && x.transform.Find("Object002").renderer.material.color == Color.green && !x.tag.Equals("NonTile"))
 				lTiles.Add(x);
 		}
 
@@ -525,7 +525,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void highlightTile(GameObject pTile)
 	{
-		pTile.renderer.material.color = Color.cyan;
+		pTile.transform.Find("Object002").renderer.material.color = Color.cyan;
 	}
 	
 	/**
@@ -552,7 +552,7 @@ public class TileManager : MonoBehaviour {
 			// un-paint the range
 			unhighlightRange();
 			
-			pTile.renderer.material.color = Color.yellow;
+			pTile.transform.Find("Object002").renderer.material.color = Color.yellow;
 		}		
 	}
 	
@@ -561,7 +561,7 @@ public class TileManager : MonoBehaviour {
 		// Cannot deselct if no tile is selected!
 		if (aSingleTileIsSelected) 
 		{		
-			aCurrentlySelectedTile.renderer.material = aTileDefault;
+			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileDefault;
 			
 			aLastSelectedTile = aCurrentlySelectedTile;
 			
@@ -572,7 +572,7 @@ public class TileManager : MonoBehaviour {
 	
 	public void deselectSingleTile(GameObject pTile)
 	{		
-		pTile.renderer.material = aTileDefault;
+		pTile.transform.Find("Object002").renderer.material = aTileDefault;
 	}
 	
 	private static bool isTileOccupied(GameObject pTile)
@@ -659,18 +659,18 @@ public class TileManager : MonoBehaviour {
 				foreach (GameObject x in tilesInMidTurnAttackRange)
 				{
 					if (x.Equals(getTileAt(unitsTile)))
-						x.renderer.material = aTileDefault;
+						x.transform.Find("Object002").renderer.material = aTileDefault;
 					else
 					{
 						if (x.tag.Equals("OccupiedTile"))
 						{
 							GameObject occupyingUnit = (GameObject)occupiedTilesHT[x.transform.position];
 							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))	
-								x.renderer.material = aTileRed;
+								x.transform.Find("Object002").renderer.material = aTileRed;
 						}
 						
 						else
-							x.renderer.material = aTileRed;
+							x.transform.Find("Object002").renderer.material = aTileRed;
 					}
 				}
 				
