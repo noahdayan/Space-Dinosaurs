@@ -4,6 +4,7 @@ using System.Collections;
 public class AnimationManager : MonoBehaviour {
 	
 	public static bool hold = false;
+	public AudioClip walkingSound;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,10 @@ public class AnimationManager : MonoBehaviour {
 					transform.FindChild("model").animation.Play("standing");
 				
 				else if(ClickAndMove.aIsObjectMoving)
+				{
 					transform.FindChild("model").animation.Play("walking");
+					audio.PlayOneShot(walkingSound);
+				}
 			
 				else if(CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected)
 					transform.FindChild("model").animation.Play("attack");
