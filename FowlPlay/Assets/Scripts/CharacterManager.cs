@@ -274,6 +274,13 @@ public class CharacterManager : MonoBehaviour {
 					unit.GetComponent<DinosaurUnitFunctionalityAndStats>().tamed = false;
 				}
 			}
+			else if (aTurn == 2 || aTurn == 4)
+			{
+				foreach (GameObject unit in untamedUnits)
+				{
+					unit.SendMessage("StartTurnUpdateSpent");
+				}
+			}
 			
 			aInteractiveUnitIsSelected = false;
 			aMidTurn = false;
