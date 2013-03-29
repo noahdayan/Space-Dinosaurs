@@ -121,27 +121,27 @@ public class ClickAndMove : MonoBehaviour
 					{	
 						switch (CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species)
 						{	
-							case "tyrannosaur" :
+							case "Tyrannosaur" :
+							{
+								movementSpeed = 5.0f;
+								break;
+							}
+							case "Anquilosaurus" :
 							{
 								movementSpeed = 10.0f;
 								break;
 							}
-							case "anquilosaurus" :
-							{
-								movementSpeed = 10.0f;
-								break;
-							}
-							case "pterodactyl" :
+							case "Pterodactyl" :
 							{
 								movementSpeed = 35.0f;
 								break;
 							}
-							case "triceratops" :
+							case "Triceratops" :
 							{
 								movementSpeed = 10.0f;
 								break;
 							}
-							case "velociraptor" :
+							case "Velociraptor" :
 							{
 								movementSpeed = 40.0f;
 								break;

@@ -170,7 +170,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		SendMessage("unhighlightRange");
 		
-		deselectUnit();
+		//deselectUnit();
 		
 		//endTurn();
 	}
@@ -181,7 +181,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		SendMessage("unhighlightRange");
 		
-		deselectUnit();
+		//deselectUnit();
 		
 		//endTurn();
 	}
@@ -470,6 +470,12 @@ public class CharacterManager : MonoBehaviour {
 			// Special case -- unhighlight source tile if it's within attack range if we end turn was pressed.
 			if (TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition) != null)
 				SendMessage("deselectSingleTile", TileManager.getTileAt(aCurrentlySelectedUnitOriginalPosition));
+			
+			if(!isBird(aCurrentlySelectedUnit))
+			{
+				aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().attackSpent = true;
+				aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().moveSpent = true;
+			}
 			
 			deselectUnit();
 			
