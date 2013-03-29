@@ -35,18 +35,20 @@ public class MinigameMenu : MonoBehaviour {
 		else if (minigameIsRunning)
 		{
 			aSeconds -= Time.deltaTime;	
-			if (aSeconds >= 3.0f && aSeconds <= 3.5f && !attackAnimStart)
+			if (aSeconds >= 5.0f && aSeconds <= 5.5f && !attackAnimStart)
 			{
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).transform.FindChild("model").animation.Play("attack");
+				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("attack");
 				//attackAnimStart = true;
 			}
-			if (aSeconds >= 2.5f && aSeconds < 3.2f && !damageAnimStart)
+			if (aSeconds >= 5.0f && aSeconds < 5.2f && !damageAnimStart)
 			{
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("model").animation.Play("damage");
+				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("damage");
 				//damageAnimStart = true;
 			}
-			if (aSeconds < 2.5f)
+			if (aSeconds < 2.3f)
 			{
+				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("standing");
+				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
 				damageAnimStart = true;
 				attackAnimStart = true;
 			}
