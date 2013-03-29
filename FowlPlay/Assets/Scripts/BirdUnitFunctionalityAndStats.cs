@@ -105,6 +105,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			//the longest fucking line evar
 			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
 			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
+			UpdateCurrentlySelectedSpecies();
 			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;
 			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
 				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
@@ -173,6 +174,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 				bonusDamage = mattsMash.theMashes / 8;
 				mattsMash.theMashes = 0;
 			}
+			MinigameMenu.attackAnimStart = false;
+			MinigameMenu.damageAnimStart = false;
 			//~~~~~~~MINI GAME END HERE
 			//Make sure to add the bonus to attackPoints
 			
@@ -203,6 +206,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateInteractSpecies()
 	{
 		CharacterManager.aInteractSpecies = "Bird";
+	}
+	
+	public void UpdateCurrentlySelectedSpecies()
+	{
+		CharacterManager.aCurrentlySelectedSpecies = "Bird";
 	}
 	
 	public void RemoveMoveMana()

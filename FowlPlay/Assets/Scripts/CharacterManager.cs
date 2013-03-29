@@ -8,6 +8,7 @@ public class CharacterManager : MonoBehaviour {
 	public static GameObject aCurrentlySelectedUnit;
 	public static GameObject aInteractUnit;
 	public static string aInteractSpecies;
+	public static string aCurrentlySelectedSpecies;
 	
 	// GameObject Unit -> GameObject Tile
 	public static Hashtable aUnitsAndTilesHT;

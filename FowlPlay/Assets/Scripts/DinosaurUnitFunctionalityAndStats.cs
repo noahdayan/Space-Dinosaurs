@@ -100,7 +100,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			//Since this is a bird we know that tile 1 should be filled by a bird model.
 			GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = true;
+			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
+			UpdateCurrentlySelectedSpecies();
 			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;
 			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
 				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
@@ -167,6 +169,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				bonusDamage = mattsMash.theMashes / 8;
 				mattsMash.theMashes = 0;
 			}
+			
+			MinigameMenu.attackAnimStart = false;
+			MinigameMenu.damageAnimStart = false;
 			//~~~~~~~MINI GAME END HERE
 			//Make sure to add the bonus to attackPoints
 			
@@ -265,10 +270,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		float commanderDistance, commanderRateBonus;//, xDist, zDist;
 		float temp = tamePoints;
-		//Calculating distance from the commander.
-		//xDist = (commanderPosition.x - gameObject.transform.position.x);
-		//zDist = (commanderPosition.z - gameObject.transform.position.z);
-		//commanderDistance = Mathf.Sqrt((xDist * xDist) + (zDist * zDist));
 		
 		if (tag == "Player1")
 			commanderDistance = (float) TileManager.movementCost(gameObject, CharacterManager.bird1);
@@ -701,6 +702,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public void UpdateInteractSpecies()
 	{
 		CharacterManager.aInteractSpecies = species;
+	}
+	
+	public void UpdateCurrentlySelectedSpecies()
+	{
+		CharacterManager.aCurrentlySelectedSpecies = species;
 	}
 	
 }
