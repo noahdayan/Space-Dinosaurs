@@ -49,7 +49,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
-
+	// SFX - Death of unit
+	public AudioClip soundDeath;
 	
 	void Start()
 	{
@@ -430,6 +431,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		CharacterManager.aUnitsAndTilesHT.Remove(gameObject);
 		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
 		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
+		
+		audio.PlayOneShot(soundDeath);
 		
 		if (species.Equals("tyrannosaur"))
 		{

@@ -15,6 +15,8 @@ public class ClickAndMove : MonoBehaviour
 	
 	private GameObject manager;
 	
+	public AudioClip itemBirdSeed, itemOil, itemDinoChow;
+	
 	void Start () 
 	{
 		manager = GameObject.Find("Character");
@@ -63,6 +65,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+					audio.PlayOneShot(itemDinoChow);
 				}
 			}
 			else if (item.tag.Equals("BirdSeed") && CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
@@ -73,6 +76,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+					audio.PlayOneShot(itemBirdSeed);
 				}	
 			}
 			else if (item.tag.Equals("DinoCoOil"))// && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
@@ -82,6 +86,7 @@ public class ClickAndMove : MonoBehaviour
 				if (CharacterManager.aCurrentlySelectedUnit.tag == "Player1")
 				{
 					CharacterManager.bird1.SendMessage("AddManaPoints", 3);
+					audio.PlayOneShot(itemOil);
 				}
 			}
 			
