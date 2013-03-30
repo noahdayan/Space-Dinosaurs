@@ -49,8 +49,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
-	// SFX - Death of unit
-	public AudioClip soundDeath;
+	// SFX
+	public AudioClip soundDeath, soundAttack;
 	
 	void Start()
 	{
@@ -151,6 +151,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				mattsMash.theMashes = 0;
 			}
 			
+			// Play SFX
+			audio.PlayOneShot(soundAttack);
 			
 			//Dealing damage to the unit that we are attacking.
 			unit.SendMessage("TakeAttackDamage", attackPoints + bonusDamage);
