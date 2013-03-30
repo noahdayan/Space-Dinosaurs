@@ -18,12 +18,19 @@ public class AnimationManager : MonoBehaviour {
 			if(CharacterManager.aCurrentlySelectedUnit == gameObject)
 			{
 				if(!ClickAndMove.aIsObjectMoving && !CharacterManager.aInteractiveUnitIsSelected)
+				{
 					transform.FindChild("model").animation.Play("standing");
+					audio.Stop();
+				}
 				
 				else if(ClickAndMove.aIsObjectMoving)
 				{
 					transform.FindChild("model").animation.Play("walking");
-					audio.PlayOneShot(walkingSound);
+					
+					if(!audio.isPlaying)
+					{
+						audio.Play();
+					}
 				}
 			
 				else if(CharacterManager.aMidTurn && CharacterManager.aInteractiveUnitIsSelected)
