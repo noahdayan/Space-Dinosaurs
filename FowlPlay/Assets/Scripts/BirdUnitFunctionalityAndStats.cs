@@ -179,7 +179,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			}
 			
 			MinigameMenu.minigameIsRunning = false;
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(3);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
@@ -267,7 +267,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
+		if (CharacterManager.aInteractSpecies == "Bird" && MinigameMenu.minigameIsRunning)
+		{
+			GameObject.Find("Tile2").transform.FindChild("battleBird").animation.Play("death");
+		}
 		audio.PlayOneShot(soundDeath);
+		yield return new WaitForSeconds(2.0f);
 		yield return new WaitForSeconds(2.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);

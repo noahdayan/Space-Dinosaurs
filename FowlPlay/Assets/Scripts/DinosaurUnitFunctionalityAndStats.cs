@@ -176,7 +176,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			
 			MinigameMenu.minigameIsRunning = false;
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(3);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
@@ -418,6 +418,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
+		if (CharacterManager.aInteractSpecies == species && MinigameMenu.minigameIsRunning)
+		{
+			GameObject.Find("Tile2").transform.FindChild("battle" + species).animation.Play("death");
+		}
+		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		//removing dead unit from the team.
 		switch(gameObject.tag)
@@ -440,7 +445,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
 		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
 		
-		audio.PlayOneShot(soundDeath);
 		
 		if (species.Equals("tyrannosaur"))
 		{
@@ -701,6 +705,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		showTP = (int) tp;
 		gameObject.BroadcastMessage("showTameText", "+" + showTP.ToString());
+		CheckTamePoints();
 		UpdateColor();
 	}
 	
