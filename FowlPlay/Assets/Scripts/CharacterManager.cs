@@ -56,9 +56,12 @@ public class CharacterManager : MonoBehaviour {
 	
 	public UntamedManager untamedMovementManager;
 	
+	// Sounds
+	public AudioClip selectTrex, selectTricera, selectVeloci, selectAnquilo, selectPtero, selectBird, soundTame;
+		
 	// Use this for initialization
 	void Start () {
-
+		
 		// Initialize and populate all collections
 		player1Units = new List<GameObject>();
 		player2Units = new List<GameObject>();
@@ -157,6 +160,44 @@ public class CharacterManager : MonoBehaviour {
 			PlayMenuGUI.isBird = false;
 			bird2.SendMessage("CheckLegalMove", aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().moveCost);
 		}
+		
+		// Play the selection sound
+		if (!CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit) && (aTurn == 1 || aTurn == 3))
+		{	
+			switch (CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species)
+			{	
+				case "Tyrannosaur" :
+				{
+					audio.PlayOneShot(selectTrex);
+					break;
+				}
+				case "Anquilosaurus" :
+				{
+					audio.PlayOneShot(selectAnquilo);
+					break;
+				}
+				case "Pterodactyl" :
+				{
+					audio.PlayOneShot(selectPtero);
+					break;
+				}
+				case "Triceratops" :
+				{
+					audio.PlayOneShot(selectTricera);
+					break;
+				}
+				case "Velociraptor" :
+				{
+					audio.PlayOneShot(selectVeloci);
+					break;
+				}
+			}
+		}
+		
+		if(isBird(pUnit))
+		{
+			audio.PlayOneShot(selectBird);
+		}
 	}
 	
 	public void attack()
@@ -180,6 +221,8 @@ public class CharacterManager : MonoBehaviour {
 		aCurrentlySelectedUnit.SendMessage("TameUnit", aInteractUnit);
 		
 		SendMessage("unhighlightRange");
+		
+		audio.PlayOneShot(soundTame);
 		
 		//deselectUnit();
 		
