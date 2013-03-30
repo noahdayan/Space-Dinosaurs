@@ -546,6 +546,9 @@ public class CharacterManager : MonoBehaviour {
 			aMidTurn = false;
 		}
 		
+		
+		SendMessage("CleanMidTurnTiles");
+			
 		ClickAndMove.aMovementHappened = false;
 	}
 	
