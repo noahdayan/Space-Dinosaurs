@@ -58,6 +58,10 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			StartCoroutine("Die");
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		if (CharacterManager.aInteractSpecies != "Bird")
+			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		else
+			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Damage Text").SendMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
@@ -140,10 +144,37 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			MinigameMenu.aSeconds = 11;
 			//float initTime = Time.time;
 			yield return new WaitForSeconds(11);
-			MinigameMenu.minigameIsRunning = false;
-			//float endTime = Time.time;
-			//Debug.Log("It took: " + (endTime - initTime) + " seconds \n");
 			
+			//Make sure to add the bonus to attackPoints
+			if (miniGameNum == 0)
+			{
+				bonusDamage = BarGrowAndHit.counter;
+				BarGrowAndHit.counter = 0;
+			}
+			else if (miniGameNum == 1)
+			{
+				bonusDamage = mattsMash.theMashes / 8;
+				mattsMash.theMashes = 0;
+			}
+			
+			
+			
+			//Dealing damage to the unit that we are attacking.
+			unit.SendMessage("TakeAttackDamage", attackPoints + bonusDamage);
+			bonusDamage = 0;
+			UpdateColor();
+		
+			if (gameObject.tag == "Player1")
+			{
+				CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
+			}
+			else if (gameObject.tag == "Player2")
+			{
+				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
+			}
+			
+			MinigameMenu.minigameIsRunning = false;
+			yield return new WaitForSeconds(2);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
@@ -163,36 +194,17 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
-				bonusDamage = BarGrowAndHit.counter;
 				BarGrowAndHit.counter = 0;
 			}
 			else if (miniGameNum == 1)
 			{
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
-				//GameObject.Find("Plane").GetComponent<MashingGame>().enabled = false;
-				bonusDamage = mattsMash.theMashes / 8;
 				mattsMash.theMashes = 0;
 			}
 			MinigameMenu.attackAnimStart = false;
 			MinigameMenu.damageAnimStart = false;
 			//~~~~~~~MINI GAME END HERE
-			//Make sure to add the bonus to attackPoints
-			
-			
-			//Dealing damage to the unit that we are attacking.
-			unit.SendMessage("TakeAttackDamage", attackPoints + bonusDamage);
-			bonusDamage = 0;
-			UpdateColor();
-		
-			if (gameObject.tag == "Player1")
-			{
-				CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
-			}
-			else if (gameObject.tag == "Player2")
-			{
-				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
-			}
 		}
 		else
 		{
