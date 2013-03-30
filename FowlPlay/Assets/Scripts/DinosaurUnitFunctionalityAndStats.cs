@@ -171,6 +171,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
 			}
 			
+			
+			MinigameMenu.minigameIsRunning = false;
+			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
 			
@@ -180,6 +183,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
+			yield return new WaitForSeconds(2);
 			
 			if (miniGameNum == 0)
 			{
@@ -198,7 +202,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			MinigameMenu.attackAnimStart = false;
 			MinigameMenu.damageAnimStart = false;
-			MinigameMenu.minigameIsRunning = false;
 			//~~~~~~~MINI GAME END HERE
 			
 			
@@ -667,7 +670,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			StopCoroutine("Return");
 		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
-		GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
+		//GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
 		UpdateColor();
 	}
 	
