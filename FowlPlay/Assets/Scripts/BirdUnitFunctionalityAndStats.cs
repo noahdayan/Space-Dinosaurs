@@ -22,6 +22,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
+	
+	// SFX - Death
+	public AudioClip soundDeath;
 			
 	void Start()
 	{
@@ -262,6 +265,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
+		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(1.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
