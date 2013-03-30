@@ -268,7 +268,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public IEnumerator Die()
 	{
 		audio.PlayOneShot(soundDeath);
-		yield return new WaitForSeconds(1.0f);
+		yield return new WaitForSeconds(2.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
 		if(gameObject == CharacterManager.bird1)
@@ -282,6 +282,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		//yield return new WaitForSeconds(1.0f);
 		PauseMenuGUI.gameOver = true;
 		Time.timeScale = 0.0f;
+		yield return null;
 	}
 	
 	public void UpdateGuiHealthBar()

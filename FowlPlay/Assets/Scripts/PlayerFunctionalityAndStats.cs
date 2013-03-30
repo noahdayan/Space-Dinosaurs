@@ -19,13 +19,13 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", startingMana, "onupdate", "UpdateGuiMana"));
 	}
 	
-	void Update()
+	/*void Update()
 	{
 		if (mana <= 0 && isTurn)
 		{
 			GameObject.Find("Character").SendMessage("endTurn");
 		}
-	}
+	}*/
 	
 	public void PlayerEndTurn()
 	{

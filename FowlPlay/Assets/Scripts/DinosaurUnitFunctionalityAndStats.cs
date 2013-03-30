@@ -174,7 +174,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			}
 			
 			
+			
 			MinigameMenu.minigameIsRunning = false;
+			yield return new WaitForSeconds(2);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
@@ -185,7 +187,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
-			yield return new WaitForSeconds(2);
+			
 			
 			if (miniGameNum == 0)
 			{
@@ -416,6 +418,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
+		yield return new WaitForSeconds(2.0f);
 		//removing dead unit from the team.
 		switch(gameObject.tag)
 		{
@@ -443,20 +446,21 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			AnimationManager.hold = true;
 			gameObject.transform.FindChild("model").animation.Play("death");
-			yield return new WaitForSeconds(2.0f);
+			//yield return new WaitForSeconds(2.0f);
 			CharacterManager.killUnit(gameObject);
 			Destroy(gameObject);
 		}
 			
 		else
 		{	
-			yield return new WaitForSeconds(1.0f);
+			//yield return new WaitForSeconds(1.0f);
 			Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 			CharacterManager.killUnit(gameObject);
 			Destroy(gameObject);
 		}
 		
 		AnimationManager.hold = false;
+		yield return null;
 	}
 	
 	public void UpdateGuiHealthBar()
@@ -670,6 +674,15 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StopCoroutine("Flash");
 			StopCoroutine("Return");
+		}
+		if (CharacterManager.aCurrentlySelectedSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
+		{
+			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
+		}
+		else if (CharacterManager.aInteractSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
+		{
+			GameObject.Find("Tile2").transform.FindChild("battle" + species).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
+		
 		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		//GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());

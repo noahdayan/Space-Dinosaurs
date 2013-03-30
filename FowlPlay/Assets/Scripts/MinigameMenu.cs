@@ -45,12 +45,12 @@ public class MinigameMenu : MonoBehaviour {
 				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("damage");
 				//damageAnimStart = true;
 			}
-			if (aSeconds < 2.3f)
+			if (aSeconds < 2.3f && aSeconds > 1.0f && !damageAnimStart && !attackAnimStart)
 			{
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("standing");
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
 				damageAnimStart = true;
 				attackAnimStart = true;
+				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("standing");
+				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
 			}
 		}
 	}
