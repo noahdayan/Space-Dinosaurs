@@ -564,7 +564,7 @@ public class TileManager : MonoBehaviour {
 		{
 			randomTile = getSingleNeighbor(getTileAt(tile) ,UnityEngine.Random.Range(0, 6));
 		}
-		while (randomTile == null || isTileOccupied(randomTile));
+		while (randomTile == null || isTileOccupied(randomTile) || !randomTile.tag.Equals("Tile"));
 		
 		return randomTile;
 	}
@@ -664,5 +664,12 @@ public class TileManager : MonoBehaviour {
 		result.y = 2.0f;
 		
 		return result;
+	}
+	
+	public void CleanMidTurnTiles()
+	{
+		foreach(GameObject x in tilesInMidTurnAttackRange)
+			x.transform.Find("Object002").renderer.material = aTileGrass;
+		
 	}
 }
