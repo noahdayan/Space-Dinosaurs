@@ -303,7 +303,6 @@ public class TileManager : MonoBehaviour {
 			
 			else
 			{
-				Debug.Log("here");
 				// If it is within range
 				if ((int)costs[x] < range)
 				{
