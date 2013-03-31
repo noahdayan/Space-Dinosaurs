@@ -224,140 +224,164 @@ public class TileManager : MonoBehaviour {
 		// The first pass. We check to see what tiles are within range, without considering obstacles that would reduce range.
 		List<Vector3> closed = dijkstra(pUnit,pRange,pAttackRange,1);
 		List<Vector3> occupied = new List<Vector3>();
+		
+		bool isPtero = true;
+		
+		if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 || CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2)
+			isPtero = false;
+		
+		else if (!CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species.Equals("Pterodactyl"))
+			isPtero = false;
+		
 		foreach (Vector3 x in closed)
 		{
 			if ((int)costs[x] < range )
 			{
-				if (getTileAt(x).tag.Equals("Tile"))
-					getTileAt(x).transform.Find("Object002").renderer.material.color = Color.green;
-				else
-					occupied.Add(x);
+				if(!isPtero)
+				{
+					if (getTileAt(x).tag.Equals("Tile"))
+						getTileAt(x).transform.Find("Object002").renderer.material.color = Color.green;
+					else
+						occupied.Add(x);
+					
+					firstPass.Add(x);
+				}
 				
-				firstPass.Add(x);
+				else
+				{
+					GameObject currentTile = getTileAt(x);
+						
+					// Unoccupied tile
+					if (currentTile.tag.Equals("Tile"))
+					{
+						// Within walk range
+						if ((int)costs[x] < pRange)
+						{
+							currentTile.transform.Find("Object002").renderer.material = aTileBlue;
+							tilesInRange.Add(currentTile);
+						}
+						
+						// Tiles that can be attacked at edge
+						else
+						{
+							if(!currentTile.tag.Equals("NonTile"))
+							{
+								currentTile.transform.Find("Object002").renderer.material = aTileRed;
+								tilesInAttackRange.Add(currentTile);
+							}
+						}
+					}
+				}
 			}
-			
+
 			costs.Remove(x);
 			costs.Add(x, -1);
 		}
 		
-		// Second pass--repeat to remove the tiles that the algorithm detected the first time, but that are not actually reachable.
-		List<Vector3> closedBis = dijkstra(pUnit,pRange,pAttackRange,2);
 		
-		foreach (Vector3 x in closedBis)
+		if (!isPtero)
 		{
-			if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 || CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2)
+			// Second pass--repeat to remove the tiles that the algorithm detected the first time, but that are not actually reachable.
+			List<Vector3> closedBis = dijkstra(pUnit,pRange,pAttackRange,2);
+			
+			foreach (Vector3 x in closedBis)
 			{
-				// If it is within range
-				if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
+				if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 || CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2)
 				{
-					GameObject currentTile = getTileAt(x);
-					
-					// Unoccupied tile
-					if (currentTile.tag.Equals("Tile"))
+					// If it is within range
+					if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
 					{
-						// Within walk range
-						if ((int)costs[x] < pRange)
-						{
-							currentTile.transform.Find("Object002").renderer.material = aTileBlue;
-							tilesInRange.Add(currentTile);
-						}
+						GameObject currentTile = getTileAt(x);
 						
-						// Tiles that can be attacked at edge
-						else
+						// Unoccupied tile
+						if (currentTile.tag.Equals("Tile"))
 						{
-							currentTile.transform.Find("Object002").renderer.material = aTileRed;
-							tilesInAttackRange.Add(currentTile);
+							// Within walk range
+							if ((int)costs[x] < pRange)
+							{
+								currentTile.transform.Find("Object002").renderer.material = aTileBlue;
+								tilesInRange.Add(currentTile);
+							}
+							
+							// Tiles that can be attacked at edge
+							else
+							{
+								if(!currentTile.tag.Equals("NonTile"))
+								{
+									currentTile.transform.Find("Object002").renderer.material = aTileRed;
+									tilesInAttackRange.Add(currentTile);
+								}
+							}
 						}
+		
 					}
-	
 				}
+				
+				else if(!CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species.Equals("Pterodactyl"))
+				{
+					// If it is within range
+					if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
+					{
+						GameObject currentTile = getTileAt(x);
+						
+						// Unoccupied tile
+						if (currentTile.tag.Equals("Tile"))
+						{
+							// Within walk range
+							if ((int)costs[x] < pRange)
+							{
+								currentTile.transform.Find("Object002").renderer.material = aTileBlue;
+								tilesInRange.Add(currentTile);
+							}
+							
+							// Tiles that can be attacked at edge
+							else
+							{
+								if(!currentTile.tag.Equals("NonTile"))
+								{
+									currentTile.transform.Find("Object002").renderer.material = aTileRed;
+									tilesInAttackRange.Add(currentTile);
+								}
+							}
+						}
+		
+					}
+				}
+				
+				// Reset the hashtable.
+				costs.Remove(x);
+				costs.Add(x, -1);
+					
 			}
 			
-			else if(!CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species.Equals("Pterodactyl"))
+			// Handle the occupied tiles
+			foreach (Vector3 x in occupied)
 			{
-				// If it is within range
-				if ((int)costs[x] < range && (!getTileAt(x).tag.Equals("NonTile")))
-				{
-					GameObject currentTile = getTileAt(x);
-					
-					// Unoccupied tile
-					if (currentTile.tag.Equals("Tile"))
-					{
-						// Within walk range
-						if ((int)costs[x] < pRange)
-						{
-							currentTile.transform.Find("Object002").renderer.material = aTileBlue;
-							tilesInRange.Add(currentTile);
-						}
-						
-						// Tiles that can be attacked at edge
-						else
-						{
-							currentTile.transform.Find("Object002").renderer.material = aTileRed;
-							tilesInAttackRange.Add(currentTile);
-						}
-					}
-	
-				}
-			}
-			
-			else
-			{
-				// If it is within range
 				if ((int)costs[x] < range)
 				{
-					GameObject currentTile = getTileAt(x);
-					
-					// Unoccupied tile
-					if (currentTile.tag.Equals("Tile"))
-					{
-						// Within walk range
-						if ((int)costs[x] < pRange)
-						{
-							currentTile.transform.Find("Object002").renderer.material = aTileBlue;
-							tilesInRange.Add(currentTile);
-						}
+					GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
 						
-						// Tiles that can be attacked at edge
-						else
+					if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
+					{
+						if(!getTileAt(x).tag.Equals("NonTile"))
 						{
-							currentTile.transform.Find("Object002").renderer.material = aTileRed;
-							tilesInAttackRange.Add(currentTile);
+							getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
+							tilesInAttackRange.Add(getTileAt(x));
 						}
 					}
-	
 				}
-			}
-			
-			// Reset the hashtable.
-			costs.Remove(x);
-			costs.Add(x, -1);
 				
-		}
-		
-		// Handle the occupied tiles
-		foreach (Vector3 x in occupied)
-		{
-			if ((int)costs[x] < range)
-			{
-				GameObject occupyingUnit = (GameObject)occupiedTilesHT[x];
-					
-				if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))
-				{
-					getTileAt(x).transform.Find("Object002").renderer.material = aTileRed;
-					tilesInAttackRange.Add(getTileAt(x));
-				}
+				// Reset the hashtable.
+				costs.Remove(x);
+				costs.Add(x, -1);
 			}
 			
-			// Reset the hashtable.
-			costs.Remove(x);
-			costs.Add(x, -1);
+			// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
+			foreach (Vector3 y in firstPass)
+				if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed)
+					getTileAt(y).transform.Find("Object002").renderer.material = aTileGrass;
+			
 		}
-		
-		// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
-		foreach (Vector3 y in firstPass)
-			if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed)
-				getTileAt(y).transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	
@@ -720,7 +744,7 @@ public class TileManager : MonoBehaviour {
 			//{
 				foreach (GameObject x in tilesInMidTurnAttackRange)
 				{
-					if (x.Equals(getTileAt(unitsTile)))
+					if (x.Equals(getTileAt(unitsTile)) && !x.tag.Equals("NonTile"))
 						x.transform.Find("Object002").renderer.material = aTileGrass;
 					else
 					{
@@ -732,7 +756,10 @@ public class TileManager : MonoBehaviour {
 						}
 						
 						else
-							x.transform.Find("Object002").renderer.material = aTileRed;
+						{
+							if(!x.tag.Equals("NonTile"))
+								x.transform.Find("Object002").renderer.material = aTileRed;
+						}
 					}
 				}
 				
