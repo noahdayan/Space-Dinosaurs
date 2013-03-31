@@ -30,12 +30,13 @@ public class ItemManager : MonoBehaviour {
 				 tile = TileManager.TruePickRandomTile();
 			while (tilesWithItems.Contains(tile.transform.position));
 			
+			GameObject itemObject = prefabs[Random.Range(0, prefabs.Length)];
 			// Set position
 			Vector3 itemPosition = tile.transform.position;
-			itemPosition.y = 6.0f;
+			itemPosition.y = itemObject.transform.position.y;
 			
 			// Instantiate (put on map) and add to hashtable
-			GameObject item = (GameObject)Instantiate(prefabs[Random.Range(0, prefabs.Length)], itemPosition, Quaternion.identity);
+			GameObject item = (GameObject)Instantiate(itemObject, itemPosition, itemObject.transform.rotation);
 			tilesWithItems.Add(tile.transform.position, item);
 			
 			switch (item.name)
