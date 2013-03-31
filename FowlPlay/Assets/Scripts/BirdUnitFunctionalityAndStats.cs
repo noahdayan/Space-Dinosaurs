@@ -15,10 +15,11 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public int attackRange = 2;
 	public GameObject deathParticle;
 	//Colors
-	public Color player1Color = Color.green;
-	public Color player2Color = Color.blue;
-	public Color enemyColor = Color.red;
-	public Color selectColor = Color.yellow;
+	private Color player1Color = new Color (0.5f, 1.0f, 0.5f, 1.0f);
+	private Color player2Color = new Color (0.5f, 0.5f, 1.0f, 1.0f);
+	private Color enemyColor = new Color (1.0f, 0.5f, 0.5f, 1.0f);
+	private Color selectColor = new Color (0.7f, 0.7f, 0.0f, 1.0f);
+	private Color spentColor = Color.gray;
 		
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";

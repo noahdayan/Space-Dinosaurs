@@ -34,11 +34,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public bool attackSpent = false;
 	public bool moveSpent = false;
 	//Colors
-	public Color player1Color = Color.green;
-	public Color player2Color = Color.blue;
-	public Color enemyColor = Color.red;
-	public Color selectColor = Color.yellow;
-	public Color spentColor = Color.gray;
+	private Color player1Color = new Color (0.5f, 1.0f, 0.5f, 1.0f);
+	private Color player2Color = new Color (0.5f, 0.5f, 1.0f, 1.0f);
+	private Color enemyColor = new Color (1.0f, 0.5f, 0.5f, 1.0f);
+	private Color selectColor = new Color (0.7f, 0.7f, 0.0f, 1.0f);
+	private Color spentColor = Color.gray;
 	
 	public Color P1UntameColor;// = new Color(maxTamePoints/tamePoints, tamePoint/maxTamePoints, 0, 1);
 	public Color P2UntameColor;// = new Color(tamePoints/maxTamePoints, 0, maxTamePoints/tamePoints, 1);
@@ -596,8 +596,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		float tpOverMtp = 1 - (tamePoints/maxTamePoints);
 		float mtpOverTp = 1 - (maxTamePoints/tamePoints);
 		
-		P1UntameColor = new Color(tpOverMtp, 1.0f, 0.0f, 1.0f);
-		P2UntameColor = new Color(tpOverMtp, 0.0f, 1.0f, 1.0f);
+		P1UntameColor = new Color(tpOverMtp, 1.0f, 0.5f, 1.0f);
+		P2UntameColor = new Color(tpOverMtp, 0.5f, 1.0f, 1.0f);
 		player1Color = P1UntameColor;
 		player2Color = P2UntameColor;
 		
