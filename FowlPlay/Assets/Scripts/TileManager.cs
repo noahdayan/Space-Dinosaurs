@@ -95,18 +95,18 @@ public class TileManager : MonoBehaviour {
 		if (!CharacterManager.aMidTurn)
 		{
 			foreach (GameObject tile in tilesInRange)
-				if (tile != null)
+				if (tile != null && !tile.tag.Equals("NonTile"))
 					tile.transform.Find("Object002").renderer.material = aTileGrass;
 				
 			foreach (GameObject tile in tilesInAttackRange)
-				if (tile != null)
+				if (tile != null && !tile.tag.Equals("NonTile"))
 					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 		
 		else
 		{
 			foreach (GameObject tile in tilesInMidTurnAttackRange)
-				if (tile != null)
+				if (tile != null && !tile.tag.Equals("NonTile"))
 					tile.transform.Find("Object002").renderer.material = aTileGrass;
 		}
 	}
