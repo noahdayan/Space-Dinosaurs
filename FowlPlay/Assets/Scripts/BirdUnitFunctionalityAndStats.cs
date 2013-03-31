@@ -300,7 +300,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.healthPoints1 = healthPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
@@ -308,7 +308,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{		
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.maxHealthPoints1 = maxHealthPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.maxHealthPoints2 = maxHealthPoints;
 	}	
 	
@@ -316,7 +316,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.isBird1 = true;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.isBird2 = true;
 	}
 	
@@ -324,7 +324,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.attackPoints1 = attackPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.attackPoints2 = attackPoints;
 
 	}
@@ -333,7 +333,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.defensePoints1 = defensePoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.defensePoints2 = defensePoints;
 	}
 	
@@ -341,7 +341,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.attackRange1 = attackRange;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.attackRange2 = attackRange;
 	}
 	
@@ -349,7 +349,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.moveRange1 = moveRange;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.moveRange2 = moveRange;
 	}
 	
@@ -357,7 +357,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.healthPoints1 = newValue;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.healthPoints2 = newValue;
 	}
 	

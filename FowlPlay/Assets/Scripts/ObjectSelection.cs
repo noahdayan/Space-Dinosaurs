@@ -315,7 +315,9 @@ public class ObjectSelection : MonoBehaviour {
 							//}
 						}
 					}
-
+				
+					//if it's not interact or currently selected we update the stats here 
+					//But updateGuiStats only checks for interact or currently selected. fixing that now...
 					gameObject.SendMessage("UpdateGuiStats");
 					ProgressBarGUI.show2 = true;
 				}

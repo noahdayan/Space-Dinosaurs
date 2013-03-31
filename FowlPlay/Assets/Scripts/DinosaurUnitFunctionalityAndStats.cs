@@ -471,7 +471,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.healthPoints1 = healthPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.healthPoints2 = healthPoints;
 	}
 	
@@ -479,7 +479,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{		
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.maxHealthPoints1 = maxHealthPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.maxHealthPoints2 = maxHealthPoints;
 	}
 	
@@ -490,7 +490,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.maxTamePoints1 = (int)maxTamePoints;
 			ProgressBarGUI.isBird1 = false;
 		}
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 		{
 			ProgressBarGUI.maxTamePoints2 = (int)maxTamePoints;
 			ProgressBarGUI.isBird2 = false;
@@ -504,7 +504,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.tamePoints1 = (int)tamePoints;
 			ProgressBarGUI.isBird1 = false;
 		}
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 		{
 			ProgressBarGUI.tamePoints2 = (int)tamePoints;
 			ProgressBarGUI.isBird2 = false;
@@ -515,7 +515,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.attackPoints1 = attackPoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.attackPoints2 = attackPoints;
 
 	}
@@ -524,7 +524,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.defensePoints1 = defensePoints;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.defensePoints2 = defensePoints;
 	}
 	
@@ -532,7 +532,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.attackRange1 = attackRange;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.attackRange2 = attackRange;
 	}
 	
@@ -540,7 +540,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.moveRange1 = moveRange;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.moveRange2 = moveRange;
 	}
 	
@@ -548,7 +548,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aCurrentlySelectedUnit == gameObject)
 			ProgressBarGUI.healthPoints1 = newValue;
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 			ProgressBarGUI.healthPoints2 = newValue;
 	}
 	
@@ -559,7 +559,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			ProgressBarGUI.tamePoints1 = (int)newValue;
 			ProgressBarGUI.isBird1 = false;
 		}
-		else if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
+		else// if (CharacterManager.aInteractiveUnitIsSelected && CharacterManager.aInteractUnit == gameObject)
 		{
 			ProgressBarGUI.tamePoints2 = (int)newValue;
 			ProgressBarGUI.isBird2 = false;
