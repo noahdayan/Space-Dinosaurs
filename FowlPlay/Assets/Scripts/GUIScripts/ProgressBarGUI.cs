@@ -3,8 +3,17 @@ using System.Collections;
 
 public class ProgressBarGUI : MonoBehaviour {
 	
-	public GUISkin hudSkin;
+	public Font font;
+	public int fontSize;
+	GUIStyle style;
 	public int guiDepth = 0;
+	public Color tpColor;
+	public Color hpColor;
+	public Color apColor;
+	public Color dpColor;
+	public Color mrColor;
+	public Color arColor;
+	public Color vsColor;
 	public static int healthPoints1 = 10;
 	public static int tamePoints1 = 10;
 	public static int maxHealthPoints1 = 10;
@@ -59,6 +68,10 @@ public class ProgressBarGUI : MonoBehaviour {
 		barAreaNormalized = new Rect(barArea.x, barArea.y, barArea.width, barArea.height);
 		barAreaNormalized1 = new Rect(barArea1.x, barArea1.y, barArea1.width, barArea1.height);
 		barAreaNormalized2 = new Rect(barArea2.x, barArea2.y, barArea2.width, barArea2.height);
+		
+		style = new GUIStyle();
+		style.font = font;
+		style.fontSize = fontSize;
 	}
 	
 	// Update is called once per frame
@@ -67,23 +80,22 @@ public class ProgressBarGUI : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-		GUI.skin = hudSkin;
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(areaNormalized);
 		
 			GUI.BeginGroup(barAreaNormalized);
-			GUI.color = Color.blue;
-			GUI.Label(new Rect(tamePointsArea), "TP:");
-			GUI.color = Color.red;
-			GUI.Label(new Rect(healthPointsArea), "HP:");
-			GUI.color = Color.yellow;
-			GUI.Label(new Rect(attackPointsArea), "AP:");
-			GUI.color = Color.green;
-			GUI.Label(new Rect(defensePointsArea), "DP:");
-			GUI.color = Color.cyan;
-			GUI.Label(new Rect(moveRangeArea), "MR:");
-			GUI.color = Color.magenta;
-			GUI.Label(new Rect(attackRangeArea), "AR:");
+			style.normal.textColor = tpColor;
+			GUI.Label(new Rect(tamePointsArea), "TP:", style);
+			style.normal.textColor = hpColor;
+			GUI.Label(new Rect(healthPointsArea), "HP:", style);
+			style.normal.textColor = apColor;
+			GUI.Label(new Rect(attackPointsArea), "AP:", style);
+			style.normal.textColor = dpColor;
+			GUI.Label(new Rect(defensePointsArea), "DP:", style);
+			style.normal.textColor = mrColor;
+			GUI.Label(new Rect(moveRangeArea), "MR:", style);
+			style.normal.textColor = arColor;
+			GUI.Label(new Rect(attackRangeArea), "AR:", style);
 			GUI.EndGroup();
 		
 		if(!PauseMenuGUI.isPaused)
@@ -93,44 +105,44 @@ public class ProgressBarGUI : MonoBehaviour {
 				GUI.BeginGroup(barAreaNormalized1);
 				if (!isBird1)
 				{
-					GUI.color = Color.blue;
-					GUI.Label(new Rect(tamePointsArea1), tamePoints1.ToString() + "/" + maxTamePoints1.ToString());
+					style.normal.textColor = tpColor;
+					GUI.Label(new Rect(tamePointsArea1), tamePoints1.ToString() + "/" + maxTamePoints1.ToString(), style);
 				}
-				GUI.color = Color.red;
-				GUI.Label(new Rect(healthPointsArea1), healthPoints1.ToString() + "/" + maxHealthPoints1.ToString());
-				GUI.color = Color.yellow;
-				GUI.Label(new Rect(attackPointsArea1), attackPoints1.ToString());
-				GUI.color = Color.green;
-				GUI.Label(new Rect(defensePointsArea1), defensePoints1.ToString());
-				GUI.color = Color.cyan;
-				GUI.Label(new Rect(moveRangeArea1), moveRange1.ToString());
-				GUI.color = Color.magenta;
-				GUI.Label(new Rect(attackRangeArea1), attackRange1.ToString());
+				style.normal.textColor = hpColor;
+				GUI.Label(new Rect(healthPointsArea1), healthPoints1.ToString() + "/" + maxHealthPoints1.ToString(), style);
+				style.normal.textColor = apColor;
+				GUI.Label(new Rect(attackPointsArea1), attackPoints1.ToString(), style);
+				style.normal.textColor = dpColor;
+				GUI.Label(new Rect(defensePointsArea1), defensePoints1.ToString(), style);
+				style.normal.textColor = mrColor;
+				GUI.Label(new Rect(moveRangeArea1), moveRange1.ToString(), style);
+				style.normal.textColor = arColor;
+				GUI.Label(new Rect(attackRangeArea1), attackRange1.ToString(), style);
 				GUI.EndGroup();
 			}
 			if(show1 || show2)
 			{
-				GUI.color = Color.red;
-				GUI.Label(new Rect(vsArea), "VS");
+				style.normal.textColor = vsColor;
+				GUI.Label(new Rect(vsArea), "VS", style);
 			}
 			if(show2)
 			{
 				GUI.BeginGroup(barAreaNormalized2);
 				if (!isBird2)
 				{
-					GUI.color = Color.blue;
-					GUI.Label(new Rect(tamePointsArea2), tamePoints2.ToString() + "/" + maxTamePoints2.ToString());
+					style.normal.textColor = tpColor;
+					GUI.Label(new Rect(tamePointsArea2), tamePoints2.ToString() + "/" + maxTamePoints2.ToString(), style);
 				}
-				GUI.color = Color.red;
-				GUI.Label(new Rect(healthPointsArea2), healthPoints2.ToString() + "/" + maxHealthPoints2.ToString());
-				GUI.color = Color.yellow;
-				GUI.Label(new Rect(attackPointsArea2), attackPoints2.ToString());
-				GUI.color = Color.green;
-				GUI.Label(new Rect(defensePointsArea2), defensePoints2.ToString());
-				GUI.color = Color.cyan;
-				GUI.Label(new Rect(moveRangeArea2), moveRange2.ToString());
-				GUI.color = Color.magenta;
-				GUI.Label(new Rect(attackRangeArea2), attackRange2.ToString());
+				style.normal.textColor = hpColor;
+				GUI.Label(new Rect(healthPointsArea2), healthPoints2.ToString() + "/" + maxHealthPoints2.ToString(), style);
+				style.normal.textColor = apColor;
+				GUI.Label(new Rect(attackPointsArea2), attackPoints2.ToString(), style);
+				style.normal.textColor = dpColor;
+				GUI.Label(new Rect(defensePointsArea2), defensePoints2.ToString(), style);
+				style.normal.textColor = mrColor;
+				GUI.Label(new Rect(moveRangeArea2), moveRange2.ToString(), style);
+				style.normal.textColor = arColor;
+				GUI.Label(new Rect(attackRangeArea2), attackRange2.ToString(), style);
 				GUI.EndGroup();
 			}
 		}

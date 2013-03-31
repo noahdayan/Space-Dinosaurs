@@ -146,7 +146,6 @@ public class CharacterManager : MonoBehaviour {
 			pUnit.GetComponentInChildren<Camera>().camera.enabled = true;
 			pUnit.SendMessage("UpdateGuiStats");
 			ProgressBarGUI.show1 = true;
-			ProgressBarGUI.show2 = true;
 		}
 		
 		// Highlight tiles in range
