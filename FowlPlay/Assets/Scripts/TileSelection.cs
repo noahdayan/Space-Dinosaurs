@@ -25,7 +25,7 @@ public class TileSelection : MonoBehaviour {
 		if(PlayerFunctionalityAndStats.isLegalMove && !moveIsSpent)
 		{
 			// select the tile and move the currently selected unit towards it.
-			if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn && gameObject.transform.Find("Object002").renderer.sharedMaterial.name.Equals("RangeBlue"))
+			if (TileManager.aCurrentlySelectedTile != gameObject && !CharacterManager.aMidTurn && gameObject.transform.Find("Object002").renderer.sharedMaterial.name.Equals("RangeBlue") && gameObject.tag.Equals("Tile"))
 			{
 				if (CharacterManager.aSingleUnitIsSelected && !ClickAndMove.aIsObjectMoving)
 				{

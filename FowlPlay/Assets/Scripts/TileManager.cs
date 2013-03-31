@@ -436,11 +436,27 @@ public class TileManager : MonoBehaviour {
 	{
 		List<GameObject> lTiles = new List<GameObject>();
 		
+		bool isPtero = true;
+		
+		if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 || CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2)
+			isPtero = false;
+		
+		else if (!CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species.Equals("Pterodactyl"))
+			isPtero = false;
+		
 		for (int i = 1; i < 7; i++)
 		{
 			GameObject x = getSingleNeighbor(pTile, i);
-			if (x != null && !x.tag.Equals("NonTile"))
-				lTiles.Add(x);
+			if(!isPtero)
+			{
+				if (x != null && !x.tag.Equals("NonTile"))
+					lTiles.Add(x);
+			}
+			else
+			{
+				if (x != null)
+					lTiles.Add(x);
+			}
 		}
 		
 		return lTiles;
@@ -451,11 +467,27 @@ public class TileManager : MonoBehaviour {
 	{
 		List<GameObject> lTiles = new List<GameObject>();
 		
+		bool isPtero = true;
+		
+		if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 || CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird2)
+			isPtero = false;
+		
+		else if (!CharacterManager.aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().species.Equals("Pterodactyl"))
+			isPtero = false;
+		
 		for (int i = 1; i < 7; i++)
 		{
 			GameObject x = getSingleNeighbor(pTile, i);
-			if (x != null && x.transform.Find("Object002").renderer.material.color == Color.green && !x.tag.Equals("NonTile"))
-				lTiles.Add(x);
+			if(!isPtero)
+			{
+				if (x != null && x.transform.Find("Object002").renderer.material.color == Color.green && !x.tag.Equals("NonTile"))
+					lTiles.Add(x);
+			}
+			else
+			{
+				if (x != null && x.transform.Find("Object002").renderer.material.color == Color.green)
+					lTiles.Add(x);
+			}
 		}
 
 		return lTiles;
