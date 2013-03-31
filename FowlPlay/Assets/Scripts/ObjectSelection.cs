@@ -317,7 +317,6 @@ public class ObjectSelection : MonoBehaviour {
 					}
 
 					gameObject.SendMessage("UpdateGuiStats");
-					ProgressBarGUI.show1 = true;
 					ProgressBarGUI.show2 = true;
 				}
 
