@@ -596,7 +596,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		float tpOverMtp = 1 - (tamePoints/maxTamePoints);
 		float mtpOverTp = 1 - (maxTamePoints/tamePoints);
 		
-		P1UntameColor = new Color(mtpOverTp, 1.0f, 0.0f, 1.0f);
+		P1UntameColor = new Color(tpOverMtp, 1.0f, 0.0f, 1.0f);
 		P2UntameColor = new Color(tpOverMtp, 0.0f, 1.0f, 1.0f);
 		player1Color = P1UntameColor;
 		player2Color = P2UntameColor;
