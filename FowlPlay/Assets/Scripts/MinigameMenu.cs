@@ -37,11 +37,13 @@ public class MinigameMenu : MonoBehaviour {
 			aSeconds -= Time.deltaTime;	
 			if (aSeconds >= 5.0f && aSeconds <= 5.5f && !attackAnimStart)
 			{
+				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
 				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("attack");
 				//attackAnimStart = true;
 			}
-			if (aSeconds >= 5.0f && aSeconds < 5.2f && !damageAnimStart)
+			if (aSeconds >= 4.9f && aSeconds < 5.1f && !damageAnimStart)
 			{
+				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
 				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("damage");
 				//damageAnimStart = true;
 			}
@@ -49,6 +51,8 @@ public class MinigameMenu : MonoBehaviour {
 			{
 				damageAnimStart = true;
 				attackAnimStart = true;
+				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
+				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
 				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("standing");
 				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
 			}

@@ -245,18 +245,24 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	//Want to make sure that this unit is the currently selected one.
 	public void TameUnit (GameObject unit)
 	{
-		if (gameObject == CharacterManager.aCurrentlySelectedUnit)
+		
+		gameObject.SendMessage("CheckLegalMove", tameCost);
+		
+		if (PlayerFunctionalityAndStats.isLegalMove)
 		{
-			unit.SendMessage("AddTamePointsByRate", tamePower);
-			//Maybe remove AP from the player here as well based on the tame cost?
-		}
-		if (gameObject.tag == "Player1")
-		{
-			CharacterManager.bird1.SendMessage("RemoveMana", tameCost);
-		}
-		else if (gameObject.tag == "Player2")
-		{
-			CharacterManager.bird2.SendMessage("RemoveMana", tameCost);
+			if (gameObject == CharacterManager.aCurrentlySelectedUnit)
+			{
+				unit.SendMessage("AddTamePointsByRate", tamePower);
+				//Maybe remove AP from the player here as well based on the tame cost?
+			}
+			if (gameObject.tag == "Player1")
+			{
+				CharacterManager.bird1.SendMessage("RemoveMana", tameCost);
+			}
+			else if (gameObject.tag == "Player2")
+			{
+				CharacterManager.bird2.SendMessage("RemoveMana", tameCost);
+			}
 		}
 	}
 	
