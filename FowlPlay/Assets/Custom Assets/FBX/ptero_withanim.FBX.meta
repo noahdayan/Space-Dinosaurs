@@ -5,6 +5,12 @@ ModelImporter:
     4300000: ptero
     4300002: balloon-shooter_unwrapped
     7400000: Take 001 //// ptero_withanim
+    7400002: standing //// ptero_withanim
+    7400004: walking //// ptero_withanim
+    7400006: attack //// ptero_withanim
+    7400008: damage //// ptero_withanim
+    7400010: death //// ptero_withanim
+    7400012: gun //// ptero_withanim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -18,8 +24,38 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
-    clipAnimations: []
+    animationWrapMode: 2
+    clipAnimations:
+    - name: standing
+      firstFrame: 1
+      lastFrame: 40
+      wrapMode: 2
+      loop: 1
+    - name: walking
+      firstFrame: 42
+      lastFrame: 88
+      wrapMode: 2
+      loop: 1
+    - name: attack
+      firstFrame: 90
+      lastFrame: 125
+      wrapMode: 2
+      loop: 1
+    - name: damage
+      firstFrame: 127
+      lastFrame: 168
+      wrapMode: 2
+      loop: 1
+    - name: death
+      firstFrame: 169
+      lastFrame: 201
+      wrapMode: 2
+      loop: 1
+    - name: gun
+      firstFrame: 169
+      lastFrame: 205
+      wrapMode: 2
+      loop: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978

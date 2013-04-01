@@ -6,6 +6,12 @@ ModelImporter:
     4300002: balloon-shooter_unwrapped
     4300004: Plane001
     7400000: Take 001 //// trice_withanim
+    7400002: standing //// trice_withanim
+    7400004: walking //// trice_withanim
+    7400006: attack //// trice_withanim
+    7400008: damage //// trice_withanim
+    7400010: death //// trice_withanim
+    7400012: gun //// trice_withanim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -19,8 +25,38 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
-    clipAnimations: []
+    animationWrapMode: 2
+    clipAnimations:
+    - name: standing
+      firstFrame: 72
+      lastFrame: 170
+      wrapMode: 2
+      loop: 1
+    - name: walking
+      firstFrame: 1
+      lastFrame: 71
+      wrapMode: 2
+      loop: 1
+    - name: attack
+      firstFrame: 171
+      lastFrame: 192
+      wrapMode: 2
+      loop: 1
+    - name: damage
+      firstFrame: 193
+      lastFrame: 228
+      wrapMode: 2
+      loop: 1
+    - name: death
+      firstFrame: 229
+      lastFrame: 244
+      wrapMode: 2
+      loop: 1
+    - name: gun
+      firstFrame: 246
+      lastFrame: 266
+      wrapMode: 2
+      loop: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978

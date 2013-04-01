@@ -6,6 +6,11 @@ ModelImporter:
     4300002: balloon-shooter_unwrapped
     4300004: Plane001
     7400000: Take 001 //// velo_withanim
+    7400002: standing //// velo_withanim
+    7400004: walking //// velo_withanim
+    7400006: attack //// velo_withanim
+    7400008: damage //// velo_withanim
+    7400010: death //// velo_withanim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -19,8 +24,33 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
-    clipAnimations: []
+    animationWrapMode: 2
+    clipAnimations:
+    - name: standing
+      firstFrame: 1
+      lastFrame: 180
+      wrapMode: 2
+      loop: 1
+    - name: walking
+      firstFrame: 185
+      lastFrame: 225
+      wrapMode: 2
+      loop: 1
+    - name: attack
+      firstFrame: 233
+      lastFrame: 273
+      wrapMode: 2
+      loop: 1
+    - name: damage
+      firstFrame: 273
+      lastFrame: 303
+      wrapMode: 2
+      loop: 1
+    - name: death
+      firstFrame: 313
+      lastFrame: 347
+      wrapMode: 2
+      loop: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978
