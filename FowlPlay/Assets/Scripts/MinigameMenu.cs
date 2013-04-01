@@ -254,7 +254,7 @@ public class MinigameMenu : MonoBehaviour {
 			Destroy(theAttacker);
 			Destroy(theDefender);
 			//~~~~~~~MINI GAME END HERE
-		
+		audio.Stop();
 		GameObject.Find("Main Camera").SendMessage("PlayMusic");
 	}
 	
