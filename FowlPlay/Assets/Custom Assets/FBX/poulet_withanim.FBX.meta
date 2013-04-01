@@ -4,6 +4,17 @@ ModelImporter:
   fileIDToRecycleName:
     4300000: Cylinder001
     7400000: Take 001 //// poulet_withanim
+    7400002: idle //// poulet_withanim
+    7400004: idle0 //// poulet_withanim
+    7400006: idle1 //// poulet_withanim
+    7400008: idle2 //// poulet_withanim
+    7400010: idle3 //// poulet_withanim
+    7400012: standing //// poulet_withanim
+    7400014: walking //// poulet_withanim
+    7400016: attack //// poulet_withanim
+    7400018: damage //// poulet_withanim
+    7400020: death //// poulet_withanim
+    7400022: taming //// poulet_withanim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -17,8 +28,38 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
-    clipAnimations: []
+    animationWrapMode: 2
+    clipAnimations:
+    - name: standing
+      firstFrame: 1
+      lastFrame: 117
+      wrapMode: 2
+      loop: 1
+    - name: walking
+      firstFrame: 118
+      lastFrame: 165
+      wrapMode: 2
+      loop: 1
+    - name: attack
+      firstFrame: 166
+      lastFrame: 185
+      wrapMode: 2
+      loop: 1
+    - name: damage
+      firstFrame: 241
+      lastFrame: 270
+      wrapMode: 2
+      loop: 1
+    - name: death
+      firstFrame: 271
+      lastFrame: 300
+      wrapMode: 2
+      loop: 1
+    - name: taming
+      firstFrame: 186
+      lastFrame: 240
+      wrapMode: 2
+      loop: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978
