@@ -89,9 +89,9 @@ public class ProgressBarGUI : MonoBehaviour {
 			style.normal.textColor = hpColor;
 			GUI.Label(new Rect(healthPointsArea), "HP:", style);
 			style.normal.textColor = apColor;
-			GUI.Label(new Rect(attackPointsArea), "AP:", style);
+			GUI.Label(new Rect(attackPointsArea), "AK:", style);
 			style.normal.textColor = dpColor;
-			GUI.Label(new Rect(defensePointsArea), "DP:", style);
+			GUI.Label(new Rect(defensePointsArea), "DF:", style);
 			style.normal.textColor = mrColor;
 			GUI.Label(new Rect(moveRangeArea), "MR:", style);
 			style.normal.textColor = arColor;
