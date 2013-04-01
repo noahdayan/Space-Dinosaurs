@@ -161,13 +161,23 @@ public class UntamedManager : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		
 		// Plug-in AI
+		//yield return StartCoroutine("AIFunctionality");
 		
+		CharacterManager.aInteractUnit = null;
+		CharacterManager.aInteractiveUnitIsSelected = false;
+		
+		charManager.SendMessage("EndMidTurn");			
+	}
+	
+	IEnumerator AIFunctionality()
+	{	
 		// Very basic AI - Searches if there are any tamed units in the attacking range and attacks them.
 		foreach(GameObject tile in TileManager.tilesInMidTurnAttackRange)
 		{
-			if (tile.tag.Equals("Occupied"))
+			if (tile.tag.Equals("OccupiedTile"))
 			{
 				GameObject occupyingUnit = (GameObject)TileManager.occupiedTilesHT[tile];
+				//Debug.Log(occupyingUnit.name);
 				if (!occupyingUnit.tag.Equals("Enemy"))
 				{
 					// plug in attack functionality here / auto damage?
@@ -181,12 +191,7 @@ public class UntamedManager : MonoBehaviour {
 					break;
 				}
 			}
-		}
-		
-		CharacterManager.aInteractUnit = null;
-		CharacterManager.aInteractiveUnitIsSelected = false;
-		
-		charManager.SendMessage("EndMidTurn");			
+		}	
 	}
 		
 }
