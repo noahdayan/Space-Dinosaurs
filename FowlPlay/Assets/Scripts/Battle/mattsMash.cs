@@ -6,6 +6,7 @@ public class mattsMash : MonoBehaviour {
 	
 	public GameObject blockChild;
 	public static int theMashes;
+	private Color barColor;
 	Vector3 currentScale;
 	
 	
@@ -18,17 +19,21 @@ public class mattsMash : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Fire1"))
+		
+		blockChild.renderer.material.color = barColor;
+		
+		if(Input.GetButtonDown("Fire1") && currentScale.y < 10.0f)
 		{
 			theMashes++;
-		//	currentScale.y += 0.3f;
-		//	gameObject.transform.localScale = currentScale;
+			currentScale.y += 1.0f;
+			gameObject.transform.localScale = currentScale;
 		}
 		
-		//if (currentScale.y > 0)
-		//{
-		//	currentScale.y -= 0.1f;
-		//	gameObject.transform.localScale -= currentScale;
-		//}
+		if (currentScale.y > 0.1f)
+		{
+			currentScale.y -= 0.2f;
+			gameObject.transform.localScale = currentScale;
+			barColor = new Color ((1.0f - (currentScale.y/10.0f)), (currentScale.y/10.0f), 0.0f, 1.0f);
+		}
 	}
 }

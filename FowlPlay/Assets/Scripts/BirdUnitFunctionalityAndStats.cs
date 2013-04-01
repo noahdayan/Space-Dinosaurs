@@ -188,7 +188,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	public IEnumerator Die()
 	{
 //		MinigameMenu.theDefender.animation.Play("death");
-		animation.Play("death");
+//		animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);

@@ -111,8 +111,9 @@ public class MinigameMenu : MonoBehaviour {
 			//Button Mash Mini Game
 			else if (miniGameNum == 1)
 			{
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
-				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				GameObject.Find("Meter").GetComponent<mattsMash>().enabled = true;
 				gameInstructions = miniGame1Inst;
 			}
 			
@@ -168,8 +169,10 @@ public class MinigameMenu : MonoBehaviour {
 			}
 			else if (miniGameNum == 1)
 			{
+			
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
-				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
+				GameObject.Find("Meter").GetComponent<mattsMash>().enabled = false;
 				mattsMash.theMashes = 0;
 			}
 			MinigameMenu.attackAnimStart = false;
