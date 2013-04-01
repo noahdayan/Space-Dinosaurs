@@ -252,7 +252,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			actualDamageTaken = 1;
 		}
 		
-		if (healthPoints <= 0)
+		if (healthPoints <= 0)	
 		{
 			StartCoroutine("Die");
 		}
@@ -274,6 +274,9 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (healthPoints > maxHealthPoints)
 			healthPoints = maxHealthPoints;
+		
+		
+		gameObject.BroadcastMessage("showDamageText", "+" + pAmount.ToString());
 		
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 	}

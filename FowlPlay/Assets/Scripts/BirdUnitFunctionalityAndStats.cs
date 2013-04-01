@@ -81,6 +81,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		if (healthPoints > maxHealthPoints)
 			healthPoints = maxHealthPoints;
 		
+		gameObject.BroadcastMessage("showDamageText", "+" + pAmount.ToString());
+		
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiManaDynamic"));
 	}
 	

@@ -19,7 +19,7 @@ public class TameTextGUI : MonoBehaviour {
 	{
 		//GetComponent<TextMesh>().transform.rotation = cam.transform.rotation;
 		if (message[0] == '+')
-			GetComponent<TextMesh>().renderer.material.color = Color.green;
+			GetComponent<TextMesh>().renderer.material.color = Color.cyan;
 		else if (message[0] == '-')
 			GetComponent<TextMesh>().renderer.material.color = Color.magenta;
 		GetComponent<TextMesh>().text = message;

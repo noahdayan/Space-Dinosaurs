@@ -18,7 +18,11 @@ public class DamageTextGUI : MonoBehaviour {
 	IEnumerator showDamageText(string message) {
 		//GetComponent<TextMesh>().transform.rotation = cam.transform.rotation;
 		GetComponent<TextMesh>().text = message;
-		GetComponent<TextMesh>().renderer.material.color = Color.red;
+		//GetComponent<TextMesh>().transform.rotation = cam.transform.rotation;
+		if (message[0] == '+')
+			GetComponent<TextMesh>().renderer.material.color = Color.green;
+		else if (message[0] == '-')
+			GetComponent<TextMesh>().renderer.material.color = Color.red;
 		yield return new WaitForSeconds(2.0f);
 		GetComponent<TextMesh>().text = "";
 	}	
