@@ -38,8 +38,15 @@ public class MinigameMenu : MonoBehaviour {
 			if (aSeconds >= 5.0f && aSeconds <= 5.5f && !attackAnimStart)
 			{
 				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("attack");
-				//attackAnimStart = true;
+				if (CharacterManager.aCurrentlySelectedIsTame && (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey"))
+				{
+					GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("gun");
+				}
+				else
+				{
+					GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("attack");
+				}
+					//attackAnimStart = true;
 			}
 			if (aSeconds >= 4.9f && aSeconds < 5.1f && !damageAnimStart)
 			{
@@ -57,6 +64,104 @@ public class MinigameMenu : MonoBehaviour {
 				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
 			}
 		}
+	}
+	
+	public static void BeginMiniGame(string attacker, string defender, int originalDamage)
+	{
+		StartCoroutine("RunMiniGame");
+	}
+	
+	IEnumerator RunMiniGame(string attacker, string defender, int originalDamage)
+	{
+		int bonusDamage = 0;
+		
+			//Activate mini game stuff and camera
+			BackgroundGUI.inMiniGame = true;
+			
+			//Instantiate the units depending on the attacker and defender strings.
+			//Need to somehow link the damage text to that of the interact and currently selected units.
+			//Change these battle units HP to that of the unis that they are based off of.
+			
+			GameObject.Find("Mini Game Camera").camera.enabled = true;
+			
+			//Determine which minigame is going to run
+			int miniGameNum = Random.Range(0, 2);
+			//Bar Grow and Hit Mini Game
+			if (miniGameNum == 0)
+			{
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame0Inst;
+			}
+			//Button Mash Mini Game
+			else if (miniGameNum == 1)
+			{
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
+				MinigameMenu.gameInstructions = miniGame1Inst;
+			}
+			
+			//Can turn instructions on or off, if on pause and display the menu
+			if (PauseMenuGUI.instructionsOn)
+				MinigameMenu.isPausedForInstructions = true;
+			//else just start running the minigame
+			else
+				MinigameMenu.minigameIsRunning = true;
+			
+			//Start the mini game with 11 seconds, just in case we're keeping track of the time for now
+			MinigameMenu.aSeconds = 11;
+			//float initTime = Time.time;
+			yield return new WaitForSeconds(11);
+			
+			//Make sure to add the bonus to attackPoints
+			if (miniGameNum == 0)
+			{
+				bonusDamage = BarGrowAndHit.counter;
+				BarGrowAndHit.counter = 0;
+			}
+			else if (miniGameNum == 1)
+			{
+				bonusDamage = mattsMash.theMashes / 8;
+				mattsMash.theMashes = 0;
+			}
+			
+			
+			// Play SFX
+			CharacterManager.aCurrentlySelectedUnit.PlayOneShot(soundAttack);
+			
+			//Dealing damage to the unit that we are attacking.
+			CharacterManager.aInteractUnit.SendMessage("TakeAttackDamage", originalDamage + bonusDamage);
+			//Also do the untame text of the battle dino here.
+			bonusDamage = 0;
+			UpdateColor();
+	
+			
+			MinigameMenu.minigameIsRunning = false;
+			yield return new WaitForSeconds(3);
+			
+			//Reseting things back to where they were before the mini game.
+			BackgroundGUI.inMiniGame = false;
+
+			GameObject.Find("Mini Game Camera").camera.enabled = false;
+			
+			if (miniGameNum == 0)
+			{
+				BlockManager.HideBlocks();
+				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
+				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
+				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
+				BarGrowAndHit.counter = 0;
+			}
+			else if (miniGameNum == 1)
+			{
+				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
+				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
+				mattsMash.theMashes = 0;
+			}
+			MinigameMenu.attackAnimStart = false;
+			MinigameMenu.damageAnimStart = false;
+			//~~~~~~~MINI GAME END HERE
 	}
 	
 	

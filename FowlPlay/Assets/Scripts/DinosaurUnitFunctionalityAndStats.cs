@@ -96,17 +96,18 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			//~~~~~~~MINI GAME START HERE
 			//Activate mini game stuff and camera
+			UpdatedTameStatusIfCurrentlySelected();
 			BackgroundGUI.inMiniGame = true;
 			
 			//Since this is a bird we know that tile 1 should be filled by a bird model.
-			GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
+			GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = true;
-			GameObject.Find("Tile1").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
+			GameObject.Find("Tile1").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
 			UpdateCurrentlySelectedSpecies();
 			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;
 			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
-				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
+				GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
 			GameObject.Find("Mini Game Camera").camera.enabled = true;
 			
 			//Determine which minigame is going to run
@@ -184,7 +185,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = false;
 			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = false;
 			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
-				GameObject.Find("Tile2").transform.FindChild("battleBird").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
+				GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
 			
 			GameObject.Find("Mini Game Camera").camera.enabled = false;
 			
@@ -638,6 +639,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = spentColor;
 		}
 		
+	}
+	
+	public void UpdatedTameStatusIfCurrentlySelected()
+	{
+		CharacterManager.aCurrentlySelectedIsTame = tamed;
 	}
 	
 	//Resetting the spent values and recoloring unit.
