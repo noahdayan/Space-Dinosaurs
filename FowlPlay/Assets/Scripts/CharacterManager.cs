@@ -58,7 +58,7 @@ public class CharacterManager : MonoBehaviour {
 	public UntamedManager untamedMovementManager;
 	
 	// Sounds
-	public AudioClip selectTrex, selectTricera, selectVeloci, selectAnquilo, selectPtero, selectBird, soundTame;
+	public AudioClip selectTrex, selectTricera, selectVeloci, selectAnquilo, selectPtero, selectChicken, selectTurkey, soundTame;
 		
 	// Use this for initialization
 	void Start () {
@@ -207,9 +207,14 @@ public class CharacterManager : MonoBehaviour {
 			}
 		}
 		
-		if(isBird(pUnit))
+		if(pUnit == bird1)
 		{
-			audio.PlayOneShot(selectBird);
+			audio.PlayOneShot(selectChicken);
+		}
+		
+		else if (pUnit == bird2)
+		{
+			audio.PlayOneShot(selectTurkey);
 		}
 	}
 	
