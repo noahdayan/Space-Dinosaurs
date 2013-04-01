@@ -143,7 +143,7 @@ public class ClickAndMove : MonoBehaviour
 							}
 							case "Triceratops" :
 							{
-								movementSpeed = 10.0f;
+								movementSpeed = 4.0f;
 								break;
 							}
 							case "Velociraptor" :
