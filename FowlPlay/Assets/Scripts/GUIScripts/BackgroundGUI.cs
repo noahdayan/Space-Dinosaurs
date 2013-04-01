@@ -28,10 +28,12 @@ public class BackgroundGUI : MonoBehaviour {
 	public Rect mapArea;
 	public Rect faceCamArea;
 	public Rect miniGameArea;
+	public Rect mugshotArea;
 	Rect barAreaNormalized;
 	Rect mapAreaNormalized;
 	Rect faceCamAreaNormalized;
 	Rect miniGameAreaNormalized;
+	Rect mugshotAreaNormalized;
 	
 	public static bool inMiniGame = false;
 	
@@ -41,6 +43,7 @@ public class BackgroundGUI : MonoBehaviour {
 		mapAreaNormalized = new Rect(Screen.width - mapArea.width + mapArea.x, Screen.height - mapArea.height + mapArea.y, mapArea.width, mapArea.height);
 		faceCamAreaNormalized = new Rect(faceCamArea.x, Screen.height - faceCamArea.height + faceCamArea.y, faceCamArea.width, faceCamArea.height);
 		miniGameAreaNormalized = new Rect(miniGameArea.x * Screen.width - (miniGameArea.width * 0.5f), miniGameArea.y * Screen.height - (miniGameArea.height * 0.5f), miniGameArea.width, miniGameArea.height);
+		mugshotAreaNormalized = new Rect(Screen.width - mugshotArea.width + mugshotArea.x, mugshotArea.y, mugshotArea.width, mugshotArea.height);
 	}
 	
 	// Update is called once per frame
@@ -57,6 +60,7 @@ public class BackgroundGUI : MonoBehaviour {
 		GUI.Window(2, faceCamAreaNormalized, FaceCamWindow, "");
 		if (inMiniGame)
 			GUI.Window(3, miniGameAreaNormalized, MiniGameWindow, "");
+		GUI.Window(4, mugshotAreaNormalized, MugshotWindow, "");
 		
 		GameObject.Find("HUD Mini Map Camera").camera.Render();
 		foreach(Camera c in Camera.allCameras)
@@ -82,7 +86,15 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	void MiniGameWindow(int id) {
 		AddSpikes(miniGameAreaNormalized.width);
-		DeathBadge((int)miniGameAreaNormalized.width/2 - 30, 0);
+		FancyTop((int)miniGameAreaNormalized.width);
+	}
+	
+	void MugshotWindow(int id) {
+		AddSpikes(mugshotAreaNormalized.width);
+		leafOffset = ((int)mugshotAreaNormalized.width/2)-64;
+		frameOffset = ((int)mugshotAreaNormalized.width/2)-27;
+		GUI.Label(new Rect(leafOffset, 168, 0, 0), "", "GoldLeaf");
+		GUI.Label(new Rect(frameOffset, 153, 0, 0), "", "IconFrame");
 	}
 	
 	void AddSpikes(float winX)

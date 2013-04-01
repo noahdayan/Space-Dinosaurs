@@ -5,31 +5,49 @@ using System.Collections;
 
 public class ManaPointsGUI : MonoBehaviour {
 	
+	public Font font;
+	public int fontSize;
+	GUIStyle style;
+	public int guiDepth = 0;
+	public Rect manaArea;
+	Rect manaAreaNormalized;
+	public Rect manaPointsArea;
+	
 	public static int manaPoints = 10;
 	
 	public AudioClip error;
 	
 	// Use this for initialization
 	void Start () {
-	
+		manaAreaNormalized = new Rect(Screen.width - manaArea.width + manaArea.x, manaArea.y, manaArea.width, manaArea.height);
+
+		style = new GUIStyle();
+		style.font = font;
+		style.fontSize = fontSize;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		guiText.text = manaPoints.ToString();
-		
+	void Update () {	
 		if(CharacterManager.aTurn == 1)
 		{
-			guiText.material.color = Color.green;
+			style.normal.textColor = Color.green;
 		}
 		else if(CharacterManager.aTurn == 3)
 		{
-			guiText.material.color = Color.blue;
+			style.normal.textColor = Color.blue;
 		}
 		else
 		{
-			guiText.material.color = Color.red;
+			style.normal.textColor = Color.red;
 		}
+	}
+	
+	void OnGUI()
+	{
+		GUI.depth = guiDepth;
+		GUI.BeginGroup(manaAreaNormalized);
+		GUI.Label(new Rect(manaPointsArea), manaPoints.ToString(), style);
+		GUI.EndGroup();
 	}
 	
 	void ShakeText()
