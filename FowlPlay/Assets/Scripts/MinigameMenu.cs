@@ -36,6 +36,8 @@ public class MinigameMenu : MonoBehaviour {
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
+	public AudioClip backgroundMusic;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -92,6 +94,8 @@ public class MinigameMenu : MonoBehaviour {
 	{
 		RandomTile.isMiniGame = true;
 		StartCoroutine("RunMiniGame", originalDamage);
+		GameObject.Find("Main Camera").SendMessage("PauseMusic");
+		audio.PlayOneShot(backgroundMusic);
 	}
 	
 	IEnumerator RunMiniGame(int originalDamage)
@@ -250,6 +254,8 @@ public class MinigameMenu : MonoBehaviour {
 			Destroy(theAttacker);
 			Destroy(theDefender);
 			//~~~~~~~MINI GAME END HERE
+		
+		GameObject.Find("Main Camera").SendMessage("PlayMusic");
 	}
 	
 	

@@ -28,4 +28,14 @@ public class SoundManager : MonoBehaviour {
 			gameObject.audio.mute = !PauseMenuGUI.sfx;
 		}
 	}
+	
+	void PauseMusic()
+	{
+		audio.Stop();	
+	}
+	
+	void PlayMusic()
+	{
+		audio.Play();	
+	}
 }
