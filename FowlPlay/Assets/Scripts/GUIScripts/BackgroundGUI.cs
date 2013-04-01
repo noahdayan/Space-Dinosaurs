@@ -35,6 +35,9 @@ public class BackgroundGUI : MonoBehaviour {
 	Rect miniGameAreaNormalized;
 	Rect mugshotAreaNormalized;
 	
+	public Texture chickenMug;
+	public Texture turkeyMug;
+	
 	public static bool inMiniGame = false;
 	
 	// Use this for initialization
@@ -91,6 +94,16 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	void MugshotWindow(int id) {
 		AddSpikes(mugshotAreaNormalized.width);
+		
+		if(CharacterManager.aTurn == 1)
+		{
+			GUI.DrawTexture(new Rect(50, 80, 100, 100), chickenMug);
+		}
+		else if(CharacterManager.aTurn == 3)
+		{
+			GUI.DrawTexture(new Rect(50, 80, 100, 100), turkeyMug);
+		}
+		
 		leafOffset = ((int)mugshotAreaNormalized.width/2)-64;
 		frameOffset = ((int)mugshotAreaNormalized.width/2)-27;
 		GUI.Label(new Rect(leafOffset, 168, 0, 0), "", "GoldLeaf");
