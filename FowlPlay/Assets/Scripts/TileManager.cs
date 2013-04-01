@@ -752,7 +752,7 @@ public class TileManager : MonoBehaviour {
 						if (x.tag.Equals("OccupiedTile"))
 						{
 							GameObject occupyingUnit = (GameObject)occupiedTilesHT[x.transform.position];
-							if ((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy"))	
+							if (((occupyingUnit.tag.Equals("Player1") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2")) || (occupyingUnit.tag.Equals("Player2") && CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1")) || occupyingUnit.tag.Equals("Enemy")) || CharacterManager.aCurrentlySelectedUnit.tag.Equals("Enemy"))	
 								x.transform.Find("Object002").renderer.material = aTileRed;
 						}
 						

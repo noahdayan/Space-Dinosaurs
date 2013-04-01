@@ -161,7 +161,7 @@ public class UntamedManager : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		
 		// Plug-in AI
-		//yield return StartCoroutine("AIFunctionality");
+		yield return StartCoroutine("AIFunctionality");
 		
 		CharacterManager.aInteractUnit = null;
 		CharacterManager.aInteractiveUnitIsSelected = false;
@@ -176,16 +176,35 @@ public class UntamedManager : MonoBehaviour {
 		{
 			if (tile.tag.Equals("OccupiedTile"))
 			{
-				GameObject occupyingUnit = (GameObject)TileManager.occupiedTilesHT[tile];
-				//Debug.Log(occupyingUnit.name);
+				GameObject occupyingUnit = (GameObject)TileManager.occupiedTilesHT[tile.transform.position];
+				
 				if (!occupyingUnit.tag.Equals("Enemy"))
 				{
-					// plug in attack functionality here / auto damage?
 					CharacterManager.aInteractUnit = occupyingUnit;
 					CharacterManager.aInteractiveUnitIsSelected = true;
 					
-					CharacterManager.aInteractUnit.renderer.material.color = Color.yellow;
-					yield return new WaitForSeconds(1.0f);
+					CharacterManager.aInteractUnit.SendMessage("SelectedColor");
+					Vector3 tileOne = TileManager.getTileUnitIsStandingOn(CharacterManager.aInteractUnit);
+					Vector3 tileTwo = TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit);
+					Vector3 newRotation = Quaternion.LookRotation(tileTwo - tileOne).eulerAngles;
+					newRotation.x = CharacterManager.startRot.x;
+					newRotation.z = CharacterManager.startRot.z;
+					iTween.RotateTo(CharacterManager.aInteractUnit, newRotation, 1.0f);
+
+					Vector3 opponentRotation = Quaternion.LookRotation(tileOne - tileTwo).eulerAngles;
+					opponentRotation.x = CharacterManager.startRot.x;
+					opponentRotation.z = CharacterManager.startRot.z;
+
+					iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
+					yield return new WaitForSeconds(2.0f);
+					
+					// PLUG-IN DAMAGE DEALING HERE
+					
+					// END DAMAGE DEALING
+					
+					// De-select the interact unit
+					CharacterManager.aInteractUnit.SendMessage("UpdateColor");
+					iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
 					
 					// Break to get out of the loop - we only want to attack once.
 					break;
