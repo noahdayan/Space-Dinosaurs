@@ -378,7 +378,7 @@ public class TileManager : MonoBehaviour {
 			
 			// Get rid of the tiles that we marked as valid in the first pass, but were discovered to be invalid in the second pass.
 			foreach (Vector3 y in firstPass)
-				if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed)
+				if (!closedBis.Contains(y) && getTileAt(y).transform.Find("Object002").renderer.sharedMaterial != aTileRed && !getTileAt(y).tag.Equals("NonTile"))
 					getTileAt(y).transform.Find("Object002").renderer.material = aTileGrass;
 			
 		}
@@ -645,7 +645,7 @@ public class TileManager : MonoBehaviour {
 	public void deselectTile()
 	{
 		// Cannot deselct if no tile is selected!
-		if (aSingleTileIsSelected) 
+		if (aSingleTileIsSelected && !aCurrentlySelectedTile.tag.Equals("NonTile")) 
 		{		
 			aCurrentlySelectedTile.transform.Find("Object002").renderer.material = aTileGrass;
 			
@@ -657,8 +657,9 @@ public class TileManager : MonoBehaviour {
 	}
 	
 	public void deselectSingleTile(GameObject pTile)
-	{		
-		pTile.transform.Find("Object002").renderer.material = aTileGrass;
+	{	
+		if(!pTile.tag.Equals("NonTile"))
+			pTile.transform.Find("Object002").renderer.material = aTileGrass;
 	}
 	
 	private static bool isTileOccupied(GameObject pTile)
@@ -787,7 +788,10 @@ public class TileManager : MonoBehaviour {
 	public void CleanMidTurnTiles()
 	{
 		foreach(GameObject x in tilesInMidTurnAttackRange)
-			x.transform.Find("Object002").renderer.material = aTileGrass;
+		{
+			if (!x.tag.Equals("NonTile"))
+				x.transform.Find("Object002").renderer.material = aTileGrass;
+		}
 		
 	}
 }
