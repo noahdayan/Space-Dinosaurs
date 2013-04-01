@@ -160,6 +160,32 @@ public class UntamedManager : MonoBehaviour {
 		
 		yield return new WaitForSeconds(1.0f);
 		
+		// Plug-in AI
+		
+		// Very basic AI - Searches if there are any tamed units in the attacking range and attacks them.
+		foreach(GameObject tile in TileManager.tilesInMidTurnAttackRange)
+		{
+			if (tile.tag.Equals("Occupied"))
+			{
+				GameObject occupyingUnit = (GameObject)TileManager.occupiedTilesHT[tile];
+				if (!occupyingUnit.tag.Equals("Enemy"))
+				{
+					// plug in attack functionality here / auto damage?
+					CharacterManager.aInteractUnit = occupyingUnit;
+					CharacterManager.aInteractiveUnitIsSelected = true;
+					
+					CharacterManager.aInteractUnit.renderer.material.color = Color.yellow;
+					yield return new WaitForSeconds(1.0f);
+					
+					// Break to get out of the loop - we only want to attack once.
+					break;
+				}
+			}
+		}
+		
+		CharacterManager.aInteractUnit = null;
+		CharacterManager.aInteractiveUnitIsSelected = false;
+		
 		charManager.SendMessage("EndMidTurn");			
 	}
 		
