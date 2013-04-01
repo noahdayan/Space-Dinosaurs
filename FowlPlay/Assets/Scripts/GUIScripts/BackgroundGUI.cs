@@ -82,6 +82,7 @@ public class BackgroundGUI : MonoBehaviour {
 	
 	void MiniGameWindow(int id) {
 		AddSpikes(miniGameAreaNormalized.width);
+		DeathBadge((int)miniGameAreaNormalized.width/2 - 30, 0);
 	}
 	
 	void AddSpikes(float winX)

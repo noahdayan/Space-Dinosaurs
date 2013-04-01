@@ -154,9 +154,19 @@ public class PlayMenuGUI : MonoBehaviour {
 		}
 		if(!isBird)
 		{
-			if(GUI.Button(new Rect(abilityButton), "[2] Ability: " + abilityCost))
+			/*if(GUI.Button(new Rect(abilityButton), "[2] Ability: " + abilityCost))
 			{
 				audio.PlayOneShot(click);
+			}*/
+			GUI.enabled = false;
+			if(GUI.Button(new Rect(tameButton), "[2] Tame: " + tameCost))
+			{
+				audio.PlayOneShot(click);
+				if (CharacterManager.aInteractiveUnitIsSelected)
+				{
+					manager.SendMessage("tame");
+					manager.SendMessage("EndMidTurn");
+				}
 			}
 		}
 		
