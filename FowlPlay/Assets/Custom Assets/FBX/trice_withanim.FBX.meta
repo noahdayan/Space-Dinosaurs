@@ -54,7 +54,7 @@ ModelImporter:
       loop: 1
     - name: gun
       firstFrame: 246
-      lastFrame: 266
+      lastFrame: 270
       wrapMode: 2
       loop: 1
   meshes:
