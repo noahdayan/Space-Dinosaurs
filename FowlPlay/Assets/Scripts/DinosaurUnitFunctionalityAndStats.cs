@@ -73,7 +73,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	}*/
 	
 	
-	public IEnumerator AttackUnit (GameObject unit)
+	public void AttackUnit (GameObject unit)
 	{
 		GameObject birdCommander;
 		int bonusDamage = 0;
@@ -137,7 +137,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			//Start the mini game with 11 seconds, just in case we're keeping track of the time for now
 			MinigameMenu.aSeconds = 11;
-			yield return new WaitForSeconds(11);
+			//yield return new WaitForSeconds(11);
 			//minigameIsRunning = false used to be here.
 			//Reseting things after mini game has been moved below so that damage text can be displayed during the mini game.
 			//Make sure to add the bonus to attackPoints
@@ -177,7 +177,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			
 			
 			MinigameMenu.minigameIsRunning = false;
-			yield return new WaitForSeconds(3);
+			//yield return new WaitForSeconds(3);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;

@@ -21,8 +21,6 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	private Color selectColor = new Color (0.7f, 0.7f, 0.0f, 1.0f);
 	private Color spentColor = Color.gray;
 		
-	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
-	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
 	// SFX
 	public AudioClip soundDeath, soundAttack;
@@ -98,7 +96,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		player.SendMessage("RemoveAp", moveCost);
 	}
 	
-	public IEnumerator AttackUnit (GameObject unit)
+	public void AttackUnit (GameObject unit)
 	{
 		gameObject.SendMessage("CheckLegalMove", attackCost);
 		UpdatedTameStatusIfCurrentlySelected();
@@ -108,7 +106,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			UpdateCurrentlySelectedSpecies();
 			unit.SendMessage("UpdateInteractSpecies");
-			MinigameMenu.BeginMiniGame(CharacterManager.aCurrentlySelectedSpecies, CharacterManager.aInteractSpecies, attackPoints);
+			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
+			
 			//Removing Mana
 			if (gameObject.tag == "Player1")
 			{

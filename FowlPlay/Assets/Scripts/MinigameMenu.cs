@@ -19,6 +19,10 @@ public class MinigameMenu : MonoBehaviour {
 	public static bool attackAnimStart = false;
 	public static bool damageAnimStart = false;
 	
+	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
+	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
+	
+	
 	// Use this for initialization
 	void Start () {
 		menuAreaNormalized = new Rect(menuArea.x * Screen.width - (menuArea.width * 0.5f), menuArea.y * Screen.height - (menuArea.height * 0.8f), menuArea.width, menuArea.height);
@@ -66,13 +70,15 @@ public class MinigameMenu : MonoBehaviour {
 		}
 	}
 	
-	public static void BeginMiniGame(string attacker, string defender, int originalDamage)
+	public void BeginMiniGame(int originalDamage)
 	{
-		StartCoroutine("RunMiniGame");
+		StartCoroutine("RunMiniGame", originalDamage);
 	}
 	
-	IEnumerator RunMiniGame(string attacker, string defender, int originalDamage)
+	IEnumerator RunMiniGame(int originalDamage)
 	{
+		string attacker = CharacterManager.aCurrentlySelectedSpecies;
+		string defender = CharacterManager.aInteractSpecies;
 		int bonusDamage = 0;
 		
 			//Activate mini game stuff and camera
@@ -92,14 +98,14 @@ public class MinigameMenu : MonoBehaviour {
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
-				MinigameMenu.gameInstructions = miniGame0Inst;
+				gameInstructions = miniGame0Inst;
 			}
 			//Button Mash Mini Game
 			else if (miniGameNum == 1)
 			{
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
 				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
-				MinigameMenu.gameInstructions = miniGame1Inst;
+				gameInstructions = miniGame1Inst;
 			}
 			
 			//Can turn instructions on or off, if on pause and display the menu
@@ -128,13 +134,12 @@ public class MinigameMenu : MonoBehaviour {
 			
 			
 			// Play SFX
-			CharacterManager.aCurrentlySelectedUnit.PlayOneShot(soundAttack);
+			//CharacterManager.aCurrentlySelectedUnit.audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
 			
 			//Dealing damage to the unit that we are attacking.
 			CharacterManager.aInteractUnit.SendMessage("TakeAttackDamage", originalDamage + bonusDamage);
 			//Also do the untame text of the battle dino here.
 			bonusDamage = 0;
-			UpdateColor();
 	
 			
 			MinigameMenu.minigameIsRunning = false;

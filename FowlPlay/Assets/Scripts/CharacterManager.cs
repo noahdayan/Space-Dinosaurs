@@ -215,12 +215,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	public void attack()
 	{
-		if (aCurrentlySelectedUnit == bird1 || aCurrentlySelectedUnit == bird2)
-			aCurrentlySelectedUnit.GetComponent<BirdUnitFunctionalityAndStats>().StartCoroutine("AttackUnit", aInteractUnit);
-		else
-			aCurrentlySelectedUnit.GetComponent<DinosaurUnitFunctionalityAndStats>().StartCoroutine("AttackUnit", aInteractUnit);
-
-		//aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
+		aCurrentlySelectedUnit.SendMessage("AttackUnit", aInteractUnit);
 		
 		SendMessage("unhighlightRange");
 		
