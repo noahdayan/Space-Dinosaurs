@@ -17,6 +17,19 @@ public class ManaPointsGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		guiText.text = manaPoints.ToString();
+		
+		if(CharacterManager.aTurn == 1)
+		{
+			guiText.material.color = Color.green;
+		}
+		else if(CharacterManager.aTurn == 3)
+		{
+			guiText.material.color = Color.blue;
+		}
+		else
+		{
+			guiText.material.color = Color.red;
+		}
 	}
 	
 	void ShakeText()

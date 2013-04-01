@@ -10,7 +10,18 @@ public class HotSeatGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(CharacterManager.aTurn == 1)
+		{
+			guiText.material.color = Color.green;
+		}
+		else if(CharacterManager.aTurn == 3)
+		{
+			guiText.material.color = Color.blue;
+		}
+		else
+		{
+			guiText.material.color = Color.red;
+		}
 	}
 	
 	IEnumerator showText(string message) {
