@@ -95,7 +95,7 @@ public class MinigameMenu : MonoBehaviour {
 		RandomTile.isMiniGame = true;
 		StartCoroutine("RunMiniGame", originalDamage);
 		GameObject.Find("Main Camera").SendMessage("PauseMusic");
-		audio.PlayOneShot(backgroundMusic);
+		audio.Play();
 	}
 	
 	IEnumerator RunMiniGame(int originalDamage)
