@@ -77,6 +77,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		GameObject birdCommander;
 		int bonusDamage = 0;
+		int untamedBonus = 4;
 		
 		//Checking for mana cost too!
 		if (gameObject.tag == "Player1")
@@ -94,11 +95,17 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (!attackSpent && PlayerFunctionalityAndStats.isLegalMove)
 		{
-			UpdateCurrentlySelectedSpecies();
-			unit.SendMessage("UpdateInteractSpecies");
-			MinigameMenu.previousInteractUnit = unit;
-			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
-			
+			if (tamed)
+			{
+				UpdateCurrentlySelectedSpecies();
+				unit.SendMessage("UpdateInteractSpecies");
+				MinigameMenu.previousInteractUnit = unit;
+				GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
+			}
+			else
+			{
+				unit.SendMessage("TakeAttackDamage", (attackPoints + untamedBonus));
+			}
 			//Removing Mana
 			if (gameObject.tag == "Player1")
 			{
@@ -155,7 +162,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StartCoroutine("Die");
 		}
-		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		if (MinigameMenu.minigameIsRunning)
+			MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
@@ -317,8 +325,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
-		MinigameMenu.theDefender.animation.Play("death");
-		animation.Play("death");
+		UntamedManager.unitJustDied = true;
+		if (MinigameMenu.minigameIsRunning)
+			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
+		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		//removing dead unit from the team.
@@ -342,25 +353,15 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
 		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
 		
+		AnimationManager.hold = true;
+		gameObject.transform.FindChild("model").animation.Play("death");
+		CharacterManager.killUnit(gameObject);
+		Destroy(gameObject);
 		
-		if (species.Equals("tyrannosaur"))
-		{
-			AnimationManager.hold = true;
-			gameObject.transform.FindChild("model").animation.Play("death");
-			//yield return new WaitForSeconds(2.0f);
-			CharacterManager.killUnit(gameObject);
-			Destroy(gameObject);
-		}
-			
-		else
-		{	
-			//yield return new WaitForSeconds(1.0f);
-			Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
-			CharacterManager.killUnit(gameObject);
-			Destroy(gameObject);
-		}
 		
 		AnimationManager.hold = false;
+		
+		Debug.Log("WHATUP\n");
 		yield return null;
 	}
 	

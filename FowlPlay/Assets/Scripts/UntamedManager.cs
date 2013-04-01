@@ -16,6 +16,8 @@ public class UntamedManager : MonoBehaviour {
 	
 	static GameObject charManager;
 	
+	public static bool unitJustDied = false;
+	
 	// Use this for initialization
 	void Start () {
 		charManager = GameObject.Find("Character");
@@ -199,13 +201,17 @@ public class UntamedManager : MonoBehaviour {
 					yield return new WaitForSeconds(2.0f);
 					
 					// PLUG-IN DAMAGE DEALING HERE
-					
+					CharacterManager.aCurrentlySelectedUnit.SendMessage("AttackUnit", CharacterManager.aInteractUnit);
 					// END DAMAGE DEALING
 					
 					// De-select the interact unit
-					CharacterManager.aInteractUnit.SendMessage("UpdateColor");
-					iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
-					
+					if (!unitJustDied)
+					{
+						CharacterManager.aInteractUnit.SendMessage("UpdateColor");
+						iTween.RotateTo(CharacterManager.aInteractUnit, CharacterManager.aCurrentlySelectedUnitOriginalRotation.eulerAngles, 2.0f);
+					}
+					else
+						unitJustDied = false;
 					// Break to get out of the loop - we only want to attack once.
 					break;
 				}
