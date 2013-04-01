@@ -60,9 +60,16 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			StartCoroutine("Die");
 		}
 		if (MinigameMenu.minigameIsRunning)
+		{
+			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+			//AnimationManager.hold = true;
+			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("damage");
+			//AnimationManager.hold = false;
+			//MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Loop;
 			MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
+		//Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
 	}
@@ -190,7 +197,10 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	{
 		UntamedManager.unitJustDied = true;
 		if (MinigameMenu.minigameIsRunning)
+		{
+			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
+		}
 		
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);

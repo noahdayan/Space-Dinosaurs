@@ -55,38 +55,6 @@ public class MinigameMenu : MonoBehaviour {
 		else if (minigameIsRunning)
 		{
 			aSeconds -= Time.deltaTime;	
-			if (aSeconds >= 5.6f)
-			{
-				//loop wrap thing and make attacker and defender just stand for now.
-			}
-			if (aSeconds >= 5.0f && aSeconds <= 5.5f && !attackAnimStart)
-			{
-				//Set the animation of the attack to wrap mode once for its attack. animation.wrapMode = WrapMode.Once;
-				if (CharacterManager.aCurrentlySelectedIsTame && (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey"))
-				{
-					//attack should play his gun animation.animation.Play("gun");
-				}
-				else
-				{
-					//attacker should play his attack animation because he's untamed .animation.Play("attack");
-				}
-				attackAnimStart = true;
-			}
-			if (aSeconds >= 4.9f && aSeconds < 5.1f && !damageAnimStart)
-			{
-				//set the defenders thing to animate only once .animation.wrapMode = WrapMode.Once;
-				//Defender should play his take damage animation.animation.Play("damage");
-				damageAnimStart = true;
-			}
-			if (aSeconds < 2.3f && aSeconds > 1.0f && !damageAnimStart && !attackAnimStart)
-			{
-				damageAnimStart = false;
-				attackAnimStart = false;
-				//Defender and attacker go back to standing loop mode.animation.wrapMode = WrapMode.Loop;
-				//.animation.wrapMode = WrapMode.Loop;
-				//.animation.Play("standing");
-				//.animation.Play("standing");
-			}
 		}
 	}
 	
@@ -220,7 +188,22 @@ public class MinigameMenu : MonoBehaviour {
 			//CharacterManager.aCurrentlySelectedUnit.audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
 			
 			//Dealing damage to the unit that we are attacking.
+			theAttacker.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+			//AnimationManager.hold = true;
+			int attackType =  Random.Range(0, 2);
+			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey" && attackType == 0)
+			{
+				theAttacker.transform.FindChild("model").animation.Play("gun");
+			}
+			else
+			{
+				theAttacker.transform.FindChild("model").animation.Play("attack");
+			}
+			//AnimationManager.hold = false;
+			//MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Loop;
+		
 			previousInteractUnit.SendMessage("TakeAttackDamage", (originalDamage + bonusDamage));
+			
 			//Also do the untame text of the battle dino here.
 			bonusDamage = 0;
 	
