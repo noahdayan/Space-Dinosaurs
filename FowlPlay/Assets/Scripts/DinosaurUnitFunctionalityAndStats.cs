@@ -101,9 +101,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 				unit.SendMessage("UpdateInteractSpecies");
 				MinigameMenu.previousInteractUnit = unit;
 				GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
+				// Play SFX
+				audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
 			}
 			else
 			{
+				// Play SFX	
+				audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE	
 				unit.SendMessage("TakeAttackDamage", (attackPoints + untamedBonus));
 			}
 			//Removing Mana
@@ -158,25 +162,24 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			actualDamageTaken = 1;
 		}
 		
-		if (healthPoints <= 0)	
-		{
-			StartCoroutine("Die");
-		}
-		
 		if (MinigameMenu.minigameIsRunning)
 		{
 			if (healthPoints > 0)
 			{
 				MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
-				//AnimationManager.hold = true;
+				AnimationManager.hold = true;
 				MinigameMenu.theDefender.transform.FindChild("model").animation.Play("damage");
-				//AnimationManager.hold = false;
-				//MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Loop;
 			}
 			MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		}
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
+
+		if (healthPoints <= 0)	
+		{
+			StartCoroutine("Die");
+		}
+		
 		return healthPoints;
 	}
 	
@@ -351,29 +354,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 		case "Player1":
 			CharacterManager.player1Units.Remove(gameObject);
-			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Player2":
 			CharacterManager.player2Units.Remove(gameObject);
-			//CharacterManager.aInteractUnit.GetComponent<ObjectSelection>().enabled = false;
 			break;
 		case "Enemy":
-			//Debug.Log("Removing an enemy from the list!\n");
-			//Debug.Log("There are " + CharacterManager.untamedUnits.Count + " untamed units\n");
 			CharacterManager.untamedUnits.Remove(gameObject);
 			break;
 		}
 		CharacterManager.aUnitsAndTilesHT.Remove(gameObject);
 		TileManager.occupiedTilesHT.Remove(TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)));
 		TileManager.getTileAt(TileManager.getTileUnitIsStandingOn(gameObject)).tag = "Tile";
-		
-		AnimationManager.hold = true;
-		gameObject.transform.FindChild("model").animation.Play("death");
 		CharacterManager.killUnit(gameObject);
 		Destroy(gameObject);
-		
-		
-		AnimationManager.hold = false;
 		
 		yield return null;
 	}

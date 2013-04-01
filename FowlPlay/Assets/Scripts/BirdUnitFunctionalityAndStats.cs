@@ -55,22 +55,25 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			actualDamageTaken = 1;
 		}
 		
+		//Minigame animation damage
+		if (MinigameMenu.minigameIsRunning)
+		{
+			if (healthPoints > 0)
+			{
+				MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+				AnimationManager.hold = true;
+				MinigameMenu.theDefender.transform.FindChild("model").animation.Play("damage");
+			}
+			MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		}
+		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
+		
 		if (healthPoints <= 0)
 		{
 			StartCoroutine("Die");
 		}
-		if (MinigameMenu.minigameIsRunning)
-		{
-			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
-			//AnimationManager.hold = true;
-			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("damage");
-			//AnimationManager.hold = false;
-			//MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Loop;
-			MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		}
-		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		//Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
-		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
+		
 		return healthPoints;
 	}
 	
@@ -113,6 +116,9 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			unit.SendMessage("UpdateInteractSpecies");
 			MinigameMenu.previousInteractUnit = unit;
 			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
+			// Play SFX
+			audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
+			
 			
 			//Removing Mana
 			if (gameObject.tag == "Player1")
@@ -202,6 +208,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
 		}
 		
+		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);

@@ -184,12 +184,9 @@ public class MinigameMenu : MonoBehaviour {
 			}
 			
 			
-			// Play SFX
-			//CharacterManager.aCurrentlySelectedUnit.audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
-			
 			//Dealing damage to the unit that we are attacking.
 			theAttacker.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
-			//AnimationManager.hold = true;
+			AnimationManager.hold = true;
 			int attackType =  Random.Range(0, 2);
 			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey" && attackType == 0)
 			{
@@ -199,9 +196,6 @@ public class MinigameMenu : MonoBehaviour {
 			{
 				theAttacker.transform.FindChild("model").animation.Play("attack");
 			}
-			//AnimationManager.hold = false;
-			//MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Loop;
-		
 			previousInteractUnit.SendMessage("TakeAttackDamage", (originalDamage + bonusDamage));
 			
 			//Also do the untame text of the battle dino here.
@@ -209,7 +203,7 @@ public class MinigameMenu : MonoBehaviour {
 	
 			
 			MinigameMenu.minigameIsRunning = false;
-			yield return new WaitForSeconds(3);
+			yield return new WaitForSeconds(2);
 			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
