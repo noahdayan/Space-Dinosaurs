@@ -21,7 +21,7 @@ public class mattsMash : MonoBehaviour {
 		if(Input.GetButtonDown("Fire1"))
 		{
 			theMashes++;
-		//	currentScale.y += 0.2f;
+		//	currentScale.y += 0.3f;
 		//	gameObject.transform.localScale = currentScale;
 		}
 		

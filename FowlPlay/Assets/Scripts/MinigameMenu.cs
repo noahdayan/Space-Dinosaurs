@@ -16,6 +16,10 @@ public class MinigameMenu : MonoBehaviour {
 	public static string gameInstructions;
 	public static bool minigameIsRunning = false;
 	
+	public static GameObject theAttacker;
+	public static GameObject theDefender;
+	public static GameObject previousInteractUnit;
+	
 	public static bool attackAnimStart = false;
 	public static bool damageAnimStart = false;
 	
@@ -39,33 +43,37 @@ public class MinigameMenu : MonoBehaviour {
 		else if (minigameIsRunning)
 		{
 			aSeconds -= Time.deltaTime;	
+			if (aSeconds >= 5.6f)
+			{
+				//loop wrap thing and make attacker and defender just stand for now.
+			}
 			if (aSeconds >= 5.0f && aSeconds <= 5.5f && !attackAnimStart)
 			{
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
+				//Set the animation of the attack to wrap mode once for its attack. animation.wrapMode = WrapMode.Once;
 				if (CharacterManager.aCurrentlySelectedIsTame && (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey"))
 				{
-					GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("gun");
+					//attack should play his gun animation.animation.Play("gun");
 				}
 				else
 				{
-					GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("attack");
+					//attacker should play his attack animation because he's untamed .animation.Play("attack");
 				}
-					//attackAnimStart = true;
+				attackAnimStart = true;
 			}
 			if (aSeconds >= 4.9f && aSeconds < 5.1f && !damageAnimStart)
 			{
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("damage");
-				//damageAnimStart = true;
+				//set the defenders thing to animate only once .animation.wrapMode = WrapMode.Once;
+				//Defender should play his take damage animation.animation.Play("damage");
+				damageAnimStart = true;
 			}
 			if (aSeconds < 2.3f && aSeconds > 1.0f && !damageAnimStart && !attackAnimStart)
 			{
-				damageAnimStart = true;
-				attackAnimStart = true;
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.wrapMode = WrapMode.Once;
-				GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).animation.Play("standing");
-				GameObject.Find("Tile1").transform.FindChild("battle" + CharacterManager.aCurrentlySelectedSpecies).animation.Play("standing");
+				damageAnimStart = false;
+				attackAnimStart = false;
+				//Defender and attacker go back to standing loop mode.animation.wrapMode = WrapMode.Loop;
+				//.animation.wrapMode = WrapMode.Loop;
+				//.animation.Play("standing");
+				//.animation.Play("standing");
 			}
 		}
 	}
@@ -137,7 +145,7 @@ public class MinigameMenu : MonoBehaviour {
 			//CharacterManager.aCurrentlySelectedUnit.audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
 			
 			//Dealing damage to the unit that we are attacking.
-			CharacterManager.aInteractUnit.SendMessage("TakeAttackDamage", originalDamage + bonusDamage);
+			previousInteractUnit.SendMessage("TakeAttackDamage", (originalDamage + bonusDamage));
 			//Also do the untame text of the battle dino here.
 			bonusDamage = 0;
 	

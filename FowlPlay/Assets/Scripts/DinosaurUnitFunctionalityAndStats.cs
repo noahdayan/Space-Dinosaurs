@@ -94,77 +94,12 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		
 		if (!attackSpent && PlayerFunctionalityAndStats.isLegalMove)
 		{
-			//~~~~~~~MINI GAME START HERE
-			//Activate mini game stuff and camera
-			UpdatedTameStatusIfCurrentlySelected();
-			BackgroundGUI.inMiniGame = true;
-			
-			//Since this is a bird we know that tile 1 should be filled by a bird model.
-			GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
-			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = true;
-			GameObject.Find("Tile1").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
-			CharacterManager.aInteractUnit.SendMessage("UpdateInteractSpecies");
 			UpdateCurrentlySelectedSpecies();
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = true;
-			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
-				GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = true;
-			GameObject.Find("Mini Game Camera").camera.enabled = true;
+			unit.SendMessage("UpdateInteractSpecies");
+			MinigameMenu.previousInteractUnit = unit;
+			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
 			
-			//Determine which minigame is going to run
-			int miniGameNum = Random.Range(0, 2);
-			//Bar Grow and Hit Mini Game
-			if (miniGameNum == 0)
-			{
-				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
-				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
-				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
-				MinigameMenu.gameInstructions = miniGame0Inst;
-			}
-			//Button Mash Mini Game
-			else if (miniGameNum == 1)
-			{
-				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
-				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = true;
-				MinigameMenu.gameInstructions = miniGame1Inst;
-			}
-			
-			//Can turn instructions on or off, if on pause and display the menu
-			if (PauseMenuGUI.instructionsOn)
-				MinigameMenu.isPausedForInstructions = true;
-			//else just start running the minigame
-			else
-				MinigameMenu.minigameIsRunning = true;
-			
-			//Start the mini game with 11 seconds, just in case we're keeping track of the time for now
-			MinigameMenu.aSeconds = 11;
-			//yield return new WaitForSeconds(11);
-			//minigameIsRunning = false used to be here.
-			//Reseting things after mini game has been moved below so that damage text can be displayed during the mini game.
-			//Make sure to add the bonus to attackPoints
-			if (miniGameNum == 0)
-			{
-				bonusDamage = BarGrowAndHit.counter;
-				BarGrowAndHit.counter = 0;
-			}
-			else if (miniGameNum == 1)
-			{
-				bonusDamage = mattsMash.theMashes / 8;
-				mattsMash.theMashes = 0;
-			}
-			
-			// Play SFX
-			audio.PlayOneShot(soundAttack);
-			
-			//Dealing damage to the unit that we are attacking.
-			unit.SendMessage("TakeAttackDamage", attackPoints + bonusDamage);
-			bonusDamage = 0;
-			BarGrowAndHit.counter = 0;
-			//Remove tame points for attacking.
-			RemoveTamePoints(bloodlust);
-			//This unit has spent its attack for the turn.
-			attackSpent = true;
-			UpdateColor();
-		
+			//Removing Mana
 			if (gameObject.tag == "Player1")
 			{
 				CharacterManager.bird1.SendMessage("RemoveMana", attackCost);
@@ -173,43 +108,6 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			{
 				CharacterManager.bird2.SendMessage("RemoveMana", attackCost);
 			}
-			
-			
-			
-			MinigameMenu.minigameIsRunning = false;
-			//yield return new WaitForSeconds(3);
-			
-			//Reseting things back to where they were before the mini game.
-			BackgroundGUI.inMiniGame = false;
-			
-			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("body").renderer.enabled = false;
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("body").renderer.enabled = false;
-			if (CharacterManager.aInteractUnit == CharacterManager.bird2 || CharacterManager.aInteractUnit == CharacterManager.bird2)
-				GameObject.Find("Tile2").transform.FindChild("battleTurkey").transform.FindChild("BoneMaster").transform.FindChild("Dummy003").transform.FindChild("dino-control").renderer.enabled = false;
-			
-			GameObject.Find("Mini Game Camera").camera.enabled = false;
-			
-			
-			if (miniGameNum == 0)
-			{
-				BlockManager.HideBlocks();
-				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = false;
-				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = false;
-				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = false;
-				BarGrowAndHit.counter = 0;
-			}
-			else if (miniGameNum == 1)
-			{
-				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = false;
-				GameObject.Find("Plane").GetComponent<mattsMash>().enabled = false;
-				mattsMash.theMashes = 0;
-			}
-			
-			MinigameMenu.attackAnimStart = false;
-			MinigameMenu.damageAnimStart = false;
-			//~~~~~~~MINI GAME END HERE
-			
-			
 		}
 		else
 		{
@@ -257,11 +155,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StartCoroutine("Die");
 		}
+//		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		if (CharacterManager.aInteractSpecies != "Bird")
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		else
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Damage Text").SendMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
 	}
@@ -422,10 +317,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
-		if (CharacterManager.aInteractSpecies == species && MinigameMenu.minigameIsRunning)
-		{
-			GameObject.Find("Tile2").transform.FindChild("battle" + species).animation.Play("death");
-		}
+//		MinigameMenu.theDefender.animation.Play("death");
+		animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		//removing dead unit from the team.
@@ -617,19 +510,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		if (tag == "Player1")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player1Color;
-			gameObject.transform.FindChild("HUD Point").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = Color.green;
 			unitColor = player1Color;
 		}
 		else if (tag == "Player2")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player2Color;
-			gameObject.transform.FindChild("HUD Point").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
 			unitColor = player2Color;
 		}
 		else if (tag == "Enemy")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = enemyColor;
-			gameObject.transform.FindChild("HUD Point").renderer.material.color = enemyColor;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = Color.red;
 			unitColor = enemyColor;
 		}
 		
@@ -698,15 +591,13 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		if (CharacterManager.aCurrentlySelectedSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
 		{
-			GameObject.Find("Tile1").transform.FindChild("battle" + species).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
+		//	MinigameMenu.theAttacker.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		}
 		else if (CharacterManager.aInteractSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
 		{
-			GameObject.Find("Tile2").transform.FindChild("battle" + species).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
-		
+		//	MinigameMenu.theDefender.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
-		//GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showTameText", "-" + showTP.ToString());
 		UpdateColor();
 	}
 	

@@ -59,11 +59,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StartCoroutine("Die");
 		}
+//		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		if (CharacterManager.aInteractSpecies != "Bird")
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Text").BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
-		else
-			GameObject.Find("Tile2").transform.FindChild("battle" + CharacterManager.aInteractSpecies).transform.FindChild("Damage Text").SendMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
@@ -106,6 +103,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			UpdateCurrentlySelectedSpecies();
 			unit.SendMessage("UpdateInteractSpecies");
+			MinigameMenu.previousInteractUnit = unit;
 			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
 			
 			//Removing Mana
@@ -189,14 +187,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
-		if (CharacterManager.aInteractSpecies == "Chicken" && MinigameMenu.minigameIsRunning)
-		{
-			GameObject.Find("Tile2").transform.FindChild("battleChicken").animation.Play("death");
-		}
-		else if (CharacterManager.aInteractSpecies == "Turkey" && MinigameMenu.minigameIsRunning)
-		{
-			GameObject.Find("Tile2").transform.FindChild("battleTurkey").animation.Play("death");
-		}
+//		MinigameMenu.theDefender.animation.Play("death");
+		animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
@@ -309,12 +301,12 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		if (tag == "Player1")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player1Color;
-			gameObject.transform.FindChild("HUD Point").renderer.material.color = player1Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = Color.green;
 		}
 		else if (tag == "Player2")
 		{
 			gameObject.transform.FindChild("model").transform.FindChild("body").renderer.material.color = player2Color;
-			gameObject.transform.FindChild("HUD Point").renderer.material.color = player2Color;
+			gameObject.transform.FindChild("HUD Point").renderer.material.color = Color.blue;
 		}
 		else if (tag == "Enemy")
 		{
