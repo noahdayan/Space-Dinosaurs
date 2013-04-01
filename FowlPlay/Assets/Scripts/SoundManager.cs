@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour {
 	
 	void PauseMusic()
 	{
-		audio.Stop();	
+		audio.Pause();	
 	}
 	
 	void PlayMusic()
