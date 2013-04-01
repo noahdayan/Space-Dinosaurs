@@ -4,10 +4,14 @@ using System.Collections;
 public class DamageTextGUI : MonoBehaviour {
 	
 	GameObject cam;
+	public static bool isMiniGame = false;
 	
 	// Use this for initialization
 	void Start () {
-		cam = GameObject.Find("Main Camera");
+		if (!isMiniGame)
+			cam = GameObject.Find("Main Camera");
+		else
+			cam = GameObject.Find("Mini Game Camera");
 	}
 	
 	// Update is called once per frame
@@ -25,5 +29,5 @@ public class DamageTextGUI : MonoBehaviour {
 			GetComponent<TextMesh>().renderer.material.color = Color.red;
 		yield return new WaitForSeconds(2.0f);
 		GetComponent<TextMesh>().text = "";
-	}	
+	}
 }

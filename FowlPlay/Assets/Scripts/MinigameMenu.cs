@@ -16,8 +16,18 @@ public class MinigameMenu : MonoBehaviour {
 	public static string gameInstructions;
 	public static bool minigameIsRunning = false;
 	
+	public GameObject trexPrefab;
+	public GameObject anquiloPrefab;
+	public GameObject tricePrefab;
+	public GameObject pteroPrefab;
+	public GameObject veloPrefab;
+	public GameObject chickenPrefab;
+	public GameObject turkeyPrefab;
+	
 	public static GameObject theAttacker;
+	public Vector3 attackerPlace;
 	public static GameObject theDefender;
+	public Vector3 defenderPlace;
 	public static GameObject previousInteractUnit;
 	
 	public static bool attackAnimStart = false;
@@ -80,6 +90,7 @@ public class MinigameMenu : MonoBehaviour {
 	
 	public void BeginMiniGame(int originalDamage)
 	{
+		RandomTile.isMiniGame = true;
 		StartCoroutine("RunMiniGame", originalDamage);
 	}
 	
@@ -90,13 +101,72 @@ public class MinigameMenu : MonoBehaviour {
 		int bonusDamage = 0;
 		
 			//Activate mini game stuff and camera
-			BackgroundGUI.inMiniGame = true;
+		BackgroundGUI.inMiniGame = true;
+		DamageTextGUI.isMiniGame = true;
+		TextManagerGUI.isMiniGame = true;
+		TameTextGUI.isMiniGame = true;
 			
+		
 			//Instantiate the units depending on the attacker and defender strings.
+		//Instantiate the attacker.
+		switch (CharacterManager.aCurrentlySelectedSpecies)
+		{
+		case "Tyrannosaur":
+			theAttacker = (GameObject) Instantiate (trexPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Anquilosaurus":
+			theAttacker = (GameObject) Instantiate (anquiloPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Pterodactyl":
+			theAttacker = (GameObject) Instantiate (pteroPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Triceratops":
+			theAttacker = (GameObject) Instantiate (tricePrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Velociraptor":
+			theAttacker = (GameObject) Instantiate (veloPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Chicken":
+			theAttacker =  (GameObject) Instantiate (chickenPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;
+		case "Turkey":
+			theAttacker = (GameObject) Instantiate (turkeyPrefab , attackerPlace, GameObject.Find("tile1").transform.rotation);
+			break;	
+		}
+		
+		//Now the defender
+		switch (CharacterManager.aInteractSpecies)
+		{
+		case "Tyrannosaur":
+			theDefender =  (GameObject) Instantiate (trexPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Anquilosaurus":
+			theDefender = (GameObject) Instantiate (anquiloPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Pterodactyl":
+			theDefender = (GameObject) Instantiate (pteroPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Triceratops":
+			theDefender = (GameObject) Instantiate (tricePrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Velociraptor":
+			theDefender = (GameObject) Instantiate (veloPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Chicken":
+			theDefender = (GameObject) Instantiate (chickenPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;
+		case "Turkey":
+			theDefender = (GameObject) Instantiate (turkeyPrefab , defenderPlace, GameObject.Find("tile2").transform.rotation);
+			break;	
+		}
+		
+		
+		
+		
 			//Need to somehow link the damage text to that of the interact and currently selected units.
 			//Change these battle units HP to that of the unis that they are based off of.
 			
-			GameObject.Find("Mini Game Camera").camera.enabled = true;
+			GameObject.Find("Mini Game Camera").camera.enabled = true; 
 			
 			//Determine which minigame is going to run
 			int miniGameNum = Random.Range(0, 2);
@@ -177,6 +247,8 @@ public class MinigameMenu : MonoBehaviour {
 			}
 			MinigameMenu.attackAnimStart = false;
 			MinigameMenu.damageAnimStart = false;
+			Destroy(theAttacker);
+			Destroy(theDefender);
 			//~~~~~~~MINI GAME END HERE
 	}
 	

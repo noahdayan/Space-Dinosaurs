@@ -59,7 +59,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StartCoroutine("Die");
 		}
-//		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		Debug.Log ("Current HP of " + gameObject + " is: " + healthPoints + "\n");
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
@@ -187,8 +187,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
-//		MinigameMenu.theDefender.animation.Play("death");
-//		animation.Play("death");
+		MinigameMenu.theDefender.animation.Play("death");
+		animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);

@@ -155,7 +155,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		{
 			StartCoroutine("Die");
 		}
-//		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
+		MinigameMenu.theDefender.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		gameObject.BroadcastMessage("showDamageText", "-" + actualDamageTaken.ToString());
 		iTween.ValueTo(gameObject, iTween.Hash("from", temp, "to", healthPoints, "onupdate", "UpdateGuiHealthBarDynamic"));
 		return healthPoints;
@@ -317,7 +317,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	
 	public IEnumerator Die()
 	{
-//		MinigameMenu.theDefender.animation.Play("death");
+		MinigameMenu.theDefender.animation.Play("death");
 		animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
@@ -591,11 +591,11 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		}
 		if (CharacterManager.aCurrentlySelectedSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
 		{
-		//	MinigameMenu.theAttacker.BroadcastMessage("showTameText", "-" + showTP.ToString());
+			MinigameMenu.theAttacker.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		}
 		else if (CharacterManager.aInteractSpecies == species && species != "Bird" && MinigameMenu.minigameIsRunning)
 		{
-		//	MinigameMenu.theDefender.BroadcastMessage("showTameText", "-" + showTP.ToString());
+			MinigameMenu.theDefender.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		}
 		gameObject.BroadcastMessage("showTameText", "-" + showTP.ToString());
 		UpdateColor();
