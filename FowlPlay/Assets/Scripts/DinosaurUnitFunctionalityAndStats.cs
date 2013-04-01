@@ -593,11 +593,19 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	//Changes the color of the unit according to which team it's on (or if it is spent).
 	public void UpdateColor()
 	{
-		float tpOverMtp = 1 - (tamePoints/maxTamePoints);
-		float mtpOverTp = 1 - (maxTamePoints/tamePoints);
+		float tpOverMtp = (tamePoints/maxTamePoints);
+		float redAmount = 1 - tpOverMtp;
+		//float mtpOverTp = 1 - (maxTamePoints/tamePoints);
 		
-		P1UntameColor = new Color(tpOverMtp, 1.0f, 0.5f, 1.0f);
-		P2UntameColor = new Color(tpOverMtp, 0.5f, 1.0f, 1.0f);
+		//1, 1 * tpOverMtp, .5 * tpOverMtp
+		
+		//P1UntameColor = new Color(redAmount, 1.0f, 0.5f, 1.0f);
+		//P2UntameColor = new Color(redAmount, 0.5f, 1.0f, 1.0f);
+		
+		
+		P1UntameColor = new Color(redAmount, (1.0f*tpOverMtp), (0.5f*tpOverMtp), 1.0f);
+		P2UntameColor = new Color(redAmount, (0.5f*tpOverMtp), (1.0f*tpOverMtp), 1.0f);
+		
 		player1Color = P1UntameColor;
 		player2Color = P2UntameColor;
 		

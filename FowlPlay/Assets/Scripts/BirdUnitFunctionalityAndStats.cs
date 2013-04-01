@@ -265,6 +265,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 				CharacterManager.bird2.SendMessage("RemoveMana", tameCost);
 			}
 		}
+		else
+			GameObject.Find("GUI Hot Seat").SendMessage("showText", "Insufficient Mana");
 	}
 	
 	public void OnSelectedSetHud()
