@@ -37,6 +37,8 @@ public class MinigameMenu : MonoBehaviour {
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
 	public AudioClip backgroundMusicSF, backgroundMusicBullet;
+	public float audio1Volume = 0.5f;
+	public bool fadeOutMusic = false;
 	
 	
 	// Use this for initialization
@@ -58,6 +60,8 @@ public class MinigameMenu : MonoBehaviour {
 		}
 		
 		// Fade out music
+		if (fadeOutMusic)
+			fadeOut();
 	}
 	
 	public void BeginMiniGame(int originalDamage)
@@ -66,6 +70,15 @@ public class MinigameMenu : MonoBehaviour {
 		StartCoroutine("RunMiniGame", originalDamage);
 		GameObject.Find("Main Camera").SendMessage("PauseMusic");
 		audio.Play();
+	}
+	
+	public void fadeOut() 
+	{
+    	if(audio1Volume > 0.1f)
+    	{
+			audio1Volume -= 0.2f * Time.deltaTime;
+			audio.volume = audio1Volume;
+   		}
 	}
 	
 	IEnumerator RunMiniGame(int originalDamage)
@@ -208,8 +221,9 @@ public class MinigameMenu : MonoBehaviour {
 	
 			
 			MinigameMenu.minigameIsRunning = false;
+			fadeOutMusic = true;
 			yield return new WaitForSeconds(2);
-			
+		
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
 
@@ -236,6 +250,9 @@ public class MinigameMenu : MonoBehaviour {
 			Destroy(theAttacker);
 			Destroy(theDefender);
 			//~~~~~~~MINI GAME END HERE
+		fadeOutMusic = false;
+		audio1Volume = 0.5f;
+		audio.volume = audio1Volume;
 		audio.Stop();
 		GameObject.Find("Main Camera").SendMessage("PlayMusic");
 	}
@@ -253,7 +270,7 @@ public class MinigameMenu : MonoBehaviour {
 			if(GUI.Button(new Rect(resumeButton), "Start!"))
 			{
 				audio.PlayOneShot(click);
-				Time.timeScale = 1.0f;
+				Time.timeScale = 0.5f;
 				minigameIsRunning = true;
 				isPausedForInstructions = false;
 			}
