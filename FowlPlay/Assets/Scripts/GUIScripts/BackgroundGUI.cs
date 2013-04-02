@@ -95,9 +95,7 @@ public class BackgroundGUI : MonoBehaviour {
 		FancyTop((int)miniGameAreaNormalized.width);
 	}
 	
-	void MugshotWindow(int id) {
-		AddSpikes(mugshotAreaNormalized.width);
-		
+	void MugshotWindow(int id) {		
 		if(CharacterManager.aTurn == 1)
 		{
 			GUI.DrawTexture(new Rect(50, 80, 100, 100), chickenMug);
@@ -106,7 +104,7 @@ public class BackgroundGUI : MonoBehaviour {
 		{
 			GUI.DrawTexture(new Rect(50, 80, 100, 100), turkeyMug);
 		}
-		
+		AddSpikes(mugshotAreaNormalized.width);
 		leafOffset = ((int)mugshotAreaNormalized.width/2)-64;
 		frameOffset = ((int)mugshotAreaNormalized.width/2)-27;
 		GUI.Label(new Rect(leafOffset, 168, 0, 0), "", "GoldLeaf");
