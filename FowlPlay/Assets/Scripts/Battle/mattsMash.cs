@@ -31,7 +31,7 @@ public class mattsMash : MonoBehaviour {
 		
 		if (currentScale.y > 0.1f)
 		{
-			currentScale.y -= 0.2f;
+			currentScale.y -= 6.7f * Time.deltaTime;
 			gameObject.transform.localScale = currentScale;
 			barColor = new Color ((1.0f - (currentScale.y/10.0f)), (currentScale.y/10.0f), 0.0f, 1.0f);
 		}

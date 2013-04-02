@@ -12,11 +12,18 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	
 	public bool isTurn = false;
 	
+	public static bool isMiniGame = false;
+	
 	void Start()
 	{
-		isTurn = true;
-		mana = startingMana;
-		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", startingMana, "onupdate", "UpdateGuiMana"));
+		if (isMiniGame)
+			enabled = false;
+		else if (!isMiniGame)
+		{
+			isTurn = true;
+			mana = startingMana;
+			iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", startingMana, "onupdate", "UpdateGuiMana"));
+		}
 	}
 	
 	/*void Update()

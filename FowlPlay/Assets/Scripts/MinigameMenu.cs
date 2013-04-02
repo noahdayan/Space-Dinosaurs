@@ -72,10 +72,11 @@ public class MinigameMenu : MonoBehaviour {
 		string defender = CharacterManager.aInteractSpecies;
 		int bonusDamage = 0;
 		
-			//Activate mini game stuff and camera
+		//Activate mini game stuff and camera
 		BackgroundGUI.inMiniGame = true;
 		DamageTextGUI.isMiniGame = true;
 		TextManagerGUI.isMiniGame = true;
+		PlayerFunctionalityAndStats.isMiniGame = true;
 		TameTextGUI.isMiniGame = true;
 			
 		
