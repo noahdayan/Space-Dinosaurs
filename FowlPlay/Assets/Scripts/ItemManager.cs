@@ -10,11 +10,24 @@ public class ItemManager : MonoBehaviour {
 		
 		tilesWithItems = new Hashtable();
 		
-		foreach (GameObject item in GameObject.FindGameObjectsWithTag("Item"))
+		foreach (GameObject item in GameObject.FindGameObjectsWithTag("DinoChow"))
 		{
 			// Get the tile the item is standing on.
 			Vector3 tile = TileManager.getTileUnitIsStandingOn(item);
-
+			tilesWithItems.Add(tile, item);
+		}
+		
+		foreach (GameObject item in GameObject.FindGameObjectsWithTag("BirdSeed"))
+		{
+			// Get the tile the item is standing on.
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(item);
+			tilesWithItems.Add(tile, item);
+		}
+		
+		foreach (GameObject item in GameObject.FindGameObjectsWithTag("DinoCoOil"))
+		{
+			// Get the tile the item is standing on.
+			Vector3 tile = TileManager.getTileUnitIsStandingOn(item);
 			tilesWithItems.Add(tile, item);
 		}
 		

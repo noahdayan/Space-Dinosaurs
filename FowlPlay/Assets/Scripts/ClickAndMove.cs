@@ -54,7 +54,6 @@ public class ClickAndMove : MonoBehaviour
 		// Check to see if there are any items at the destination.
 		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
 		{
-			Debug.Log("here2");
 			GameObject item = (GameObject)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)];
 			bool consume = false;
 			
@@ -85,13 +84,16 @@ public class ClickAndMove : MonoBehaviour
 			else if (item.tag.Equals("DinoCoOil"))// && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{	
 				//for now add mana to the team.
+				Debug.Log("dundun");
 				consume = true;
-				if (CharacterManager.aCurrentlySelectedUnit.tag == "Player1")
-				{
+				if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1"))
 					CharacterManager.bird1.SendMessage("AddManaPoints", 3);
-					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
-					audio.PlayOneShot(itemOil);
-				}
+				
+				else if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2"))
+					CharacterManager.bird2.SendMessage("AddManaPoints", 3);	
+				
+				Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
+				audio.PlayOneShot(itemOil);
 			}
 			
 			if (consume)
