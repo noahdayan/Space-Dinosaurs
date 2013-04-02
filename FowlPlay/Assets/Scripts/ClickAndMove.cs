@@ -84,7 +84,6 @@ public class ClickAndMove : MonoBehaviour
 			else if (item.tag.Equals("DinoCoOil"))// && !CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 			{	
 				//for now add mana to the team.
-				Debug.Log("dundun");
 				consume = true;
 				if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player1"))
 					CharacterManager.bird1.SendMessage("AddManaPoints", 3);
