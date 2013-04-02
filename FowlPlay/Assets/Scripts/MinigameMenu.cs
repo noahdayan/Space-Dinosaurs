@@ -36,7 +36,7 @@ public class MinigameMenu : MonoBehaviour {
 	private string miniGame0Inst = "Left Click or press the Spacebar when the sliding bar is lined up with the green block"; 
 	private string miniGame1Inst = "Mash the Spacebar or Left Click!!";
 	
-	public AudioClip backgroundMusic;
+	public AudioClip backgroundMusicSF, backgroundMusicBullet;
 	
 	
 	// Use this for initialization
@@ -56,6 +56,8 @@ public class MinigameMenu : MonoBehaviour {
 		{
 			aSeconds -= Time.deltaTime;	
 		}
+		
+		// Fade out music
 	}
 	
 	public void BeginMiniGame(int originalDamage)
@@ -146,6 +148,7 @@ public class MinigameMenu : MonoBehaviour {
 			//Bar Grow and Hit Mini Game
 			if (miniGameNum == 0)
 			{
+				audio.PlayOneShot(backgroundMusicSF);
 				GameObject.Find("BlockManagerObj").GetComponent<BlockManager>().enabled = true;
 				GameObject.Find("Meter").GetComponent<BarGrowAndHit>().enabled = true;
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
@@ -154,6 +157,7 @@ public class MinigameMenu : MonoBehaviour {
 			//Button Mash Mini Game
 			else if (miniGameNum == 1)
 			{
+				audio.PlayOneShot(backgroundMusicBullet);
 				GameObject.Find("MeterCube").GetComponent<MeshRenderer>().enabled = true;
 				GameObject.Find("GUI Countdown").GetComponent<GUIText>().enabled = true;
 				GameObject.Find("Meter").GetComponent<mattsMash>().enabled = true;
