@@ -75,9 +75,9 @@ public class MinigameMenu : MonoBehaviour {
 	
 	public void fadeOut() 
 	{
-    	if(audio1Volume > 0.1f)
+    	if(audio1Volume > 0.05f)
     	{
-			audio1Volume -= 0.2f * Time.deltaTime;
+			audio1Volume -= 0.15f * Time.deltaTime;
 			audio.volume = audio1Volume;
    		}
 	}
