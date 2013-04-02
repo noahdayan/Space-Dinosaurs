@@ -23,7 +23,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		
 	
 	// SFX
-	public AudioClip soundDeath, soundAttack;
+	public AudioClip soundDeath, soundAttack, soundTurkeyTame, soundChickenTame;
 			
 	void Start()
 	{
@@ -169,7 +169,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	}
 	
 	//Want to make sure that this unit is the currently selected one.
-	public void TameUnit (GameObject unit)
+	public IEnumerator TameUnit (GameObject unit)
 	{
 		
 		gameObject.SendMessage("CheckLegalMove", tameCost);
@@ -179,6 +179,13 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			if (gameObject == CharacterManager.aCurrentlySelectedUnit)
 			{
 				unit.SendMessage("AddTamePointsByRate", tamePower);
+				if(gameObject == CharacterManager.bird1)
+					audio.PlayOneShot(soundChickenTame);
+				
+				else if(gameObject == CharacterManager.bird2)
+					audio.PlayOneShot(soundTurkeyTame);
+				
+				yield return new WaitForSeconds(1.5f);
 				//Maybe remove AP from the player here as well based on the tame cost?
 			}
 			if (gameObject.tag == "Player1")
