@@ -214,7 +214,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("paintAttackableTilesAfterMove");
 			}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3) && !PauseMenuGUI.gameOver;
 		if(GUI.Button(new Rect(endTurnButton), "[5] End Turn"))
 		{
 			audio.PlayOneShot(click);
