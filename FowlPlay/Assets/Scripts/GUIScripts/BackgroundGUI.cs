@@ -47,6 +47,9 @@ public class BackgroundGUI : MonoBehaviour {
 		faceCamAreaNormalized = new Rect(faceCamArea.x, Screen.height - faceCamArea.height + faceCamArea.y, faceCamArea.width, faceCamArea.height);
 		miniGameAreaNormalized = new Rect(miniGameArea.x * Screen.width - (miniGameArea.width * 0.5f), miniGameArea.y * Screen.height - (miniGameArea.height * 0.5f), miniGameArea.width, miniGameArea.height);
 		mugshotAreaNormalized = new Rect(Screen.width - mugshotArea.width + mugshotArea.x, mugshotArea.y, mugshotArea.width, mugshotArea.height);
+		
+		//Camera cam = GameObject.Find("Mini Game Camera").camera;
+		//cam.pixelRect = miniGameAreaNormalized;
 	}
 	
 	// Update is called once per frame
