@@ -275,7 +275,7 @@ public class MinigameMenu : MonoBehaviour {
 			if(GUI.Button(new Rect(resumeButton), "Start!"))
 			{
 				audio.PlayOneShot(click);
-				Time.timeScale = 0.5f;
+				Time.timeScale = 1.0f;
 				minigameIsRunning = true;
 				isPausedForInstructions = false;
 			}
