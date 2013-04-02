@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		if(gameObject == GameObject.Find("Main Camera"))
+		if(gameObject == GameObject.Find("Main Camera") || gameObject == GameObject.Find("MiniGameManager"))
 		{
 			isCamera = true;
 		}
