@@ -23,7 +23,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		
 	
 	// SFX
-	public AudioClip soundDeath, soundAttack, soundTurkeyTame, soundChickenTame;
+	public AudioClip soundDeath, soundAttack, soundTurkeyTame, soundChickenTame, soundTame;
 			
 	void Start()
 	{
@@ -179,13 +179,26 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			if (gameObject == CharacterManager.aCurrentlySelectedUnit)
 			{
 				unit.SendMessage("AddTamePointsByRate", tamePower);
+				
 				if(gameObject == CharacterManager.bird1)
+				{
+					gameObject.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+					AnimationManager.hold = true;
+					gameObject.transform.FindChild("model").animation.Play("taming");
 					audio.PlayOneShot(soundChickenTame);
+				}
 				
 				else if(gameObject == CharacterManager.bird2)
+				{
+					gameObject.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
+					AnimationManager.hold = true;
+					gameObject.transform.FindChild("model").animation.Play("attack");
 					audio.PlayOneShot(soundTurkeyTame);
+				}
 				
 				yield return new WaitForSeconds(1.5f);
+				audio.PlayOneShot(soundTame);
+				AnimationManager.hold = false;
 				//Maybe remove AP from the player here as well based on the tame cost?
 			}
 			if (gameObject.tag == "Player1")

@@ -235,7 +235,7 @@ public class CharacterManager : MonoBehaviour {
 		
 		SendMessage("unhighlightRange");
 		
-		audio.PlayOneShot(soundTame);
+		//audio.PlayOneShot(soundTame);
 		
 		//deselectUnit();
 		
