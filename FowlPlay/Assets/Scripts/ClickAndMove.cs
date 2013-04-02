@@ -16,6 +16,7 @@ public class ClickAndMove : MonoBehaviour
 	private GameObject manager;
 	
 	public AudioClip itemBirdSeed, itemOil, itemDinoChow;
+	public GameObject pickupParticles;
 	
 	void Start () 
 	{
@@ -65,6 +66,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
 					audio.PlayOneShot(itemDinoChow);
 				}
 			}
@@ -76,6 +78,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
+					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
 					audio.PlayOneShot(itemBirdSeed);
 				}	
 			}
@@ -86,6 +89,7 @@ public class ClickAndMove : MonoBehaviour
 				if (CharacterManager.aCurrentlySelectedUnit.tag == "Player1")
 				{
 					CharacterManager.bird1.SendMessage("AddManaPoints", 3);
+					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
 					audio.PlayOneShot(itemOil);
 				}
 			}
