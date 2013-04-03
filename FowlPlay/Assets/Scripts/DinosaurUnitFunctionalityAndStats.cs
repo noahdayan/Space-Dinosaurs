@@ -345,10 +345,12 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
 		}
+		AnimationManager.hold = true;
 		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
+		AnimationManager.hold = false;
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		//removing dead unit from the team.
 		switch(gameObject.tag)
