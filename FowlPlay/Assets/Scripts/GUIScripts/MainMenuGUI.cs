@@ -60,7 +60,7 @@ public class MainMenuGUI : MonoBehaviour {
 		}
 		else if(menuPage == "credits")
 		{
-			GUI.Label(new Rect(credits), "Matt Adler\nNoah Dayan\nJavier Perez\nSimon Olivier Cruz Riendeau\nJean-Felix Vallee\nNicolas Chalifoux\nRichard Atlas");
+			GUI.Label(new Rect(credits), "Matt Adler\nNoah Dayan\nJavier Perez\nSimon Cruz\nJean-Felix Vallee\nNicolas Chalifoux\nRichard Atlas");
 			if(GUI.Button(new Rect(quitButton), "Back"))
 			{
 				audio.PlayOneShot(click);

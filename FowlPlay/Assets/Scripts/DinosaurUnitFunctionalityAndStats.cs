@@ -36,7 +36,7 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	//Colors
 	private Color player1Color = new Color (0.5f, 1.0f, 0.5f, 1.0f);
 	private Color player2Color = new Color (0.5f, 0.5f, 1.0f, 1.0f);
-	private Color enemyColor = new Color (1.0f, 0.5f, 0.5f, 1.0f);
+	private Color enemyColor = new Color (1.0f, 0.2f, 0.2f, 1.0f);
 	private Color selectColor = new Color (0.7f, 0.7f, 0.0f, 1.0f);
 	private Color spentColor = Color.gray;
 	
@@ -345,10 +345,12 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
 		}
+		AnimationManager.hold = true;
 		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
 		yield return new WaitForSeconds(2.0f);
+		AnimationManager.hold = false;
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		//removing dead unit from the team.
 		switch(gameObject.tag)
@@ -508,8 +510,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 		//P2UntameColor = new Color(redAmount, 0.5f, 1.0f, 1.0f);
 		
 		
-		P1UntameColor = new Color(redAmount, (1.0f*tpOverMtp), (0.5f*tpOverMtp), 1.0f);
-		P2UntameColor = new Color(redAmount, (0.5f*tpOverMtp), (1.0f*tpOverMtp), 1.0f);
+		P1UntameColor = new Color(redAmount, (1.0f*tpOverMtp), (0.2f*tpOverMtp), 1.0f);
+		P2UntameColor = new Color(redAmount, (0.2f*tpOverMtp), (1.0f*tpOverMtp), 1.0f);
 		
 		player1Color = P1UntameColor;
 		player2Color = P2UntameColor;

@@ -29,7 +29,7 @@ public class mattsMash : MonoBehaviour {
 			gameObject.transform.localScale = currentScale;
 		}
 		
-		if (currentScale.y > 0.1f)
+		if (currentScale.y > 1.0f)
 		{
 			currentScale.y -= 6.7f * Time.deltaTime;
 			gameObject.transform.localScale = currentScale;

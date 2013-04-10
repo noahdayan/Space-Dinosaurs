@@ -231,7 +231,7 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
-		yield return new WaitForSeconds(2.0f);
+		yield return new WaitForSeconds(5.0f);
 		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		Destroy(gameObject);
 		if(gameObject == CharacterManager.bird1)

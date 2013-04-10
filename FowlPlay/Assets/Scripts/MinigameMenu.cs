@@ -15,6 +15,7 @@ public class MinigameMenu : MonoBehaviour {
 	public static bool isPausedForInstructions = false;
 	public static string gameInstructions;
 	public static bool minigameIsRunning = false;
+	public GUIStyle minigameTextStyle;
 	
 	public GameObject trexPrefab;
 	public GameObject anquiloPrefab;
@@ -74,9 +75,9 @@ public class MinigameMenu : MonoBehaviour {
 	
 	public void fadeOut() 
 	{
-    	if(audio1Volume > 0.1f)
+    	if(audio1Volume > 0.05f)
     	{
-			audio1Volume -= 0.2f * Time.deltaTime;
+			audio1Volume -= 0.15f * Time.deltaTime;
 			audio.volume = audio1Volume;
    		}
 	}
@@ -223,7 +224,11 @@ public class MinigameMenu : MonoBehaviour {
 			MinigameMenu.minigameIsRunning = false;
 			fadeOutMusic = true;
 			yield return new WaitForSeconds(2);
+
+			AnimationManager.hold = false;
 		
+			yield return new WaitForSeconds(2);
+			
 			//Reseting things back to where they were before the mini game.
 			BackgroundGUI.inMiniGame = false;
 
@@ -266,11 +271,11 @@ public class MinigameMenu : MonoBehaviour {
 		{
 		//Instructions and Mini game start button
 		GUI.BeginGroup(menuAreaNormalized);
-			GUI.Label(instructionArea, gameInstructions);
+			GUI.Label(instructionArea, gameInstructions, minigameTextStyle);
 			if(GUI.Button(new Rect(resumeButton), "Start!"))
 			{
 				audio.PlayOneShot(click);
-				Time.timeScale = 0.5f;
+				Time.timeScale = 1.0f;
 				minigameIsRunning = true;
 				isPausedForInstructions = false;
 			}
@@ -281,19 +286,19 @@ public class MinigameMenu : MonoBehaviour {
 		{
 			GUI.BeginGroup(menuAreaNormalized);
 			if (aSeconds >= 10)
-				GUI.Label(instructionArea, "3");
+				GUI.Label(instructionArea, "3", minigameTextStyle);
 			else if (aSeconds >= 9)
-				GUI.Label(instructionArea, "2");
+				GUI.Label(instructionArea, "2", minigameTextStyle);
 			else if (aSeconds >= 8)
-				GUI.Label(instructionArea, "1");
+				GUI.Label(instructionArea, "1", minigameTextStyle);
 			else if (aSeconds >= 7)
 			{
-				GUI.Label(instructionArea, "GO!");
+				GUI.Label(instructionArea, "GO!", minigameTextStyle);
 				BarGrowAndHit.counter = 0;
 				mattsMash.theMashes = 0;
 			}
 			else
-				GUI.Label(instructionArea, aSeconds.ToString("f0"));
+				GUI.Label(instructionArea, aSeconds.ToString("f0"), minigameTextStyle);
 			GUI.EndGroup();
 		}
 	}
