@@ -92,10 +92,11 @@ public class MainMenuGUI : MonoBehaviour {
 				menuPage = "main";
 				network = false;
 			}
-			GUI.enabled = (Network.connections.Length >= 1);
+			GUI.enabled = (Network.connections.Length >= 1 && Network.isServer);
 			if(GUI.Button(new Rect(playButton), "Play"))
 			{
-				StartCoroutine("ButtonAction", networkLevel);
+				audio.PlayOneShot(click);
+				networkView.RPC("PlayNetwork", RPCMode.All, networkLevel);
 			}
 		}
 		GUI.EndGroup();
@@ -131,5 +132,11 @@ public class MainMenuGUI : MonoBehaviour {
 			Application.Quit();
 			Debug.Log("Quit!");
 		}
+	}
+	
+	[RPC]
+	void PlayNetwork(string levelName)
+	{
+		Application.LoadLevel(levelName);
 	}
 }
