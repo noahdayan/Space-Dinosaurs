@@ -70,7 +70,8 @@ public class Connect : MonoBehaviour {
 					GUI.Label(new Rect(ip), "Connections: "+Network.connections.Length);
 					if(Network.connections.Length>=1){
 						GUI.Label(new Rect(port), "Ping to first player: "+Network.GetAveragePing(  Network.connections[0] ) );
-					}			
+					}
+					GUI.Label(new Rect(client), "IP Address: "+Network.player.ipAddress.ToString());
 				}
 		
 				if (GUI.Button (new Rect(server), "Disconnect"))
