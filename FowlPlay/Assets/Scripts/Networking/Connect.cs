@@ -92,6 +92,10 @@ public class Connect : MonoBehaviour {
 	
 	void OnDisconnectedFromServer(NetworkDisconnection info) {
 		Debug.Log("This SERVER OR CLIENT has disconnected from a server");
+		if(Application.loadedLevelName == "NetworkPrototype")
+		{
+			Application.LoadLevel("Menu");
+		}
 	}
 	
 	void OnFailedToConnect(NetworkConnectionError error){
@@ -110,6 +114,10 @@ public class Connect : MonoBehaviour {
 	
 	void OnPlayerDisconnected(NetworkPlayer player) {
 		Debug.Log("Player disconnected from: " + player.ipAddress+":" + player.port);
+		if(Application.loadedLevelName == "NetworkPrototype")
+		{
+			Application.LoadLevel("Menu");
+		}
 	}
 	
 	
