@@ -26,6 +26,8 @@ public class PlayMenuGUI : MonoBehaviour {
 	public static bool untamed = false;
 	//public static bool attackIsSpent = false;
 	
+	public bool networking = false;
+	
 	GameObject manager;
 	
 	// Use this for initialization
@@ -41,13 +43,13 @@ public class PlayMenuGUI : MonoBehaviour {
 		if (!PauseMenuGUI.isPaused)
 		{
 			// End turn
-			if (Input.GetKeyDown(KeyCode.Alpha5) && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (Input.GetKeyDown(KeyCode.Alpha5) && !ClickAndMove.aIsObjectMoving && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				audio.PlayOneShot(click);
 				manager.SendMessage("endTurn");
 			}
 			
-			if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				// Attack
 				if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -81,7 +83,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 			
 			// Cancel
-			if (CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				if (Input.GetKeyDown(KeyCode.Alpha3))
 				{
@@ -91,7 +93,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				}
 			}
 			
-			if (!ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (!ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				if (Input.GetKeyDown(KeyCode.Alpha4))
 				{
@@ -130,7 +132,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
 		
-		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));
 		if(GUI.Button(new Rect(cancelButton), "[3] Cancel"))
 		{
 			audio.PlayOneShot(click);
@@ -142,7 +144,7 @@ public class PlayMenuGUI : MonoBehaviour {
 		//	CharacterManager.aCurrentlySelectedUnit.SendMessage("SendAttackSpentStatus");
 		//else
 		//	attackIsSpent = false;
-		GUI.enabled = CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && /*PlayerFunctionalityAndStats.isLegalMove &&*/ (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);// && !attackIsSpent;
+		GUI.enabled = CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && /*PlayerFunctionalityAndStats.isLegalMove &&*/ ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));// && !attackIsSpent;
 		if(GUI.Button(new Rect(attackButton), "[1] Attack: " + attackCost))
 		{
 			audio.PlayOneShot(click);
@@ -197,7 +199,7 @@ public class PlayMenuGUI : MonoBehaviour {
 			}
 		}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));
 		if(GUI.Button(new Rect(waitButton), "[4] Wait: " + moveCost))
 		{
 			audio.PlayOneShot(click);
@@ -214,7 +216,7 @@ public class PlayMenuGUI : MonoBehaviour {
 				manager.SendMessage("paintAttackableTilesAfterMove");
 			}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3) && !PauseMenuGUI.gameOver;
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))) && !PauseMenuGUI.gameOver;
 		if(GUI.Button(new Rect(endTurnButton), "[5] End Turn"))
 		{
 			audio.PlayOneShot(click);

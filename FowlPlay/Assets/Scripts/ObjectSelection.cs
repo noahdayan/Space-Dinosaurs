@@ -11,6 +11,7 @@ public class ObjectSelection : MonoBehaviour {
 
 	private GameObject charManager;
 	public float aSpeedOfRotation = 10.0f;
+	public bool networking = false;
 
 
 	// Use this for initialization
@@ -32,7 +33,7 @@ public class ObjectSelection : MonoBehaviour {
 				
 				// SECOND - Check that it is the object's turn to move (e.g. turn 1 for units belonging to team 1) 
 				// 			and that it is not mid-turn.
-				if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
+				if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3) && (Network.isClient || !networking)) && !CharacterManager.aMidTurn)
 				{
 					// THIRD - Select the object only if it is not already selected and no objects are in movement.
 					if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
