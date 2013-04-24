@@ -39,6 +39,7 @@ public class BackgroundGUI : MonoBehaviour {
 	public Texture turkeyMug;
 	
 	public static bool inMiniGame = false;
+	public bool newHUD = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -79,20 +80,32 @@ public class BackgroundGUI : MonoBehaviour {
 	}
 	
 	void ProgressWindow(int id) {
-		AddSpikes(barAreaNormalized.width);
+		if(!newHUD)
+		{
+			AddSpikes(barAreaNormalized.width);
+		}
 	}
 	
 	void MapWindow(int id) {
-		AddSpikes(mapAreaNormalized.width);
+		if(!newHUD)
+		{
+			AddSpikes(mapAreaNormalized.width);
+		}
 	}
 	
 	void FaceCamWindow(int id) {
-		AddSpikes(faceCamAreaNormalized.width);
+		if(!newHUD)
+		{
+			AddSpikes(faceCamAreaNormalized.width);
+		}
 	}
 	
 	void MiniGameWindow(int id) {
-		AddSpikes(miniGameAreaNormalized.width);
-		FancyTop((int)miniGameAreaNormalized.width);
+		if(!newHUD)
+		{
+			AddSpikes(miniGameAreaNormalized.width);
+			FancyTop((int)miniGameAreaNormalized.width);
+		}
 	}
 	
 	void MugshotWindow(int id) {		
@@ -104,10 +117,13 @@ public class BackgroundGUI : MonoBehaviour {
 		{
 			GUI.DrawTexture(new Rect(50, 80, 100, 100), turkeyMug);
 		}
-		AddSpikes(mugshotAreaNormalized.width);
-		leafOffset = ((int)mugshotAreaNormalized.width/2)-64;
+		if(!newHUD)
+		{
+			AddSpikes(mugshotAreaNormalized.width);
+			leafOffset = ((int)mugshotAreaNormalized.width/2)-64;
+			GUI.Label(new Rect(leafOffset, 168, 0, 0), "", "GoldLeaf");
+		}
 		frameOffset = ((int)mugshotAreaNormalized.width/2)-27;
-		GUI.Label(new Rect(leafOffset, 168, 0, 0), "", "GoldLeaf");
 		GUI.Label(new Rect(frameOffset, 153, 0, 0), "", "IconFrame");
 	}
 	
