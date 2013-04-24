@@ -340,29 +340,18 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	public IEnumerator Die()
 	{
 		UntamedManager.unitJustDied = true;
-		gameObject.GetComponent<AnimationManager>().enabled = false;
-		AnimationManager.hold = true;
-		
 		if (MinigameMenu.minigameIsRunning)
 		{
 			MinigameMenu.theDefender.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
-			Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 			MinigameMenu.theDefender.transform.FindChild("model").animation.Play("death");
-			
-			while (transform.FindChild("model").animation.isPlaying)
-			{	
-				yield return new WaitForSeconds(0.4f);
-				Debug.Log("here");
-			}
-			
-			Destroy(gameObject);
 		}
-
+		AnimationManager.hold = true;
 		transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 		transform.FindChild("model").animation.Play("death");
 		audio.PlayOneShot(soundDeath);
-		//yield return new WaitForSeconds(1.0f);
-		//AnimationManager.hold = false;
+		yield return new WaitForSeconds(2.0f);
+		AnimationManager.hold = false;
+		Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 		//removing dead unit from the team.
 		switch(gameObject.tag)
 		{
