@@ -44,6 +44,10 @@ public class ObjectSelection : MonoBehaviour {
 						if (CharacterManager.aSingleUnitIsSelected)
 						{
 							charManager.SendMessage("deselectUnit");
+							if(networking)
+							{
+								networkView.RPC("DeselectUnit", RPCMode.Others);
+							}
 						}
 
 						// FOURTH - Select the object.
@@ -52,6 +56,11 @@ public class ObjectSelection : MonoBehaviour {
 							CharacterManager.bird1.SendMessage("SetOriginalMana");
 						else if (CharacterManager.aTurn == 3)
 							CharacterManager.bird2.SendMessage("SetOriginalMana");
+					
+						if(networking)
+						{
+							networkView.RPC("SelectUnit", RPCMode.Others);
+						}
 					}
 
 					else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving && CharacterManager.aInteractiveUnitIsSelected)
@@ -68,12 +77,20 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aInteractUnit = null;
 
 						charManager.SendMessage("deselectUnit");
+						if(networking)
+						{
+							networkView.RPC("DeselectUnit", RPCMode.Others);
+						}
 					}
 
 					// THIRD - If the object is already selected, then deselect it.
 					else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving)
 					{
 						charManager.SendMessage("deselectUnit");
+						if(networking)
+						{
+							networkView.RPC("DeselectUnit", RPCMode.Others);
+						}
 					}
 				}
 
@@ -319,5 +336,21 @@ public class ObjectSelection : MonoBehaviour {
 					iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
 				}
 			}	
+	}
+	
+	[RPC]
+	void DeselectUnit()
+	{
+		charManager.SendMessage("deselectUnit");
+	}
+	
+	[RPC]
+	void SelectUnit()
+	{
+		charManager.SendMessage("selectUnit", gameObject);
+		if (CharacterManager.aTurn == 1)
+			CharacterManager.bird1.SendMessage("SetOriginalMana");
+		else if (CharacterManager.aTurn == 3)
+			CharacterManager.bird2.SendMessage("SetOriginalMana");
 	}
 }
