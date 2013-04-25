@@ -6,6 +6,8 @@ public class TileSelection : MonoBehaviour {
 	private GameObject tileManager;
 	public static bool moveIsSpent = false;
 	
+	public bool networking = false;
+	
 	// Use this for initialization
 	void Start () {
 		tileManager = GameObject.Find("Character");

@@ -24,6 +24,8 @@ public class PauseMenuGUI : MonoBehaviour {
 	public static bool instructionsOn = true;
 	public static bool gameOver = false;
 	
+	public bool networking = false;
+	
 	// Use this for initialization
 	void Start () {
 		menuAreaNormalized = new Rect(menuArea.x * Screen.width - (menuArea.width * 0.5f), menuArea.y * Screen.height - (menuArea.height * 0.5f), menuArea.width, menuArea.height);
@@ -36,7 +38,8 @@ public class PauseMenuGUI : MonoBehaviour {
 			audio.PlayOneShot(click);
 			if(!isPaused)
 			{
-				Time.timeScale = 0.0f;
+				if(!networking)
+					Time.timeScale = 0.0f;
 				isPaused = true;
 				menuPage = "main";
 			}
