@@ -345,19 +345,6 @@ ModelImporter:
       data:
         first: 4
         second: 861a0600
-    Plane001:
-      data:
-        first: 1
-        second: be860100
-      data:
-        first: 4
-        second: 9e1a0600
-      data:
-        first: 23
-        second: 60182300
-      data:
-        first: 33
-        second: a05a3200
     Point left back leg:
       data:
         first: 1
