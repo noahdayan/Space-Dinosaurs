@@ -107,6 +107,7 @@ public class PauseMenuGUI : MonoBehaviour {
 		if(levelName != "quit")
 		{
 			Application.LoadLevel(levelName);
+			MainMenuGUI.network = false;
 		}
 		else
 		{
