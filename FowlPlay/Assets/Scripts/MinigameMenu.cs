@@ -209,7 +209,7 @@ public class MinigameMenu : MonoBehaviour {
 			theAttacker.transform.FindChild("model").animation.wrapMode = WrapMode.Once;
 			AnimationManager.hold = true;
 			int attackType =  Random.Range(0, 2);
-			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey")// && attackType == 0)
+			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey" && attackType == 0)
 			{
 				theAttacker.transform.FindChild("model").animation.Play("gun");
 				Vector3 particlesPosition = theAttacker.transform.FindChild("model").transform.position;
