@@ -138,6 +138,5 @@ public class MainMenuGUI : MonoBehaviour {
 	void PlayNetwork(string levelName)
 	{
 		Application.LoadLevel(levelName);
-		network = false;
 	}
 }

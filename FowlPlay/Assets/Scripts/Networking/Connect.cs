@@ -96,6 +96,7 @@ public class Connect : MonoBehaviour {
 		if(Application.loadedLevelName == "NetworkPrototype")
 		{
 			Application.LoadLevel("Menu");
+			MainMenuGUI.network = false;
 		}
 	}
 	
@@ -118,6 +119,7 @@ public class Connect : MonoBehaviour {
 		if(Application.loadedLevelName == "NetworkPrototype")
 		{
 			Application.LoadLevel("Menu");
+			MainMenuGUI.network = false;
 		}
 	}
 	
