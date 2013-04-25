@@ -2,17 +2,19 @@ using UnityEngine;
 using System.Collections;
 
 public class HotSeatGUI : MonoBehaviour {
-
+	
+	Color darkGreen;
+	
 	// Use this for initialization
 	void Start () {
-	
+ 	darkGreen = new Color(28,100,28,255);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(CharacterManager.aTurn == 1)
 		{
-			guiText.material.color = Color.green;
+			guiText.material.color = darkGreen;
 		}
 		else if(CharacterManager.aTurn == 3)
 		{
