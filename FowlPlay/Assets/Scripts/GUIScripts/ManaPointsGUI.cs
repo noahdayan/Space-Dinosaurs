@@ -17,27 +17,24 @@ public class ManaPointsGUI : MonoBehaviour {
 	
 	public AudioClip error;
 	
-	Color darkGreen;
-	
 	// Use this for initialization
 	void Start () {
-		manaAreaNormalized = new Rect(Screen.width - manaArea.width + manaArea.x -6.0f, manaArea.y, manaArea.width, manaArea.height);
+		manaAreaNormalized = new Rect(Screen.width - manaArea.width + manaArea.x, manaArea.y, manaArea.width, manaArea.height);
 
 		style = new GUIStyle();
 		style.font = font;
 		style.fontSize = fontSize;
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {	
 		if(CharacterManager.aTurn == 1)
 		{
-			style.normal.textColor = Color.black;
+			style.normal.textColor = Color.green;
 		}
 		else if(CharacterManager.aTurn == 3)
 		{
-			style.normal.textColor = Color.black;
+			style.normal.textColor = Color.blue;
 		}
 		else
 		{
