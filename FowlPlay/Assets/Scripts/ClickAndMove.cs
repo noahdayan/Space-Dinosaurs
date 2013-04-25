@@ -128,7 +128,7 @@ public class ClickAndMove : MonoBehaviour
 				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (aPath.Length > 1)
 				{
-					float movementSpeed = 30.0f;
+					float movementSpeed = 12.0f;
 					
 					if (!CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 					{	
@@ -156,7 +156,7 @@ public class ClickAndMove : MonoBehaviour
 							}
 							case "Velociraptor" :
 							{
-								movementSpeed = 40.0f;
+								movementSpeed = 30.0f;
 								break;
 							}
 						}
