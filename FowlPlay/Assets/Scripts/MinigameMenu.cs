@@ -43,6 +43,7 @@ public class MinigameMenu : MonoBehaviour {
 	
 	public GameObject attackParticles;
 	
+	public bool networking = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -221,6 +222,10 @@ public class MinigameMenu : MonoBehaviour {
 				theAttacker.transform.FindChild("model").animation.Play("attack");
 			}
 			previousInteractUnit.SendMessage("TakeAttackDamage", (originalDamage + bonusDamage));
+			if(networking)
+			{
+				networkView.RPC("Damage", RPCMode.Others, originalDamage + bonusDamage);
+			}
 			
 			//Also do the untame text of the battle dino here.
 			bonusDamage = 0;
@@ -306,5 +311,11 @@ public class MinigameMenu : MonoBehaviour {
 				GUI.Label(instructionArea, aSeconds.ToString("f0"), minigameTextStyle);
 			GUI.EndGroup();
 		}
+	}
+	
+	[RPC]
+	void Damage(int damage)
+	{
+		previousInteractUnit.SendMessage("TakeAttackDamage", damage);
 	}
 }
