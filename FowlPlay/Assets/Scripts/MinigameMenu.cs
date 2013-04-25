@@ -213,9 +213,9 @@ public class MinigameMenu : MonoBehaviour {
 			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey" && attackType == 0)
 			{
 				theAttacker.transform.FindChild("model").animation.Play("gun");
-				Vector3 particlesPosition = theAttacker.transform.FindChild("model").transform.position;
-				particlesPosition.y += 3.0f;
-				Instantiate(attackParticles, particlesPosition, theAttacker.transform.FindChild("model").transform.rotation);
+				//Vector3 particlesPosition = theAttacker.transform.FindChild("model").transform.position;
+				//particlesPosition.y += 3.0f;
+				//Instantiate(attackParticles, particlesPosition, theAttacker.transform.FindChild("model").transform.rotation);
 			}
 			else
 			{
