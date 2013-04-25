@@ -52,6 +52,8 @@ public class DinosaurUnitFunctionalityAndStats : MonoBehaviour {
 	// SFX
 	public AudioClip soundDeath, soundAttack;
 	
+	public bool networking = false;
+	
 	void Start()
 	{
 		UpdateColor();
