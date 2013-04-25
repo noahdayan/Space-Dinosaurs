@@ -24,6 +24,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	// SFX
 	public AudioClip soundDeath, soundAttack, soundTurkeyTame, soundChickenTame, soundTame;
+	
+	public bool networking = false;
 			
 	void Start()
 	{

@@ -14,6 +14,8 @@ public class PlayerFunctionalityAndStats : MonoBehaviour {
 	
 	public static bool isMiniGame = false;
 	
+	public bool networking = false;
+	
 	void Start()
 	{
 		if (isMiniGame)
