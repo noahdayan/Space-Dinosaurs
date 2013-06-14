@@ -11,6 +11,7 @@ public class ObjectSelection : MonoBehaviour {
 
 	private GameObject charManager;
 	public float aSpeedOfRotation = 10.0f;
+	public bool networking = false;
 
 
 	// Use this for initialization
@@ -32,7 +33,7 @@ public class ObjectSelection : MonoBehaviour {
 				
 				// SECOND - Check that it is the object's turn to move (e.g. turn 1 for units belonging to team 1) 
 				// 			and that it is not mid-turn.
-				if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3)) && !CharacterManager.aMidTurn)
+				if (((transform.gameObject.tag == "Player1" && CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (transform.gameObject.tag == "Player2" && CharacterManager.aTurn == 3) && (Network.isClient || !networking)) && !CharacterManager.aMidTurn)
 				{
 					// THIRD - Select the object only if it is not already selected and no objects are in movement.
 					if (CharacterManager.aCurrentlySelectedUnit != gameObject && !ClickAndMove.aIsObjectMoving)
@@ -43,6 +44,10 @@ public class ObjectSelection : MonoBehaviour {
 						if (CharacterManager.aSingleUnitIsSelected)
 						{
 							charManager.SendMessage("deselectUnit");
+							if(networking)
+							{
+								networkView.RPC("DeselectUnit", RPCMode.Others);
+							}
 						}
 
 						// FOURTH - Select the object.
@@ -51,6 +56,11 @@ public class ObjectSelection : MonoBehaviour {
 							CharacterManager.bird1.SendMessage("SetOriginalMana");
 						else if (CharacterManager.aTurn == 3)
 							CharacterManager.bird2.SendMessage("SetOriginalMana");
+					
+						if(networking)
+						{
+							networkView.RPC("SelectUnit", RPCMode.Others);
+						}
 					}
 
 					else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving && CharacterManager.aInteractiveUnitIsSelected)
@@ -65,14 +75,26 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
+						if(networking)
+						{
+							networkView.RPC("DeselectInteract", RPCMode.Others);
+						}
 
 						charManager.SendMessage("deselectUnit");
+						if(networking)
+						{
+							networkView.RPC("DeselectUnit", RPCMode.Others);
+						}
 					}
 
 					// THIRD - If the object is already selected, then deselect it.
 					else if (CharacterManager.aCurrentlySelectedUnit == gameObject && !ClickAndMove.aIsObjectMoving)
 					{
 						charManager.SendMessage("deselectUnit");
+						if(networking)
+						{
+							networkView.RPC("DeselectUnit", RPCMode.Others);
+						}
 					}
 				}
 
@@ -100,6 +122,10 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
+						if(networking)
+						{
+							networkView.RPC("DeselectInteract", RPCMode.Others);
+						}
 					}
 
 					// THIRD - Else, the object we're trying to select is not selected, so let's select it.
@@ -126,6 +152,10 @@ public class ObjectSelection : MonoBehaviour {
 							// Select the new interact unit.
 							CharacterManager.aInteractiveUnitIsSelected = true;
 							CharacterManager.aInteractUnit = gameObject;
+							if(networking)
+							{
+								networkView.RPC("SelectInteract", RPCMode.Others);
+							}
 
 							CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 
@@ -188,6 +218,10 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
+						if(networking)
+						{
+							networkView.RPC("DeselectInteract", RPCMode.Others);
+						}
 					}
 
 					else if(CharacterManager.aSingleUnitIsSelected)
@@ -209,6 +243,10 @@ public class ObjectSelection : MonoBehaviour {
 							// Select the new interact unit.
 							CharacterManager.aInteractiveUnitIsSelected = true;
 							CharacterManager.aInteractUnit = gameObject;
+							if(networking)
+							{
+								networkView.RPC("SelectInteract", RPCMode.Others);
+							}
 
 							CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 
@@ -280,11 +318,20 @@ public class ObjectSelection : MonoBehaviour {
 						CharacterManager.aCurrentlySelectedUnit.SendMessage("UpdateGuiStats");
 						CharacterManager.aInteractiveUnitIsSelected = false;
 						CharacterManager.aInteractUnit = null;
+						if(networking)
+						{
+							networkView.RPC("DeselectInteract", RPCMode.Others);
+						}
 					}
 				
 					// Select the new interact unit.
 					CharacterManager.aInteractiveUnitIsSelected = true;
 					CharacterManager.aInteractUnit = gameObject;
+					if(networking)
+					{
+						networkView.RPC("SelectInteract", RPCMode.Others);
+					}
+				
 					CharacterManager.aInteractUnit.SendMessage("UpdateGuiStats");
 				
 					if(CharacterManager.aCurrentlySelectedUnit == CharacterManager.bird1 && CharacterManager.aTurn == 1)
@@ -318,5 +365,35 @@ public class ObjectSelection : MonoBehaviour {
 					iTween.RotateTo(CharacterManager.aCurrentlySelectedUnit, opponentRotation, 1.0f);
 				}
 			}	
+	}
+	
+	[RPC]
+	void DeselectUnit()
+	{
+		charManager.SendMessage("deselectUnit");
+	}
+	
+	[RPC]
+	void SelectUnit()
+	{
+		charManager.SendMessage("selectUnit", gameObject);
+		if (CharacterManager.aTurn == 1)
+			CharacterManager.bird1.SendMessage("SetOriginalMana");
+		else if (CharacterManager.aTurn == 3)
+			CharacterManager.bird2.SendMessage("SetOriginalMana");
+	}
+	
+	[RPC]
+	void DeselectInteract()
+	{
+		CharacterManager.aInteractiveUnitIsSelected = false;
+		CharacterManager.aInteractUnit = null;
+	}
+	
+	[RPC]
+	void SelectInteract()
+	{
+		CharacterManager.aInteractiveUnitIsSelected = true;
+		CharacterManager.aInteractUnit = gameObject;
 	}
 }

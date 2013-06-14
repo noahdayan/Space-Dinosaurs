@@ -18,6 +18,8 @@ public class UntamedManager : MonoBehaviour {
 	
 	public static bool unitJustDied = false;
 	
+	public bool networking = false;
+	
 	// Use this for initialization
 	void Start () {
 		charManager = GameObject.Find("Character");
@@ -43,31 +45,38 @@ public class UntamedManager : MonoBehaviour {
 	
 	public IEnumerator untamedMove()
 	{
-		foreach (GameObject untamed in CharacterManager.untamedUnits)
+		if(!networking || Network.isServer)
 		{
-			// Select the character and the destination tile
-			charManager.SendMessage("selectUnit", untamed);
-			TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
-			TileManager.aSingleTileIsSelected = true;
+			foreach (GameObject untamed in CharacterManager.untamedUnits)
+			{
+				// Select the character and the destination tile
+				charManager.SendMessage("selectUnit", untamed);
+				TileManager.aCurrentlySelectedTile = TileManager.pickRandomTile();
+				TileManager.aSingleTileIsSelected = true;
+				
+				// Start the movement.
+				yield return StartCoroutine("uMoveHelper");
+				
+				// Proceed once the movement has ended.
+				CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
+				aIsObjectMoving = false;
+				charManager.SendMessage("deselectTile");
+				
+				if (CharacterManager.aSingleUnitIsSelected)
+					CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
+				
+				// Start the mid-turn routine.
+				yield return StartCoroutine("untamedMidTurn");
+				
+				charManager.SendMessage("deselectUnit");
+			}
 			
-			// Start the movement.
-			yield return StartCoroutine("uMoveHelper");
-			
-			// Proceed once the movement has ended.
-			CharacterManager.aCurrentlySelectedUnit.transform.position = destination;
-			aIsObjectMoving = false;
-			charManager.SendMessage("deselectTile");
-			
-			if (CharacterManager.aSingleUnitIsSelected)
-				CharacterManager.aRotationAfterMove = CharacterManager.aCurrentlySelectedUnit.transform.rotation;
-			
-			// Start the mid-turn routine.
-			yield return StartCoroutine("untamedMidTurn");
-			
-			charManager.SendMessage("deselectUnit");
+			charManager.SendMessage("endTurn");
+			if(networking)
+			{
+				networkView.RPC("End", RPCMode.Others);
+			}
 		}
-		
-		charManager.SendMessage("endTurn");
 
 	}
 	
@@ -218,6 +227,11 @@ public class UntamedManager : MonoBehaviour {
 			}
 		}	
 	}
-		
+	
+	[RPC]
+	void End()
+	{
+		charManager.SendMessage("endTurn");
+	}
 }
 

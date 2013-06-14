@@ -24,6 +24,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 	
 	// SFX
 	public AudioClip soundDeath, soundAttack, soundTurkeyTame, soundChickenTame, soundTame;
+	
+	public bool networking = false;
 			
 	void Start()
 	{
@@ -115,7 +117,8 @@ public class BirdUnitFunctionalityAndStats : MonoBehaviour {
 			UpdateCurrentlySelectedSpecies();
 			unit.SendMessage("UpdateInteractSpecies");
 			MinigameMenu.previousInteractUnit = unit;
-			GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
+			if(!networking || (CharacterManager.aTurn == 1 && Network.isServer) || (CharacterManager.aTurn == 3 && Network.isClient))
+				GameObject.Find("MiniGameManager").SendMessage("BeginMiniGame", attackPoints);
 			// Play SFX
 			audio.PlayOneShot(soundAttack); //THE SOUND ATTACK WILL COME FROM THE UNIT THAT WE INSTANTIATE IN THIS ROUTINE
 			

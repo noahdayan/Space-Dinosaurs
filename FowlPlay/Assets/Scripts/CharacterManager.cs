@@ -59,7 +59,9 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Sounds
 	public AudioClip selectTrex, selectTricera, selectVeloci, selectAnquilo, selectPtero, selectChicken, selectTurkey, soundTame;
-		
+	
+	public bool networking = false;
+	
 	// Use this for initialization
 	void Start () {
 		

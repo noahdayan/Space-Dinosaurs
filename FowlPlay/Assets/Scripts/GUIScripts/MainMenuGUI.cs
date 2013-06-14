@@ -10,12 +10,15 @@ public class MainMenuGUI : MonoBehaviour {
 	public int guiDepth = 0;
 	public Rect menuArea;
 	public Rect playButton;
+	public Rect networkButton;
 	public Rect creditsButton;
 	public Rect quitButton;
 	Rect menuAreaNormalized;
 	string menuPage = "main";
 	public Rect credits;
 	public string levelName;
+	public string networkLevel;
+	public static bool network = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -35,7 +38,7 @@ public class MainMenuGUI : MonoBehaviour {
 		{
 			if(Application.CanStreamedLevelBeLoaded(levelName))
 			{
-				if(GUI.Button(new Rect(playButton), "Play"))
+				if(GUI.Button(new Rect(playButton), "Play HotSeat"))
 				{
 					StartCoroutine("ButtonAction", levelName);
 				}
@@ -44,6 +47,19 @@ public class MainMenuGUI : MonoBehaviour {
 			{
 				float percentLoaded = Application.GetStreamProgressForLevel(levelName) * 100;
 				GUI.Box(new Rect(playButton), "Loading.. " + percentLoaded.ToString("f0") + "% Loaded");
+			}
+			if(Application.CanStreamedLevelBeLoaded(networkLevel))
+			{
+				if(GUI.Button(new Rect(networkButton), "Play Network"))
+				{
+					audio.PlayOneShot(click);
+					menuPage = "network";
+				}
+			}
+			else
+			{
+				float percentLoaded = Application.GetStreamProgressForLevel(networkLevel) * 100;
+				GUI.Box(new Rect(networkButton), "Loading.. " + percentLoaded.ToString("f0") + "% Loaded");
 			}
 			if(GUI.Button(new Rect(creditsButton), "Credits"))
 			{
@@ -65,6 +81,22 @@ public class MainMenuGUI : MonoBehaviour {
 			{
 				audio.PlayOneShot(click);
 				menuPage = "main";
+			}
+		}
+		else if(menuPage == "network")
+		{
+			network = true;
+			if(GUI.Button(new Rect(quitButton), "Back"))
+			{
+				audio.PlayOneShot(click);
+				menuPage = "main";
+				network = false;
+			}
+			GUI.enabled = (Network.connections.Length >= 1 && Network.isServer);
+			if(GUI.Button(new Rect(playButton), "Play"))
+			{
+				audio.PlayOneShot(click);
+				networkView.RPC("PlayNetwork", RPCMode.All, networkLevel);
 			}
 		}
 		GUI.EndGroup();
@@ -93,11 +125,18 @@ public class MainMenuGUI : MonoBehaviour {
 			ClickAndMove.aIsObjectMoving = false;
 			ClickAndMove.aIsObjectRotating = false;
 			PauseMenuGUI.gameOver = false;
+			network = false;
 		}
 		else
 		{
 			Application.Quit();
 			Debug.Log("Quit!");
 		}
+	}
+	
+	[RPC]
+	void PlayNetwork(string levelName)
+	{
+		Application.LoadLevel(levelName);
 	}
 }

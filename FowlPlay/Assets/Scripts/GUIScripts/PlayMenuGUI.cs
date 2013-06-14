@@ -26,6 +26,8 @@ public class PlayMenuGUI : MonoBehaviour {
 	public static bool untamed = false;
 	//public static bool attackIsSpent = false;
 	
+	public bool networking = false;
+	
 	GameObject manager;
 	
 	// Use this for initialization
@@ -41,13 +43,17 @@ public class PlayMenuGUI : MonoBehaviour {
 		if (!PauseMenuGUI.isPaused)
 		{
 			// End turn
-			if (Input.GetKeyDown(KeyCode.Alpha5) && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (Input.GetKeyDown(KeyCode.Alpha5) && !ClickAndMove.aIsObjectMoving && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))) && !PauseMenuGUI.gameOver)
 			{
 				audio.PlayOneShot(click);
 				manager.SendMessage("endTurn");
+				if(networking)
+				{
+					networkView.RPC("EndTurn", RPCMode.Others);
+				}
 			}
 			
-			if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				// Attack
 				if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -56,6 +62,10 @@ public class PlayMenuGUI : MonoBehaviour {
 					{
 						manager.SendMessage("attack");
 						manager.SendMessage("EndMidTurn");
+						if(networking)
+						{
+							networkView.RPC("Attack", RPCMode.Others);
+						}
 					}
 				}
 				
@@ -75,23 +85,33 @@ public class PlayMenuGUI : MonoBehaviour {
 						{
 							manager.SendMessage("tame");
 							manager.SendMessage("EndMidTurn");
+							if(networking)
+							{
+								networkView.RPC("Tame", RPCMode.Others);
+							}
 						}
 					}
 				}
 			}
 			
 			// Cancel
-			if (CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				if (Input.GetKeyDown(KeyCode.Alpha3))
 				{
 					audio.PlayOneShot(click);
 					if(CharacterManager.aMidTurn)
+					{
 						manager.SendMessage("cancelMove");
+						if(networking)
+						{
+							networkView.RPC("Cancel", RPCMode.Others);
+						}
+					}
 				}
 			}
 			
-			if (!ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3))
+			if (!ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))))
 			{
 				if (Input.GetKeyDown(KeyCode.Alpha4))
 				{
@@ -99,6 +119,10 @@ public class PlayMenuGUI : MonoBehaviour {
 					if(CharacterManager.aMidTurn)
 					{
 						manager.SendMessage("EndMidTurn");
+						if(networking)
+						{
+							networkView.RPC("Wait1", RPCMode.Others);
+						}
 					}
 				
 					else
@@ -107,6 +131,10 @@ public class PlayMenuGUI : MonoBehaviour {
 						CharacterManager.aMidTurn = true;
 						ClickAndMove.aIsObjectMoving = false;
 						manager.SendMessage("paintAttackableTilesAfterMove");
+						if(networking)
+						{
+							networkView.RPC("Wait2", RPCMode.Others);
+						}
 					}
 				}
 			}	
@@ -130,19 +158,25 @@ public class PlayMenuGUI : MonoBehaviour {
 		GUI.depth = guiDepth;
 		GUI.BeginGroup(menuAreaNormalized);
 		
-		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		GUI.enabled = !PauseMenuGUI.isPaused && CharacterManager.aCurrentlySelectedUnit && !ClickAndMove.aIsObjectMoving && CharacterManager.aMidTurn && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));
 		if(GUI.Button(new Rect(cancelButton), "[3] Cancel"))
 		{
 			audio.PlayOneShot(click);
 			
 			if(CharacterManager.aMidTurn)
+			{
 				manager.SendMessage("cancelMove");
+				if(networking)
+				{
+					networkView.RPC("Cancel", RPCMode.Others);
+				}
+			}
 		}
 		//if (!isBird && CharacterManager.aCurrentlySelectedUnit)
 		//	CharacterManager.aCurrentlySelectedUnit.SendMessage("SendAttackSpentStatus");
 		//else
 		//	attackIsSpent = false;
-		GUI.enabled = CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && /*PlayerFunctionalityAndStats.isLegalMove &&*/ (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);// && !attackIsSpent;
+		GUI.enabled = CharacterManager.aSingleUnitIsSelected && CharacterManager.aInteractiveUnitIsSelected && /*PlayerFunctionalityAndStats.isLegalMove &&*/ ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));// && !attackIsSpent;
 		if(GUI.Button(new Rect(attackButton), "[1] Attack: " + attackCost))
 		{
 			audio.PlayOneShot(click);
@@ -150,6 +184,10 @@ public class PlayMenuGUI : MonoBehaviour {
 			{
 				manager.SendMessage("attack");
 				manager.SendMessage("EndMidTurn");
+				if(networking)
+				{
+					networkView.RPC("Attack", RPCMode.Others);
+				}
 			}
 		}
 		if(!isBird)
@@ -166,6 +204,10 @@ public class PlayMenuGUI : MonoBehaviour {
 				{
 					manager.SendMessage("tame");
 					manager.SendMessage("EndMidTurn");
+					if(networking)
+					{
+						networkView.RPC("Tame", RPCMode.Others);
+					}
 				}
 			}
 		}
@@ -180,6 +222,10 @@ public class PlayMenuGUI : MonoBehaviour {
 				{
 					manager.SendMessage("tame");
 					manager.SendMessage("EndMidTurn");
+					if(networking)
+					{
+						networkView.RPC("Tame", RPCMode.Others);
+					}
 				}
 			}
 		}
@@ -194,10 +240,14 @@ public class PlayMenuGUI : MonoBehaviour {
 				audio.PlayOneShot(click);
 				manager.SendMessage("tame");
 				manager.SendMessage("EndMidTurn");
+				if(networking)
+				{
+					networkView.RPC("Tame", RPCMode.Others);
+				}
 			}
 		}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3);
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && CharacterManager.aSingleUnitIsSelected && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking)));
 		if(GUI.Button(new Rect(waitButton), "[4] Wait: " + moveCost))
 		{
 			audio.PlayOneShot(click);
@@ -205,6 +255,10 @@ public class PlayMenuGUI : MonoBehaviour {
 			{
 				//manager.SendMessage("endTurn");
 				manager.SendMessage("EndMidTurn");
+				if(networking)
+				{
+					networkView.RPC("Wait1", RPCMode.Others);
+				}
 			}
 			else
 			{
@@ -212,14 +266,63 @@ public class PlayMenuGUI : MonoBehaviour {
 				CharacterManager.aMidTurn = true;
 				ClickAndMove.aIsObjectMoving = false;
 				manager.SendMessage("paintAttackableTilesAfterMove");
+				if(networking)
+				{
+					networkView.RPC("Wait2", RPCMode.Others);
+				}
 			}
 		}
-		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && (CharacterManager.aTurn == 1 || CharacterManager.aTurn == 3) && !PauseMenuGUI.gameOver;
+		GUI.enabled = !PauseMenuGUI.isPaused && !ClickAndMove.aIsObjectMoving && ((CharacterManager.aTurn == 1 && (Network.isServer || !networking)) || (CharacterManager.aTurn == 3 && (Network.isClient || !networking))) && !PauseMenuGUI.gameOver;
 		if(GUI.Button(new Rect(endTurnButton), "[5] End Turn"))
 		{
 			audio.PlayOneShot(click);
 			manager.SendMessage("endTurn");
+			if(networking)
+			{
+				networkView.RPC("EndTurn", RPCMode.Others);
+			}
 		}
 		GUI.EndGroup();
+	}
+	
+	[RPC]
+	void EndTurn()
+	{
+		manager.SendMessage("endTurn");
+	}
+	
+	[RPC]
+	void Attack()
+	{
+		manager.SendMessage("attack");
+		manager.SendMessage("EndMidTurn");
+	}
+	
+	[RPC]
+	void Tame()
+	{
+		manager.SendMessage("tame");
+		manager.SendMessage("EndMidTurn");
+	}
+	
+	[RPC]
+	void Cancel()
+	{
+		manager.SendMessage("cancelMove");
+	}
+	
+	[RPC]
+	void Wait1()
+	{
+		manager.SendMessage("EndMidTurn");
+	}
+	
+	[RPC]
+	void Wait2()
+	{
+		manager.SendMessage("unhighlightRange");
+		CharacterManager.aMidTurn = true;
+		ClickAndMove.aIsObjectMoving = false;
+		manager.SendMessage("paintAttackableTilesAfterMove");
 	}
 }

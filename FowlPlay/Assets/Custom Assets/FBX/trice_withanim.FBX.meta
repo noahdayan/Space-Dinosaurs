@@ -49,9 +49,9 @@ ModelImporter:
       loop: 1
     - name: death
       firstFrame: 229
-      lastFrame: 244
-      wrapMode: 2
-      loop: 1
+      lastFrame: 242
+      wrapMode: 0
+      loop: 0
     - name: gun
       firstFrame: 246
       lastFrame: 270

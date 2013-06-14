@@ -54,6 +54,9 @@ public class ClickAndMove : MonoBehaviour
 		// Check to see if there are any items at the destination.
 		if (ItemManager.tilesWithItems.ContainsKey(TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)))
 		{
+			Vector3 particlesPosition = CharacterManager.aCurrentlySelectedUnit.transform.FindChild("model").transform.position;
+			particlesPosition.y += 6.0f;
+			
 			GameObject item = (GameObject)ItemManager.tilesWithItems[TileManager.getTileUnitIsStandingOn(CharacterManager.aCurrentlySelectedUnit)];
 			bool consume = false;
 			
@@ -65,7 +68,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
-					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
+					Instantiate(pickupParticles, particlesPosition, pickupParticles.transform.rotation);
 					audio.PlayOneShot(itemDinoChow);
 				}
 			}
@@ -77,7 +80,7 @@ public class ClickAndMove : MonoBehaviour
 				{
 					consume = true;
 					CharacterManager.aCurrentlySelectedUnit.SendMessage("RecoverHP",10);
-					Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
+					Instantiate(pickupParticles, particlesPosition, pickupParticles.transform.rotation);
 					audio.PlayOneShot(itemBirdSeed);
 				}	
 			}
@@ -91,7 +94,7 @@ public class ClickAndMove : MonoBehaviour
 				else if (CharacterManager.aCurrentlySelectedUnit.tag.Equals("Player2"))
 					CharacterManager.bird2.SendMessage("AddManaPoints", 3);	
 				
-				Instantiate(pickupParticles, transform.position, pickupParticles.transform.rotation);
+				Instantiate(pickupParticles, particlesPosition, pickupParticles.transform.rotation);
 				audio.PlayOneShot(itemOil);
 			}
 			
@@ -125,7 +128,7 @@ public class ClickAndMove : MonoBehaviour
 				// Slide the unit to the location following the path, or directly if the distance is just one.
 				if (aPath.Length > 1)
 				{
-					float movementSpeed = 30.0f;
+					float movementSpeed = 12.0f;
 					
 					if (!CharacterManager.isBird(CharacterManager.aCurrentlySelectedUnit))
 					{	
@@ -153,7 +156,7 @@ public class ClickAndMove : MonoBehaviour
 							}
 							case "Velociraptor" :
 							{
-								movementSpeed = 40.0f;
+								movementSpeed = 30.0f;
 								break;
 							}
 						}

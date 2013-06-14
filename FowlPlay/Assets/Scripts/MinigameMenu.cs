@@ -41,6 +41,9 @@ public class MinigameMenu : MonoBehaviour {
 	public float audio1Volume = 0.5f;
 	public bool fadeOutMusic = false;
 	
+	public GameObject attackParticles;
+	
+	public bool networking = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -210,12 +213,19 @@ public class MinigameMenu : MonoBehaviour {
 			if (CharacterManager.aCurrentlySelectedSpecies != "Chicken" && CharacterManager.aCurrentlySelectedSpecies != "Turkey" && attackType == 0)
 			{
 				theAttacker.transform.FindChild("model").animation.Play("gun");
+				//Vector3 particlesPosition = theAttacker.transform.FindChild("model").transform.position;
+				//particlesPosition.y += 3.0f;
+				//Instantiate(attackParticles, particlesPosition, theAttacker.transform.FindChild("model").transform.rotation);
 			}
 			else
 			{
 				theAttacker.transform.FindChild("model").animation.Play("attack");
 			}
 			previousInteractUnit.SendMessage("TakeAttackDamage", (originalDamage + bonusDamage));
+			if(networking)
+			{
+				networkView.RPC("Damage", RPCMode.Others, originalDamage + bonusDamage);
+			}
 			
 			//Also do the untame text of the battle dino here.
 			bonusDamage = 0;
@@ -301,5 +311,11 @@ public class MinigameMenu : MonoBehaviour {
 				GUI.Label(instructionArea, aSeconds.ToString("f0"), minigameTextStyle);
 			GUI.EndGroup();
 		}
+	}
+	
+	[RPC]
+	void Damage(int damage)
+	{
+		previousInteractUnit.SendMessage("TakeAttackDamage", damage);
 	}
 }
